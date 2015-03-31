@@ -1,4 +1,4 @@
-package at.ac.ait.ariadne.routeformat.example;
+package at.ac.ait.sproute.routeformat.example;
 
 import java.io.IOException;
 import java.util.Iterator;

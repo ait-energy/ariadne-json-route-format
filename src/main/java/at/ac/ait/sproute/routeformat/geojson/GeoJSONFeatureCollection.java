@@ -1,4 +1,4 @@
-package at.ac.ait.ariadne.routeformat.geojson;
+package at.ac.ait.sproute.routeformat.geojson;
 
 import java.util.ArrayList;
 import java.util.List;

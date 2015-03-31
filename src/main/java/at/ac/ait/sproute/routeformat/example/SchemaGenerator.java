@@ -1,10 +1,10 @@
-package at.ac.ait.ariadne.routeformat.example;
+package at.ac.ait.sproute.routeformat.example;
 
 import org.json.JSONObject;
 import org.json.JSONWriter;
 
 import pl.zientarski.SchemaMapper;
-import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeatureCollection;
+import at.ac.ait.sproute.routeformat.geojson.GeoJSONFeatureCollection;
 
 public class SchemaGenerator {
 	

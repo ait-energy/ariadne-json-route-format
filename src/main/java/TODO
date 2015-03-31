@@ -1,9 +1,3 @@
 - Modelling of Location & Vehicle Types
-- schema generation with which library? if not jackson we must create getters in all classes.
-- how to handle future extensions? just add new members to java classes?
-
-von Fluidtime-Format noch nicht übernommen:
-- trips.description
-- vehicle.direction (was ist das?)
-- segment.timereal
-- vehicle.realtimeSupported
+- Schema generation with which library? If not jackson we must create getters in all classes.
+- How to handle future extensions? Just add new members to java classes?

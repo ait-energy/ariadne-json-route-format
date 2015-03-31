@@ -1,4 +1,4 @@
-package at.ac.ait.ariadne.routeformat.example;
+package at.ac.ait.sproute.routeformat.example;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,18 +8,18 @@ import java.time.temporal.ChronoUnit;
 import java.util.LinkedList;
 import java.util.List;
 
-import at.ac.ait.ariadne.routeformat.Location;
-import at.ac.ait.ariadne.routeformat.Route;
-import at.ac.ait.ariadne.routeformat.RouteFormatRoot;
-import at.ac.ait.ariadne.routeformat.RouteFormatRoot.Status;
-import at.ac.ait.ariadne.routeformat.RouteSegment;
-import at.ac.ait.ariadne.routeformat.RouteSegment.ModeOfTransport;
-import at.ac.ait.ariadne.routeformat.RoutingRequest;
-import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
-import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
-import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeatureCollection;
-import at.ac.ait.ariadne.routeformat.geojson.GeoJSONLineString;
-import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPoint;
+import at.ac.ait.sproute.routeformat.Location;
+import at.ac.ait.sproute.routeformat.Route;
+import at.ac.ait.sproute.routeformat.RouteFormatRoot;
+import at.ac.ait.sproute.routeformat.RouteSegment;
+import at.ac.ait.sproute.routeformat.RoutingRequest;
+import at.ac.ait.sproute.routeformat.RouteFormatRoot.Status;
+import at.ac.ait.sproute.routeformat.RouteSegment.ModeOfTransport;
+import at.ac.ait.sproute.routeformat.geojson.CoordinatePoint;
+import at.ac.ait.sproute.routeformat.geojson.GeoJSONFeature;
+import at.ac.ait.sproute.routeformat.geojson.GeoJSONFeatureCollection;
+import at.ac.ait.sproute.routeformat.geojson.GeoJSONLineString;
+import at.ac.ait.sproute.routeformat.geojson.GeoJSONPoint;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonGenerationException;

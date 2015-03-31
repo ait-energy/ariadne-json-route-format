@@ -1,12 +1,12 @@
-package at.ac.ait.ariadne.routeformat;
+package at.ac.ait.sproute.routeformat;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
-import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeatureCollection;
-import at.ac.ait.ariadne.routeformat.geojson.GeoJSONLineString;
+import at.ac.ait.sproute.routeformat.geojson.GeoJSONFeature;
+import at.ac.ait.sproute.routeformat.geojson.GeoJSONFeatureCollection;
+import at.ac.ait.sproute.routeformat.geojson.GeoJSONLineString;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

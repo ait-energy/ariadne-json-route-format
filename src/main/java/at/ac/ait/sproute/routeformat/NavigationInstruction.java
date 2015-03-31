@@ -1,7 +1,7 @@
-package at.ac.ait.ariadne.routeformat;
+package at.ac.ait.sproute.routeformat;
 
-import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
-import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPoint;
+import at.ac.ait.sproute.routeformat.geojson.GeoJSONFeature;
+import at.ac.ait.sproute.routeformat.geojson.GeoJSONPoint;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

@@ -1,4 +1,4 @@
-package at.ac.ait.ariadne.routeformat.geojson;
+package at.ac.ait.sproute.routeformat.geojson;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

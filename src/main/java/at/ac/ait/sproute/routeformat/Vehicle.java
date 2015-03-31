@@ -1,4 +1,4 @@
-package at.ac.ait.ariadne.routeformat;
+package at.ac.ait.sproute.routeformat;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
