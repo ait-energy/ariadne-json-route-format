@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author mstraub
+ */
 public class CoordinatePoint {
 	
 	public CoordinatePoint(double longitude, double latitude) {

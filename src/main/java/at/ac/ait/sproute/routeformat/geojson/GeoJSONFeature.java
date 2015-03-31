@@ -6,6 +6,9 @@ import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * @author mstraub
+ */
 public class GeoJSONFeature<T extends GeoJSONGeometryObject> {
 	
 	public static GeoJSONFeature<GeoJSONPoint> newPointFeature(CoordinatePoint point) {

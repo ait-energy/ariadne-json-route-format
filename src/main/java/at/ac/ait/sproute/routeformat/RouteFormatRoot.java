@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author mstraub
- *
  */
 public class RouteFormatRoot {
 

@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Provider of a mode of transport (e.g. public transport provider)
+ * 
  * @author mstraub
- *
  */
 public class Operator {
 	

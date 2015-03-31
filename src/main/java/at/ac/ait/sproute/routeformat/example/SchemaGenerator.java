@@ -1,17 +1,21 @@
 package at.ac.ait.sproute.routeformat.example;
 
 import org.json.JSONObject;
-import org.json.JSONWriter;
 
 import pl.zientarski.SchemaMapper;
 import at.ac.ait.sproute.routeformat.geojson.GeoJSONFeatureCollection;
 
+/**
+ * Playground for other ways to generate a schema
+ * 
+ * @author mstraub
+ */
 public class SchemaGenerator {
 	
 	public static void main(String[] args) {
 		SchemaMapper schemaMapper = new SchemaMapper();
 		JSONObject schema = schemaMapper.toJsonSchema4(GeoJSONFeatureCollection.class, true);
-		JSONWriter writer = new JSONWriter(null);
+//		JSONWriter writer = new JSONWriter(null);
 		System.out.println(schema);
 		
 		// JJ variant

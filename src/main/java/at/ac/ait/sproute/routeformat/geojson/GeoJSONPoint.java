@@ -6,6 +6,9 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * @author mstraub
+ */
 public class GeoJSONPoint implements GeoJSONGeometryObject{
 	
 	public GeoJSONPoint() {

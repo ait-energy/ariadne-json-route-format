@@ -2,6 +2,9 @@ package at.ac.ait.sproute.routeformat;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * @author mstraub
+ */
 public class Vehicle {
 	
 	public enum VehicleType { 

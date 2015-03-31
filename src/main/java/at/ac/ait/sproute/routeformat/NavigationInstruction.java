@@ -5,6 +5,9 @@ import at.ac.ait.sproute.routeformat.geojson.GeoJSONPoint;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * @author mstraub
+ */
 public class NavigationInstruction {
 	
 	public enum Preposition {

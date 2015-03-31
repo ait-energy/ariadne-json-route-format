@@ -1,18 +1,12 @@
 package at.ac.ait.sproute.routeformat.example;
 
-import java.io.IOException;
-import java.util.Iterator;
-
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.main.JsonSchema;
-import com.github.fge.jsonschema.main.JsonSchemaFactory;
-import com.github.fge.jsonschema.report.ProcessingMessage;
-import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.util.JsonLoader;
 
 
+/**
+ * Playground ways to validate a JSON file with a JSON schema
+ * 
+ * @author mstraub
+ */
 public class Validate  
 {
 
