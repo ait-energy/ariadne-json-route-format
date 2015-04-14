@@ -12,11 +12,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class Location {
 	
-	public static Location newAddressLocation(GeoJSONFeature<GeoJSONPoint> position, String country, String city,
+	public static Location newCoordinateLocation(GeoJSONFeature<GeoJSONPoint> coordinate) {
+		Location location = new Location();
+		location.type = LocationType.COORDINATE;
+		location.coordinate = coordinate;
+		return location;
+	}
+	
+	public static Location newAddressLocation(GeoJSONFeature<GeoJSONPoint> coordinate, String country, String city,
 			String postcode, String streetname, String housenumber) {
 		Location address = new Location();
 		address.type = LocationType.ADDRESS;
-		address.position = position;
+		address.coordinate = coordinate;
 		address.country = country;
 		address.city = city;
 		address.postcode = postcode;
@@ -28,11 +35,16 @@ public class Location {
 	// TODO more static constructor methods
 	
 	public enum LocationType {
-		ADDRESS, POI, PUBLIC_TRANSPORT_STOP // TODO more? e.g. Bike-Sharing-Station,...
+		/** simple coordinate without additional information */
+		COORDINATE,
+		/** house number */
+		ADDRESS,
+		/** point of interest (probably with house number) */
+		POI, PUBLIC_TRANSPORT_STOP // TODO more? e.g. Bike-Sharing-Station,...
 	};
 
 	@JsonProperty(required = true)
-	public GeoJSONFeature<GeoJSONPoint> position;
+	public GeoJSONFeature<GeoJSONPoint> coordinate;
 
 	@JsonProperty(required = true)
 	/** defines which fields are set */
