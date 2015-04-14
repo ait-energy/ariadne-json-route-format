@@ -8,7 +8,7 @@ import at.ac.ait.sproute.routeformat.geojson.GeoJSONFeatureCollection;
 /**
  * Playground for other ways to generate a schema
  * 
- * @author mstraub
+ * @author AIT Austrian Institute of Technology GmbH
  */
 public class SchemaGenerator {
 	

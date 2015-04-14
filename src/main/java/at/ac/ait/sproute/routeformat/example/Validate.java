@@ -5,7 +5,7 @@ package at.ac.ait.sproute.routeformat.example;
 /**
  * Playground ways to validate a JSON file with a JSON schema
  * 
- * @author mstraub
+ * @author AIT Austrian Institute of Technology GmbH
  */
 public class Validate  
 {

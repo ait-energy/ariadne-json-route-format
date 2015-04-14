@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author mstraub
+ * @author AIT Austrian Institute of Technology GmbH
  */
 public class CoordinatePoint {
 	

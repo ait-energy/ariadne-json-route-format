@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * A feature collection restricted to features of just one type
  * 
- * @author mstraub
+ * @author AIT Austrian Institute of Technology GmbH
  */
 public class GeoJSONFeatureCollection<T extends GeoJSONGeometryObject> {
 

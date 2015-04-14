@@ -17,7 +17,29 @@
 
 	<description>JSON exchange format for routes developed by the Austrian Institute of Technology and Fluidtime</description>
 
+	<!-- only a temporary solution - we should release to maven central! -->
+	<distributionManagement>
+		<repository>
+			<id>ait.nexus</id>
+			<name>releases</name>
+			<url>http://10.101.21.230:8081/nexus/content/repositories/releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>ait.nexus</id>
+			<name>Internal Releases</name>
+			<url>http://10.101.21.230:8081/nexus/content/repositories/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+	<!-- only a temporary solution - we should release to maven central! -->
+
+
 	<dependencies>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>18.0</version>
+		</dependency>
+	
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
@@ -38,6 +60,12 @@
 			<artifactId>jackson-module-jsonSchema</artifactId>
 			<version>${jackson-version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jdk8</artifactId>
+			<version>${jackson-version}</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>pl.zientarski</groupId>
 			<artifactId>JSONschema4-mapper</artifactId>

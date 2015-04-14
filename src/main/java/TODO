@@ -1,3 +1,7 @@
 - Modelling of Location & Vehicle Types
 - Schema generation with which library? If not jackson we must create getters in all classes.
 - How to handle future extensions? Just add new members to java classes?
+
+Vehicle: regional or local bus? ICE vs. S-Bahn, REX,..? ÖBB vs. Westbahn, Wiener Linien, Dr. Richard?
+RouteSegment: price, type of ticket? arrival time at intermediate stops?
+Location: which accessibility information is required? wheelchair is enough?

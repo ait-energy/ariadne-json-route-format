@@ -5,16 +5,18 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
 import at.ac.ait.sproute.routeformat.Location;
+import at.ac.ait.sproute.routeformat.Location.LocationType;
 import at.ac.ait.sproute.routeformat.Route;
 import at.ac.ait.sproute.routeformat.RouteFormatRoot;
-import at.ac.ait.sproute.routeformat.RouteSegment;
-import at.ac.ait.sproute.routeformat.RoutingRequest;
 import at.ac.ait.sproute.routeformat.RouteFormatRoot.Status;
+import at.ac.ait.sproute.routeformat.RouteSegment;
 import at.ac.ait.sproute.routeformat.RouteSegment.ModeOfTransport;
+import at.ac.ait.sproute.routeformat.RoutingRequest;
 import at.ac.ait.sproute.routeformat.geojson.CoordinatePoint;
 import at.ac.ait.sproute.routeformat.geojson.GeoJSONFeature;
 import at.ac.ait.sproute.routeformat.geojson.GeoJSONFeatureCollection;
@@ -28,6 +30,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 import com.fasterxml.jackson.module.jsonSchema.factories.SchemaFactoryWrapper;
 
@@ -38,7 +41,7 @@ import com.fasterxml.jackson.module.jsonSchema.factories.SchemaFactoryWrapper;
  * "defaultValue=*" and does not allow specification of minItems, maxItems,..
  * Let's omit this information for now.
  * 
- * @author mstraub
+ * @author AIT Austrian Institute of Technology GmbH
  */
 public class JacksonExample {
 
@@ -58,52 +61,58 @@ public class JacksonExample {
 		routeGeometry.add(new CoordinatePoint("16.426593", "48.269826"));
 		routeGeometry.add(new CoordinatePoint("16.4319054", "48.269724"));
 		
-		GeoJSONFeature<GeoJSONPoint> pointFeature = GeoJSONFeature.newPointFeature(routeGeometry.getFirst());
-		Location giefinggasse = Location.newAddressLocation(pointFeature, "Austria", "Wien", "1210", "Giefinggasse", "2/4/S314"); 
-		pointFeature = GeoJSONFeature.newPointFeature(routeGeometry.getLast());
-		Location richardneutragasse = Location.newAddressLocation(pointFeature, "Austria", "Wien", "1210", "Richard-Neutra-Gasse", "6");
-		
+		GeoJSONFeature<GeoJSONPoint> coordinate = GeoJSONFeature.newPointFeature(routeGeometry.getFirst());
+		Location giefinggasse = Location.builder().withType(LocationType.ADDRESS).withCoordinate(coordinate)
+				.withCity("Austria").withCity("Wien").withPostcode("1210").withStreetname("Giefinggasse")
+				.withHousenumber("2b").build();
+		coordinate = GeoJSONFeature.newPointFeature(routeGeometry.getLast());
+		Location richardneutragasse = Location.builder().withType(LocationType.ADDRESS)
+				.withCoordinate(coordinate).withCity("Austria").withCity("Wien").withPostcode("1210")
+				.withStreetname("Richard-Neutra-Gasse").withHousenumber("6").build();
+
 		int durationSeconds = 2*60 + 30;
 		int lengthMeters = 570;
 		ZonedDateTime departureTime = ZonedDateTime.parse("2015-01-01T10:15:30+01:00");
 		ZonedDateTime arrivalTime = departureTime.plus(durationSeconds, ChronoUnit.SECONDS);
 		
-		Route route = new Route(giefinggasse, richardneutragasse, departureTime.toString(), arrivalTime.toString(), lengthMeters, durationSeconds);
-		RouteSegment segment = new RouteSegment(1, giefinggasse, richardneutragasse, departureTime.toString(), arrivalTime.toString(), lengthMeters, durationSeconds, ModeOfTransport.BICYCLE);
-		segment.geometryGeoJson = GeoJSONFeature.newLineStringFeature(routeGeometry);
-		segment.geometryGeoJson.properties.put("color", "#FF11BB");
-		segment.geometryGeoJson.properties.put("weight", 2);
-		segment.geometryGeoJson.properties.put("opacity", "0.5");
+		GeoJSONFeature<GeoJSONLineString> geometryGeoJson = GeoJSONFeature.newLineStringFeature(routeGeometry);
+		geometryGeoJson = GeoJSONFeature.newLineStringFeature(routeGeometry);
+		geometryGeoJson.properties.put("color", "#FF11BB");
+		geometryGeoJson.properties.put("weight", 2);
+		geometryGeoJson.properties.put("opacity", "0.5");
 		
-		GeoJSONFeatureCollection<GeoJSONLineString> featureCollection = new GeoJSONFeatureCollection<>();
+		GeoJSONFeatureCollection<GeoJSONLineString> geometryGeoJsonEdges = new GeoJSONFeatureCollection<>();
 		GeoJSONFeature<GeoJSONLineString> giefinggasseFeature = GeoJSONFeature.newLineStringFeature(routeGeometry.subList(0, 2));
 		giefinggasseFeature.properties.put("name", "Giefinggasse");
 		giefinggasseFeature.properties.put("frc", "6");
 		giefinggasseFeature.properties.put("edgeWeight", "123");
-		featureCollection.features.add(giefinggasseFeature);
+		geometryGeoJsonEdges.features.add(giefinggasseFeature);
 		GeoJSONFeature<GeoJSONLineString> paukerwerkgasseJson = GeoJSONFeature.newLineStringFeature(routeGeometry.subList(1, 3));
 		paukerwerkgasseJson.properties.put("name", "Paukerwerkgasse");
 		paukerwerkgasseJson.properties.put("frc", "6");
 		paukerwerkgasseJson.properties.put("edgeWeight", "187");
-		featureCollection.features.add(paukerwerkgasseJson);
-		segment.geometryGeoJsonEdges = featureCollection;
+		geometryGeoJsonEdges.features.add(paukerwerkgasseJson);
 		
-		route.segments.add(segment);
+		RouteSegment segment = RouteSegment.builder().withNr(1).withFrom(giefinggasse)
+				.withTo(richardneutragasse).withDepartureTime(departureTime).withArrivalTime(arrivalTime)
+				.withLengthMeters(lengthMeters).withDurationSeconds(durationSeconds)
+				.withModeOfTransport(ModeOfTransport.BICYCLE).withGeometryGeoJson(geometryGeoJson)
+				.withGeometryGeoJsonEdges(geometryGeoJsonEdges).build();
 		
-		RoutingRequest request = new RoutingRequest();
-		request.id = "999";
-		request.from = giefinggasse;
-		request.to = richardneutragasse;
-		request.routes.add(route);
+		Route route = Route.builder().withFrom(giefinggasse).withTo(richardneutragasse)
+				.withDepartureTime(departureTime).withLengthMeters(lengthMeters)
+				.withDurationSeconds(durationSeconds).withSegments(Arrays.asList(segment)).build();
 		
-		RouteFormatRoot root = new RouteFormatRoot();
-		root.setCalculationTimeNow();
-		root.coordinateReferenceSystem = "EPSG:4326";
-		root.status = Status.OK;
-		root.debugMessage = "Route calculated in 0.002 seconds";
-		root.request = request;
+		RoutingRequest request = RoutingRequest.builder().withNr(999).withFrom(giefinggasse)
+				.withTo(richardneutragasse).withRoutes(Arrays.asList(route)).build();
+		
+		
+		RouteFormatRoot root = RouteFormatRoot.builder().withRequest(request).withCalculationTimeNow()
+				.withStatus(Status.OK).withDebugMessage("Route calculated in 0.002 seconds")
+				.withCoordinateReferenceSystem("EPSG:4326").build();
 		
 		ObjectMapper mapper = new ObjectMapper();
+		mapper.registerModule(new Jdk8Module());
 		mapper.enable(SerializationFeature.INDENT_OUTPUT);
 		mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 		mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
@@ -113,22 +122,27 @@ public class JacksonExample {
 	}
 	
 	public void readExampleJson() throws JsonParseException, JsonMappingException, IOException {
-		// variant 1 - data binding
 		ObjectMapper mapper = new ObjectMapper();
+		mapper.registerModule(new Jdk8Module());
+		
+		// variant 1 - data binding
 		RouteFormatRoot root = mapper.readValue(new File(exampleFile), RouteFormatRoot.class);
-		Status status = root.status;
-		List<BigDecimal> secondGeometryPointOfRoute = root.request.routes.get(0).segments.get(0).geometryGeoJson.geometry.coordinates.get(1);
+		Status status = root.getStatus();
+		List<BigDecimal> secondGeometryPointOfRoute = root.getRequest().getRoutes().get(0).getSegments().get(0).getGeometryGeoJson().get().geometry.coordinates.get(1);
 		System.out.println(status);
 		System.out.println(secondGeometryPointOfRoute);
+		System.out.println(root.getCalculationTime());
 		
 		// variant 2 - tree model
 		JsonNode rootNode = mapper.readValue(new File(exampleFile), JsonNode.class);
 		System.out.println(rootNode.get("status").asText());
 		System.out.println(rootNode.get("request").get("routes").get(0).get("segments").get(0).get("geometryGeoJson").get("geometry").get("coordinates").get(1));
+		System.out.println(rootNode.get("calculationTime"));
 	}
 	
 	public void writeSchema() throws JsonGenerationException, IOException {
 		ObjectMapper mapper = new ObjectMapper();
+		mapper.registerModule(new Jdk8Module());
 		mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
 		SchemaFactoryWrapper visitor = new SchemaFactoryWrapper();

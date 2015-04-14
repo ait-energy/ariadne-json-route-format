@@ -3,63 +3,150 @@ package at.ac.ait.sproute.routeformat;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import at.ac.ait.sproute.routeformat.Route.Builder;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.google.common.base.Preconditions;
 
 /**
- * @author mstraub
+ * @author AIT Austrian Institute of Technology GmbH
  */
+@JsonDeserialize(builder = Builder.class)
 public class Route {
-	
-	public Route() {
+
+	private Location from;
+	private Location to;
+	private Optional<ZonedDateTime> departureTime;
+	private Optional<ZonedDateTime> arrivalTime;
+	private int lengthMeters;
+	private int durationSeconds;
+	private List<RouteSegment> segments;
+
+	@JsonProperty(required = true)
+	public Location getFrom() {
+		return from;
+	}
+
+	@JsonProperty(required = true)
+	public Location getTo() {
+		return to;
+	}
+
+	public Optional<String> getDepartureTime() {
+		return departureTime.map(time -> time.toString());
+	}
+
+	public Optional<String> getArrivalTime() {
+		return arrivalTime.map(time -> time.toString());
+	}
+
+	@JsonProperty(required = true)
+	public int getLengthMeters() {
+		return lengthMeters;
+	}
+
+	@JsonProperty(required = true)
+	public int getDurationSeconds() {
+		return durationSeconds;
+	}
+
+	@JsonProperty(required = true)
+	public List<RouteSegment> getSegments() {
+		return segments;
+	}
+
+	private Route(Builder builder) {
+		this.from = builder.from;
+		this.to = builder.to;
+		this.departureTime = builder.departureTime;
+		this.arrivalTime = builder.arrivalTime;
+		this.lengthMeters = builder.lengthMeters.get();
+		this.durationSeconds = builder.durationSeconds.get();
+		this.segments = builder.segments;
 	}
 	
-	public Route(Location from, Location to, String departureTime,
-			String arrivalTime, int lengthMeters, int durationSeconds) {
-		this.from = from;
-		this.to = to;
-		setDepartureTime(departureTime);
-		setArrivalTime(arrivalTime);
-		this.lengthMeters = lengthMeters;
-		this.durationSeconds = durationSeconds;
+	public static Builder builder() {
+		return new Builder();
 	}
 
-	@JsonProperty(required = true)
-	public Location from;
-	@JsonProperty(required = true)
-	public Location to;
+	public static class Builder {
+		private Location from;
+		private Location to;
+		private Optional<ZonedDateTime> departureTime = Optional.empty();
+		private Optional<ZonedDateTime> arrivalTime = Optional.empty();
+		private Optional<Integer> lengthMeters = Optional.empty();
+		private Optional<Integer> durationSeconds = Optional.empty();
+		private List<RouteSegment> segments = new ArrayList<>();
 
-	private ZonedDateTime departureTime;
-	private ZonedDateTime arrivalTime;
+		public Builder withFrom(Location from) {
+			this.from = from;
+			return this;
+		}
 
-	@JsonProperty(required = true)
-	public int lengthMeters;
-	@JsonProperty(required = true)
-	public int durationSeconds;
-	// other attributes can be added here (on demand)
+		public Builder withTo(Location to) {
+			this.to = to;
+			return this;
+		}
 
-	@JsonProperty(required = true)
-	// minItems=1
-	public List<RouteSegment> segments = new ArrayList<>();
+		@JsonIgnore
+		public Builder withDepartureTime(ZonedDateTime departureTime) {
+			this.departureTime = Optional.of(departureTime);
+			return this;
+		}
+		
+		@JsonProperty
+        public Builder withDepartureTime(String departureTime) {
+        	this.departureTime = Optional.of(SprouteUtils.parseZonedDateTime(departureTime, "departureTime"));
+            return this;
+        }
 
-	@JsonProperty(required = true)
-	public String getDepartureTime() {
-		return departureTime == null ? null : departureTime.toString();
-	}
+        @JsonIgnore
+		public Builder withArrivalTime(ZonedDateTime arrivalTime) {
+			this.arrivalTime = Optional.of(arrivalTime);
+			return this;
+		}
+		
+        @JsonProperty
+        public Builder withArrivalTime(String arrivalTime) {
+        	this.arrivalTime = Optional.of(SprouteUtils.parseZonedDateTime(arrivalTime, "arrivalTime"));
+            return this;
+        }
 
-	@JsonProperty(required = true)
-	public void setDepartureTime(String departureTime) {
-		this.departureTime = ZonedDateTime.parse(departureTime);
-	}
+		public Builder withLengthMeters(int lengthMeters) {
+			this.lengthMeters = Optional.of(lengthMeters);
+			return this;
+		}
 
-	@JsonProperty(required = true)
-	public String getArrivalTime() {
-		return arrivalTime == null ? null : arrivalTime.toString();
-	}
+		public Builder withDurationSeconds(int durationSeconds) {
+			this.durationSeconds = Optional.of(durationSeconds);
+			return this;
+		}
 
-	@JsonProperty(required = true)
-	public void setArrivalTime(String arrivalTime) {
-		this.arrivalTime = ZonedDateTime.parse(arrivalTime);
+		public Builder withSegments(List<RouteSegment> segments) {
+			this.segments = new ArrayList<RouteSegment>(segments);
+			return this;
+		}
+
+		public Route build() {
+			validate();
+			return new Route(this);
+		}
+
+		private void validate() {
+			Preconditions.checkNotNull(from, "from is mandatory but missing");
+			Preconditions.checkNotNull(to, "to is mandatory but missing");
+			Preconditions.checkArgument(lengthMeters.isPresent(), "lengthMeters is mandatory but missing");
+			Preconditions.checkArgument(durationSeconds.isPresent(), "durationSeconds is mandatory but missing");
+			
+			Preconditions.checkArgument(lengthMeters.get() >= 0, "lengthMeters must be >= 0, but was %s", lengthMeters.get());
+			Preconditions.checkArgument(durationSeconds.get() >= 0, "durationSeconds must be >= 0, but was %s", durationSeconds.get());
+			
+			Preconditions.checkArgument(!segments.isEmpty(), "segments must not be empty");
+		}
 	}
 
 }

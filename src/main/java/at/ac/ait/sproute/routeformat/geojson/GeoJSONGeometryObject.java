@@ -5,7 +5,7 @@ package at.ac.ait.sproute.routeformat.geojson;
 //    @Type(value = GeoJSONPoint.class, name = "GeoJSONPoint")
 //})
 /**
- * @author mstraub
+ * @author AIT Austrian Institute of Technology GmbH
  */
 public interface GeoJSONGeometryObject {
 }
