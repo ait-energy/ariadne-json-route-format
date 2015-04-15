@@ -1,9 +1,9 @@
 package at.ac.ait.sproute.routeformat.example;
 
-import org.json.JSONObject;
-
-import pl.zientarski.SchemaMapper;
-import at.ac.ait.sproute.routeformat.geojson.GeoJSONFeatureCollection;
+//import org.json.JSONObject;
+//
+//import pl.zientarski.SchemaMapper;
+//import at.ac.ait.sproute.routeformat.geojson.GeoJSONFeatureCollection;
 
 /**
  * Playground for other ways to generate a schema
@@ -13,10 +13,10 @@ import at.ac.ait.sproute.routeformat.geojson.GeoJSONFeatureCollection;
 public class SchemaGenerator {
 	
 	public static void main(String[] args) {
-		SchemaMapper schemaMapper = new SchemaMapper();
-		JSONObject schema = schemaMapper.toJsonSchema4(GeoJSONFeatureCollection.class, true);
-//		JSONWriter writer = new JSONWriter(null);
-		System.out.println(schema);
+//		SchemaMapper schemaMapper = new SchemaMapper();
+//		JSONObject schema = schemaMapper.toJsonSchema4(GeoJSONFeatureCollection.class, true);
+////		JSONWriter writer = new JSONWriter(null);
+//		System.out.println(schema);
 		
 		// JJ variant
 		// JsonSchemaGenerator v4generator =

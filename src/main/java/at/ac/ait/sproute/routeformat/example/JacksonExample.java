@@ -54,8 +54,8 @@ public class JacksonExample {
 		main.readExampleJson();
 		main.writeSchema();
 	}
-
-	public void writeExampleJson() throws JsonGenerationException, JsonMappingException, IOException {
+	
+	public static RouteFormatRoot getExampleRouteFormatRoot() throws JsonGenerationException, JsonMappingException, IOException {
 		LinkedList<CoordinatePoint> routeGeometry = new LinkedList<>();
 		routeGeometry.add(new CoordinatePoint("16.4265263", "48.2686617"));
 		routeGeometry.add(new CoordinatePoint("16.426593", "48.269826"));
@@ -110,6 +110,12 @@ public class JacksonExample {
 		RouteFormatRoot root = RouteFormatRoot.builder().withRequest(request).withCalculationTimeNow()
 				.withStatus(Status.OK).withDebugMessage("Route calculated in 0.002 seconds")
 				.withCoordinateReferenceSystem("EPSG:4326").build();
+		
+		return root;
+	}
+
+	public void writeExampleJson() throws JsonGenerationException, JsonMappingException, IOException {
+		RouteFormatRoot root = getExampleRouteFormatRoot();
 		
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.registerModule(new Jdk8Module());

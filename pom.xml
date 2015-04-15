@@ -39,7 +39,7 @@
 			<artifactId>guava</artifactId>
 			<version>18.0</version>
 		</dependency>
-	
+
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
@@ -65,30 +65,7 @@
 			<artifactId>jackson-datatype-jdk8</artifactId>
 			<version>${jackson-version}</version>
 		</dependency>
-		
-		<dependency>
-			<groupId>pl.zientarski</groupId>
-			<artifactId>JSONschema4-mapper</artifactId>
-			<version>0.0.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.github.reinert</groupId>
-			<artifactId>jjschema</artifactId>
-			<version>0.6</version>
-		</dependency>
-		<dependency>
-			<groupId>com.github.fge</groupId>
-			<artifactId>json-schema-validator</artifactId>
-			<version>2.2.6</version>
-		</dependency>
 	</dependencies>
-
-	<repositories>
-		<repository>
-			<id>JSONschema4-mapper SNAPSHOTS repository</id>
-			<url>https://raw.github.com/wodzuu/JSONschema4-mapper/mvn-repo/</url>
-		</repository>
-	</repositories>
 
 	<build>
 		<pluginManagement>
