@@ -30,9 +30,11 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.introspect.WithMember;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 import com.fasterxml.jackson.module.jsonSchema.factories.SchemaFactoryWrapper;
+import com.google.common.collect.Sets;
 
 /**
  * We use the "Data Binding" method of Jackson (to map POJOs to JSON).
@@ -103,8 +105,9 @@ public class JacksonExample {
 				.withDepartureTime(departureTime).withLengthMeters(lengthMeters)
 				.withDurationSeconds(durationSeconds).withSegments(Arrays.asList(segment)).build();
 		
-		RoutingRequest request = RoutingRequest.builder().withFrom(giefinggasse).withTo(richardneutragasse)
-				.build();
+		RoutingRequest request = RoutingRequest.builder().withContextName("OSM_test").withFrom(giefinggasse)
+				.withTo(richardneutragasse).withModesOfTransport(Sets.newHashSet(ModeOfTransport.BICYCLE))
+				.withOptimizedFor("traveltime").build();
 
 		RouteFormatRoot root = RouteFormatRoot.builder().withId(999).withCalculationTimeNow()
 				.withStatus(Status.OK).withDebugMessage("Route calculated in 0.002 seconds")
