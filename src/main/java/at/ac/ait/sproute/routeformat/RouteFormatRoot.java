@@ -28,7 +28,7 @@ public class RouteFormatRoot {
 	private Optional<String> debugMessage;
 	private String coordinateReferenceSystem;
 	
-	private RoutingRequest request;
+	private Optional<RoutingRequest> request;
 	private List<Route> routes;
 
 	@JsonProperty(required = true)
@@ -57,8 +57,13 @@ public class RouteFormatRoot {
 		return coordinateReferenceSystem;
 	}
 	
-	@JsonProperty(required = true)
-	public RoutingRequest getRequest() {
+	/**
+	 * @return The original request used to calculate the route(s). It is
+	 *         guaranteed that if at least one route is returned there is also a
+	 *         request here. The request will only be omitted if the request
+	 *         itself could not be created due to invalid request parameters.
+	 */
+	public Optional<RoutingRequest> getRequest() {
 		return request;
 	}
 	
@@ -83,13 +88,13 @@ public class RouteFormatRoot {
 	
 	public static class Builder {
 		private Long id;
-		private RoutingRequest request;
-		private List<Route> routes;
 		private ZonedDateTime calculationTime;
 		private Status status;
 		private Optional<String> debugMessage = Optional.empty();
 		private String coordinateReferenceSystem;
-
+		private Optional<RoutingRequest> request;
+		private List<Route> routes;
+		
 		public Builder withId(long id) {
 			this.id = id;
 			return this;
@@ -118,7 +123,7 @@ public class RouteFormatRoot {
 		}
 
 		public Builder withDebugMessage(String debugMessage) {
-			this.debugMessage = Optional.of(debugMessage);
+			this.debugMessage = Optional.ofNullable(debugMessage);
 			return this;
 		}
 
@@ -128,7 +133,7 @@ public class RouteFormatRoot {
 		}
 		
 		public Builder withRequest(RoutingRequest request) {
-			this.request = request;
+			this.request = Optional.ofNullable(request);
 			return this;
 		}
 		
@@ -143,15 +148,17 @@ public class RouteFormatRoot {
 		}
 
 		private void validate() {
-			Preconditions.checkNotNull(id, "id is mandatory but missing");
-			Preconditions.checkNotNull(request, "request is mandatory but missing");
-			Preconditions.checkNotNull(calculationTime, "calculationTime is mandatory but missing");
-			Preconditions.checkNotNull(status, "status is mandatory but missing");
-			Preconditions.checkNotNull(coordinateReferenceSystem,
+			Preconditions.checkArgument(id != null, "id is mandatory but missing");
+			Preconditions.checkArgument(calculationTime != null, "calculationTime is mandatory but missing");
+			Preconditions.checkArgument(status != null, "status is mandatory but missing");
+			Preconditions.checkArgument(coordinateReferenceSystem != null,
 					"coordinateReferenceSystem is mandatory but missing");
-
 			Preconditions.checkArgument(coordinateReferenceSystem.startsWith("EPSG:"),
 					"coordinateReferenceSystem must start with EPSG:");
+			
+			if(!request.isPresent() && routes.size() > 0) {
+				throw new IllegalArgumentException("request is mandatory but missing (if at least one route is present)");
+			}
 		}
 	}
 

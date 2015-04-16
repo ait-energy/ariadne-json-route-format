@@ -58,6 +58,10 @@ public class RoutingRequest {
 		return modesOfTransport;
 	}
 	
+	/**
+	 * Criteria the route will be / was optimized for, e.g. shortest travel
+	 * time, which is also the default
+	 */
 	@JsonProperty(required = true)
 	public String getOptimizedFor() {
 		return optimizedFor;
@@ -123,7 +127,14 @@ public class RoutingRequest {
 			this.to = to;
 			return this;
 		}
+
+		@JsonIgnore
+		public Builder withModesOfTransport(String modesOfTransport) {
+			this.modesOfTransport = SprouteUtils.parseModesOfTransport(modesOfTransport, "modesOfTransport");
+			return this;
+		}
 		
+		@JsonProperty
 		public Builder withModesOfTransport(Set<RouteSegment.ModeOfTransport> modesOfTransport) {
 			this.modesOfTransport = new HashSet<>(modesOfTransport);
 			return this;
@@ -136,25 +147,31 @@ public class RoutingRequest {
 
 		@JsonIgnore
 		public Builder withDepartureTime(ZonedDateTime departureTime) {
-			this.departureTime = Optional.of(departureTime);
+			this.departureTime = Optional.ofNullable(departureTime);
 			return this;
 		}
 		
 		@JsonProperty
         public Builder withDepartureTime(String departureTime) {
-        	this.departureTime = Optional.of(SprouteUtils.parseZonedDateTime(departureTime, "departureTime"));
+			if(departureTime == null)
+				this.departureTime = Optional.empty();
+			else
+				this.departureTime = Optional.of(SprouteUtils.parseZonedDateTime(departureTime, "departureTime"));
             return this;
         }
 
         @JsonIgnore
 		public Builder withArrivalTime(ZonedDateTime arrivalTime) {
-			this.arrivalTime = Optional.of(arrivalTime);
+			this.arrivalTime = Optional.ofNullable(arrivalTime);
 			return this;
 		}
 		
         @JsonProperty
         public Builder withArrivalTime(String arrivalTime) {
-        	this.arrivalTime = Optional.of(SprouteUtils.parseZonedDateTime(arrivalTime, "arrivalTime"));
+        	if(arrivalTime == null)
+        		this.arrivalTime = Optional.empty();
+        	else
+        		this.arrivalTime = Optional.of(SprouteUtils.parseZonedDateTime(arrivalTime, "arrivalTime"));
             return this;
         }
 
@@ -172,7 +189,9 @@ public class RoutingRequest {
 			if(modesOfTransport.size() > 1 && !modesOfTransport.contains(ModeOfTransport.FOOT)) {
 				modesOfTransport.add(ModeOfTransport.FOOT);
 			}
-			Preconditions.checkArgument(optimizedFor != null, "optimizedFor is mandatory but missing");
+			
+			if(optimizedFor == null)
+				optimizedFor = "TRAVELTIME";
 			
 			Preconditions.checkArgument(!(departureTime.isPresent() && arrivalTime.isPresent()), "departureTime and arrivalTime are mutually exclusive, only one can be set at once");
 			if(!departureTime.isPresent() && !arrivalTime.isPresent()) {
