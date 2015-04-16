@@ -1,8 +1,6 @@
 package at.ac.ait.sproute.routeformat;
 
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import at.ac.ait.sproute.routeformat.RoutingRequest.Builder;
@@ -17,17 +15,10 @@ import com.google.common.base.Preconditions;
  */
 @JsonDeserialize(builder = Builder.class)
 public class RoutingRequest {
-	private int nr;
 	private Location from;
 	private Location to;
 	private Optional<ZonedDateTime> departureTime;
 	private Optional<ZonedDateTime> arrivalTime;
-	private List<Route> routes;
-
-	@JsonProperty(required = true)
-	public int getNr() {
-		return nr;
-	}
 	
 	@JsonProperty(required = true)
 	public Location getFrom() {
@@ -49,18 +40,11 @@ public class RoutingRequest {
 		return arrivalTime.map(time -> time.toString());
 	}
 
-	@JsonProperty(required = true)
-	public List<Route> getRoutes() {
-		return routes;
-	}
-
 	private RoutingRequest(Builder builder) {
-		this.nr = builder.nr.get();
 		this.from = builder.from;
 		this.to = builder.to;
 		this.departureTime = builder.departureTime;
 		this.arrivalTime = builder.arrivalTime;
-		this.routes = builder.routes;
 	}
 	
 	public static Builder builder() {
@@ -68,18 +52,11 @@ public class RoutingRequest {
 	}
 
 	public static class Builder {
-		private Optional<Integer> nr = Optional.empty();
 		private Location from;
 		private Location to;
 		private Optional<ZonedDateTime> departureTime = Optional.empty();
 		private Optional<ZonedDateTime> arrivalTime = Optional.empty();
-		private List<Route> routes;
 
-		public Builder withNr(int nr) {
-			this.nr = Optional.of(nr);
-			return this;
-		}
-		
 		public Builder withFrom(Location from) {
 			this.from = from;
 			return this;
@@ -114,18 +91,12 @@ public class RoutingRequest {
             return this;
         }
 
-		public Builder withRoutes(List<Route> routes) {
-			this.routes = new ArrayList<Route>(routes);
-			return this;
-		}
-
 		public RoutingRequest build() {
 			validate();
 			return new RoutingRequest(this);
 		}
 
 		private void validate() {
-			Preconditions.checkArgument(nr.isPresent(), "nr is mandatory but missing");
 			Preconditions.checkNotNull(from, "from is mandatory but missing");
 			Preconditions.checkNotNull(to, "to is mandatory but missing");
 		}

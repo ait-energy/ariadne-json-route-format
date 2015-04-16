@@ -1,6 +1,8 @@
 package at.ac.ait.sproute.routeformat;
 
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import at.ac.ait.sproute.routeformat.RouteFormatRoot.Builder;
@@ -20,17 +22,20 @@ public class RouteFormatRoot {
 		OK, ERROR;
 	}
 
-	private RoutingRequest request;
+	private long id;
 	private ZonedDateTime calculationTime;
 	private Status status;
 	private Optional<String> debugMessage;
 	private String coordinateReferenceSystem;
+	
+	private RoutingRequest request;
+	private List<Route> routes;
 
 	@JsonProperty(required = true)
-	public RoutingRequest getRequest() {
-		return request;
+	public long getId() {
+		return id;
 	}
-
+	
 	@JsonProperty(required = true)
 	public String getCalculationTime() {
 		return calculationTime.toString();
@@ -51,13 +56,25 @@ public class RouteFormatRoot {
 	public String getCoordinateReferenceSystem() {
 		return coordinateReferenceSystem;
 	}
+	
+	@JsonProperty(required = true)
+	public RoutingRequest getRequest() {
+		return request;
+	}
+	
+	@JsonProperty(required = true)
+	public List<Route> getRoutes() {
+		return routes;
+	}
 
 	private RouteFormatRoot(Builder builder) {
-		this.request = builder.request;
+		this.id = builder.id;
 		this.calculationTime = builder.calculationTime;
 		this.status = builder.status;
 		this.debugMessage = builder.debugMessage;
 		this.coordinateReferenceSystem = builder.coordinateReferenceSystem;
+		this.request = builder.request;
+		this.routes = builder.routes;
 	}
 
 	public static Builder builder() {
@@ -65,17 +82,19 @@ public class RouteFormatRoot {
 	}
 	
 	public static class Builder {
+		private Long id;
 		private RoutingRequest request;
+		private List<Route> routes;
 		private ZonedDateTime calculationTime;
 		private Status status;
 		private Optional<String> debugMessage = Optional.empty();
 		private String coordinateReferenceSystem;
 
-		public Builder withRequest(RoutingRequest request) {
-			this.request = request;
+		public Builder withId(long id) {
+			this.id = id;
 			return this;
 		}
-
+		
 		public Builder withCalculationTimeNow() {
 			this.calculationTime = ZonedDateTime.now();
 			return this;
@@ -107,6 +126,16 @@ public class RouteFormatRoot {
 			this.coordinateReferenceSystem = coordinateReferenceSystem;
 			return this;
 		}
+		
+		public Builder withRequest(RoutingRequest request) {
+			this.request = request;
+			return this;
+		}
+		
+		public Builder withRoutes(List<Route> routes) {
+			this.routes = new ArrayList<Route>(routes);
+			return this;
+		}
 
 		public RouteFormatRoot build() {
 			validate();
@@ -114,6 +143,7 @@ public class RouteFormatRoot {
 		}
 
 		private void validate() {
+			Preconditions.checkNotNull(id, "id is mandatory but missing");
 			Preconditions.checkNotNull(request, "request is mandatory but missing");
 			Preconditions.checkNotNull(calculationTime, "calculationTime is mandatory but missing");
 			Preconditions.checkNotNull(status, "status is mandatory but missing");

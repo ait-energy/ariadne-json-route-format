@@ -103,14 +103,14 @@ public class JacksonExample {
 				.withDepartureTime(departureTime).withLengthMeters(lengthMeters)
 				.withDurationSeconds(durationSeconds).withSegments(Arrays.asList(segment)).build();
 		
-		RoutingRequest request = RoutingRequest.builder().withNr(999).withFrom(giefinggasse)
-				.withTo(richardneutragasse).withRoutes(Arrays.asList(route)).build();
-		
-		
-		RouteFormatRoot root = RouteFormatRoot.builder().withRequest(request).withCalculationTimeNow()
+		RoutingRequest request = RoutingRequest.builder().withFrom(giefinggasse).withTo(richardneutragasse)
+				.build();
+
+		RouteFormatRoot root = RouteFormatRoot.builder().withId(999).withCalculationTimeNow()
 				.withStatus(Status.OK).withDebugMessage("Route calculated in 0.002 seconds")
-				.withCoordinateReferenceSystem("EPSG:4326").build();
-		
+				.withCoordinateReferenceSystem("EPSG:4326").withRequest(request)
+				.withRoutes(Arrays.asList(route)).build();
+
 		return root;
 	}
 
@@ -134,7 +134,7 @@ public class JacksonExample {
 		// variant 1 - data binding
 		RouteFormatRoot root = mapper.readValue(new File(exampleFile), RouteFormatRoot.class);
 		Status status = root.getStatus();
-		List<BigDecimal> secondGeometryPointOfRoute = root.getRequest().getRoutes().get(0).getSegments().get(0).getGeometryGeoJson().get().geometry.coordinates.get(1);
+		List<BigDecimal> secondGeometryPointOfRoute = root.getRoutes().get(0).getSegments().get(0).getGeometryGeoJson().get().geometry.coordinates.get(1);
 		System.out.println(status);
 		System.out.println(secondGeometryPointOfRoute);
 		System.out.println(root.getCalculationTime());
@@ -142,7 +142,7 @@ public class JacksonExample {
 		// variant 2 - tree model
 		JsonNode rootNode = mapper.readValue(new File(exampleFile), JsonNode.class);
 		System.out.println(rootNode.get("status").asText());
-		System.out.println(rootNode.get("request").get("routes").get(0).get("segments").get(0).get("geometryGeoJson").get("geometry").get("coordinates").get(1));
+		System.out.println(rootNode.get("routes").get(0).get("segments").get(0).get("geometryGeoJson").get("geometry").get("coordinates").get(1));
 		System.out.println(rootNode.get("calculationTime"));
 	}
 	
