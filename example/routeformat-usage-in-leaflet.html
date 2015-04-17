@@ -16,7 +16,7 @@
 
     <script>
 
-        var map = L.map('map').setView([48.2690, 16.4305], 16);
+        var map = L.map('map').setView([48.2690, 16.4305], 14);
 
         L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
             maxZoom: 18,
@@ -32,11 +32,13 @@
         returns: a style for the feature depending on the properties
         */
         function styleGeoJson(feature) {
-            return {
-                color: feature.properties.color,
-                weight: feature.properties.weight,
-                opacity: feature.properties.opacity
-            };
+            if (typeof feature.properties !== 'undefined') {
+                return {
+                    color: feature.properties.color,
+                    weight: feature.properties.weight,
+                    opacity: feature.properties.opacity
+                };
+            }
         }
         
         $.getJSON("routeformat-example.json", function(json) {
@@ -46,23 +48,31 @@
             L.geoJson(json.request.to.position, {
             }).addTo(map);
             
-            fullRoute = json.request.routes[0].segments[0].geometryGeoJson;
-            console.log(fullRoute);
-            L.geoJson(fullRoute, {
-                style: function (feature) {
-                    return styleGeoJson(feature);
-                }
-            }).addTo(map);
+            if (typeof json.routes[0].segments[0].geometryGeoJson !== 'undefined') {
+                fullRoute = json.routes[0].segments[0].geometryGeoJson;
+                console.log(fullRoute);
+                L.geoJson(fullRoute, {
+                    style: function (feature) {
+                        return styleGeoJson(feature);
+                    }
+                }).addTo(map);
+            } else {
+                alert("no geometryGeoJson available");
+            }
 
-            edges = json.request.routes[0].segments[0].geometryGeoJsonEdges;
-            console.log(edges);
-            L.geoJson(edges, {
-                style: function (feature) {
-                    return {weight: feature.properties.edgeWeight/10, opacity: 0.3};
-                }
-            }).addTo(map);
+            if (typeof json.routes[0].segments[0].geometryGeoJsonEdges !== 'undefined') {
+                edges = json.routes[0].segments[0].geometryGeoJsonEdges;
+                console.log(edges);
+                L.geoJson(edges, {
+                    style: function (feature) {
+                        return {weight: feature.properties.edgeWeight/10, opacity: 0.3};
+                    }
+                }).addTo(map);
+            } else {
+                alert("no geometryGeoJsonEdges available");
+            }
         });
 
     </script>
 </body>
-</html> 
+</html>

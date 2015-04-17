@@ -74,6 +74,12 @@ public class RoutingRequest {
 	 * <p>
 	 * If neither departure time nor arrival time were set in the builder a
 	 * departure time of 'now' is automatically added.
+	 * <p>
+	 * The supported formats are defined in {@link ZonedDateTime} which uses ISO
+	 * 8601 with time zone. One example is "YYYY-MM-DDTHH:MMZ", where T is the
+	 * letter T, Z is the time zone (in either HH:MM, HHMM, HH format or the
+	 * letter Z for UTC). E.g. "2015-01-31T18:05+0100". As output the default
+	 * toString() of {@link ZonedDateTime} is used.
 	 */
 	@JsonProperty
 	public Optional<String> getDepartureTime() {
@@ -84,6 +90,8 @@ public class RoutingRequest {
 	 * Requested arrival time for the route. Mutual exclusive with
 	 * {@link #getDepartureTime()}, it is guaranteed that exactly one of the two
 	 * times is set.
+	 * <p>
+	 * The format is the same as for {@link #getDepartureTime()}.
 	 */
 	@JsonProperty
 	public Optional<String> getArrivalTime() {
@@ -155,6 +163,8 @@ public class RoutingRequest {
         public Builder withDepartureTime(String departureTime) {
 			if(departureTime == null)
 				this.departureTime = Optional.empty();
+			else if(departureTime.equalsIgnoreCase("NOW"))
+				this.departureTime = Optional.of(ZonedDateTime.now());
 			else
 				this.departureTime = Optional.of(SprouteUtils.parseZonedDateTime(departureTime, "departureTime"));
             return this;
@@ -170,6 +180,8 @@ public class RoutingRequest {
         public Builder withArrivalTime(String arrivalTime) {
         	if(arrivalTime == null)
         		this.arrivalTime = Optional.empty();
+        	else if(arrivalTime.equalsIgnoreCase("NOW"))
+				this.arrivalTime = Optional.of(ZonedDateTime.now());
         	else
         		this.arrivalTime = Optional.of(SprouteUtils.parseZonedDateTime(arrivalTime, "arrivalTime"));
             return this;

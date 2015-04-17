@@ -1,207 +1,89 @@
 {
-	"request": {
-		"id": "999",
-		"from": {
-			"position": {
-				"type": "Feature",
-				"geometry": {
-					"type": "Point",
-					"coordinates": [
-						16.4265263,
-						48.2686617
-					]
-				}
-			},
-			"type": "ADDRESS",
-			"country": "Austria",
-			"city": "Wien",
-			"postcode": "1210",
-			"streetname": "Giefinggasse",
-			"housenumber": "2/4/S314"
-		},
-		"to": {
-			"position": {
-				"type": "Feature",
-				"geometry": {
-					"type": "Point",
-					"coordinates": [
-						16.4319054,
-						48.269724
-					]
-				}
-			},
-			"type": "ADDRESS",
-			"country": "Austria",
-			"city": "Wien",
-			"postcode": "1210",
-			"streetname": "Richard-Neutra-Gasse",
-			"housenumber": "6"
-		},
-		"routes": [
-			{
-				"from": {
-					"position": {
-						"type": "Feature",
-						"geometry": {
-							"type": "Point",
-							"coordinates": [
-								16.4265263,
-								48.2686617
-							]
-						}
-					},
-					"type": "ADDRESS",
-					"country": "Austria",
-					"city": "Wien",
-					"postcode": "1210",
-					"streetname": "Giefinggasse",
-					"housenumber": "2/4/S314"
-				},
-				"to": {
-					"position": {
-						"type": "Feature",
-						"geometry": {
-							"type": "Point",
-							"coordinates": [
-								16.4319054,
-								48.269724
-							]
-						}
-					},
-					"type": "ADDRESS",
-					"country": "Austria",
-					"city": "Wien",
-					"postcode": "1210",
-					"streetname": "Richard-Neutra-Gasse",
-					"housenumber": "6"
-				},
-				"departureTime": "2015-01-01T10:15:30+01:00",
-				"arrivalTime": "2015-01-01T10:18+01:00",
-				"lengthMeters": 570,
-				"durationSeconds": 150,
-				"segments": [
-					{
-						"nr": 1,
-						"from": {
-							"position": {
-								"type": "Feature",
-								"geometry": {
-									"type": "Point",
-									"coordinates": [
-										16.4265263,
-										48.2686617
-									]
-								}
-							},
-							"type": "ADDRESS",
-							"country": "Austria",
-							"city": "Wien",
-							"postcode": "1210",
-							"streetname": "Giefinggasse",
-							"housenumber": "2/4/S314"
-						},
-						"to": {
-							"position": {
-								"type": "Feature",
-								"geometry": {
-									"type": "Point",
-									"coordinates": [
-										16.4319054,
-										48.269724
-									]
-								}
-							},
-							"type": "ADDRESS",
-							"country": "Austria",
-							"city": "Wien",
-							"postcode": "1210",
-							"streetname": "Richard-Neutra-Gasse",
-							"housenumber": "6"
-						},
-						"departureTime": "2015-01-01T10:15:30+01:00",
-						"arrivalTime": "2015-01-01T10:18+01:00",
-						"lengthMeters": 570,
-						"durationSeconds": 150,
-						"modeOfTransport": "BICYCLE",
-						"geometryGeoJson": {
-							"type": "Feature",
-							"geometry": {
-								"type": "LineString",
-								"coordinates": [
-									[
-										16.4265263,
-										48.2686617
-									],
-									[
-										16.426593,
-										48.269826
-									],
-									[
-										16.4319054,
-										48.269724
-									]
-								]
-							},
-							"properties": {
-								"color": "#FF11BB",
-								"weight": 2,
-								"opacity": "0.5"
-							}
-						},
-						"geometryGeoJsonEdges": {
-							"type": "FeatureCollection",
-							"features": [
-								{
-									"type": "Feature",
-									"geometry": {
-										"type": "LineString",
-										"coordinates": [
-											[
-												16.4265263,
-												48.2686617
-											],
-											[
-												16.426593,
-												48.269826
-											]
-										]
-									},
-									"properties": {
-										"frc": "6",
-										"name": "Giefinggasse",
-										"edgeWeight": "123"
-									}
-								},
-								{
-									"type": "Feature",
-									"geometry": {
-										"type": "LineString",
-										"coordinates": [
-											[
-												16.426593,
-												48.269826
-											],
-											[
-												16.4319054,
-												48.269724
-											]
-										]
-									},
-									"properties": {
-										"frc": "6",
-										"name": "Paukerwerkgasse",
-										"edgeWeight": "187"
-									}
-								}
-							]
-						}
-					}
-				]
-			}
-		]
-	},
-	"calculationTime": "2015-03-11T13:36:40.401+01:00[Europe/Vienna]",
-	"status": "OK",
-	"debugMessage": "Route calculated in 0.002 seconds",
-	"coordinateReferenceSystem": "EPSG:4326"
+  "id" : 999,
+  "calculationTime" : "2015-04-17T09:02:58.068+02:00[Europe/Vienna]",
+  "status" : "OK",
+  "coordinateReferenceSystem" : "EPSG:4326",
+  "request" : {
+    "contextName" : "OSM_test",
+    "from" : {
+      "type" : "COORDINATE",
+      "coordinate" : {
+        "type" : "Feature",
+        "geometry" : {
+          "type" : "Point",
+          "coordinates" : [ 16.3600000, 48.2100000 ]
+        }
+      }
+    },
+    "to" : {
+      "type" : "COORDINATE",
+      "coordinate" : {
+        "type" : "Feature",
+        "geometry" : {
+          "type" : "Point",
+          "coordinates" : [ 16.3800000, 48.2170000 ]
+        }
+      }
+    },
+    "modesOfTransport" : [ "BICYCLE" ],
+    "optimizedFor" : "TRAVELTIME",
+    "departureTime" : "2015-04-17T09:02:58.054+02:00[Europe/Vienna]"
+  },
+  "routes" : [ {
+    "from" : {
+      "type" : "COORDINATE",
+      "coordinate" : {
+        "type" : "Feature",
+        "geometry" : {
+          "type" : "Point",
+          "coordinates" : [ 16.3602909, 48.2099455 ]
+        }
+      }
+    },
+    "to" : {
+      "type" : "COORDINATE",
+      "coordinate" : {
+        "type" : "Feature",
+        "geometry" : {
+          "type" : "Point",
+          "coordinates" : [ 16.3792182, 48.2168909 ]
+        }
+      }
+    },
+    "lengthMeters" : 2066,
+    "durationSeconds" : 150,
+    "segments" : [ {
+      "nr" : 1,
+      "from" : {
+        "type" : "COORDINATE",
+        "coordinate" : {
+          "type" : "Feature",
+          "geometry" : {
+            "type" : "Point",
+            "coordinates" : [ 16.3602909, 48.2099455 ]
+          }
+        }
+      },
+      "to" : {
+        "type" : "COORDINATE",
+        "coordinate" : {
+          "type" : "Feature",
+          "geometry" : {
+            "type" : "Point",
+            "coordinates" : [ 16.3792182, 48.2168909 ]
+          }
+        }
+      },
+      "lengthMeters" : 2066,
+      "durationSeconds" : 150,
+      "modeOfTransport" : "BICYCLE",
+      "geometryGeoJson" : {
+        "type" : "Feature",
+        "geometry" : {
+          "type" : "LineString",
+          "coordinates" : [ [ 16.3602909, 48.2099455 ], [ 16.3603091, 48.2106545 ], [ 16.3603091, 48.2106545 ], [ 16.3606182, 48.2106545 ], [ 16.3606182, 48.2106545 ], [ 16.3609273, 48.2106545 ], [ 16.3609273, 48.2106545 ], [ 16.3612364, 48.2106545 ], [ 16.3612182, 48.2106545 ], [ 16.3615273, 48.2106545 ], [ 16.3615273, 48.2106364 ], [ 16.3618364, 48.2106364 ], [ 16.3618364, 48.2106364 ], [ 16.3621455, 48.2106364 ], [ 16.3621455, 48.2106364 ], [ 16.3624545, 48.2106364 ], [ 16.3624364, 48.2106182 ], [ 16.3628000, 48.2106182 ], [ 16.3629273, 48.2106182 ], [ 16.3629273, 48.2106182 ], [ 16.3629091, 48.2101636 ], [ 16.3629091, 48.2101818 ], [ 16.3636545, 48.2101636 ], [ 16.3636545, 48.2101636 ], [ 16.3646909, 48.2101455 ], [ 16.3646909, 48.2101455 ], [ 16.3656182, 48.2101273 ], [ 16.3656182, 48.2101273 ], [ 16.3678727, 48.2100727 ], [ 16.3678727, 48.2100909 ], [ 16.3698545, 48.2100364 ], [ 16.3698727, 48.2100182 ], [ 16.3700909, 48.2108545 ], [ 16.3704909, 48.2116000 ], [ 16.3711818, 48.2124182 ], [ 16.3720182, 48.2130727 ], [ 16.3720182, 48.2130909 ], [ 16.3730727, 48.2136727 ], [ 16.3744000, 48.2141455 ], [ 16.3757818, 48.2144182 ], [ 16.3771091, 48.2145091 ], [ 16.3771091, 48.2145091 ], [ 16.3771091, 48.2150000 ], [ 16.3771091, 48.2149818 ], [ 16.3792182, 48.2149818 ], [ 16.3792182, 48.2149818 ], [ 16.3792182, 48.2154727 ], [ 16.3792182, 48.2154727 ], [ 16.3792182, 48.2159636 ], [ 16.3792182, 48.2159636 ], [ 16.3792182, 48.2164182 ], [ 16.3792182, 48.2164182 ], [ 16.3792182, 48.2168909 ] ]
+        }
+      }
+    } ]
+  } ]
 }
