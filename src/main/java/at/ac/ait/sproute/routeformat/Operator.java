@@ -34,7 +34,7 @@ public class Operator {
 	}
 
 	private Operator(Builder builder) {
-		this.name = builder.name.get();
+		this.name = builder.name;
 		this.phoneNumber = builder.phoneNumber;
 		this.website = builder.website;
 	}
@@ -45,12 +45,12 @@ public class Operator {
 	
 	public static class Builder {
 
-		private Optional<String> name;
+		private String name;
 		private Optional<String> phoneNumber = Optional.empty();
 		private Optional<String> website = Optional.empty();
 
 		public Builder withName(String name) {
-			this.name = Optional.of(name);
+			this.name = name;
 			return this;
 		}
 
@@ -70,7 +70,7 @@ public class Operator {
 		}
 
         private void validate() {
-        	Preconditions.checkArgument(name.isPresent(), "name is mandatory but missing");
+        	Preconditions.checkArgument(name != null, "name is mandatory but missing");
         }
 	}
 

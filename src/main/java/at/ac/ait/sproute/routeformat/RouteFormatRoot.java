@@ -19,11 +19,11 @@ import com.google.common.base.Preconditions;
 public class RouteFormatRoot {
 
 	public enum Status {
-		OK, ERROR;
+		OK, INVALID_REQUEST, ERROR;
 	}
 
-	private long id;
-	private ZonedDateTime calculationTime;
+	private String requestId;
+	private ZonedDateTime processedTime;
 	private Status status;
 	private Optional<String> debugMessage;
 	private String coordinateReferenceSystem;
@@ -32,13 +32,17 @@ public class RouteFormatRoot {
 	private List<Route> routes;
 
 	@JsonProperty(required = true)
-	public long getId() {
-		return id;
+	public String getRequestId() {
+		return requestId;
 	}
 	
+	/**
+	 * Time when reuqest / calculations were finished or deemed not possible in
+	 * case of an error.
+	 */
 	@JsonProperty(required = true)
-	public String getCalculationTime() {
-		return calculationTime.toString();
+	public String getProcessedTime() {
+		return processedTime.toString();
 	}
 
 	@JsonProperty(required = true)
@@ -73,8 +77,8 @@ public class RouteFormatRoot {
 	}
 
 	private RouteFormatRoot(Builder builder) {
-		this.id = builder.id;
-		this.calculationTime = builder.calculationTime;
+		this.requestId = builder.requestId;
+		this.processedTime = builder.processedTime;
 		this.status = builder.status;
 		this.debugMessage = builder.debugMessage;
 		this.coordinateReferenceSystem = builder.coordinateReferenceSystem;
@@ -87,33 +91,33 @@ public class RouteFormatRoot {
 	}
 	
 	public static class Builder {
-		private Long id;
-		private ZonedDateTime calculationTime;
+		private String requestId;
+		private ZonedDateTime processedTime;
 		private Status status;
 		private Optional<String> debugMessage = Optional.empty();
 		private String coordinateReferenceSystem;
-		private Optional<RoutingRequest> request;
-		private List<Route> routes;
+		private Optional<RoutingRequest> request = Optional.empty();
+		private List<Route> routes = new ArrayList<>();
 		
-		public Builder withId(long id) {
-			this.id = id;
+		public Builder withRequestId(String requestId) {
+			this.requestId = requestId;
 			return this;
 		}
 		
-		public Builder withCalculationTimeNow() {
-			this.calculationTime = ZonedDateTime.now();
+		public Builder withProcessedTimeNow() {
+			this.processedTime = ZonedDateTime.now();
 			return this;
 		}
 
 		@JsonIgnore
-		public Builder withCalculationTime(ZonedDateTime calculationTime) {
-			this.calculationTime = calculationTime;
+		public Builder withProcessedTime(ZonedDateTime processedTime) {
+			this.processedTime = processedTime;
 			return this;
 		}
 
 		@JsonProperty
-		public Builder withCalculationTime(String calculationTime) {
-			this.calculationTime = SprouteUtils.parseZonedDateTime(calculationTime, "calculationTime");
+		public Builder withProcessedTime(String processedTime) {
+			this.processedTime = SprouteUtils.parseZonedDateTime(processedTime, "processedTime");
 			return this;
 		}
 
@@ -129,6 +133,11 @@ public class RouteFormatRoot {
 
 		public Builder withCoordinateReferenceSystem(String coordinateReferenceSystem) {
 			this.coordinateReferenceSystem = coordinateReferenceSystem;
+			return this;
+		}
+		
+		public Builder withDefaultCoordinateReferenceSystem() {
+			this.coordinateReferenceSystem = "EPSG:4326";
 			return this;
 		}
 		
@@ -148,8 +157,8 @@ public class RouteFormatRoot {
 		}
 
 		private void validate() {
-			Preconditions.checkArgument(id != null, "id is mandatory but missing");
-			Preconditions.checkArgument(calculationTime != null, "calculationTime is mandatory but missing");
+			Preconditions.checkArgument(requestId != null, "id is mandatory but missing");
+			Preconditions.checkArgument(processedTime != null, "processedTime is mandatory but missing");
 			Preconditions.checkArgument(status != null, "status is mandatory but missing");
 			Preconditions.checkArgument(coordinateReferenceSystem != null,
 					"coordinateReferenceSystem is mandatory but missing");

@@ -108,7 +108,7 @@ public class JacksonExample {
 				.withTo(richardneutragasse).withModesOfTransport(Sets.newHashSet(ModeOfTransport.BICYCLE))
 				.withOptimizedFor("traveltime").build();
 
-		RouteFormatRoot root = RouteFormatRoot.builder().withId(999).withCalculationTimeNow()
+		RouteFormatRoot root = RouteFormatRoot.builder().withRequestId("999").withProcessedTimeNow()
 				.withStatus(Status.OK).withDebugMessage("Route calculated in 0.002 seconds")
 				.withCoordinateReferenceSystem("EPSG:4326").withRequest(request)
 				.withRoutes(Arrays.asList(route)).build();
@@ -139,7 +139,7 @@ public class JacksonExample {
 		List<BigDecimal> secondGeometryPointOfRoute = root.getRoutes().get(0).getSegments().get(0).getGeometryGeoJson().get().geometry.coordinates.get(1);
 		System.out.println(status);
 		System.out.println(secondGeometryPointOfRoute);
-		System.out.println(root.getCalculationTime());
+		System.out.println(root.getProcessedTime());
 		
 		// variant 2 - tree model
 		JsonNode rootNode = mapper.readValue(new File(exampleFile), JsonNode.class);

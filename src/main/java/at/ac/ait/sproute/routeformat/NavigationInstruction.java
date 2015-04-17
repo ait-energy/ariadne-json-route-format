@@ -86,13 +86,13 @@ public class NavigationInstruction {
 	}
 
 	private NavigationInstruction(Builder builder) {
-		this.landmarkType = builder.landmarkType.get();
+		this.landmarkType = builder.landmarkType;
 		this.landmarkName = builder.landmarkName;
-		this.preposition = builder.preposition.get();
-		this.turnDirection = builder.turnDirection.get();
-		this.target = builder.target.get();
+		this.preposition = builder.preposition;
+		this.turnDirection = builder.turnDirection;
+		this.target = builder.target;
 		this.metersToNextDecisionPoint = builder.metersToNextDecisionPoint;
-		this.turnTriggerPosition = builder.turnTriggerPosition.get();
+		this.turnTriggerPosition = builder.turnTriggerPosition;
 		this.previewTriggerPosition = builder.previewTriggerPosition;
 		this.confirmationTriggerPosition = builder.confirmationTriggerPosition;
 	}
@@ -102,38 +102,38 @@ public class NavigationInstruction {
 	}
 
 	public static class Builder {
-		private Optional<String> landmarkType = Optional.empty();
+		private String landmarkType;
 		private Optional<String> landmarkName = Optional.empty();
-		private Optional<Preposition> preposition = Optional.empty();
-		private Optional<Direction> turnDirection = Optional.empty();
-		private Optional<String> target = Optional.empty();
+		private Preposition preposition;
+		private Direction turnDirection;
+		private String target;
 		private Optional<Integer> metersToNextDecisionPoint = Optional.empty();
-		private Optional<GeoJSONFeature<GeoJSONPoint>> turnTriggerPosition = Optional.empty();
+		private GeoJSONFeature<GeoJSONPoint> turnTriggerPosition;
 		private Optional<GeoJSONFeature<GeoJSONPoint>> previewTriggerPosition = Optional.empty();
 		private Optional<GeoJSONFeature<GeoJSONPoint>> confirmationTriggerPosition = Optional.empty();
 
 		public Builder withLandmarkType(String landmarkType) {
-			this.landmarkType = Optional.of(landmarkType);
+			this.landmarkType = landmarkType;
 			return this;
 		}
 
 		public Builder withLandmarkName(String landmarkName) {
-			this.landmarkName = Optional.of(landmarkName);
+			this.landmarkName = Optional.ofNullable(landmarkName);
 			return this;
 		}
 
 		public Builder withPreposition(Preposition preposition) {
-			this.preposition = Optional.of(preposition);
+			this.preposition = preposition;
 			return this;
 		}
 
 		public Builder withTurnDirection(Direction turnDirection) {
-			this.turnDirection = Optional.of(turnDirection);
+			this.turnDirection = turnDirection;
 			return this;
 		}
 
 		public Builder withTarget(String target) {
-			this.target = Optional.of(target);
+			this.target = target;
 			return this;
 		}
 
@@ -143,18 +143,18 @@ public class NavigationInstruction {
 		}
 
 		public Builder withTurnTriggerPosition(GeoJSONFeature<GeoJSONPoint> turnTriggerPosition) {
-			this.turnTriggerPosition = Optional.of(turnTriggerPosition);
+			this.turnTriggerPosition = turnTriggerPosition;
 			return this;
 		}
 
 		public Builder withPreviewTriggerPosition(GeoJSONFeature<GeoJSONPoint> previewTriggerPosition) {
-			this.previewTriggerPosition = Optional.of(previewTriggerPosition);
+			this.previewTriggerPosition = Optional.ofNullable(previewTriggerPosition);
 			return this;
 		}
 
 		public Builder withConfirmationTriggerPosition(
 				GeoJSONFeature<GeoJSONPoint> confirmationTriggerPosition) {
-			this.confirmationTriggerPosition = Optional.of(confirmationTriggerPosition);
+			this.confirmationTriggerPosition = Optional.ofNullable(confirmationTriggerPosition);
 			return this;
 		}
 
@@ -164,11 +164,11 @@ public class NavigationInstruction {
 		}
 
 		private void validate() {
-			Preconditions.checkArgument(landmarkType.isPresent(), "landmarkType is mandatory but missing");
-			Preconditions.checkNotNull(preposition.isPresent(), "preposition is mandatory but missing");
-			Preconditions.checkNotNull(turnDirection.isPresent(), "turnDirection is mandatory but missing");
-			Preconditions.checkArgument(target.isPresent(), "target is mandatory but missing");
-			Preconditions.checkNotNull(turnTriggerPosition.isPresent(),
+			Preconditions.checkArgument(landmarkType != null, "landmarkType is mandatory but missing");
+			Preconditions.checkArgument(preposition != null, "preposition is mandatory but missing");
+			Preconditions.checkArgument(turnDirection != null, "turnDirection is mandatory but missing");
+			Preconditions.checkArgument(target != null, "target is mandatory but missing");
+			Preconditions.checkArgument(turnTriggerPosition != null,
 					"turnTriggerPosition is mandatory but missing");
 		}
 	}

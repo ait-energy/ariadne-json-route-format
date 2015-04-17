@@ -12,13 +12,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class GeoJSONFeatureCollection<T extends GeoJSONGeometryObject> {
 
-	public GeoJSONFeatureCollection() {
-	}
-
 	@JsonProperty(required = true)
 	public final GeoJSONType type = GeoJSONType.FeatureCollection;
 
 	@JsonProperty(required = true)
 	public List<GeoJSONFeature<T>> features = new ArrayList<>();
 
+	public GeoJSONFeatureCollection() {
+	}
+	
 }

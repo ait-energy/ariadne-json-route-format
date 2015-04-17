@@ -125,15 +125,15 @@ public class RouteSegment {
 	}
 
 	private RouteSegment(Builder builder) {
-		this.nr = builder.nr.get();
-		this.from = builder.from.get();
-		this.to = builder.to.get();
+		this.nr = builder.nr;
+		this.from = builder.from;
+		this.to = builder.to;
 		this.intermediateStops = builder.intermediateStops;
 		this.departureTime = builder.departureTime;
 		this.arrivalTime = builder.arrivalTime;
-		this.lengthMeters = builder.lengthMeters.get();
-		this.durationSeconds = builder.durationSeconds.get();
-		this.modeOfTransport = builder.modeOfTransport.get();
+		this.lengthMeters = builder.lengthMeters;
+		this.durationSeconds = builder.durationSeconds;
+		this.modeOfTransport = builder.modeOfTransport;
 		this.vehicle = builder.vehicle;
 		this.operator = builder.operator;
 		this.geometryEncodedPolyLine = builder.geometryEncodedPolyLine;
@@ -147,15 +147,15 @@ public class RouteSegment {
 	}
 
 	public static class Builder {
-		private Optional<Integer> nr = Optional.empty();
-		private Optional<Location> from = Optional.empty();
-		private Optional<Location> to = Optional.empty();
+		private Integer nr;
+		private Location from;
+		private Location to;
 		private List<Location> intermediateStops = new ArrayList<>();
 		private Optional<ZonedDateTime> departureTime = Optional.empty();
 		private Optional<ZonedDateTime> arrivalTime = Optional.empty();
-		private Optional<Integer> lengthMeters = Optional.empty();
-		private Optional<Integer> durationSeconds = Optional.empty();
-		private Optional<ModeOfTransport> modeOfTransport = Optional.empty();
+		private Integer lengthMeters;
+		private Integer durationSeconds;
+		private ModeOfTransport modeOfTransport;
 		private Optional<Vehicle> vehicle = Optional.empty();
 		private Optional<Operator> operator = Optional.empty();
 		private Optional<String> geometryEncodedPolyLine = Optional.empty();
@@ -164,17 +164,17 @@ public class RouteSegment {
 		private List<NavigationInstruction> navigationInstructions = new ArrayList<>();
 
 		public Builder withNr(int nr) {
-			this.nr = Optional.of(nr);
+			this.nr = nr;
 			return this;
 		}
 
 		public Builder withFrom(Location from) {
-			this.from = Optional.of(from);
+			this.from = from;
 			return this;
 		}
 
 		public Builder withTo(Location to) {
-			this.to = Optional.of(to);
+			this.to = to;
 			return this;
 		}
 
@@ -185,7 +185,7 @@ public class RouteSegment {
 
 		@JsonIgnore
 		public Builder withDepartureTime(ZonedDateTime departureTime) {
-			this.departureTime = Optional.of(departureTime);
+			this.departureTime = Optional.ofNullable(departureTime);
 			return this;
 		}
 		
@@ -197,7 +197,7 @@ public class RouteSegment {
 
         @JsonIgnore
 		public Builder withArrivalTime(ZonedDateTime arrivalTime) {
-			this.arrivalTime = Optional.of(arrivalTime);
+			this.arrivalTime = Optional.ofNullable(arrivalTime);
 			return this;
 		}
 		
@@ -208,17 +208,17 @@ public class RouteSegment {
         }
 
 		public Builder withLengthMeters(int lengthMeters) {
-			this.lengthMeters = Optional.of(lengthMeters);
+			this.lengthMeters = lengthMeters;
 			return this;
 		}
 
 		public Builder withDurationSeconds(int durationSeconds) {
-			this.durationSeconds = Optional.of(durationSeconds);
+			this.durationSeconds = durationSeconds;
 			return this;
 		}
 
 		public Builder withModeOfTransport(ModeOfTransport modeOfTransport) {
-			this.modeOfTransport = Optional.of(modeOfTransport);
+			this.modeOfTransport = modeOfTransport;
 			return this;
 		}
 
@@ -259,16 +259,16 @@ public class RouteSegment {
 		}
 
 		private void validate() {
-			Preconditions.checkArgument(nr.isPresent(), "nr is mandatory but missing");
-			Preconditions.checkArgument(from.isPresent(), "from is mandatory but missing");
-			Preconditions.checkArgument(to.isPresent(), "to is mandatory but missing");
-			Preconditions.checkArgument(lengthMeters.isPresent(), "lengthMeters is mandatory but missing");
-			Preconditions.checkArgument(durationSeconds.isPresent(), "durationSeconds is mandatory but missing");
-			Preconditions.checkArgument(modeOfTransport.isPresent(), "modeOfTransport is mandatory but missing");
+			Preconditions.checkArgument(nr != null, "nr is mandatory but missing");
+			Preconditions.checkArgument(from != null, "from is mandatory but missing");
+			Preconditions.checkArgument(to != null, "to is mandatory but missing");
+			Preconditions.checkArgument(lengthMeters != null, "lengthMeters is mandatory but missing");
+			Preconditions.checkArgument(durationSeconds != null, "durationSeconds is mandatory but missing");
+			Preconditions.checkArgument(modeOfTransport != null, "modeOfTransport is mandatory but missing");
 			
-			Preconditions.checkArgument(nr.get() > 0, "nr must be > 0, but was %s", nr.get());
-			Preconditions.checkArgument(lengthMeters.get() >= 0, "lengthMeters must be >= 0, but was %s", lengthMeters.get());
-			Preconditions.checkArgument(durationSeconds.get() >= 0, "durationSeconds must be >= 0, but was %s", durationSeconds.get());
+			Preconditions.checkArgument(nr > 0, "nr must be > 0, but was %s", nr);
+			Preconditions.checkArgument(lengthMeters >= 0, "lengthMeters must be >= 0, but was %s", lengthMeters);
+			Preconditions.checkArgument(durationSeconds >= 0, "durationSeconds must be >= 0, but was %s", durationSeconds);
 			
 			boolean geometryPresent = geometryEncodedPolyLine.isPresent() || geometryGeoJson.isPresent() || geometryGeoJsonEdges.isPresent();
 			Preconditions.checkArgument(geometryPresent, "at least one geometry must be present");

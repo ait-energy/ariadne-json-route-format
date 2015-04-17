@@ -42,7 +42,7 @@ public class Vehicle {
 	}
 	
 	private Vehicle(Builder b) {
-		this.type = b.type.get();
+		this.type = b.type;
 		this.electric = b.electric;
 		this.id = b.id;
 	}
@@ -52,12 +52,12 @@ public class Vehicle {
     }
 	
 	public static class Builder {
-		private Optional<VehicleType> type = Optional.empty();
+		private VehicleType type;
 		private Optional<Boolean> electric = Optional.empty();
 		private Optional<String> id = Optional.empty();
 		
         public Builder withType(VehicleType type) {
-            this.type = Optional.of(type);
+            this.type = type;
             return this;
         }
         
@@ -67,7 +67,7 @@ public class Vehicle {
         }
 
         public Builder withId(String id) {
-        	this.id = Optional.of(id);
+        	this.id = Optional.ofNullable(id);
         	return this;
         }
 
@@ -77,7 +77,7 @@ public class Vehicle {
         }
         
         private void validate() {
-        	Preconditions.checkArgument(type.isPresent(), "type is mandatory but missing");
+        	Preconditions.checkArgument(type != null, "type is mandatory but missing");
         }
 	}
 

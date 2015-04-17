@@ -11,6 +11,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class GeoJSONLineString implements GeoJSONGeometryObject {
 
+	@JsonProperty(required = true)
+	public final GeoJSONType type = GeoJSONType.LineString;
+
+	@JsonProperty(required = true)
+	/** pairs of coordinates: X and Y (=longitude and latitude) */
+	public List<List<BigDecimal>> coordinates = new ArrayList<>();
+	
 	public GeoJSONLineString() {
 	}
 	
@@ -18,12 +25,5 @@ public class GeoJSONLineString implements GeoJSONGeometryObject {
 		for(CoordinatePoint point : points)
 			coordinates.add(point.asNewList());
 	}
-
-	@JsonProperty(required = true)
-	public final GeoJSONType type = GeoJSONType.LineString;
-
-	@JsonProperty(required = true)
-	/** pairs of coordinates: X and Y (=longitude and latitude) */
-	public List<List<BigDecimal>> coordinates = new ArrayList<>();
 
 }

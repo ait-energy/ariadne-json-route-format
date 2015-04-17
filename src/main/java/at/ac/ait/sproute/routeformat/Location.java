@@ -183,8 +183,8 @@ public class Location {
 		}
 
 		private void validate() {
-			Preconditions.checkNotNull(type, "type may not be null");
-			Preconditions.checkNotNull(coordinate, "coordinate may not be null");
+			Preconditions.checkArgument(type != null, "type is mandatory but missing");
+			Preconditions.checkArgument(coordinate != null, "coordinate is mandatory but missing");
 			
 			if(type == LocationType.ADDRESS) {
 				Preconditions.checkArgument(housenumber.isPresent(), "housenumber is mandatory for addresses but missing");

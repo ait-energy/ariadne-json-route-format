@@ -64,8 +64,8 @@ public class Route {
 		this.to = builder.to;
 		this.departureTime = builder.departureTime;
 		this.arrivalTime = builder.arrivalTime;
-		this.lengthMeters = builder.lengthMeters.get();
-		this.durationSeconds = builder.durationSeconds.get();
+		this.lengthMeters = builder.lengthMeters;
+		this.durationSeconds = builder.durationSeconds;
 		this.segments = builder.segments;
 	}
 	
@@ -78,8 +78,8 @@ public class Route {
 		private Location to;
 		private Optional<ZonedDateTime> departureTime = Optional.empty();
 		private Optional<ZonedDateTime> arrivalTime = Optional.empty();
-		private Optional<Integer> lengthMeters = Optional.empty();
-		private Optional<Integer> durationSeconds = Optional.empty();
+		private Integer lengthMeters;
+		private Integer durationSeconds;
 		private List<RouteSegment> segments = new ArrayList<>();
 
 		public Builder withFrom(Location from) {
@@ -94,7 +94,7 @@ public class Route {
 
 		@JsonIgnore
 		public Builder withDepartureTime(ZonedDateTime departureTime) {
-			this.departureTime = Optional.of(departureTime);
+			this.departureTime = Optional.ofNullable(departureTime);
 			return this;
 		}
 		
@@ -106,7 +106,7 @@ public class Route {
 
         @JsonIgnore
 		public Builder withArrivalTime(ZonedDateTime arrivalTime) {
-			this.arrivalTime = Optional.of(arrivalTime);
+			this.arrivalTime = Optional.ofNullable(arrivalTime);
 			return this;
 		}
 		
@@ -117,12 +117,12 @@ public class Route {
         }
 
 		public Builder withLengthMeters(int lengthMeters) {
-			this.lengthMeters = Optional.of(lengthMeters);
+			this.lengthMeters = lengthMeters;
 			return this;
 		}
 
 		public Builder withDurationSeconds(int durationSeconds) {
-			this.durationSeconds = Optional.of(durationSeconds);
+			this.durationSeconds = durationSeconds;
 			return this;
 		}
 
@@ -137,13 +137,13 @@ public class Route {
 		}
 
 		private void validate() {
-			Preconditions.checkNotNull(from, "from is mandatory but missing");
-			Preconditions.checkNotNull(to, "to is mandatory but missing");
-			Preconditions.checkArgument(lengthMeters.isPresent(), "lengthMeters is mandatory but missing");
-			Preconditions.checkArgument(durationSeconds.isPresent(), "durationSeconds is mandatory but missing");
+			Preconditions.checkArgument(from != null, "from is mandatory but missing");
+			Preconditions.checkArgument(to != null, "to is mandatory but missing");
+			Preconditions.checkArgument(lengthMeters != null, "lengthMeters is mandatory but missing");
+			Preconditions.checkArgument(durationSeconds != null, "durationSeconds is mandatory but missing");
 			
-			Preconditions.checkArgument(lengthMeters.get() >= 0, "lengthMeters must be >= 0, but was %s", lengthMeters.get());
-			Preconditions.checkArgument(durationSeconds.get() >= 0, "durationSeconds must be >= 0, but was %s", durationSeconds.get());
+			Preconditions.checkArgument(lengthMeters >= 0, "lengthMeters must be >= 0, but was %s", lengthMeters);
+			Preconditions.checkArgument(durationSeconds >= 0, "durationSeconds must be >= 0, but was %s", durationSeconds);
 			
 			Preconditions.checkArgument(!segments.isEmpty(), "segments must not be empty");
 		}
