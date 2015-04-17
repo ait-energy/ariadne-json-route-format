@@ -19,7 +19,19 @@ import com.google.common.base.Preconditions;
 public class RouteFormatRoot {
 
 	public enum Status {
-		OK, INVALID_REQUEST, ERROR;
+		/**
+		 * Everything OK, route(s) are available.
+		 */
+		OK,
+		/**
+		 * Problems occurred when routing request parameters were parsed -
+		 * neither request nor routes are available.
+		 */
+		INVALID_REQUEST,
+		/**
+		 * Error while routing (or general error). No routes are available.
+		 */
+		ERROR;
 	}
 
 	private String requestId;
