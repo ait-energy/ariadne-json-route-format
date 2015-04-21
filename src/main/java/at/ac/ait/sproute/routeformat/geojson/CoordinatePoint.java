@@ -3,6 +3,7 @@ package at.ac.ait.sproute.routeformat.geojson;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * A coordinate independent of the coordinate reference system. (longitude=x,
@@ -13,8 +14,8 @@ import java.util.List;
 public class CoordinatePoint {
 
 	public CoordinatePoint(double x, double y) {
-		this.x = new BigDecimal(String.format("%.7f", x));
-		this.y = new BigDecimal(String.format("%.7f", y));
+		this.x = new BigDecimal(String.format(Locale.US, "%.7f", x));
+		this.y = new BigDecimal(String.format(Locale.US, "%.7f", y));
 	}
 
 	public CoordinatePoint(BigDecimal x, BigDecimal y) {
