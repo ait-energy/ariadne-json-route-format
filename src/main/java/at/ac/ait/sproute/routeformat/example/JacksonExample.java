@@ -23,7 +23,6 @@ import at.ac.ait.sproute.routeformat.geojson.GeoJSONFeatureCollection;
 import at.ac.ait.sproute.routeformat.geojson.GeoJSONLineString;
 import at.ac.ait.sproute.routeformat.geojson.GeoJSONPoint;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -122,8 +121,6 @@ public class JacksonExample {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.registerModule(new Jdk8Module());
 		mapper.enable(SerializationFeature.INDENT_OUTPUT);
-		mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-		mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
 		
 		System.out.println(mapper.writeValueAsString(root));
 		mapper.writeValue(new File(exampleFile), root);

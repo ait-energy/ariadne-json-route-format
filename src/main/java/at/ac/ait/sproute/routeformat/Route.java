@@ -8,7 +8,9 @@ import java.util.Optional;
 import at.ac.ait.sproute.routeformat.Route.Builder;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Preconditions;
 
@@ -16,6 +18,7 @@ import com.google.common.base.Preconditions;
  * @author AIT Austrian Institute of Technology GmbH
  */
 @JsonDeserialize(builder = Builder.class)
+@JsonInclude(Include.NON_EMPTY)
 public class Route {
 
 	private Location from;

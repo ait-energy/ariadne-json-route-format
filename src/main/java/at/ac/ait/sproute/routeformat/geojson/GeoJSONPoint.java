@@ -4,11 +4,14 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 /**
  * @author AIT Austrian Institute of Technology GmbH
  */
+@JsonInclude(Include.ALWAYS)
 public class GeoJSONPoint implements GeoJSONGeometryObject{
 
 	@JsonProperty(required = true)

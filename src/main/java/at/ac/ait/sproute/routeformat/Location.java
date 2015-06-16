@@ -8,6 +8,8 @@ import at.ac.ait.sproute.routeformat.Location.Builder;
 import at.ac.ait.sproute.routeformat.geojson.GeoJSONFeature;
 import at.ac.ait.sproute.routeformat.geojson.GeoJSONPoint;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Preconditions;
@@ -16,6 +18,7 @@ import com.google.common.base.Preconditions;
  * @author AIT Austrian Institute of Technology GmbH
  */
 @JsonDeserialize(builder = Builder.class)
+@JsonInclude(Include.NON_EMPTY)
 public class Location {
 
 	public enum LocationType {
