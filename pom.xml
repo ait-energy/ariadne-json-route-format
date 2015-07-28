@@ -17,6 +17,12 @@
 
 	<description>JSON exchange format for routes developed by the Austrian Institute of Technology and Fluidtime</description>
 
+	<scm>
+		<url>https://github.com/dts-ait/sproute-json-route-format</url>
+		<connection>scm:git:git://github.com/dts-ait/sproute-json-route-format.git</connection>
+		<developerConnection>scm:git:git@github.com:dts-ait/sproute-json-route-format.git</developerConnection>
+	</scm>
+
 	<!-- only a temporary solution - we should release to maven central! -->
 	<distributionManagement>
 		<repository>
