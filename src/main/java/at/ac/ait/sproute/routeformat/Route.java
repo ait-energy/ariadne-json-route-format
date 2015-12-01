@@ -21,6 +21,12 @@ import com.google.common.base.Preconditions;
 @JsonInclude(Include.NON_EMPTY)
 public class Route {
 
+	//FIXME optional ID
+	//FIXME interface revision ???
+	//FIXME optional energy consumption
+	//FIXME bounding box
+	//FIXME simplified encoded polyline of the trip
+	//FIXME Optional<String> description - general note about the route
 	private Location from;
 	private Location to;
 	private Optional<ZonedDateTime> departureTime;

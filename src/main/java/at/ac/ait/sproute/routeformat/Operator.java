@@ -15,13 +15,14 @@ import com.google.common.base.Preconditions;
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */
-@JsonDeserialize(builder=Builder.class)
+@JsonDeserialize(builder = Builder.class)
 @JsonInclude(Include.NON_EMPTY)
 public class Operator {
 
 	private String name;
 	private Optional<String> phoneNumber;
 	private Optional<String> website;
+	private Optional<String> description;
 
 	@JsonProperty(required = true)
 	public String getName() {
@@ -36,21 +37,36 @@ public class Operator {
 		return website;
 	}
 
+	/**
+	 * @return additional information to be provided to the user
+	 */
+	public Optional<String> getDescription() {
+		return description;
+	}
+
 	private Operator(Builder builder) {
 		this.name = builder.name;
 		this.phoneNumber = builder.phoneNumber;
 		this.website = builder.website;
+		this.description = builder.description;
 	}
 
-    public static Builder builder() {
-        return new Builder();
-    }
-	
+	@Override
+	public String toString() {
+		return "Operator [name=" + name + ", phoneNumber=" + phoneNumber + ", website=" + website + ", description="
+				+ description + "]";
+	}
+
+	public static Builder builder() {
+		return new Builder();
+	}
+
 	public static class Builder {
 
 		private String name;
 		private Optional<String> phoneNumber = Optional.empty();
 		private Optional<String> website = Optional.empty();
+		private Optional<String> description = Optional.empty();
 
 		public Builder withName(String name) {
 			this.name = name;
@@ -67,14 +83,19 @@ public class Operator {
 			return this;
 		}
 
+		public Builder withDescription(String description) {
+			this.description = Optional.of(description);
+			return this;
+		}
+
 		public Operator build() {
 			validate();
 			return new Operator(this);
 		}
 
-        private void validate() {
-        	Preconditions.checkArgument(name != null, "name is mandatory but missing");
-        }
+		private void validate() {
+			Preconditions.checkArgument(name != null, "name is mandatory but missing");
+		}
 	}
 
 }

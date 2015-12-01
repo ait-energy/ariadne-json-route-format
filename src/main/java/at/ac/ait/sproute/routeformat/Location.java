@@ -16,6 +16,7 @@ import com.google.common.base.Preconditions;
 
 /**
  * @author AIT Austrian Institute of Technology GmbH
+ * FIXME: Location should only contain a position, other details in subclasses (e.g. Address)
  */
 @JsonDeserialize(builder = Builder.class)
 @JsonInclude(Include.NON_EMPTY)
@@ -96,7 +97,7 @@ public class Location {
 	public static Builder builder() {
 		return new Builder();
 	}
-	
+
 	private Location(Builder builder) {
 		this.type = builder.type;
 		this.coordinate = builder.coordinate;
@@ -188,15 +189,18 @@ public class Location {
 		private void validate() {
 			Preconditions.checkArgument(type != null, "type is mandatory but missing");
 			Preconditions.checkArgument(coordinate != null, "coordinate is mandatory but missing");
-			
-			if(type == LocationType.ADDRESS) {
-				Preconditions.checkArgument(housenumber.isPresent(), "housenumber is mandatory for addresses but missing");
-				Preconditions.checkArgument(streetname.isPresent(), "streetname is mandatory for addresses but missing");
-			} else if(type == LocationType.POI) {
+
+			if (type == LocationType.ADDRESS) {
+				Preconditions.checkArgument(housenumber.isPresent(),
+						"housenumber is mandatory for addresses but missing");
+				Preconditions
+						.checkArgument(streetname.isPresent(), "streetname is mandatory for addresses but missing");
+			} else if (type == LocationType.POI) {
 				Preconditions.checkArgument(name.isPresent(), "name is mandatory for POIs but missing");
 				Preconditions.checkArgument(poiType.isPresent(), "poiType is mandatory for POIs but missing");
-			} else if(type == LocationType.PUBLIC_TRANSPORT_STOP) {
-				Preconditions.checkArgument(name.isPresent(), "name is mandatory for public transport stops but missing");
+			} else if (type == LocationType.PUBLIC_TRANSPORT_STOP) {
+				Preconditions.checkArgument(name.isPresent(),
+						"name is mandatory for public transport stops but missing");
 			}
 		}
 	}

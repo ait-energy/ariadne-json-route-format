@@ -14,9 +14,12 @@ import com.google.common.base.Preconditions;
 
 /**
  * @author AIT Austrian Institute of Technology GmbH
+ * 
+ * @deprecated will be completely redesigned
  */
 @JsonDeserialize(builder = Builder.class)
 @JsonInclude(Include.NON_EMPTY)
+@Deprecated
 public class NavigationInstruction {
 
 	public enum Preposition {
@@ -36,12 +39,12 @@ public class NavigationInstruction {
 		//
 		PUBLIC_TRANSPORT_BOARD, PUBLIC_TRANSPORT_ALIGHT, PUBLIC_TRANSPORT_STAY
 	};
-
+	 //FIXME  ROUNDABOUT_FOURTH ect..._EXIT?
 	private String landmarkType;
-	private Optional<String> landmarkName;
+	private Optional<String> landmarkName; //FIXME could be of Type Location?
 	private Preposition preposition;
-	private Direction turnDirection;
-	private String target;
+	private Direction turnDirection;  //FIXME bearing in degree
+	private String target; //FIXME could be of Type Location?
 	private Optional<Integer> metersToNextDecisionPoint;
 	private GeoJSONFeature<GeoJSONPoint> turnTriggerPosition;
 	private Optional<GeoJSONFeature<GeoJSONPoint>> previewTriggerPosition;

@@ -33,10 +33,11 @@ public class RouteSegment {
 		FOOT, BICYCLE, MOTORCYCLE, CAR, PUBLIC_TRANSPORT;
 	};
 
+	//FIXME optional energy consumption
 	private int nr;
 	private Location from;
 	private Location to;
-	private List<Location> intermediateStops; 
+	private List<Location> intermediateStops; //FIXME the arrival and departure of each stop (planned + estimated)
 	private Optional<ZonedDateTime> departureTime;
 	private Optional<ZonedDateTime> arrivalTime;
 	private int lengthMeters;

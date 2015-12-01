@@ -103,7 +103,7 @@ public class JacksonExample {
 				.withDepartureTime(departureTime).withLengthMeters(lengthMeters)
 				.withDurationSeconds(durationSeconds).withSegments(Arrays.asList(segment)).build();
 		
-		RoutingRequest request = RoutingRequest.builder().withContextName("OSM_test").withFrom(giefinggasse)
+		RoutingRequest request = RoutingRequest.builder().withServiceId("OSM_test").withFrom(giefinggasse)
 				.withTo(richardneutragasse).withModesOfTransport(Sets.newHashSet(ModeOfTransport.BICYCLE))
 				.withOptimizedFor("traveltime").build();
 
