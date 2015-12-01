@@ -1,18 +1,19 @@
 package at.ac.ait.sproute.routeformat;
 
+import java.time.ZonedDateTime;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
+
 import at.ac.ait.sproute.routeformat.RouteSegment.ModeOfTransport;
 import at.ac.ait.sproute.routeformat.RoutingRequest.Builder;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Preconditions;
-
-import java.time.ZonedDateTime;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
 
 /**
  * @author AIT Austrian Institute of Technology GmbH

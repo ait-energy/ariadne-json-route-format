@@ -1,13 +1,14 @@
 package at.ac.ait.sproute.routeformat;
 
+import java.util.Optional;
+
 import at.ac.ait.sproute.routeformat.Vehicle.Builder;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Preconditions;
-
-import java.util.Optional;
 
 /**
  * @author AIT Austrian Institute of Technology GmbH
