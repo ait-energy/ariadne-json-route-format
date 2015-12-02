@@ -2,42 +2,101 @@ package at.ac.ait.sproute.routeformat.instruction;
 
 import java.util.Optional;
 
+import at.ac.ait.sproute.routeformat.instruction.RoundaboutInstruction.Builder;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 /**
  * @author AIT Austrian Institute of Technology GmbH
  */
+@JsonDeserialize(builder = Builder.class)
+@JsonInclude(Include.NON_EMPTY)
 public class RoundaboutInstruction implements Instruction {
 
-	public enum Type {
+	public enum SubType {
 		ENTER, EXIT
 	}
 
-	public final Type type;
-	public final Optional<String> ontoStreetName;
-	public final Optional<FormOfWay> ontoFormOfWay;
-	public final Optional<Integer> exitNr;
+	private SubType subType;
+	private Optional<String> ontoStreetName;
+	private Optional<FormOfWay> ontoFormOfWay;
+	private Optional<Integer> exitNr;
 
-	public static RoundaboutInstruction newEnterInstruction(Optional<String> ontoStreetName,
-			Optional<FormOfWay> ontoFormOfWay, int exitNr) {
-		Type type = Type.ENTER;
-		return new RoundaboutInstruction(type, ontoStreetName, ontoFormOfWay, Optional.of(exitNr));
+	public SubType getSubType() {
+		return subType;
 	}
 
-	public static RoundaboutInstruction newExitInstruction(Optional<String> ontoStreetName,
-			Optional<FormOfWay> ontoFormOfWay) {
-		Type type = Type.EXIT;
-		Optional<Integer> exitNr = Optional.empty();
-		return new RoundaboutInstruction(type, ontoStreetName, ontoFormOfWay, exitNr);
+	public Optional<String> getOntoStreetName() {
+		return ontoStreetName;
 	}
 
-	private RoundaboutInstruction(Type type, Optional<String> ontoStreetName, Optional<FormOfWay> ontoFormOfWay,
-			Optional<Integer> exitNr) {
-		if (!ontoStreetName.isPresent() && !ontoFormOfWay.isPresent())
-			throw new IllegalArgumentException("at least one onto-type is required");
+	public Optional<FormOfWay> getOntoFormOfWay() {
+		return ontoFormOfWay;
+	}
 
-		this.type = type;
-		this.ontoStreetName = ontoStreetName;
-		this.ontoFormOfWay = ontoFormOfWay;
-		this.exitNr = exitNr;
+	public Optional<Integer> getExitNr() {
+		return exitNr;
+	}
+
+	private RoundaboutInstruction(Builder builder) {
+		this.subType = builder.subType;
+		this.ontoStreetName = builder.ontoStreetName;
+		this.ontoFormOfWay = builder.ontoFormOfWay;
+		this.exitNr = builder.exitNr;
+	}
+	
+	public static Builder builder() {
+		return new Builder();
+	}
+	
+	public static Builder enterBuilder() {
+		return new Builder().withSubType(SubType.ENTER);
+	}
+	
+	public static Builder exitBuilder() {
+		return new Builder().withSubType(SubType.EXIT);
+	}
+
+	public static class Builder {
+
+		private SubType subType;
+		private Optional<String> ontoStreetName = Optional.empty();
+		private Optional<FormOfWay> ontoFormOfWay = Optional.empty();
+		private Optional<Integer> exitNr = Optional.empty();
+
+		public Builder withSubType(SubType subType) {
+			this.subType = subType;
+			return this;
+		}
+
+		public Builder withOntoStreetName(String ontoStreetName) {
+			this.ontoStreetName = Optional.of(ontoStreetName);
+			return this;
+		}
+
+		public Builder withOntoFormOfWay(FormOfWay ontoFormOfWay) {
+			this.ontoFormOfWay = Optional.of(ontoFormOfWay);
+			return this;
+		}
+
+		public Builder withExitNr(int exitNr) {
+			this.exitNr = Optional.of(exitNr);
+			return this;
+		}
+
+		public RoundaboutInstruction build() {
+			validate();
+			return new RoundaboutInstruction(this);
+		}
+
+		private void validate() {
+			if (!ontoStreetName.isPresent() && !ontoFormOfWay.isPresent())
+				throw new IllegalArgumentException("at least one onto-type is required");
+			if (subType.equals(SubType.ENTER) && !exitNr.isPresent())
+				throw new IllegalArgumentException("exit nr is required for enter-instructions");
+		}
 	}
 
 }

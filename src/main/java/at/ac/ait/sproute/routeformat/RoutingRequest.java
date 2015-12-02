@@ -43,7 +43,7 @@ public class RoutingRequest {
 	 * Defines which routing service (a combination of maps, timeseries,..) will be / was used for routing
 	 */
 	@JsonProperty(required = true)
-	public String getServideId() {
+	public String getServiceId() {
 		return serviceId;
 	}
 

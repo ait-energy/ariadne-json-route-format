@@ -9,6 +9,7 @@ import at.ac.ait.sproute.routeformat.RouteSegment.Builder;
 import at.ac.ait.sproute.routeformat.geojson.GeoJSONFeature;
 import at.ac.ait.sproute.routeformat.geojson.GeoJSONFeatureCollection;
 import at.ac.ait.sproute.routeformat.geojson.GeoJSONLineString;
+import at.ac.ait.sproute.routeformat.instruction.Instruction;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -48,7 +49,7 @@ public class RouteSegment {
 	private Optional<String> geometryEncodedPolyLine;
 	private Optional<GeoJSONFeature<GeoJSONLineString>> geometryGeoJson;
 	private Optional<GeoJSONFeatureCollection<GeoJSONLineString>> geometryGeoJsonEdges;
-	private List<NavigationInstruction> navigationInstructions = new ArrayList<>();
+	private List<Instruction> navigationInstructions = new ArrayList<>();
 
 	/** number of the segment in the route (starts with 1) */
 	@JsonProperty(required = true)
@@ -124,7 +125,7 @@ public class RouteSegment {
 		return geometryGeoJsonEdges;
 	}
 
-	public List<NavigationInstruction> getNavigationInstructions() {
+	public List<Instruction> getNavigationInstructions() {
 		return navigationInstructions;
 	}
 
@@ -165,7 +166,7 @@ public class RouteSegment {
 		private Optional<String> geometryEncodedPolyLine = Optional.empty();
 		private Optional<GeoJSONFeature<GeoJSONLineString>> geometryGeoJson = Optional.empty();
 		private Optional<GeoJSONFeatureCollection<GeoJSONLineString>> geometryGeoJsonEdges = Optional.empty();
-		private List<NavigationInstruction> navigationInstructions = new ArrayList<>();
+		private List<Instruction> navigationInstructions = new ArrayList<>();
 
 		public Builder withNr(int nr) {
 			this.nr = nr;
@@ -252,7 +253,7 @@ public class RouteSegment {
 			return this;
 		}
 
-		public Builder withNavigationInstructions(List<NavigationInstruction> navigationInstructions) {
+		public Builder withNavigationInstructions(List<Instruction> navigationInstructions) {
 			this.navigationInstructions = new ArrayList<>(navigationInstructions);
 			return this;
 		}
