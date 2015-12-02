@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import at.ac.ait.sproute.routeformat.Location;
 import at.ac.ait.sproute.routeformat.Location.LocationType;
@@ -23,6 +24,7 @@ import at.ac.ait.sproute.routeformat.geojson.GeoJSONFeature;
 import at.ac.ait.sproute.routeformat.geojson.GeoJSONFeatureCollection;
 import at.ac.ait.sproute.routeformat.geojson.GeoJSONLineString;
 import at.ac.ait.sproute.routeformat.geojson.GeoJSONPoint;
+import at.ac.ait.sproute.routeformat.instruction.BasicRoadInstruction;
 import at.ac.ait.sproute.routeformat.instruction.FormOfWay;
 import at.ac.ait.sproute.routeformat.instruction.Instruction;
 import at.ac.ait.sproute.routeformat.instruction.RoundaboutInstruction;
@@ -101,6 +103,10 @@ public class JacksonExample {
 		geometryGeoJsonEdges.features.add(paukerwerkgasseJson);
 
 		List<Instruction> navigationInstructions = new ArrayList<>();
+		navigationInstructions
+				.add(BasicRoadInstruction.builder()
+						.forRouteEnd(Optional.of("Hügelweg"), Optional.of(FormOfWay.PEDESTRIAN_ZONE), Optional.empty())
+						.build());
 		navigationInstructions.add(RoundaboutInstruction.builder().withSubType(SubType.ENTER)
 				.withOntoStreetName("Bergstraße").withOntoFormOfWay(FormOfWay.CYCLEPATH).withExitNr(3).build());
 

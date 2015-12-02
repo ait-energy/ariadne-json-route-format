@@ -2,13 +2,20 @@ package at.ac.ait.sproute.routeformat.instruction;
 
 import java.util.Optional;
 
+import at.ac.ait.sproute.routeformat.instruction.BasicRoadInstruction.Builder;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.google.common.base.Preconditions;
+
 /**
  * A {@link BasicRoadInstruction} contains episodes with classic-style turn navigations for street-based modes of
  * transport such as walking, cycling and driving (keep straight, turn left/right, make a u-turn). Most fields are
  * optional, but at least one of {@link #ontoStreetName} and {@link #ontoFormOfWay} is guaranteed to be available.
  * <p>
- * Exemplary EBNF of how this instruction can be transformed into human-readable text. Elements ending with STRING are
- * terminal (not defined any further).
+ * Exemplary EBNF of how this instruction can be transformed into human-readable text and what's mandatory / optional.
+ * Elements ending with STRING are terminal (not defined any further).
  * 
  * <pre>
  * {@code
@@ -36,94 +43,217 @@ import java.util.Optional;
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */
+@JsonDeserialize(builder = Builder.class)
+@JsonInclude(Include.NON_EMPTY)
 public class BasicRoadInstruction implements Instruction {
 
-	public enum Type {
+	public enum SubType {
 		ROUTE_START, ROUTE_END, STRAIGHT, TURN, U_TURN
 	}
 
-	public final Type type;
-	public final Optional<TurnDirection> turnDirection;
-	public final Optional<CompassDirection> compassDirection;
+	private final SubType subType;
+	private final Optional<TurnDirection> turnDirection;
+	private final Optional<CompassDirection> compassDirection;
 	/** road name or type has changed */
-	public final Optional<Boolean> roadChange;
-	public final Optional<String> ontoStreetName;
-	public final Optional<FormOfWay> ontoFormOfWay;
-	public final Optional<Integer> continueMeters, continueSeconds;
-	public final Optional<Landmark> turnLandmark, continueLandmark;
+	private final Optional<Boolean> roadChange;
+	private final Optional<String> ontoStreetName;
+	private final Optional<FormOfWay> ontoFormOfWay;
+	private final Optional<Integer> continueMeters, continueSeconds;
+	private final Optional<Landmark> turnLandmark, continueLandmark;
 
-	/**
-	 * Create a new {@link BasicRoadInstruction} for straight and (u-)turns
-	 */
-	public static BasicRoadInstruction newInstruction(TurnDirection turnDirection, boolean roadChange,
-			Optional<String> ontoStreetName, Optional<FormOfWay> ontoFormOfWay, Optional<Integer> continueMeters,
-			Optional<Integer> continueSeconds, Optional<Landmark> turnLandmark, Optional<Landmark> continueLandmark) {
-		Type type = getType(turnDirection);
-		Optional<CompassDirection> compassDirection = Optional.empty();
-		return new BasicRoadInstruction(type, Optional.of(turnDirection), compassDirection, Optional.of(roadChange),
-				ontoStreetName, ontoFormOfWay, continueMeters, continueSeconds, turnLandmark, continueLandmark);
+	public SubType getSubType() {
+		return subType;
 	}
 
-	/**
-	 * @param compassDirection
-	 *            the direction in which the route is starting
-	 * @param turnLandmark
-	 *            the landmark we are starting at
-	 * @param continueLandmark
-	 *            the landmark we are heading towards
-	 */
-	public static BasicRoadInstruction newRouteStartInstruction(CompassDirection compassDirection,
-			Optional<String> ontoStreetName, Optional<FormOfWay> ontoFormOfWay, Optional<Integer> continueMeters,
-			Optional<Integer> continueSeconds, Optional<Landmark> turnLandmark, Optional<Landmark> continueLandmark) {
-		Type type = Type.ROUTE_START;
-		Optional<TurnDirection> turnDirection = Optional.empty();
-		Optional<Boolean> roadChange = Optional.empty();
-		return new BasicRoadInstruction(type, turnDirection, Optional.of(compassDirection), roadChange, ontoStreetName,
-				ontoFormOfWay, continueMeters, continueSeconds, turnLandmark, continueLandmark);
+	public Optional<TurnDirection> getTurnDirection() {
+		return turnDirection;
 	}
 
-	/**
-	 * @param turnLandmark
-	 *            the landmark where the route ends
-	 */
-	public static BasicRoadInstruction newRouteEndInstruction(Optional<String> ontoStreetName,
-			Optional<FormOfWay> ontoFormOfWay, Optional<Landmark> turnLandmark) {
-		Type type = Type.ROUTE_END;
-		Optional<TurnDirection> turnDirection = Optional.empty();
-		Optional<CompassDirection> compassDirection = Optional.empty();
-		Optional<Boolean> roadChange = Optional.empty();
-		Optional<Integer> continueMeters = Optional.empty();
-		Optional<Integer> continueSeconds = Optional.empty();
-		Optional<Landmark> continueLandmark = Optional.empty();
-		return new BasicRoadInstruction(type, turnDirection, compassDirection, roadChange, ontoStreetName,
-				ontoFormOfWay, continueMeters, continueSeconds, turnLandmark, continueLandmark);
+	public Optional<CompassDirection> getCompassDirection() {
+		return compassDirection;
 	}
 
-	private BasicRoadInstruction(Type type, Optional<TurnDirection> turnDirection,
-			Optional<CompassDirection> compassDirection, Optional<Boolean> roadChange, Optional<String> ontoStreetName,
-			Optional<FormOfWay> ontoFormOfWay, Optional<Integer> continueMeters, Optional<Integer> continueSeconds,
-			Optional<Landmark> turnLandmark, Optional<Landmark> continueLandmark) {
-		if (!ontoStreetName.isPresent() && !ontoFormOfWay.isPresent())
-			throw new IllegalArgumentException("at least one onto-type is required");
-		this.type = type;
-		this.turnDirection = turnDirection;
-		this.compassDirection = compassDirection;
-		this.roadChange = roadChange;
-		this.ontoStreetName = ontoStreetName;
-		this.ontoFormOfWay = ontoFormOfWay;
-		this.continueMeters = continueMeters;
-		this.continueSeconds = continueSeconds;
-		this.turnLandmark = turnLandmark;
-		this.continueLandmark = continueLandmark;
+	public Optional<Boolean> getRoadChange() {
+		return roadChange;
 	}
 
-	private static Type getType(TurnDirection turnDirection) {
+	public Optional<String> getOntoStreetName() {
+		return ontoStreetName;
+	}
+
+	public Optional<FormOfWay> getOntoFormOfWay() {
+		return ontoFormOfWay;
+	}
+
+	public Optional<Integer> getContinueMeters() {
+		return continueMeters;
+	}
+
+	public Optional<Integer> getContinueSeconds() {
+		return continueSeconds;
+	}
+
+	public Optional<Landmark> getTurnLandmark() {
+		return turnLandmark;
+	}
+
+	public Optional<Landmark> getContinueLandmark() {
+		return continueLandmark;
+	}
+
+	private BasicRoadInstruction(Builder builder) {
+		this.subType = builder.subType;
+		this.turnDirection = builder.turnDirection;
+		this.compassDirection = builder.compassDirection;
+		this.roadChange = builder.roadChange;
+		this.ontoStreetName = builder.ontoStreetName;
+		this.ontoFormOfWay = builder.ontoFormOfWay;
+		this.continueMeters = builder.continueMeters;
+		this.continueSeconds = builder.continueSeconds;
+		this.turnLandmark = builder.turnLandmark;
+		this.continueLandmark = builder.continueLandmark;
+	}
+
+	public static Builder builder() {
+		return new Builder();
+	}
+
+	public static class Builder {
+		private SubType subType;
+		private Optional<TurnDirection> turnDirection = Optional.empty();
+		private Optional<CompassDirection> compassDirection = Optional.empty();
+		private Optional<Boolean> roadChange = Optional.empty();
+		private Optional<String> ontoStreetName = Optional.empty();
+		private Optional<FormOfWay> ontoFormOfWay = Optional.empty();
+		private Optional<Integer> continueMeters = Optional.empty(), continueSeconds = Optional.empty();;
+		private Optional<Landmark> turnLandmark = Optional.empty(), continueLandmark = Optional.empty();
+
+		public Builder withSubType(SubType subType) {
+			this.subType = subType;
+			return this;
+		}
+
+		public Builder withTurnDirection(TurnDirection turnDirection) {
+			this.turnDirection = Optional.of(turnDirection);
+			return this;
+		}
+
+		public Builder withCompassDirection(CompassDirection compassDirection) {
+			this.compassDirection = Optional.of(compassDirection);
+			return this;
+		}
+
+		public Builder withRoadChange(boolean roadChange) {
+			this.roadChange = Optional.of(roadChange);
+			return this;
+		}
+
+		public Builder withOntoStreetName(String ontoStreetName) {
+			this.ontoStreetName = Optional.of(ontoStreetName);
+			return this;
+		}
+
+		public Builder withOntoFormOfWay(FormOfWay ontoFormOfWay) {
+			this.ontoFormOfWay = Optional.of(ontoFormOfWay);
+			return this;
+		}
+
+		public Builder withContinueMeters(int continueMeters) {
+			this.continueMeters = Optional.of(continueMeters);
+			return this;
+		}
+
+		public Builder withContinueSeconds(int continueSeconds) {
+			this.continueSeconds = Optional.of(continueSeconds);
+			return this;
+		}
+
+		public Builder withTurnLandmark(Landmark turnLandmark) {
+			this.turnLandmark = Optional.of(turnLandmark);
+			return this;
+		}
+
+		public Builder withContinueLandmark(Landmark continueLandmark) {
+			this.continueLandmark = Optional.of(continueLandmark);
+			return this;
+		}
+
+		/**
+		 * Set all attributes useful for a {@link SubType#ROUTE_START}
+		 * 
+		 * @param compassDirection
+		 *            the direction in which the route is starting
+		 * @param turnLandmark
+		 *            the landmark we are starting at
+		 * @param continueLandmark
+		 *            the landmark we are heading towards
+		 */
+		public Builder forRouteStart(CompassDirection compassDirection, Optional<String> ontoStreetName,
+				Optional<FormOfWay> ontoFormOfWay, Optional<Integer> continueMeters, Optional<Integer> continueSeconds,
+				Optional<Landmark> turnLandmark, Optional<Landmark> continueLandmark) {
+			this.subType = SubType.ROUTE_START;
+			this.compassDirection = Optional.of(compassDirection);
+			this.ontoStreetName = ontoStreetName;
+			this.ontoFormOfWay = ontoFormOfWay;
+			this.continueMeters = continueMeters;
+			this.continueSeconds = continueSeconds;
+			this.turnLandmark = turnLandmark;
+			this.continueLandmark = continueLandmark;
+			return this;
+		}
+
+		/**
+		 * Set all attributes useful for a going straight and turning
+		 */
+		public Builder forNormalInstruction(TurnDirection turnDirection, boolean roadChange,
+				Optional<String> ontoStreetName, Optional<FormOfWay> ontoFormOfWay, Optional<Integer> continueMeters,
+				Optional<Integer> continueSeconds, Optional<Landmark> turnLandmark, Optional<Landmark> continueLandmark) {
+			this.subType = getSubType(turnDirection);
+			this.turnDirection = Optional.of(turnDirection);
+			this.roadChange = Optional.of(roadChange);
+			this.ontoStreetName = ontoStreetName;
+			this.ontoFormOfWay = ontoFormOfWay;
+			this.continueMeters = continueMeters;
+			this.continueSeconds = continueSeconds;
+			this.turnLandmark = turnLandmark;
+			this.continueLandmark = continueLandmark;
+			return this;
+		}
+
+		/**
+		 * Set all attributes useful for a {@link SubType#ROUTE_END}
+		 * 
+		 * @param turnLandmark
+		 *            the landmark where the route ends
+		 */
+		public Builder forRouteEnd(Optional<String> ontoStreetName, Optional<FormOfWay> ontoFormOfWay,
+				Optional<Landmark> turnLandmark) {
+			this.subType = SubType.ROUTE_END;
+			this.ontoStreetName = ontoStreetName;
+			this.ontoFormOfWay = ontoFormOfWay;
+			this.turnLandmark = turnLandmark;
+			return this;
+		}
+
+		public BasicRoadInstruction build() {
+			validate();
+			return new BasicRoadInstruction(this);
+		}
+
+		private void validate() {
+			Preconditions.checkNotNull(subType, "subType is mandatory");
+			Preconditions.checkArgument(ontoStreetName.isPresent() || ontoFormOfWay.isPresent(),
+					"at least one onto-type is required");
+		}
+	}
+
+	private static SubType getSubType(TurnDirection turnDirection) {
 		if (turnDirection == TurnDirection.U_TURN)
-			return Type.U_TURN;
+			return SubType.U_TURN;
 		else if (turnDirection == TurnDirection.STRAIGHT)
-			return Type.STRAIGHT;
+			return SubType.STRAIGHT;
 		else
-			return Type.TURN;
+			return SubType.TURN;
 	}
 
 }
