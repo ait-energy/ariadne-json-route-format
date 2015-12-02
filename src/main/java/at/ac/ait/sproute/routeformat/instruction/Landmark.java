@@ -1,6 +1,8 @@
 package at.ac.ait.sproute.routeformat.instruction;
 
 /**
+ * TODO replace with Location?
+ * 
  * @author AIT Austrian Institute of Technology GmbH
  */
 public class Landmark {

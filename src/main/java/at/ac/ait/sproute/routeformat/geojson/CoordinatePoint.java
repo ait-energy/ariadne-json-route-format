@@ -6,8 +6,9 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * A coordinate independent of the coordinate reference system. (longitude=x,
- * latitude=y)
+ * A coordinate independent of the coordinate reference system.
+ * <p>
+ * Note for using WGS84: longitude=x, latitude=y
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */

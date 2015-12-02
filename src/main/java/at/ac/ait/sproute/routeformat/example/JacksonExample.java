@@ -103,11 +103,11 @@ public class JacksonExample {
 		geometryGeoJsonEdges.features.add(paukerwerkgasseJson);
 
 		List<Instruction> navigationInstructions = new ArrayList<>();
-		navigationInstructions
-				.add(BasicRoadInstruction.builder()
-						.forRouteEnd(Optional.of("Hügelweg"), Optional.of(FormOfWay.PEDESTRIAN_ZONE), Optional.empty())
-						.build());
-		navigationInstructions.add(RoundaboutInstruction.builder().withSubType(SubType.ENTER)
+		navigationInstructions.add(BasicRoadInstruction
+				.builder()
+				.forRouteEnd(routeGeometry.getFirst(), Optional.of("Hügelweg"), Optional.of(FormOfWay.PEDESTRIAN_ZONE),
+						Optional.empty()).build());
+		navigationInstructions.add(RoundaboutInstruction.enterBuilder(routeGeometry.getFirst())
 				.withOntoStreetName("Bergstraße").withOntoFormOfWay(FormOfWay.CYCLEPATH).withExitNr(3).build());
 
 		RouteSegment segment = RouteSegment.builder().withNr(1).withFrom(giefinggasse).withTo(richardneutragasse)
