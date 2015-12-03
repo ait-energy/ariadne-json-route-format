@@ -28,7 +28,6 @@ import at.ac.ait.sproute.routeformat.instruction.BasicRoadInstruction;
 import at.ac.ait.sproute.routeformat.instruction.FormOfWay;
 import at.ac.ait.sproute.routeformat.instruction.Instruction;
 import at.ac.ait.sproute.routeformat.instruction.RoundaboutInstruction;
-import at.ac.ait.sproute.routeformat.instruction.RoundaboutInstruction.SubType;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
