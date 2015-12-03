@@ -2,6 +2,9 @@ package at.ac.ait.sproute.routeformat.instruction;
 
 import java.util.Optional;
 
+import at.ac.ait.sproute.routeformat.Sproute.CompassDirection;
+import at.ac.ait.sproute.routeformat.Sproute.FormOfWay;
+import at.ac.ait.sproute.routeformat.Sproute.TurnDirection;
 import at.ac.ait.sproute.routeformat.geojson.CoordinatePoint;
 import at.ac.ait.sproute.routeformat.geojson.GeoJSONFeature;
 import at.ac.ait.sproute.routeformat.geojson.GeoJSONPoint;

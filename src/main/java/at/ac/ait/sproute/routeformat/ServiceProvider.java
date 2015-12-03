@@ -1,8 +1,10 @@
 package at.ac.ait.sproute.routeformat;
 
+import java.util.Collections;
+import java.util.Map;
 import java.util.Optional;
 
-import at.ac.ait.sproute.routeformat.Operator.Builder;
+import at.ac.ait.sproute.routeformat.ServiceProvider.Builder;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -17,16 +19,21 @@ import com.google.common.base.Preconditions;
  */
 @JsonDeserialize(builder = Builder.class)
 @JsonInclude(Include.NON_EMPTY)
-public class Operator {
+public class ServiceProvider {
 
 	private String name;
+	private Optional<String> id;
 	private Optional<String> phoneNumber;
 	private Optional<String> website;
-	private Optional<String> description;
+	private Map<String, String> additionalInfo;
 
 	@JsonProperty(required = true)
 	public String getName() {
 		return name;
+	}
+
+	public Optional<String> getId() {
+		return id;
 	}
 
 	public Optional<String> getPhoneNumber() {
@@ -37,24 +44,22 @@ public class Operator {
 		return website;
 	}
 
-	/**
-	 * @return additional information to be provided to the user
-	 */
-	public Optional<String> getDescription() {
-		return description;
+	public Map<String, String> getAdditionalInfo() {
+		return additionalInfo;
 	}
 
-	private Operator(Builder builder) {
+	private ServiceProvider(Builder builder) {
 		this.name = builder.name;
+		this.id = builder.id;
 		this.phoneNumber = builder.phoneNumber;
 		this.website = builder.website;
-		this.description = builder.description;
+		this.additionalInfo = builder.additionalInfo;
 	}
 
 	@Override
 	public String toString() {
 		return "Operator [name=" + name + ", phoneNumber=" + phoneNumber + ", website=" + website + ", description="
-				+ description + "]";
+				+ additionalInfo + "]";
 	}
 
 	public static Builder builder() {
@@ -64,12 +69,18 @@ public class Operator {
 	public static class Builder {
 
 		private String name;
+		private Optional<String> id = Optional.empty();
 		private Optional<String> phoneNumber = Optional.empty();
 		private Optional<String> website = Optional.empty();
-		private Optional<String> description = Optional.empty();
+		private Map<String, String> additionalInfo = Collections.emptyMap();
 
 		public Builder withName(String name) {
 			this.name = name;
+			return this;
+		}
+
+		public Builder withId(String id) {
+			this.id = Optional.of(id);
 			return this;
 		}
 
@@ -83,14 +94,14 @@ public class Operator {
 			return this;
 		}
 
-		public Builder withDescription(String description) {
-			this.description = Optional.of(description);
+		public Builder withAdditionalInfo(Map<String, String> additionalInfo) {
+			this.additionalInfo = additionalInfo;
 			return this;
 		}
 
-		public Operator build() {
+		public ServiceProvider build() {
 			validate();
-			return new Operator(this);
+			return new ServiceProvider(this);
 		}
 
 		private void validate() {

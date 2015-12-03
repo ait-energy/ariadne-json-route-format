@@ -5,8 +5,8 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-import at.ac.ait.sproute.routeformat.RouteSegment.ModeOfTransport;
 import at.ac.ait.sproute.routeformat.RoutingRequest.Builder;
+import at.ac.ait.sproute.routeformat.Sproute.ModeOfTransport;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -25,7 +25,7 @@ public class RoutingRequest {
 	private Location from;
 	// FIXME add List<Location> vias
 	private Location to;
-	private Set<RouteSegment.ModeOfTransport> modesOfTransport;
+	private Set<ModeOfTransport> modesOfTransport;
 	private String optimizedFor;
 	private Optional<ZonedDateTime> departureTime;
 	private Optional<ZonedDateTime> arrivalTime;
@@ -64,7 +64,7 @@ public class RoutingRequest {
 	 * In case of intermodal routing it is guaranteed that the returned set contains {@link ModeOfTransport#FOOT}.
 	 */
 	@JsonProperty(required = true)
-	public Set<RouteSegment.ModeOfTransport> getModesOfTransport() {
+	public Set<ModeOfTransport> getModesOfTransport() {
 		return modesOfTransport;
 	}
 
@@ -121,7 +121,7 @@ public class RoutingRequest {
 		private String serviceId;
 		private Location from;
 		private Location to;
-		private Set<RouteSegment.ModeOfTransport> modesOfTransport;
+		private Set<ModeOfTransport> modesOfTransport;
 		private String optimizedFor;
 		private Optional<ZonedDateTime> departureTime = Optional.empty();
 		private Optional<ZonedDateTime> arrivalTime = Optional.empty();
@@ -148,7 +148,7 @@ public class RoutingRequest {
 		}
 
 		@JsonProperty
-		public Builder withModesOfTransport(Set<RouteSegment.ModeOfTransport> modesOfTransport) {
+		public Builder withModesOfTransport(Set<ModeOfTransport> modesOfTransport) {
 			this.modesOfTransport = new HashSet<>(modesOfTransport);
 			return this;
 		}

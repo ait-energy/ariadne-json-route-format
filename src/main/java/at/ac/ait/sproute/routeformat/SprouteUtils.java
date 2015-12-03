@@ -5,7 +5,7 @@ import java.time.format.DateTimeParseException;
 import java.util.HashSet;
 import java.util.Set;
 
-import at.ac.ait.sproute.routeformat.RouteSegment.ModeOfTransport;
+import at.ac.ait.sproute.routeformat.Sproute.ModeOfTransport;
 
 public class SprouteUtils {
 	
