@@ -96,10 +96,17 @@ public class BasicRoadInstruction extends Instruction {
 		return continueSeconds;
 	}
 
+	/**
+	 * @return the landmark at the turn
+	 */
 	public Optional<Landmark> getTurnLandmark() {
 		return turnLandmark;
 	}
 
+	/**
+	 * @return the landmark at the end of the instruction (after continuing the {@link #getContinueMeters()} when the
+	 *         next instruction will start)
+	 */
 	public Optional<Landmark> getContinueLandmark() {
 		return continueLandmark;
 	}
@@ -210,9 +217,9 @@ public class BasicRoadInstruction extends Instruction {
 		 * @param continueLandmark
 		 *            the landmark we are heading towards
 		 */
-		public Builder forRouteStart(CoordinatePoint position, CompassDirection compassDirection, Optional<String> ontoStreetName,
-				Optional<FormOfWay> ontoFormOfWay, Optional<Integer> continueMeters, Optional<Integer> continueSeconds,
-				Optional<Landmark> turnLandmark, Optional<Landmark> continueLandmark) {
+		public Builder forRouteStart(CoordinatePoint position, CompassDirection compassDirection,
+				Optional<String> ontoStreetName, Optional<FormOfWay> ontoFormOfWay, Optional<Integer> continueMeters,
+				Optional<Integer> continueSeconds, Optional<Landmark> turnLandmark, Optional<Landmark> continueLandmark) {
 			this.subType = SubType.ROUTE_START;
 			this.position = GeoJSONFeature.newPointFeature(position);
 			this.compassDirection = Optional.of(compassDirection);
@@ -247,16 +254,16 @@ public class BasicRoadInstruction extends Instruction {
 		/**
 		 * Set all attributes useful for a {@link SubType#ROUTE_END}
 		 * 
-		 * @param turnLandmark
+		 * @param continueLandmark
 		 *            the landmark where the route ends
 		 */
-		public Builder forRouteEnd(CoordinatePoint position, Optional<String> ontoStreetName, Optional<FormOfWay> ontoFormOfWay,
-				Optional<Landmark> turnLandmark) {
+		public Builder forRouteEnd(CoordinatePoint position, Optional<String> ontoStreetName,
+				Optional<FormOfWay> ontoFormOfWay, Optional<Landmark> continueLandmark) {
 			this.subType = SubType.ROUTE_END;
 			this.position = GeoJSONFeature.newPointFeature(position);
 			this.ontoStreetName = ontoStreetName;
 			this.ontoFormOfWay = ontoFormOfWay;
-			this.turnLandmark = turnLandmark;
+			this.continueLandmark = continueLandmark;
 			return this;
 		}
 
