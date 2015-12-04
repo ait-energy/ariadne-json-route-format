@@ -10,6 +10,7 @@ import at.ac.ait.sproute.routeformat.Route.Builder;
 import at.ac.ait.sproute.routeformat.geojson.GeoJSONFeature;
 import at.ac.ait.sproute.routeformat.geojson.GeoJSONLineString;
 import at.ac.ait.sproute.routeformat.geojson.GeoJSONPolygon;
+import at.ac.ait.sproute.routeformat.location.Location;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -156,7 +157,7 @@ public class Route {
 		}
 
 		public Builder withId(String id) {
-			this.id = Optional.of(id);
+			this.id = Optional.ofNullable(id);
 			return this;
 		}
 
@@ -168,7 +169,7 @@ public class Route {
 
 		@JsonProperty
 		public Builder withDepartureTime(String departureTime) {
-			this.departureTime = Optional.of(SprouteUtils.parseZonedDateTime(departureTime, "departureTime"));
+			this.departureTime = Optional.ofNullable(SprouteUtils.parseZonedDateTime(departureTime, "departureTime"));
 			return this;
 		}
 
@@ -180,22 +181,22 @@ public class Route {
 
 		@JsonProperty
 		public Builder withArrivalTime(String arrivalTime) {
-			this.arrivalTime = Optional.of(SprouteUtils.parseZonedDateTime(arrivalTime, "arrivalTime"));
+			this.arrivalTime = Optional.ofNullable(SprouteUtils.parseZonedDateTime(arrivalTime, "arrivalTime"));
 			return this;
 		}
 
 		public Builder withBoundingBox(GeoJSONFeature<GeoJSONPolygon> boundingBox) {
-			this.boundingBox = Optional.of(boundingBox);
+			this.boundingBox = Optional.ofNullable(boundingBox);
 			return this;
 		}
 
 		public Builder withSimplifiedGeometryEncodedPolyLine(String simplifiedGeometryEncodedPolyLine) {
-			this.simplifiedGeometryEncodedPolyLine = Optional.of(simplifiedGeometryEncodedPolyLine);
+			this.simplifiedGeometryEncodedPolyLine = Optional.ofNullable(simplifiedGeometryEncodedPolyLine);
 			return this;
 		}
 
 		public Builder withSimplifiedGeometryGeoJson(GeoJSONFeature<GeoJSONLineString> simplifiedGeometryGeoJson) {
-			this.simplifiedGeometryGeoJson = Optional.of(simplifiedGeometryGeoJson);
+			this.simplifiedGeometryGeoJson = Optional.ofNullable(simplifiedGeometryGeoJson);
 			return this;
 		}
 

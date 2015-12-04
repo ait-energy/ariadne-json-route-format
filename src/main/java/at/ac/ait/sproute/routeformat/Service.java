@@ -92,22 +92,22 @@ public class Service {
 		}
 
 		public Builder withId(String id) {
-			this.id = Optional.of(id);
+			this.id = Optional.ofNullable(id);
 			return this;
 		}
 
 		public Builder withTowards(String towards) {
-			this.towards = Optional.of(towards);
+			this.towards = Optional.ofNullable(towards);
 			return this;
 		}
 
 		public Builder withDirection(String direction) {
-			this.direction = Optional.of(direction);
+			this.direction = Optional.ofNullable(direction);
 			return this;
 		}
 
 		public Builder withPlatform(String platform) {
-			this.platform = Optional.of(platform);
+			this.platform = Optional.ofNullable(platform);
 			return this;
 		}
 

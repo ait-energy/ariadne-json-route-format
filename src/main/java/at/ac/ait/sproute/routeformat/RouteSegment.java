@@ -13,6 +13,7 @@ import at.ac.ait.sproute.routeformat.geojson.GeoJSONFeatureCollection;
 import at.ac.ait.sproute.routeformat.geojson.GeoJSONLineString;
 import at.ac.ait.sproute.routeformat.geojson.GeoJSONPolygon;
 import at.ac.ait.sproute.routeformat.instruction.Instruction;
+import at.ac.ait.sproute.routeformat.location.Location;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -226,7 +227,7 @@ public class RouteSegment {
 
 		@JsonProperty
 		public Builder withDepartureTime(String departureTime) {
-			this.departureTime = Optional.of(SprouteUtils.parseZonedDateTime(departureTime, "departureTime"));
+			this.departureTime = Optional.ofNullable(SprouteUtils.parseZonedDateTime(departureTime, "departureTime"));
 			return this;
 		}
 
@@ -238,37 +239,37 @@ public class RouteSegment {
 
 		@JsonProperty
 		public Builder withArrivalTime(String arrivalTime) {
-			this.arrivalTime = Optional.of(SprouteUtils.parseZonedDateTime(arrivalTime, "arrivalTime"));
+			this.arrivalTime = Optional.ofNullable(SprouteUtils.parseZonedDateTime(arrivalTime, "arrivalTime"));
 			return this;
 		}
 
 		public Builder withVehicle(Vehicle vehicle) {
-			this.vehicle = Optional.of(vehicle);
+			this.vehicle = Optional.ofNullable(vehicle);
 			return this;
 		}
 
 		public Builder withOperator(ServiceProvider operator) {
-			this.operator = Optional.of(operator);
+			this.operator = Optional.ofNullable(operator);
 			return this;
 		}
 
 		public Builder withBoundingBox(GeoJSONFeature<GeoJSONPolygon> boundingBox) {
-			this.boundingBox = Optional.of(boundingBox);
+			this.boundingBox = Optional.ofNullable(boundingBox);
 			return this;
 		}
 
 		public Builder withGeometryEncodedPolyLine(String geometryEncodedPolyLine) {
-			this.geometryEncodedPolyLine = Optional.of(geometryEncodedPolyLine);
+			this.geometryEncodedPolyLine = Optional.ofNullable(geometryEncodedPolyLine);
 			return this;
 		}
 
 		public Builder withGeometryGeoJson(GeoJSONFeature<GeoJSONLineString> geometryGeoJson) {
-			this.geometryGeoJson = Optional.of(geometryGeoJson);
+			this.geometryGeoJson = Optional.ofNullable(geometryGeoJson);
 			return this;
 		}
 
 		public Builder withGeometryGeoJsonEdges(GeoJSONFeatureCollection<GeoJSONLineString> geometryGeoJsonEdges) {
-			this.geometryGeoJsonEdges = Optional.of(geometryGeoJsonEdges);
+			this.geometryGeoJsonEdges = Optional.ofNullable(geometryGeoJsonEdges);
 			return this;
 		}
 

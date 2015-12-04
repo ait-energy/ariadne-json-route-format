@@ -4,7 +4,33 @@ import static at.ac.ait.sproute.routeformat.Sproute.ModeOfTransport.PUBLIC_TRANS
 
 public class Sproute {
 
-	public static enum Status {
+	public enum BarrierFree {
+		NoElevators, NoEscalators, NoStairs, UseWheelchair
+	}
+
+	public enum CompassDirection {
+		N, NE, E, SE, S, SW, W, NW
+	}
+
+	public enum FormOfWay {
+		MOTORWAY,
+		/** everything below motorways and down to residential roads */
+		ROAD, LIVING_STREET,
+		/** dedicated cyclepath */
+		CYCLEPATH,
+		/** dedicated footpath */
+		FOOTPATH,
+		/** dedicated mixed foot & cyclepath */
+		FOOT_AND_CYCLEPATH, PEDESTRIAN_ZONE, STAIRS,
+		/** small path, typically foot-only and/or unpaved */
+		PATH
+	}
+
+	public enum ModeOfTransport {
+		FOOT, BICYCLE, MOTORCYCLE, CAR, PUBLIC_TRANSPORT
+	}
+
+	public enum Status {
 		/**
 		 * Everything OK, route(s) are available.
 		 */
@@ -19,11 +45,11 @@ public class Sproute {
 		ERROR;
 	}
 
-	public static enum ModeOfTransport {
-		FOOT, BICYCLE, MOTORCYCLE, CAR, PUBLIC_TRANSPORT
+	public enum TurnDirection {
+		STRAIGHT, SLIGHT_LEFT, SLIGHT_RIGHT, LEFT, RIGHT, SHARP_LEFT, SHARP_RIGHT, U_TURN;
 	}
 
-	public static enum VehicleType {
+	public enum VehicleType {
 		// "classic" public transport
 		TRAIN(PUBLIC_TRANSPORT), LIGHTRAIL(PUBLIC_TRANSPORT), SUBWAY(PUBLIC_TRANSPORT), MONORAIL(PUBLIC_TRANSPORT), TRAM(
 				PUBLIC_TRANSPORT), BUS(PUBLIC_TRANSPORT), TROLLEYBUS(PUBLIC_TRANSPORT), AERIALWAY(PUBLIC_TRANSPORT), FERRY(
@@ -42,28 +68,6 @@ public class Sproute {
 		public ModeOfTransport getModeOfTransport() {
 			return mot;
 		}
-	}
-
-	public enum FormOfWay {
-		MOTORWAY,
-		/** everything below motorways and down to residential roads */
-		ROAD, LIVING_STREET,
-		/** dedicated cyclepath */
-		CYCLEPATH,
-		/** dedicated footpath */
-		FOOTPATH,
-		/** dedicated mixed foot & cyclepath */
-		FOOT_AND_CYCLEPATH, PEDESTRIAN_ZONE, STAIRS,
-		/** small path, typically foot-only and/or unpaved */
-		PATH
-	}
-
-	public static enum CompassDirection {
-		N, NE, E, SE, S, SW, W, NW
-	}
-
-	public enum TurnDirection {
-		STRAIGHT, SLIGHT_LEFT, SLIGHT_RIGHT, LEFT, RIGHT, SHARP_LEFT, SHARP_RIGHT, U_TURN;
 	}
 
 }

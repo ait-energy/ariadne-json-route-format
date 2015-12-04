@@ -6,6 +6,7 @@ import java.util.Set;
 
 import at.ac.ait.sproute.routeformat.RoutingRequest.Builder;
 import at.ac.ait.sproute.routeformat.Sproute.ModeOfTransport;
+import at.ac.ait.sproute.routeformat.location.Location;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;

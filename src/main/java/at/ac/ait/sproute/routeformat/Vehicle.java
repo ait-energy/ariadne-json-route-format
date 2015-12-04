@@ -89,22 +89,22 @@ public class Vehicle {
 		}
 
 		public Builder withId(String id) {
-			this.id = Optional.of(id);
+			this.id = Optional.ofNullable(id);
 			return this;
 		}
 
 		public Builder withService(Service service) {
-			this.service = Optional.of(service);
+			this.service = Optional.ofNullable(service);
 			return this;
 		}
 
 		public Builder withElectric(boolean electric) {
-			this.electric = Optional.of(electric);
+			this.electric = Optional.ofNullable(electric);
 			return this;
 		}
 
 		public Builder withShared(boolean shared) {
-			this.shared = Optional.of(shared);
+			this.shared = Optional.ofNullable(shared);
 			return this;
 		}
 

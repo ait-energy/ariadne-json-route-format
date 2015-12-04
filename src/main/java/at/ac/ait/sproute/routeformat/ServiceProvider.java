@@ -81,17 +81,17 @@ public class ServiceProvider {
 		}
 
 		public Builder withId(String id) {
-			this.id = Optional.of(id);
+			this.id = Optional.ofNullable(id);
 			return this;
 		}
 
 		public Builder withPhoneNumber(String phoneNumber) {
-			this.phoneNumber = Optional.of(phoneNumber);
+			this.phoneNumber = Optional.ofNullable(phoneNumber);
 			return this;
 		}
 
 		public Builder withWebsite(String website) {
-			this.website = Optional.of(website);
+			this.website = Optional.ofNullable(website);
 			return this;
 		}
 

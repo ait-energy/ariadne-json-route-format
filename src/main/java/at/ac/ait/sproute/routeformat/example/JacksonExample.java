@@ -11,8 +11,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-import at.ac.ait.sproute.routeformat.Location;
-import at.ac.ait.sproute.routeformat.Location.LocationType;
 import at.ac.ait.sproute.routeformat.Route;
 import at.ac.ait.sproute.routeformat.RouteFormatRoot;
 import at.ac.ait.sproute.routeformat.RouteSegment;
@@ -32,6 +30,9 @@ import at.ac.ait.sproute.routeformat.geojson.GeoJSONPoint;
 import at.ac.ait.sproute.routeformat.instruction.BasicRoadInstruction;
 import at.ac.ait.sproute.routeformat.instruction.Instruction;
 import at.ac.ait.sproute.routeformat.instruction.RoundaboutInstruction;
+import at.ac.ait.sproute.routeformat.location.Address;
+import at.ac.ait.sproute.routeformat.location.Location;
+import at.ac.ait.sproute.routeformat.location.PointOfInterest;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -47,9 +48,9 @@ import com.google.common.collect.Sets;
 
 /**
  * We use the "Data Binding" method of Jackson (to map POJOs to JSON).
- * 
- * Note: unfortunately the Jackson Schema generator does not export "defaultValue=*" and does not allow specification of
- * minItems, maxItems,.. Let's omit this information for now.
+ * <p>
+ * <b>Note:</b> unfortunately the Jackson Schema generator does not export "defaultValue=*" and does not allow
+ * specification of minItems, maxItems,.. Let's omit this information for now.
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */
@@ -73,13 +74,17 @@ public class JacksonExample {
 		routeGeometry.add(new CoordinatePoint("16.4319054", "48.269724"));
 
 		GeoJSONFeature<GeoJSONPoint> coordinate = GeoJSONFeature.newPointFeature(routeGeometry.getFirst());
-		Location giefinggasse = Location.builder().withType(LocationType.ADDRESS).withCoordinate(coordinate)
-				.withCity("Austria").withCity("Wien").withPostcode("1210").withStreetname("Giefinggasse")
-				.withHousenumber("2b").build();
+		Address giefinggasse = Address.builder().withCountry("Austria").withCity("Wien").withPostCode("1210")
+				.withStreetName("Giefinggasse").withHouseNumber("2b").build();
+
+		Location giefinggasseLocation = Location.builder().withCoordinate(coordinate).withAddress(giefinggasse).build();
+		PointOfInterest giefinggassePoi = PointOfInterest.builder().withCoordinate(coordinate)
+				.withAddress(giefinggasse).withName("AIT").withPoiType("company").build();
 		coordinate = GeoJSONFeature.newPointFeature(routeGeometry.getLast());
-		Location richardneutragasse = Location.builder().withType(LocationType.ADDRESS).withCoordinate(coordinate)
-				.withCity("Austria").withCity("Wien").withPostcode("1210").withStreetname("Richard-Neutra-Gasse")
-				.withHousenumber("6").build();
+		Address richardneutragasse = Address.builder().withStreetName("Richard-Neutra-Gasse").withHouseNumber("6")
+				.build();
+		Location richardneutragasseLocation = Location.builder().withCoordinate(coordinate)
+				.withAddress(richardneutragasse).build();
 
 		int durationSeconds = 2 * 60 + 30;
 		int lengthMeters = 570;
@@ -127,24 +132,25 @@ public class JacksonExample {
 
 		Vehicle vehicle28A = Vehicle.builder().withType(VehicleType.BUS).withService(service28A).build();
 
-		RouteSegment segment = RouteSegment.builder().withNr(1).withFrom(giefinggasse).withTo(richardneutragasse)
-				.withDepartureTime(departureTime).withArrivalTime(arrivalTime).withLengthMeters(lengthMeters)
-				.withDurationSeconds(durationSeconds).withModeOfTransport(ModeOfTransport.BICYCLE)
-				.withGeometryGeoJson(geometryGeoJson).withGeometryGeoJsonEdges(geometryGeoJsonEdges)
-				.withNavigationInstructions(navigationInstructions).build();
+		RouteSegment segment = RouteSegment.builder().withNr(1).withFrom(giefinggassePoi)
+				.withTo(richardneutragasseLocation).withDepartureTime(departureTime).withArrivalTime(arrivalTime)
+				.withLengthMeters(lengthMeters).withDurationSeconds(durationSeconds)
+				.withModeOfTransport(ModeOfTransport.BICYCLE).withGeometryGeoJson(geometryGeoJson)
+				.withGeometryGeoJsonEdges(geometryGeoJsonEdges).withNavigationInstructions(navigationInstructions)
+				.build();
 
-		RouteSegment busSegment = RouteSegment.builder().withNr(1).withFrom(giefinggasse).withTo(richardneutragasse)
-				.withDepartureTime(departureTime).withArrivalTime(arrivalTime).withLengthMeters(lengthMeters)
-				.withDurationSeconds(durationSeconds).withModeOfTransport(ModeOfTransport.PUBLIC_TRANSPORT)
-				.withGeometryGeoJson(geometryGeoJson).withGeometryGeoJsonEdges(geometryGeoJsonEdges)
-				.withVehicle(vehicle28A).build();
+		RouteSegment busSegment = RouteSegment.builder().withNr(1).withFrom(giefinggasseLocation)
+				.withTo(richardneutragasseLocation).withDepartureTime(departureTime).withArrivalTime(arrivalTime)
+				.withLengthMeters(lengthMeters).withDurationSeconds(durationSeconds)
+				.withModeOfTransport(ModeOfTransport.PUBLIC_TRANSPORT).withGeometryGeoJson(geometryGeoJson)
+				.withGeometryGeoJsonEdges(geometryGeoJsonEdges).withVehicle(vehicle28A).build();
 
-		Route route = Route.builder().withFrom(giefinggasse).withTo(richardneutragasse)
+		Route route = Route.builder().withFrom(giefinggasseLocation).withTo(richardneutragasseLocation)
 				.withDepartureTime(departureTime).withLengthMeters(lengthMeters).withDurationSeconds(durationSeconds)
 				.withSegments(Arrays.asList(segment, busSegment)).build();
 
-		RoutingRequest request = RoutingRequest.builder().withServiceId("OSM_test").withFrom(giefinggasse)
-				.withTo(richardneutragasse).withModesOfTransport(Sets.newHashSet(ModeOfTransport.BICYCLE))
+		RoutingRequest request = RoutingRequest.builder().withServiceId("OSM_test").withFrom(giefinggasseLocation)
+				.withTo(richardneutragasseLocation).withModesOfTransport(Sets.newHashSet(ModeOfTransport.BICYCLE))
 				.withOptimizedFor("traveltime").build();
 
 		RouteFormatRoot root = RouteFormatRoot.builder().withRouteFormatVersion("0.10-SNAPSHOT").withRequestId("999")
