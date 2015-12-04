@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableMap;
 
 /**
  * Provider of a mode of transport (e.g. public transport provider)
@@ -21,11 +22,11 @@ import com.google.common.base.Preconditions;
 @JsonInclude(Include.NON_EMPTY)
 public class ServiceProvider {
 
-	private String name;
-	private Optional<String> id;
-	private Optional<String> phoneNumber;
-	private Optional<String> website;
-	private Map<String, String> additionalInfo;
+	private final String name;
+	private final Optional<String> id;
+	private final Optional<String> phoneNumber;
+	private final Optional<String> website;
+	private final Map<String, String> additionalInfo;
 
 	@JsonProperty(required = true)
 	public String getName() {
@@ -95,7 +96,7 @@ public class ServiceProvider {
 		}
 
 		public Builder withAdditionalInfo(Map<String, String> additionalInfo) {
-			this.additionalInfo = additionalInfo;
+			this.additionalInfo = ImmutableMap.copyOf(additionalInfo);
 			return this;
 		}
 

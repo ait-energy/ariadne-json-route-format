@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableMap;
 
 /**
  * @author AIT Austrian Institute of Technology GmbH
@@ -108,7 +109,7 @@ public class Vehicle {
 		}
 
 		public Builder withAdditionalInfo(Map<String, String> additionalInfo) {
-			this.additionalInfo = additionalInfo;
+			this.additionalInfo = ImmutableMap.copyOf(additionalInfo);
 			return this;
 		}
 

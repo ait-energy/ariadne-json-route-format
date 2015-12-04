@@ -15,15 +15,15 @@ import at.ac.ait.sproute.routeformat.Location;
 import at.ac.ait.sproute.routeformat.Location.LocationType;
 import at.ac.ait.sproute.routeformat.Route;
 import at.ac.ait.sproute.routeformat.RouteFormatRoot;
-import at.ac.ait.sproute.routeformat.Service;
-import at.ac.ait.sproute.routeformat.ServiceProvider;
-import at.ac.ait.sproute.routeformat.Sproute.VehicleType;
-import at.ac.ait.sproute.routeformat.Vehicle;
-import at.ac.ait.sproute.routeformat.RouteFormatRoot.Status;
 import at.ac.ait.sproute.routeformat.RouteSegment;
 import at.ac.ait.sproute.routeformat.RoutingRequest;
+import at.ac.ait.sproute.routeformat.Service;
+import at.ac.ait.sproute.routeformat.ServiceProvider;
 import at.ac.ait.sproute.routeformat.Sproute.FormOfWay;
 import at.ac.ait.sproute.routeformat.Sproute.ModeOfTransport;
+import at.ac.ait.sproute.routeformat.Sproute.Status;
+import at.ac.ait.sproute.routeformat.Sproute.VehicleType;
+import at.ac.ait.sproute.routeformat.Vehicle;
 import at.ac.ait.sproute.routeformat.geojson.CoordinatePoint;
 import at.ac.ait.sproute.routeformat.geojson.GeoJSONFeature;
 import at.ac.ait.sproute.routeformat.geojson.GeoJSONFeatureCollection;
@@ -124,7 +124,7 @@ public class JacksonExample {
 
 		Service service28A = Service.builder().withName("28A").withDirection("Floridsdorf")
 				.withProvider(wienerLinienProvider).build();
-		
+
 		Vehicle vehicle28A = Vehicle.builder().withType(VehicleType.BUS).withService(service28A).build();
 
 		RouteSegment segment = RouteSegment.builder().withNr(1).withFrom(giefinggasse).withTo(richardneutragasse)
@@ -139,7 +139,6 @@ public class JacksonExample {
 				.withGeometryGeoJson(geometryGeoJson).withGeometryGeoJsonEdges(geometryGeoJsonEdges)
 				.withVehicle(vehicle28A).build();
 
-		
 		Route route = Route.builder().withFrom(giefinggasse).withTo(richardneutragasse)
 				.withDepartureTime(departureTime).withLengthMeters(lengthMeters).withDurationSeconds(durationSeconds)
 				.withSegments(Arrays.asList(segment, busSegment)).build();
@@ -148,8 +147,8 @@ public class JacksonExample {
 				.withTo(richardneutragasse).withModesOfTransport(Sets.newHashSet(ModeOfTransport.BICYCLE))
 				.withOptimizedFor("traveltime").build();
 
-		RouteFormatRoot root = RouteFormatRoot.builder().withRequestId("999").withProcessedTimeNow()
-				.withStatus(Status.OK).withDebugMessage("Route calculated in 0.002 seconds")
+		RouteFormatRoot root = RouteFormatRoot.builder().withRouteFormatVersion("0.10-SNAPSHOT").withRequestId("999")
+				.withProcessedTimeNow().withStatus(Status.OK).withDebugMessage("Route calculated in 0.002 seconds")
 				.withCoordinateReferenceSystem("EPSG:4326").withRequest(request).withRoutes(Arrays.asList(route))
 				.build();
 

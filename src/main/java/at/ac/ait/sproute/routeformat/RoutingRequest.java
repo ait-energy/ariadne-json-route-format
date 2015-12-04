@@ -1,7 +1,6 @@
 package at.ac.ait.sproute.routeformat;
 
 import java.time.ZonedDateTime;
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -14,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableSet;
 
 /**
  * @author AIT Austrian Institute of Technology GmbH
@@ -21,15 +21,15 @@ import com.google.common.base.Preconditions;
 @JsonDeserialize(builder = Builder.class)
 @JsonInclude(Include.NON_EMPTY)
 public class RoutingRequest {
-	private String serviceId;
-	private Location from;
+	private final String serviceId;
+	private final Location from;
 	// FIXME add List<Location> vias
-	private Location to;
-	private Set<ModeOfTransport> modesOfTransport;
-	private String optimizedFor;
-	private Optional<ZonedDateTime> departureTime;
-	private Optional<ZonedDateTime> arrivalTime;
-	
+	private final Location to;
+	private final Set<ModeOfTransport> modesOfTransport;
+	private final String optimizedFor;
+	private final Optional<ZonedDateTime> departureTime;
+	private final Optional<ZonedDateTime> arrivalTime;
+
 	// FIXME add time allowance (e.g. start +/- 10 min)
 
 	// FIXME depending on what options the router supports, following request parameters could be relevant
@@ -149,7 +149,7 @@ public class RoutingRequest {
 
 		@JsonProperty
 		public Builder withModesOfTransport(Set<ModeOfTransport> modesOfTransport) {
-			this.modesOfTransport = new HashSet<>(modesOfTransport);
+			this.modesOfTransport = ImmutableSet.copyOf(modesOfTransport);
 			return this;
 		}
 

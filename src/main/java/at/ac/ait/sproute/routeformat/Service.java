@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableMap;
 
 @JsonDeserialize(builder = Builder.class)
 @JsonInclude(Include.NON_EMPTY)
@@ -111,7 +112,7 @@ public class Service {
 		}
 
 		public Builder withAdditionalInfo(Map<String, String> additionalInfo) {
-			this.additionalInfo = additionalInfo;
+			this.additionalInfo = ImmutableMap.copyOf(additionalInfo);
 			return this;
 		}
 

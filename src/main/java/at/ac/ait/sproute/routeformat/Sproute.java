@@ -4,6 +4,21 @@ import static at.ac.ait.sproute.routeformat.Sproute.ModeOfTransport.PUBLIC_TRANS
 
 public class Sproute {
 
+	public static enum Status {
+		/**
+		 * Everything OK, route(s) are available.
+		 */
+		OK,
+		/**
+		 * Problems occurred when routing request parameters were parsed - neither request nor routes are available.
+		 */
+		INVALID_REQUEST,
+		/**
+		 * Error while routing (or general error). No routes are available.
+		 */
+		ERROR;
+	}
+
 	public static enum ModeOfTransport {
 		FOOT, BICYCLE, MOTORCYCLE, CAR, PUBLIC_TRANSPORT
 	}

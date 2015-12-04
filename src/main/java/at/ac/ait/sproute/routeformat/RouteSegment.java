@@ -11,6 +11,7 @@ import at.ac.ait.sproute.routeformat.Sproute.ModeOfTransport;
 import at.ac.ait.sproute.routeformat.geojson.GeoJSONFeature;
 import at.ac.ait.sproute.routeformat.geojson.GeoJSONFeatureCollection;
 import at.ac.ait.sproute.routeformat.geojson.GeoJSONLineString;
+import at.ac.ait.sproute.routeformat.geojson.GeoJSONPolygon;
 import at.ac.ait.sproute.routeformat.instruction.Instruction;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -43,6 +44,7 @@ public class RouteSegment {
 	private final Optional<ZonedDateTime> arrivalTime;
 	private final Optional<Vehicle> vehicle;
 	private final Optional<ServiceProvider> operator;
+	private final Optional<GeoJSONFeature<GeoJSONPolygon>> boundingBox;
 	private final Optional<String> geometryEncodedPolyLine;
 	private final Optional<GeoJSONFeature<GeoJSONLineString>> geometryGeoJson;
 	private final Optional<GeoJSONFeatureCollection<GeoJSONLineString>> geometryGeoJsonEdges;
@@ -101,9 +103,14 @@ public class RouteSegment {
 		return operator;
 	}
 
+	public Optional<GeoJSONFeature<GeoJSONPolygon>> getBoundingBox() {
+		return boundingBox;
+	}
+
 	/**
-	 * segment geometry in "Encoded Polyline Algorithm Format": https://developers
-	 * .google.com/maps/documentation/utilities/polylinealgorithm
+	 * segment geometry in "Encoded Polyline Algorithm Format"
+	 * 
+	 * @see https://developers.google.com/maps/documentation/utilities/polylinealgorithm
 	 */
 	public Optional<String> getGeometryEncodedPolyLine() {
 		return geometryEncodedPolyLine;
@@ -145,6 +152,7 @@ public class RouteSegment {
 		this.arrivalTime = builder.arrivalTime;
 		this.vehicle = builder.vehicle;
 		this.operator = builder.operator;
+		this.boundingBox = builder.boundingBox;
 		this.geometryEncodedPolyLine = builder.geometryEncodedPolyLine;
 		this.geometryGeoJson = builder.geometryGeoJson;
 		this.geometryGeoJsonEdges = builder.geometryGeoJsonEdges;
@@ -168,6 +176,7 @@ public class RouteSegment {
 		private Optional<ZonedDateTime> arrivalTime = Optional.empty();
 		private Optional<Vehicle> vehicle = Optional.empty();
 		private Optional<ServiceProvider> operator = Optional.empty();
+		private Optional<GeoJSONFeature<GeoJSONPolygon>> boundingBox = Optional.empty();
 		private Optional<String> geometryEncodedPolyLine = Optional.empty();
 		private Optional<GeoJSONFeature<GeoJSONLineString>> geometryGeoJson = Optional.empty();
 		private Optional<GeoJSONFeatureCollection<GeoJSONLineString>> geometryGeoJsonEdges = Optional.empty();
@@ -240,6 +249,11 @@ public class RouteSegment {
 
 		public Builder withOperator(ServiceProvider operator) {
 			this.operator = Optional.of(operator);
+			return this;
+		}
+
+		public Builder withBoundingBox(GeoJSONFeature<GeoJSONPolygon> boundingBox) {
+			this.boundingBox = Optional.of(boundingBox);
 			return this;
 		}
 

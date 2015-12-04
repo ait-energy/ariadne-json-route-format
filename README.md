@@ -5,5 +5,11 @@ The format is defined through the Java classes in the package `at.ac.ait.sproute
 Reading and writing of a route and exporting the JSON schema with Jackson is demonstrated in `JacksonExample.java`.
 A simple example how to display a route in a browser with Leaflet is shown in `routeformat-usage-in-leaflet.html`.
 
+## Coding Style
+- builder pattern is used to construct instances
+- builders check if mandatory arguments are provided and throw an IllegalArgumentException in case of missing / invalid arguments
+- all member variables are private final with public getters
+- for allowing generic extension of a class Map<String,String> additionalInfo are provided
+
 ## License
 Everything in this repository is licensed under CC0.
