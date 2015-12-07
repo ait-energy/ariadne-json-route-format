@@ -1,6 +1,9 @@
 package at.ac.ait.sproute.routeformat;
 
 import java.time.ZonedDateTime;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -14,6 +17,8 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
 /**
@@ -24,21 +29,16 @@ import com.google.common.collect.ImmutableSet;
 public class RoutingRequest {
 	private final String serviceId;
 	private final Location from;
-	// FIXME add List<Location> vias
+	private final List<Location> via;
 	private final Location to;
 	private final Set<ModeOfTransport> modesOfTransport;
 	private final String optimizedFor;
 	private final Optional<ZonedDateTime> departureTime;
 	private final Optional<ZonedDateTime> arrivalTime;
-
-	// FIXME add time allowance (e.g. start +/- 10 min)
-
-	// FIXME depending on what options the router supports, following request parameters could be relevant
-	// FIXME no of passengers , additional info like luggage, barrierFree (accessibility) ect..
-	// FIXME special modality constraints or optimization options like fastest route, most convenient etc...
-	// FIXME optional lanugauge if user human redable info are available
-	// FIXME include / exclude service and/or vehicle type
-	// -> email bilal 2015-11-27
+	private final Optional<Integer> acceptedDelayMinutes;
+	private final Set<Sproute.AccessibilityRestriction> accessibilityRestrictions;
+	private final Optional<String> language;
+	private final Map<String, String> additionalInfo;
 
 	/**
 	 * Defines which routing service (a combination of maps, timeseries,..) will be / was used for routing
@@ -51,6 +51,10 @@ public class RoutingRequest {
 	@JsonProperty(required = true)
 	public Location getFrom() {
 		return from;
+	}
+
+	public List<Location> getVia() {
+		return via;
 	}
 
 	@JsonProperty(required = true)
@@ -104,14 +108,51 @@ public class RoutingRequest {
 		return arrivalTime.map(time -> time.toString());
 	}
 
+	/**
+	 * If present then this specifies the accepted delay for {@link #getDepartureTime()} or {@link #getArrivalTime()} -
+	 * depending on which one is set. The accepted interval is specified as follows: arrival time until arrival time +
+	 * delay, departure time until departure time + delay.
+	 * <p>
+	 * Note, that for non-public transport routes this probably has no effect.
+	 * 
+	 * @return empty / a non-negative number of minutes
+	 */
+	public Optional<Integer> getAcceptedDelayMinutes() {
+		return acceptedDelayMinutes;
+	}
+
+	public Set<Sproute.AccessibilityRestriction> getAccessibilityRestrictions() {
+		return accessibilityRestrictions;
+	}
+
+	/**
+	 * @return the preferred language of the user. E.g. street or POI names can be provided in this language if
+	 *         available
+	 */
+	public Optional<String> getLanguage() {
+		return language;
+	}
+
+	/**
+	 * @return a map of parameters to be considered during the routing process
+	 */
+	public Map<String, String> getAdditionalInfo() {
+		return additionalInfo;
+	}
+
 	private RoutingRequest(Builder builder) {
 		this.serviceId = builder.serviceId;
 		this.from = builder.from;
+		this.via = builder.via;
 		this.to = builder.to;
 		this.modesOfTransport = builder.modesOfTransport;
 		this.optimizedFor = builder.optimizedFor;
 		this.departureTime = builder.departureTime;
 		this.arrivalTime = builder.arrivalTime;
+		this.acceptedDelayMinutes = builder.acceptedDelayMinutes;
+		this.accessibilityRestrictions = builder.accessibilityRestrictions;
+		this.language = builder.language;
+		this.additionalInfo = builder.additionalInfo;
 	}
 
 	public static Builder builder() {
@@ -121,11 +162,16 @@ public class RoutingRequest {
 	public static class Builder {
 		private String serviceId;
 		private Location from;
+		private List<Location> via = Collections.emptyList();
 		private Location to;
-		private Set<ModeOfTransport> modesOfTransport;
+		private Set<ModeOfTransport> modesOfTransport = Collections.emptySet();
 		private String optimizedFor;
 		private Optional<ZonedDateTime> departureTime = Optional.empty();
 		private Optional<ZonedDateTime> arrivalTime = Optional.empty();
+		private Optional<Integer> acceptedDelayMinutes = Optional.empty();
+		private Set<Sproute.AccessibilityRestriction> accessibilityRestrictions = Collections.emptySet();
+		private Optional<String> language = Optional.empty();
+		private Map<String, String> additionalInfo = Collections.emptyMap();
 
 		public Builder withServiceId(String serviceId) {
 			this.serviceId = serviceId;
@@ -134,6 +180,11 @@ public class RoutingRequest {
 
 		public Builder withFrom(Location from) {
 			this.from = from;
+			return this;
+		}
+
+		public Builder withVia(List<Location> via) {
+			this.via = ImmutableList.copyOf(via);
 			return this;
 		}
 
@@ -195,6 +246,26 @@ public class RoutingRequest {
 			return this;
 		}
 
+		public Builder withAcceptedDelayMinutes(Integer acceptedDelayMinutes) {
+			this.acceptedDelayMinutes = Optional.ofNullable(acceptedDelayMinutes);
+			return this;
+		}
+
+		public Builder withAccessibilityRestrictions(Set<Sproute.AccessibilityRestriction> accessibilityRestrictions) {
+			this.accessibilityRestrictions = ImmutableSet.copyOf(accessibilityRestrictions);
+			return this;
+		}
+
+		public Builder withLanguage(String language) {
+			this.language = Optional.ofNullable(language);
+			return this;
+		}
+
+		public Builder withAdditionalInfo(Map<String, String> additionalInfo) {
+			this.additionalInfo = ImmutableMap.copyOf(additionalInfo);
+			return this;
+		}
+
 		public RoutingRequest build() {
 			validate();
 			return new RoutingRequest(this);
@@ -204,7 +275,8 @@ public class RoutingRequest {
 			Preconditions.checkArgument(serviceId != null, "serviceId is mandatory but missing");
 			Preconditions.checkArgument(from != null, "from is mandatory but missing");
 			Preconditions.checkArgument(to != null, "to is mandatory but missing");
-			Preconditions.checkArgument(modesOfTransport != null, "modesOfTransport is mandatory but missing");
+			Preconditions.checkArgument(modesOfTransport != null || modesOfTransport.isEmpty(),
+					"modesOfTransport is mandatory but missing/empty");
 			Preconditions.checkArgument(modesOfTransport.size() >= 1, ">= 1 modesOfTransport must be used");
 			if (modesOfTransport.size() > 1 && !modesOfTransport.contains(ModeOfTransport.FOOT)) {
 				modesOfTransport.add(ModeOfTransport.FOOT);
@@ -219,6 +291,9 @@ public class RoutingRequest {
 			if (!departureTime.isPresent() && !arrivalTime.isPresent()) {
 				departureTime = Optional.of(ZonedDateTime.now());
 			}
+
+			if (acceptedDelayMinutes.isPresent())
+				Preconditions.checkArgument(acceptedDelayMinutes.get() >= 0, "accepted delay must not be negative");
 		}
 	}
 

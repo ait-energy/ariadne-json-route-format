@@ -4,8 +4,8 @@ import static at.ac.ait.sproute.routeformat.Sproute.ModeOfTransport.PUBLIC_TRANS
 
 public class Sproute {
 
-	public enum BarrierFree {
-		NoElevators, NoEscalators, NoStairs, UseWheelchair
+	public enum AccessibilityRestriction {
+		STAIRS, ESCALATOR, ELEVATOR, NOT_WHEELHAIR_ACCESSIBLE
 	}
 
 	public enum CompassDirection {

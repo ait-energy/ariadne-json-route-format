@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import at.ac.ait.sproute.routeformat.ServiceProvider.Builder;
+import at.ac.ait.sproute.routeformat.location.Address;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -24,6 +25,7 @@ public class ServiceProvider {
 
 	private final String name;
 	private final Optional<String> id;
+	private final Optional<Address> address;
 	private final Optional<String> phoneNumber;
 	private final Optional<String> website;
 	private final Map<String, String> additionalInfo;
@@ -35,6 +37,10 @@ public class ServiceProvider {
 
 	public Optional<String> getId() {
 		return id;
+	}
+
+	public Optional<Address> getAddress() {
+		return address;
 	}
 
 	public Optional<String> getPhoneNumber() {
@@ -52,15 +58,10 @@ public class ServiceProvider {
 	private ServiceProvider(Builder builder) {
 		this.name = builder.name;
 		this.id = builder.id;
+		this.address = builder.address;
 		this.phoneNumber = builder.phoneNumber;
 		this.website = builder.website;
 		this.additionalInfo = builder.additionalInfo;
-	}
-
-	@Override
-	public String toString() {
-		return "Operator [name=" + name + ", phoneNumber=" + phoneNumber + ", website=" + website + ", description="
-				+ additionalInfo + "]";
 	}
 
 	public static Builder builder() {
@@ -71,6 +72,7 @@ public class ServiceProvider {
 
 		private String name;
 		private Optional<String> id = Optional.empty();
+		private Optional<Address> address = Optional.empty();
 		private Optional<String> phoneNumber = Optional.empty();
 		private Optional<String> website = Optional.empty();
 		private Map<String, String> additionalInfo = Collections.emptyMap();
@@ -82,6 +84,11 @@ public class ServiceProvider {
 
 		public Builder withId(String id) {
 			this.id = Optional.ofNullable(id);
+			return this;
+		}
+
+		public Builder withAddress(Address address) {
+			this.address = Optional.ofNullable(address);
 			return this;
 		}
 

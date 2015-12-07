@@ -1,7 +1,9 @@
 package at.ac.ait.sproute.routeformat.location;
 
+import java.util.Collections;
 import java.util.List;
 
+import at.ac.ait.sproute.routeformat.Sproute;
 import at.ac.ait.sproute.routeformat.location.PublicTransportStop.Builder2;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -19,13 +21,13 @@ public class PublicTransportStop extends Location {
 
 	private final String name;
 	private final List<String> relatedLines;
-
-	// FIXME barrierfree info?
+	private final List<Sproute.AccessibilityRestriction> accessibilityRestrictions;
 
 	public PublicTransportStop(Builder<?> builder) {
 		super(builder);
 		this.name = builder.name;
 		this.relatedLines = builder.relatedLines;
+		this.accessibilityRestrictions = builder.accessibilityRestrictions;
 	}
 
 	public String getName() {
@@ -39,13 +41,18 @@ public class PublicTransportStop extends Location {
 		return relatedLines;
 	}
 
+	public List<Sproute.AccessibilityRestriction> getAccessibilityRestrictions() {
+		return accessibilityRestrictions;
+	}
+
 	public static Builder<?> builder() {
 		return new Builder2();
 	}
 
 	public static abstract class Builder<T extends Builder<T>> extends Location.Builder<T> {
 		private String name;
-		private List<String> relatedLines;
+		private List<String> relatedLines = Collections.emptyList();
+		private List<Sproute.AccessibilityRestriction> accessibilityRestrictions = Collections.emptyList();
 
 		public T withName(String name) {
 			this.name = name;
@@ -54,6 +61,11 @@ public class PublicTransportStop extends Location {
 
 		public T withRelatedLines(List<String> relatedLines) {
 			this.relatedLines = ImmutableList.copyOf(relatedLines);
+			return self();
+		}
+
+		public T withAccessibilityRestrictions(List<Sproute.AccessibilityRestriction> accessibilityRestrictions) {
+			this.accessibilityRestrictions = ImmutableList.copyOf(accessibilityRestrictions);
 			return self();
 		}
 
