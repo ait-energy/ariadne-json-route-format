@@ -1,7 +1,7 @@
 package at.ac.ait.sproute.routeformat.instruction;
 
 /**
- * TODO replace with Location?
+ * TODO replace with a new class extending Location?
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */

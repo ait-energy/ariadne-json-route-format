@@ -39,12 +39,11 @@ public class RouteSegment {
 	private final int lengthMeters;
 	private final int durationSeconds;
 	private final ModeOfTransport modeOfTransport;
-	private final List<Location> intermediateStops; // FIXME the arrival and departure of each stop (planned +
-													// estimated)
 	private final Optional<ZonedDateTime> departureTime;
 	private final Optional<ZonedDateTime> arrivalTime;
 	private final Optional<Vehicle> vehicle;
 	private final Optional<ServiceProvider> operator;
+	private final List<IntermediateStop> intermediateStops;
 	private final Optional<GeoJSONFeature<GeoJSONPolygon>> boundingBox;
 	private final Optional<String> geometryEncodedPolyLine;
 	private final Optional<GeoJSONFeature<GeoJSONLineString>> geometryGeoJson;
@@ -83,11 +82,6 @@ public class RouteSegment {
 		return modeOfTransport;
 	}
 
-	/** intermediate stops on the way (mostly useful for public transport routes) */
-	public List<Location> getIntermediateStops() {
-		return intermediateStops;
-	}
-
 	public Optional<String> getDepartureTime() {
 		return departureTime.map(time -> time.toString());
 	}
@@ -102,6 +96,11 @@ public class RouteSegment {
 
 	public Optional<ServiceProvider> getOperator() {
 		return operator;
+	}
+
+	/** intermediate stops on the way (mostly useful for public transport routes) */
+	public List<IntermediateStop> getIntermediateStops() {
+		return intermediateStops;
 	}
 
 	public Optional<GeoJSONFeature<GeoJSONPolygon>> getBoundingBox() {
@@ -148,11 +147,11 @@ public class RouteSegment {
 		this.lengthMeters = builder.lengthMeters;
 		this.durationSeconds = builder.durationSeconds;
 		this.modeOfTransport = builder.modeOfTransport;
-		this.intermediateStops = builder.intermediateStops;
 		this.departureTime = builder.departureTime;
 		this.arrivalTime = builder.arrivalTime;
 		this.vehicle = builder.vehicle;
 		this.operator = builder.operator;
+		this.intermediateStops = builder.intermediateStops;
 		this.boundingBox = builder.boundingBox;
 		this.geometryEncodedPolyLine = builder.geometryEncodedPolyLine;
 		this.geometryGeoJson = builder.geometryGeoJson;
@@ -172,11 +171,11 @@ public class RouteSegment {
 		private Integer lengthMeters;
 		private Integer durationSeconds;
 		private ModeOfTransport modeOfTransport;
-		private List<Location> intermediateStops = Collections.emptyList();
 		private Optional<ZonedDateTime> departureTime = Optional.empty();
 		private Optional<ZonedDateTime> arrivalTime = Optional.empty();
 		private Optional<Vehicle> vehicle = Optional.empty();
 		private Optional<ServiceProvider> operator = Optional.empty();
+		private List<IntermediateStop> intermediateStops = Collections.emptyList();
 		private Optional<GeoJSONFeature<GeoJSONPolygon>> boundingBox = Optional.empty();
 		private Optional<String> geometryEncodedPolyLine = Optional.empty();
 		private Optional<GeoJSONFeature<GeoJSONLineString>> geometryGeoJson = Optional.empty();
@@ -214,11 +213,6 @@ public class RouteSegment {
 			return this;
 		}
 
-		public Builder withIntermediateStops(List<Location> intermediateStops) {
-			this.intermediateStops = ImmutableList.copyOf(intermediateStops);
-			return this;
-		}
-
 		@JsonIgnore
 		public Builder withDepartureTime(ZonedDateTime departureTime) {
 			this.departureTime = Optional.ofNullable(departureTime);
@@ -250,6 +244,11 @@ public class RouteSegment {
 
 		public Builder withOperator(ServiceProvider operator) {
 			this.operator = Optional.ofNullable(operator);
+			return this;
+		}
+
+		public Builder withIntermediateStops(List<IntermediateStop> intermediateStops) {
+			this.intermediateStops = ImmutableList.copyOf(intermediateStops);
 			return this;
 		}
 
