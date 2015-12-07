@@ -1,5 +1,5 @@
 # sproute-json-route-format
-This repository holds the JSON exchange format for intermodal routes developed by the (http://dts.ait.ac.at AIT Austrian Institute of Technology) and (http://www.fluidtime.com Fluidtime).
+This repository holds the JSON exchange format for intermodal routes developed by the [AIT Austrian Institute of Technology](http://dts.ait.ac.at) and [Fluidtime](http://www.fluidtime.com).
 
 It specifies the format of a routing request as well as the format of the returned routes. The routes contain geometries and important meta information that can e.g. be used to properly display a route in a smart phone app or on a website.
 Geometries are stored in GeoJSON format.
