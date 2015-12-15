@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import at.ac.ait.sproute.routeformat.Route.Builder;
+import at.ac.ait.sproute.routeformat.Sproute.RouteType;
 import at.ac.ait.sproute.routeformat.geojson.GeoJSONFeature;
 import at.ac.ait.sproute.routeformat.geojson.GeoJSONLineString;
 import at.ac.ait.sproute.routeformat.geojson.GeoJSONPolygon;
@@ -38,6 +39,7 @@ public class Route {
 	private final Optional<String> simplifiedGeometryEncodedPolyLine;
 	private final Optional<GeoJSONFeature<GeoJSONLineString>> simplifiedGeometryGeoJson;
 	private final List<RouteSegment> segments;
+	private final Optional<RouteType> type;
 	private final Map<String, Object> additionalInfo;
 
 	@JsonProperty(required = true)
@@ -94,6 +96,10 @@ public class Route {
 		return simplifiedGeometryGeoJson;
 	}
 
+	public Optional<RouteType> getType() {
+		return type;
+	}
+	
 	public Map<String, Object> getAdditionalInfo() {
 		return additionalInfo;
 	}
@@ -110,6 +116,7 @@ public class Route {
 		this.boundingBox = builder.boundingBox;
 		this.simplifiedGeometryEncodedPolyLine = builder.simplifiedGeometryEncodedPolyLine;
 		this.simplifiedGeometryGeoJson = builder.simplifiedGeometryGeoJson;
+		this.type = builder.type;
 		this.additionalInfo = builder.additionalInfo;
 	}
 
@@ -129,6 +136,7 @@ public class Route {
 		private Optional<GeoJSONFeature<GeoJSONPolygon>> boundingBox = Optional.empty();
 		private Optional<String> simplifiedGeometryEncodedPolyLine = Optional.empty();
 		private Optional<GeoJSONFeature<GeoJSONLineString>> simplifiedGeometryGeoJson = Optional.empty();
+		private Optional<RouteType> type = Optional.empty();
 		private Map<String, Object> additionalInfo = Collections.emptyMap();
 
 		public Builder withFrom(Location from) {
@@ -197,6 +205,11 @@ public class Route {
 
 		public Builder withSimplifiedGeometryGeoJson(GeoJSONFeature<GeoJSONLineString> simplifiedGeometryGeoJson) {
 			this.simplifiedGeometryGeoJson = Optional.ofNullable(simplifiedGeometryGeoJson);
+			return this;
+		}
+		
+		public Builder withType(RouteType type) {
+			this.type = Optional.ofNullable(type);
 			return this;
 		}
 

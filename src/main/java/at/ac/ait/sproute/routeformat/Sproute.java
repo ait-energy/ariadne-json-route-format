@@ -26,6 +26,49 @@ public class Sproute {
 		PATH
 	}
 
+	public enum RouteType {
+		// unimodal routes
+		/** only walking */
+		FOOT,
+		/** only cycling */
+		BICYCLE,
+		/** only driving (motorcycle) */
+		MOTORCYCLE,
+		/** only driving (car) */
+		CAR,
+
+		// limited intermodality (walking + public transport)
+		/** only walking + public transport */
+		PUBLIC_TRANSPORT,
+		/** only walking + taxi */
+		TAXI,
+		/** only walking + taxi sharing */
+		TAXI_SHARED,
+		/** only walking + car sharing */
+		CAR_SHARED,
+		/** only walking + bicycle sharing */
+		BICYCLE_SHARED,
+
+		// full intermodal route
+		/** "park & ride": walking + car + public transport */
+		CAR_AND_PUBLIC_TRANSPORT,
+		/** "bike & ride": cycling + car + public transport */
+		BICYCLE_AND_PUBLIC_TRANSPORT,
+		/** "park & ride" using car sharing: walking + shared car + public transport */
+		SHARED_CAR_AND_PUBLIC_TRANSPORT,
+		/** "bike & ride" using car sharing: walking + shared bicycle + public transport */
+		SHARED_BICYCLE_AND_PUBLIC_TRANSPORT,
+		/** walking + taxi + public transport */
+		TAXI_AND_PUBLIC_TRANSPORT,
+		/** walking + shared taxi + public transport */
+		SHARED_TAXI_AND_PUBLIC_TRANSPORT,
+		/** walking + car & bike sharing */
+		SHARED_CAR_AND_SHARED_BICYCLE,
+
+		/** generic intermodal route type not covered by the other types */
+		INTERMODAL_OTHER
+	}
+
 	public enum ModeOfTransport {
 		FOOT, BICYCLE, MOTORCYCLE, CAR, PUBLIC_TRANSPORT
 	}
@@ -57,7 +100,7 @@ public class Sproute {
 		// individual transport
 		BICYCLE(ModeOfTransport.BICYCLE), MOTORCYCLE(ModeOfTransport.MOTORCYCLE), CAR(ModeOfTransport.CAR),
 		// taxi
-		TAXI(ModeOfTransport.CAR), CALL_TAXI(ModeOfTransport.CAR);
+		TAXI(ModeOfTransport.CAR);
 
 		private final ModeOfTransport mot;
 

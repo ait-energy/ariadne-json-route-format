@@ -21,6 +21,7 @@ import at.ac.ait.sproute.routeformat.Service;
 import at.ac.ait.sproute.routeformat.ServiceProvider;
 import at.ac.ait.sproute.routeformat.Sproute.FormOfWay;
 import at.ac.ait.sproute.routeformat.Sproute.ModeOfTransport;
+import at.ac.ait.sproute.routeformat.Sproute.RouteType;
 import at.ac.ait.sproute.routeformat.Sproute.Status;
 import at.ac.ait.sproute.routeformat.Sproute.VehicleType;
 import at.ac.ait.sproute.routeformat.Vehicle;
@@ -150,12 +151,13 @@ public class JacksonExample {
 
 		Route route = Route.builder().withFrom(giefinggasseLocation).withTo(richardneutragasseLocation)
 				.withDepartureTime(departureTime).withLengthMeters(lengthMeters).withDurationSeconds(durationSeconds)
-				.withSegments(Arrays.asList(segment, busSegment)).build();
+				.withSegments(Arrays.asList(segment, busSegment)).withType(RouteType.BICYCLE_AND_PUBLIC_TRANSPORT)
+				.build();
 
 		Map<String, Object> additionalInfoRouteRequest = new HashMap<>();
 		additionalInfoRouteRequest.put("ait:additionalBigDecimal", new BigDecimal("12.34567"));
 		additionalInfoRouteRequest.put("ait:additionalObject", wienerLinienProvider);
-		additionalInfoRouteRequest.put("ait:additionalList", Lists.newArrayList(1,2,3));
+		additionalInfoRouteRequest.put("ait:additionalList", Lists.newArrayList(1, 2, 3));
 		additionalInfoRouteRequest.put("ait:additionalString", "hello this is a String");
 
 		RoutingRequest request = RoutingRequest.builder().withServiceId("OSM_test").withFrom(giefinggasseLocation)
