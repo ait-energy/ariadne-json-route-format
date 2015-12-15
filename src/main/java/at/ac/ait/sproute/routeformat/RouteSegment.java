@@ -49,7 +49,7 @@ public class RouteSegment {
 	private final Optional<GeoJSONFeature<GeoJSONLineString>> geometryGeoJson;
 	private final Optional<GeoJSONFeatureCollection<GeoJSONLineString>> geometryGeoJsonEdges;
 	private final List<Instruction> navigationInstructions;
-	private final Map<String, String> additionalInfo;
+	private final Map<String, Object> additionalInfo;
 
 	/** number of the segment in the route (starts with 1) */
 	@JsonProperty(required = true)
@@ -136,7 +136,7 @@ public class RouteSegment {
 	/**
 	 * @return additional information, e.g. other weights for the segment (energy,..)
 	 */
-	public Map<String, String> getAdditionalInfo() {
+	public Map<String, Object> getAdditionalInfo() {
 		return additionalInfo;
 	}
 
@@ -181,7 +181,7 @@ public class RouteSegment {
 		private Optional<GeoJSONFeature<GeoJSONLineString>> geometryGeoJson = Optional.empty();
 		private Optional<GeoJSONFeatureCollection<GeoJSONLineString>> geometryGeoJsonEdges = Optional.empty();
 		private List<Instruction> navigationInstructions = Collections.emptyList();
-		private Map<String, String> additionalInfo = Collections.emptyMap();
+		private Map<String, Object> additionalInfo = Collections.emptyMap();
 
 		public Builder withNr(int nr) {
 			this.nr = nr;
@@ -277,7 +277,7 @@ public class RouteSegment {
 			return this;
 		}
 
-		public Builder withAdditionalInfo(Map<String, String> additionalInfo) {
+		public Builder withAdditionalInfo(Map<String, Object> additionalInfo) {
 			this.additionalInfo = ImmutableMap.copyOf(additionalInfo);
 			return this;
 		}

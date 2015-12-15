@@ -28,7 +28,7 @@ public class ServiceProvider {
 	private final Optional<Address> address;
 	private final Optional<String> phoneNumber;
 	private final Optional<String> website;
-	private final Map<String, String> additionalInfo;
+	private final Map<String, Object> additionalInfo;
 
 	@JsonProperty(required = true)
 	public String getName() {
@@ -51,7 +51,7 @@ public class ServiceProvider {
 		return website;
 	}
 
-	public Map<String, String> getAdditionalInfo() {
+	public Map<String, Object> getAdditionalInfo() {
 		return additionalInfo;
 	}
 
@@ -75,7 +75,7 @@ public class ServiceProvider {
 		private Optional<Address> address = Optional.empty();
 		private Optional<String> phoneNumber = Optional.empty();
 		private Optional<String> website = Optional.empty();
-		private Map<String, String> additionalInfo = Collections.emptyMap();
+		private Map<String, Object> additionalInfo = Collections.emptyMap();
 
 		public Builder withName(String name) {
 			this.name = name;
@@ -102,7 +102,7 @@ public class ServiceProvider {
 			return this;
 		}
 
-		public Builder withAdditionalInfo(Map<String, String> additionalInfo) {
+		public Builder withAdditionalInfo(Map<String, Object> additionalInfo) {
 			this.additionalInfo = ImmutableMap.copyOf(additionalInfo);
 			return this;
 		}

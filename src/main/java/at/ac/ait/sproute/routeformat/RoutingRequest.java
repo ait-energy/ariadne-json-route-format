@@ -38,7 +38,7 @@ public class RoutingRequest {
 	private final Optional<Integer> acceptedDelayMinutes;
 	private final Set<Sproute.AccessibilityRestriction> accessibilityRestrictions;
 	private final Optional<String> language;
-	private final Map<String, String> additionalInfo;
+	private final Map<String, Object> additionalInfo;
 
 	/**
 	 * Defines which routing service (a combination of maps, timeseries,..) will be / was used for routing
@@ -136,7 +136,7 @@ public class RoutingRequest {
 	/**
 	 * @return a map of parameters to be considered during the routing process
 	 */
-	public Map<String, String> getAdditionalInfo() {
+	public Map<String, Object> getAdditionalInfo() {
 		return additionalInfo;
 	}
 
@@ -171,7 +171,7 @@ public class RoutingRequest {
 		private Optional<Integer> acceptedDelayMinutes = Optional.empty();
 		private Set<Sproute.AccessibilityRestriction> accessibilityRestrictions = Collections.emptySet();
 		private Optional<String> language = Optional.empty();
-		private Map<String, String> additionalInfo = Collections.emptyMap();
+		private Map<String, Object> additionalInfo = Collections.emptyMap();
 
 		public Builder withServiceId(String serviceId) {
 			this.serviceId = serviceId;
@@ -261,7 +261,7 @@ public class RoutingRequest {
 			return this;
 		}
 
-		public Builder withAdditionalInfo(Map<String, String> additionalInfo) {
+		public Builder withAdditionalInfo(Map<String, Object> additionalInfo) {
 			this.additionalInfo = ImmutableMap.copyOf(additionalInfo);
 			return this;
 		}

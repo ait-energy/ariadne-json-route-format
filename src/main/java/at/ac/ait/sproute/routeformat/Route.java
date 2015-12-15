@@ -38,7 +38,7 @@ public class Route {
 	private final Optional<String> simplifiedGeometryEncodedPolyLine;
 	private final Optional<GeoJSONFeature<GeoJSONLineString>> simplifiedGeometryGeoJson;
 	private final List<RouteSegment> segments;
-	private final Map<String, String> additionalInfo;
+	private final Map<String, Object> additionalInfo;
 
 	@JsonProperty(required = true)
 	public Location getFrom() {
@@ -94,7 +94,7 @@ public class Route {
 		return simplifiedGeometryGeoJson;
 	}
 
-	public Map<String, String> getAdditionalInfo() {
+	public Map<String, Object> getAdditionalInfo() {
 		return additionalInfo;
 	}
 
@@ -129,7 +129,7 @@ public class Route {
 		private Optional<GeoJSONFeature<GeoJSONPolygon>> boundingBox = Optional.empty();
 		private Optional<String> simplifiedGeometryEncodedPolyLine = Optional.empty();
 		private Optional<GeoJSONFeature<GeoJSONLineString>> simplifiedGeometryGeoJson = Optional.empty();
-		private Map<String, String> additionalInfo = Collections.emptyMap();
+		private Map<String, Object> additionalInfo = Collections.emptyMap();
 
 		public Builder withFrom(Location from) {
 			this.from = from;
@@ -200,7 +200,7 @@ public class Route {
 			return this;
 		}
 
-		public Builder withAdditionalInfo(Map<String, String> additionalInfo) {
+		public Builder withAdditionalInfo(Map<String, Object> additionalInfo) {
 			this.additionalInfo = ImmutableMap.copyOf(additionalInfo);
 			return this;
 		}

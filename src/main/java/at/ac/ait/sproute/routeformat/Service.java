@@ -21,7 +21,7 @@ public class Service {
 	private final Optional<String> towards;
 	private final Optional<String> direction;
 	private final Optional<String> platform;
-	private final Map<String, String> additionalInfo;
+	private final Map<String, Object> additionalInfo;
 
 	public ServiceProvider getProvider() {
 		return provider;
@@ -54,7 +54,7 @@ public class Service {
 		return platform;
 	}
 
-	public Map<String, String> getAdditionalInfo() {
+	public Map<String, Object> getAdditionalInfo() {
 		return additionalInfo;
 	}
 
@@ -79,7 +79,7 @@ public class Service {
 		private Optional<String> towards = Optional.empty();
 		private Optional<String> direction = Optional.empty();
 		private Optional<String> platform = Optional.empty();
-		private Map<String, String> additionalInfo = Collections.emptyMap();
+		private Map<String, Object> additionalInfo = Collections.emptyMap();
 
 		public Builder withProvider(ServiceProvider provider) {
 			this.provider = provider;
@@ -111,7 +111,7 @@ public class Service {
 			return this;
 		}
 
-		public Builder withAdditionalInfo(Map<String, String> additionalInfo) {
+		public Builder withAdditionalInfo(Map<String, Object> additionalInfo) {
 			this.additionalInfo = ImmutableMap.copyOf(additionalInfo);
 			return this;
 		}

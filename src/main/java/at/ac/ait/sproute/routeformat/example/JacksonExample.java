@@ -7,8 +7,10 @@ import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import at.ac.ait.sproute.routeformat.Route;
@@ -44,6 +46,7 @@ import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 import com.fasterxml.jackson.module.jsonSchema.factories.SchemaFactoryWrapper;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 /**
@@ -149,9 +152,15 @@ public class JacksonExample {
 				.withDepartureTime(departureTime).withLengthMeters(lengthMeters).withDurationSeconds(durationSeconds)
 				.withSegments(Arrays.asList(segment, busSegment)).build();
 
+		Map<String, Object> additionalInfoRouteRequest = new HashMap<>();
+		additionalInfoRouteRequest.put("ait:additionalBigDecimal", new BigDecimal("12.34567"));
+		additionalInfoRouteRequest.put("ait:additionalObject", wienerLinienProvider);
+		additionalInfoRouteRequest.put("ait:additionalList", Lists.newArrayList(1,2,3));
+		additionalInfoRouteRequest.put("ait:additionalString", "hello this is a String");
+
 		RoutingRequest request = RoutingRequest.builder().withServiceId("OSM_test").withFrom(giefinggasseLocation)
 				.withTo(richardneutragasseLocation).withModesOfTransport(Sets.newHashSet(ModeOfTransport.BICYCLE))
-				.withOptimizedFor("traveltime").build();
+				.withOptimizedFor("traveltime").withAdditionalInfo(additionalInfoRouteRequest).build();
 
 		RouteFormatRoot root = RouteFormatRoot.builder().withRouteFormatVersion("0.10-SNAPSHOT").withRequestId("999")
 				.withProcessedTimeNow().withStatus(Status.OK).withDebugMessage("Route calculated in 0.002 seconds")

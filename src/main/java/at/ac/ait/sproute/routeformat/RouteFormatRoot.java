@@ -33,7 +33,7 @@ public class RouteFormatRoot {
 	private final String coordinateReferenceSystem;
 	private final Optional<RoutingRequest> request;
 	private final List<Route> routes;
-	private final Map<String, String> additionalInfo;
+	private final Map<String, Object> additionalInfo;
 
 	@JsonProperty(required = true)
 	public String getRouteFormatVersion() {
@@ -78,7 +78,7 @@ public class RouteFormatRoot {
 		return request;
 	}
 
-	public Map<String, String> getAdditionalInfo() {
+	public Map<String, Object> getAdditionalInfo() {
 		return additionalInfo;
 	}
 
@@ -112,7 +112,7 @@ public class RouteFormatRoot {
 		private String coordinateReferenceSystem;
 		private Optional<RoutingRequest> request = Optional.empty();
 		private List<Route> routes = Collections.emptyList();
-		private Map<String, String> additionalInfo = Collections.emptyMap();
+		private Map<String, Object> additionalInfo = Collections.emptyMap();
 
 		public Builder withRouteFormatVersion(String routeFormatVersion) {
 			this.routeFormatVersion = routeFormatVersion;
@@ -171,7 +171,7 @@ public class RouteFormatRoot {
 			return this;
 		}
 
-		public Builder withAdditionalInfo(Map<String, String> additionalInfo) {
+		public Builder withAdditionalInfo(Map<String, Object> additionalInfo) {
 			this.additionalInfo = ImmutableMap.copyOf(additionalInfo);
 			return this;
 		}

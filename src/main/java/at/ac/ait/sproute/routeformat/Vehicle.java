@@ -26,7 +26,7 @@ public class Vehicle {
 	private final Optional<Service> service;
 	private final Optional<Boolean> electric;
 	private final Optional<Boolean> shared;
-	private final Map<String, String> additionalInfo;
+	private final Map<String, Object> additionalInfo;
 
 	@JsonProperty(required = true)
 	public VehicleType getType() {
@@ -58,7 +58,7 @@ public class Vehicle {
 		return shared;
 	}
 
-	public Map<String, String> getAdditionalInfo() {
+	public Map<String, Object> getAdditionalInfo() {
 		return additionalInfo;
 	}
 
@@ -81,7 +81,7 @@ public class Vehicle {
 		private Optional<Service> service = Optional.empty();
 		private Optional<Boolean> electric = Optional.empty();
 		private Optional<Boolean> shared = Optional.empty();
-		private Map<String, String> additionalInfo = Collections.emptyMap();
+		private Map<String, Object> additionalInfo = Collections.emptyMap();
 
 		public Builder withType(VehicleType type) {
 			this.type = type;
@@ -108,7 +108,7 @@ public class Vehicle {
 			return this;
 		}
 
-		public Builder withAdditionalInfo(Map<String, String> additionalInfo) {
+		public Builder withAdditionalInfo(Map<String, Object> additionalInfo) {
 			this.additionalInfo = ImmutableMap.copyOf(additionalInfo);
 			return this;
 		}
