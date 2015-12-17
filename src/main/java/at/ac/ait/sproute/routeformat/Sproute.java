@@ -20,7 +20,7 @@ public class Sproute {
 		CYCLEPATH,
 		/** dedicated footpath */
 		FOOTPATH,
-		/** dedicated mixed foot & cyclepath */
+		/** dedicated mixed foot and cyclepath */
 		FOOT_AND_CYCLEPATH, PEDESTRIAN_ZONE, STAIRS,
 		/** small path, typically foot-only and/or unpaved */
 		PATH
@@ -50,19 +50,19 @@ public class Sproute {
 		BICYCLE_SHARED,
 
 		// full intermodal route
-		/** "park & ride": walking + car + public transport */
+		/** "park and ride": walking + car + public transport */
 		CAR_AND_PUBLIC_TRANSPORT,
-		/** "bike & ride": cycling + car + public transport */
+		/** "bike and ride": cycling + car + public transport */
 		BICYCLE_AND_PUBLIC_TRANSPORT,
-		/** "park & ride" using car sharing: walking + shared car + public transport */
+		/** "park and ride" using car sharing: walking + shared car + public transport */
 		SHARED_CAR_AND_PUBLIC_TRANSPORT,
-		/** "bike & ride" using car sharing: walking + shared bicycle + public transport */
+		/** "bike and ride" using car sharing: walking + shared bicycle + public transport */
 		SHARED_BICYCLE_AND_PUBLIC_TRANSPORT,
 		/** walking + taxi + public transport */
 		TAXI_AND_PUBLIC_TRANSPORT,
 		/** walking + shared taxi + public transport */
 		SHARED_TAXI_AND_PUBLIC_TRANSPORT,
-		/** walking + car & bike sharing */
+		/** walking + car and bike sharing */
 		SHARED_CAR_AND_SHARED_BICYCLE,
 
 		/** generic intermodal route type not covered by the other types */

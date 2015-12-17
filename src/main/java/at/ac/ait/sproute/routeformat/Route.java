@@ -86,7 +86,7 @@ public class Route {
 	/**
 	 * geometry in "Encoded Polyline Algorithm Format"
 	 * 
-	 * @see https://developers.google.com/maps/documentation/utilities/polylinealgorithm
+	 * @see "https://developers.google.com/maps/documentation/utilities/polylinealgorithm"
 	 */
 	public Optional<String> getSimplifiedGeometryEncodedPolyLine() {
 		return simplifiedGeometryEncodedPolyLine;
