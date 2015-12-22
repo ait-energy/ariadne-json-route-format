@@ -164,7 +164,7 @@ public class JacksonExample {
 				.withTo(richardneutragasseLocation).withModesOfTransport(Sets.newHashSet(ModeOfTransport.BICYCLE))
 				.withOptimizedFor("traveltime").withAdditionalInfo(additionalInfoRouteRequest).build();
 
-		RouteFormatRoot root = RouteFormatRoot.builder().withRouteFormatVersion("0.10-SNAPSHOT").withRequestId("999")
+		RouteFormatRoot root = RouteFormatRoot.builder().withRouteFormatVersion("0.11-SNAPSHOT").withRequestId("999")
 				.withProcessedTimeNow().withStatus(Status.OK).withDebugMessage("Route calculated in 0.002 seconds")
 				.withCoordinateReferenceSystem("EPSG:4326").withRequest(request).withRoutes(Arrays.asList(route))
 				.build();
