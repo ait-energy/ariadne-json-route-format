@@ -11,6 +11,7 @@ A simple example how to display a route in a browser with Leaflet is shown in `r
 ## Coding Style
 - all member variables are private final with public getters
 - documentation for individual fields (if present) is always located at the public getters (not in the builder)
+- java.time.ZonedDateTime is used to represent time stamps
 - builder pattern is used to construct instances
 - builders allow unsetting fields through null values
 - builders check if mandatory arguments are provided and throw an IllegalArgumentException in case of missing / invalid arguments

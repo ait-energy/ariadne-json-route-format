@@ -37,6 +37,7 @@ public class RoutingRequest {
 	private final Optional<ZonedDateTime> arrivalTime;
 	private final Optional<Integer> acceptedDelayMinutes;
 	private final Set<Sproute.AccessibilityRestriction> accessibilityRestrictions;
+	private final Map<ModeOfTransport, List<Location>> privateVehicleLocations;
 	private final Optional<String> language;
 	private final Map<String, Object> additionalInfo;
 
@@ -98,6 +99,14 @@ public class RoutingRequest {
 	}
 
 	/**
+	 * @see #getDepartureTime()
+	 */
+	@JsonIgnore
+	public Optional<ZonedDateTime> getDepartureTimeAsZonedDateTime() {
+		return departureTime;
+	}
+
+	/**
 	 * Requested arrival time for the route. Mutual exclusive with {@link #getDepartureTime()}, it is guaranteed that
 	 * exactly one of the two times is set.
 	 * <p>
@@ -106,6 +115,14 @@ public class RoutingRequest {
 	@JsonProperty
 	public Optional<String> getArrivalTime() {
 		return arrivalTime.map(time -> time.toString());
+	}
+
+	/**
+	 * @see #getArrivalTime()
+	 */
+	@JsonIgnore
+	public Optional<ZonedDateTime> getArrivalTimeAsZonedDateTime() {
+		return arrivalTime;
 	}
 
 	/**
@@ -123,6 +140,15 @@ public class RoutingRequest {
 
 	public Set<Sproute.AccessibilityRestriction> getAccessibilityRestrictions() {
 		return accessibilityRestrictions;
+	}
+
+	/**
+	 * @return the locations for private vehicles (typically a bicycle, car and/or motorcycle) that can be used when
+	 *         calculating the route. Note, that the vehicle probably won't be used in the route if its mode of
+	 *         transport is net set in {@link #getModesOfTransport()}.
+	 */
+	public Map<ModeOfTransport, List<Location>> getPrivateVehicleLocations() {
+		return privateVehicleLocations;
 	}
 
 	/**
@@ -151,6 +177,7 @@ public class RoutingRequest {
 		this.arrivalTime = builder.arrivalTime;
 		this.acceptedDelayMinutes = builder.acceptedDelayMinutes;
 		this.accessibilityRestrictions = builder.accessibilityRestrictions;
+		this.privateVehicleLocations = builder.privateVehicleLocations;
 		this.language = builder.language;
 		this.additionalInfo = builder.additionalInfo;
 	}
@@ -170,6 +197,7 @@ public class RoutingRequest {
 		private Optional<ZonedDateTime> arrivalTime = Optional.empty();
 		private Optional<Integer> acceptedDelayMinutes = Optional.empty();
 		private Set<Sproute.AccessibilityRestriction> accessibilityRestrictions = Collections.emptySet();
+		private Map<ModeOfTransport, List<Location>> privateVehicleLocations = Collections.emptyMap();
 		private Optional<String> language = Optional.empty();
 		private Map<String, Object> additionalInfo = Collections.emptyMap();
 
@@ -253,6 +281,11 @@ public class RoutingRequest {
 
 		public Builder withAccessibilityRestrictions(Set<Sproute.AccessibilityRestriction> accessibilityRestrictions) {
 			this.accessibilityRestrictions = ImmutableSet.copyOf(accessibilityRestrictions);
+			return this;
+		}
+
+		public Builder withPrivateVehicleLocations(Map<ModeOfTransport, List<Location>> privateVehicleLocations) {
+			this.privateVehicleLocations = privateVehicleLocations;
 			return this;
 		}
 

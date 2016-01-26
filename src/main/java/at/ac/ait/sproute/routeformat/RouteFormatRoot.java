@@ -52,6 +52,11 @@ public class RouteFormatRoot {
 	public String getProcessedTime() {
 		return processedTime.toString();
 	}
+	
+	@JsonIgnore
+	public ZonedDateTime getProcessedTimeAsZonedDateTime() {
+		return processedTime;
+	}
 
 	@JsonProperty(required = true)
 	public Status getStatus() {

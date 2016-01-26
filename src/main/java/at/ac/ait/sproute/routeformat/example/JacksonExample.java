@@ -160,9 +160,15 @@ public class JacksonExample {
 		additionalInfoRouteRequest.put("ait:additionalList", Lists.newArrayList(1, 2, 3));
 		additionalInfoRouteRequest.put("ait:additionalString", "hello this is a String");
 
+		Map<ModeOfTransport, List<Location>> privateVehicleLocations = new HashMap<>();
+		privateVehicleLocations.put(ModeOfTransport.BICYCLE, Arrays.asList(richardneutragasseLocation));
+		privateVehicleLocations.put(ModeOfTransport.CAR,
+				Arrays.asList(richardneutragasseLocation, giefinggasseLocation));
+
 		RoutingRequest request = RoutingRequest.builder().withServiceId("OSM_test").withFrom(giefinggasseLocation)
 				.withTo(richardneutragasseLocation).withModesOfTransport(Sets.newHashSet(ModeOfTransport.BICYCLE))
-				.withOptimizedFor("traveltime").withAdditionalInfo(additionalInfoRouteRequest).build();
+				.withOptimizedFor("traveltime").withAdditionalInfo(additionalInfoRouteRequest)
+				.withPrivateVehicleLocations(privateVehicleLocations).build();
 
 		RouteFormatRoot root = RouteFormatRoot.builder().withRouteFormatVersion("0.11-SNAPSHOT").withRequestId("999")
 				.withProcessedTimeNow().withStatus(Status.OK).withDebugMessage("Route calculated in 0.002 seconds")
