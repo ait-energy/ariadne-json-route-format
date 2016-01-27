@@ -147,7 +147,8 @@ public class JacksonExample {
 				.withTo(richardneutragasseLocation).withDepartureTime(departureTime).withArrivalTime(arrivalTime)
 				.withLengthMeters(lengthMeters).withDurationSeconds(durationSeconds)
 				.withModeOfTransport(ModeOfTransport.PUBLIC_TRANSPORT).withGeometryGeoJson(geometryGeoJson)
-				.withGeometryGeoJsonEdges(geometryGeoJsonEdges).withVehicle(vehicle28A).build();
+				.withGeometryGeoJsonEdges(geometryGeoJsonEdges).withVehicle(vehicle28A).withBoardingSeconds(30)
+				.withAlightingSeconds(15).build();
 
 		Route route = Route.builder().withFrom(giefinggasseLocation).withTo(richardneutragasseLocation)
 				.withDepartureTime(departureTime).withLengthMeters(lengthMeters).withDurationSeconds(durationSeconds)

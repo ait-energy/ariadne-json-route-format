@@ -70,7 +70,8 @@ public class Sproute {
 	}
 
 	public enum ModeOfTransport {
-		FOOT, BICYCLE, MOTORCYCLE, CAR, PUBLIC_TRANSPORT
+		/** waiting for e.g. a bus */
+		WAIT, FOOT, BICYCLE, MOTORCYCLE, CAR, PUBLIC_TRANSPORT
 	}
 
 	public enum Status {

@@ -25,7 +25,10 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 /**
- * A RouteSegment containing at least one of the geometry types (encoded polyline or GeoJSON).
+ * A {@link RouteSegment} is a part of a route that is traveled with a single {@link ModeOfTransport} which also
+ * includes waiting.
+ * <p>
+ * It is guaranteed that at least one of the geometry types (encoded polyline or GeoJSON) is provided.
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */
@@ -39,6 +42,8 @@ public class RouteSegment {
 	private final int lengthMeters;
 	private final int durationSeconds;
 	private final ModeOfTransport modeOfTransport;
+	private final Optional<Integer> boardingSeconds;
+	private final Optional<Integer> alightingSeconds;
 	private final Optional<ZonedDateTime> departureTime;
 	private final Optional<ZonedDateTime> arrivalTime;
 	private final Optional<Vehicle> vehicle;
@@ -72,6 +77,10 @@ public class RouteSegment {
 		return lengthMeters;
 	}
 
+	/**
+	 * @return the total duration for this segment including {@link #getBoardingSeconds()} and
+	 *         {@link #getAlightingSeconds()}
+	 */
 	@JsonProperty(required = true)
 	public int getDurationSeconds() {
 		return durationSeconds;
@@ -80,6 +89,22 @@ public class RouteSegment {
 	@JsonProperty(required = true)
 	public ModeOfTransport getModeOfTransport() {
 		return modeOfTransport;
+	}
+
+	/**
+	 * @return the number of seconds it takes to board the mode of transport, e.g. estimated time it takes to walk to
+	 *         your bicycle or car and unlock it, average time to hail a taxi,..
+	 */
+	public Optional<Integer> getBoardingSeconds() {
+		return boardingSeconds;
+	}
+
+	/**
+	 * @return the number of seconds it takes to alight the mode of transport, e.g. estimated time it takes to look for
+	 *         a parking spot for your bicycle or car and lock/park it, average time to pay and leave a taxi,..
+	 */
+	public Optional<Integer> getAlightingSeconds() {
+		return alightingSeconds;
 	}
 
 	public Optional<String> getDepartureTime() {
@@ -147,6 +172,8 @@ public class RouteSegment {
 		this.lengthMeters = builder.lengthMeters;
 		this.durationSeconds = builder.durationSeconds;
 		this.modeOfTransport = builder.modeOfTransport;
+		this.boardingSeconds = builder.boardingSeconds;
+		this.alightingSeconds = builder.alightingSeconds;
 		this.departureTime = builder.departureTime;
 		this.arrivalTime = builder.arrivalTime;
 		this.vehicle = builder.vehicle;
@@ -171,6 +198,8 @@ public class RouteSegment {
 		private Integer lengthMeters;
 		private Integer durationSeconds;
 		private ModeOfTransport modeOfTransport;
+		private Optional<Integer> boardingSeconds = Optional.empty();
+		private Optional<Integer> alightingSeconds = Optional.empty();
 		private Optional<ZonedDateTime> departureTime = Optional.empty();
 		private Optional<ZonedDateTime> arrivalTime = Optional.empty();
 		private Optional<Vehicle> vehicle = Optional.empty();
@@ -210,6 +239,16 @@ public class RouteSegment {
 
 		public Builder withModeOfTransport(ModeOfTransport modeOfTransport) {
 			this.modeOfTransport = modeOfTransport;
+			return this;
+		}
+
+		public Builder withBoardingSeconds(Integer boardingSeconds) {
+			this.boardingSeconds = Optional.ofNullable(boardingSeconds);
+			return this;
+		}
+
+		public Builder withAlightingSeconds(Integer alightingSeconds) {
+			this.alightingSeconds = Optional.ofNullable(alightingSeconds);
 			return this;
 		}
 
@@ -299,6 +338,8 @@ public class RouteSegment {
 			Preconditions.checkArgument(lengthMeters >= 0, "lengthMeters must be >= 0, but was %s", lengthMeters);
 			Preconditions.checkArgument(durationSeconds >= 0, "durationSeconds must be >= 0, but was %s",
 					durationSeconds);
+			Preconditions.checkArgument(alightingSeconds.orElse(0) + boardingSeconds.orElse(0) <= durationSeconds,
+					"boarding+alighting seconds must be smaller than the total duration");
 
 			boolean geometryPresent = geometryEncodedPolyLine.isPresent() || geometryGeoJson.isPresent()
 					|| geometryGeoJsonEdges.isPresent();

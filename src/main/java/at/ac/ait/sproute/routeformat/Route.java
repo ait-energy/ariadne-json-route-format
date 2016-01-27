@@ -23,6 +23,10 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 /**
+ * A {@link Route} represents a way from A to B that using only one (unimodal) or several (intermodal) modes of
+ * transport. Its attributes such as the length refer to the whole route, which is further split up into
+ * {@link RouteSegment}s for each mode of transport.
+ * 
  * @author AIT Austrian Institute of Technology GmbH
  */
 @JsonDeserialize(builder = Builder.class)
@@ -99,7 +103,7 @@ public class Route {
 	public Optional<RouteType> getType() {
 		return type;
 	}
-	
+
 	public Map<String, Object> getAdditionalInfo() {
 		return additionalInfo;
 	}
@@ -207,7 +211,7 @@ public class Route {
 			this.simplifiedGeometryGeoJson = Optional.ofNullable(simplifiedGeometryGeoJson);
 			return this;
 		}
-		
+
 		public Builder withType(RouteType type) {
 			this.type = Optional.ofNullable(type);
 			return this;
