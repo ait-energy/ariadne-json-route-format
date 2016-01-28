@@ -78,9 +78,19 @@ public class Route {
 	public Optional<String> getDepartureTime() {
 		return departureTime.map(time -> time.toString());
 	}
+	
+	@JsonIgnore
+	public Optional<ZonedDateTime> getDepartureTimeAsZonedDateTime() {
+		return departureTime;
+	}
 
 	public Optional<String> getArrivalTime() {
 		return arrivalTime.map(time -> time.toString());
+	}
+	
+	@JsonIgnore
+	public Optional<ZonedDateTime> getArrivalTimeAsZonedDateTime() {
+		return arrivalTime;
 	}
 
 	public Optional<GeoJSONFeature<GeoJSONPolygon>> getBoundingBox() {

@@ -5,7 +5,7 @@ import java.time.format.DateTimeParseException;
 import java.util.HashSet;
 import java.util.Set;
 
-import at.ac.ait.sproute.routeformat.Sproute.ModeOfTransport;
+import at.ac.ait.sproute.routeformat.Sproute.GeneralizedModeOfTransportType;
 import at.ac.ait.sproute.routeformat.geojson.CoordinatePoint;
 import at.ac.ait.sproute.routeformat.geojson.GeoJSONFeature;
 import at.ac.ait.sproute.routeformat.geojson.GeoJSONPoint;
@@ -28,14 +28,14 @@ public class SprouteUtils {
 	 * @param modesOfTransport
 	 *            a comma-separated list of MOTs
 	 */
-	public static Set<ModeOfTransport> parseModesOfTransport(String modesOfTransport, String variableName) {
+	public static Set<GeneralizedModeOfTransportType> parseModesOfTransport(String modesOfTransport, String variableName) {
 		if (modesOfTransport == null)
 			throw new IllegalArgumentException(modesOfTransport + " must not be null");
 
-		Set<ModeOfTransport> motSet = new HashSet<>();
+		Set<GeneralizedModeOfTransportType> motSet = new HashSet<>();
 		for (String modeOfTransport : modesOfTransport.split(",")) {
 			try {
-				motSet.add(ModeOfTransport.valueOf(modeOfTransport.trim().toUpperCase()));
+				motSet.add(GeneralizedModeOfTransportType.valueOf(modeOfTransport.trim().toUpperCase()));
 			} catch (IllegalArgumentException exc) {
 				throw new IllegalArgumentException("'" + modeOfTransport + "' is not a valid mode of transport");
 			}

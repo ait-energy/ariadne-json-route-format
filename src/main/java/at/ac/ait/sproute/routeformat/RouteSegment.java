@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Optional;
 
 import at.ac.ait.sproute.routeformat.RouteSegment.Builder;
-import at.ac.ait.sproute.routeformat.Sproute.ModeOfTransport;
 import at.ac.ait.sproute.routeformat.geojson.GeoJSONFeature;
 import at.ac.ait.sproute.routeformat.geojson.GeoJSONFeatureCollection;
 import at.ac.ait.sproute.routeformat.geojson.GeoJSONLineString;
@@ -25,8 +24,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 /**
- * A {@link RouteSegment} is a part of a route that is traveled with a single {@link ModeOfTransport} which also
- * includes waiting.
+ * A {@link RouteSegment} is a part of a route that is traveled with a single {@link ModeOfTransport}.
  * <p>
  * It is guaranteed that at least one of the geometry types (encoded polyline or GeoJSON) is provided.
  * 
@@ -46,7 +44,6 @@ public class RouteSegment {
 	private final Optional<Integer> alightingSeconds;
 	private final Optional<ZonedDateTime> departureTime;
 	private final Optional<ZonedDateTime> arrivalTime;
-	private final Optional<Vehicle> vehicle;
 	private final List<IntermediateStop> intermediateStops;
 	private final Optional<GeoJSONFeature<GeoJSONPolygon>> boundingBox;
 	private final Optional<String> geometryEncodedPolyLine;
@@ -110,12 +107,18 @@ public class RouteSegment {
 		return departureTime.map(time -> time.toString());
 	}
 
+	@JsonIgnore
+	public Optional<ZonedDateTime> getDepartureTimeAsZonedDateTime() {
+		return departureTime;
+	}
+
 	public Optional<String> getArrivalTime() {
 		return arrivalTime.map(time -> time.toString());
 	}
 
-	public Optional<Vehicle> getVehicle() {
-		return vehicle;
+	@JsonIgnore
+	public Optional<ZonedDateTime> getArrivalTimeAsZonedDateTime() {
+		return arrivalTime;
 	}
 
 	/** intermediate stops on the way (mostly useful for public transport routes) */
@@ -171,7 +174,6 @@ public class RouteSegment {
 		this.alightingSeconds = builder.alightingSeconds;
 		this.departureTime = builder.departureTime;
 		this.arrivalTime = builder.arrivalTime;
-		this.vehicle = builder.vehicle;
 		this.intermediateStops = builder.intermediateStops;
 		this.boundingBox = builder.boundingBox;
 		this.geometryEncodedPolyLine = builder.geometryEncodedPolyLine;
@@ -196,7 +198,6 @@ public class RouteSegment {
 		private Optional<Integer> alightingSeconds = Optional.empty();
 		private Optional<ZonedDateTime> departureTime = Optional.empty();
 		private Optional<ZonedDateTime> arrivalTime = Optional.empty();
-		private Optional<Vehicle> vehicle = Optional.empty();
 		private List<IntermediateStop> intermediateStops = Collections.emptyList();
 		private Optional<GeoJSONFeature<GeoJSONPolygon>> boundingBox = Optional.empty();
 		private Optional<String> geometryEncodedPolyLine = Optional.empty();
@@ -266,11 +267,6 @@ public class RouteSegment {
 		@JsonProperty
 		public Builder withArrivalTime(String arrivalTime) {
 			this.arrivalTime = Optional.ofNullable(SprouteUtils.parseZonedDateTime(arrivalTime, "arrivalTime"));
-			return this;
-		}
-
-		public Builder withVehicle(Vehicle vehicle) {
-			this.vehicle = Optional.ofNullable(vehicle);
 			return this;
 		}
 

@@ -1,6 +1,6 @@
 package at.ac.ait.sproute.routeformat;
 
-import static at.ac.ait.sproute.routeformat.Sproute.ModeOfTransport.PUBLIC_TRANSPORT;
+import static at.ac.ait.sproute.routeformat.Sproute.GeneralizedModeOfTransportType.PUBLIC_TRANSPORT;
 
 public class Sproute {
 
@@ -10,6 +10,35 @@ public class Sproute {
 
 	public enum CompassDirection {
 		N, NE, E, SE, S, SW, W, NW
+	}
+
+	public enum DetailedModeOfTransportType {
+		// "classic" public transport
+		TRAIN(PUBLIC_TRANSPORT), LIGHTRAIL(PUBLIC_TRANSPORT), SUBWAY(PUBLIC_TRANSPORT), MONORAIL(PUBLIC_TRANSPORT), TRAM(
+				PUBLIC_TRANSPORT), BUS(PUBLIC_TRANSPORT), TROLLEYBUS(PUBLIC_TRANSPORT),
+		/** e.g. gondolas, cable cars, chair lifts,.. see http://wiki.openstreetmap.org/wiki/Key:aerialway */
+		AERIALWAY(PUBLIC_TRANSPORT),
+		/** water-bound transport */
+		SHIP(PUBLIC_TRANSPORT),
+		/** air-bound transport */
+		AIRPLANE(PUBLIC_TRANSPORT),
+		// individual transport
+		BICYCLE(GeneralizedModeOfTransportType.BICYCLE), MOTORCYCLE(GeneralizedModeOfTransportType.MOTORCYCLE), CAR(
+				GeneralizedModeOfTransportType.CAR),
+		// taxi
+		TAXI(GeneralizedModeOfTransportType.CAR), FOOT(GeneralizedModeOfTransportType.FOOT),
+		/** walking or taking elevators, escalators,.. within public transport stations */
+		TRANSFER(GeneralizedModeOfTransportType.FOOT);
+
+		private final GeneralizedModeOfTransportType mot;
+
+		private DetailedModeOfTransportType(GeneralizedModeOfTransportType mot) {
+			this.mot = mot;
+		}
+
+		public GeneralizedModeOfTransportType getGeneralizedType() {
+			return mot;
+		}
 	}
 
 	public enum FormOfWay {
@@ -24,6 +53,10 @@ public class Sproute {
 		FOOT_AND_CYCLEPATH, PEDESTRIAN_ZONE, STAIRS,
 		/** small path, typically foot-only and/or unpaved */
 		PATH
+	}
+
+	public enum GeneralizedModeOfTransportType {
+		FOOT, BICYCLE, MOTORCYCLE, CAR, PUBLIC_TRANSPORT
 	}
 
 	public enum RouteType {
@@ -69,11 +102,6 @@ public class Sproute {
 		INTERMODAL_OTHER
 	}
 
-	public enum ModeOfTransport {
-		/** waiting for e.g. a bus */
-		WAIT, FOOT, BICYCLE, MOTORCYCLE, CAR, PUBLIC_TRANSPORT
-	}
-
 	public enum Status {
 		/**
 		 * Everything OK, route(s) are available.
@@ -91,27 +119,6 @@ public class Sproute {
 
 	public enum TurnDirection {
 		STRAIGHT, SLIGHT_LEFT, SLIGHT_RIGHT, LEFT, RIGHT, SHARP_LEFT, SHARP_RIGHT, U_TURN;
-	}
-
-	public enum VehicleType {
-		// "classic" public transport
-		TRAIN(PUBLIC_TRANSPORT), LIGHTRAIL(PUBLIC_TRANSPORT), SUBWAY(PUBLIC_TRANSPORT), MONORAIL(PUBLIC_TRANSPORT), TRAM(
-				PUBLIC_TRANSPORT), BUS(PUBLIC_TRANSPORT), TROLLEYBUS(PUBLIC_TRANSPORT), AERIALWAY(PUBLIC_TRANSPORT), FERRY(
-				PUBLIC_TRANSPORT),
-		// individual transport
-		BICYCLE(ModeOfTransport.BICYCLE), MOTORCYCLE(ModeOfTransport.MOTORCYCLE), CAR(ModeOfTransport.CAR),
-		// taxi
-		TAXI(ModeOfTransport.CAR);
-
-		private final ModeOfTransport mot;
-
-		private VehicleType(ModeOfTransport mot) {
-			this.mot = mot;
-		}
-
-		public ModeOfTransport getModeOfTransport() {
-			return mot;
-		}
 	}
 
 }

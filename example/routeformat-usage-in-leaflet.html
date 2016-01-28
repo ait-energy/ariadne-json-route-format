@@ -30,11 +30,7 @@
         */
         function styleGeoJson(feature) {
             if (typeof feature.properties !== 'undefined') {
-                return {
-                    color: feature.properties.color,
-                    weight: feature.properties.weight,
-                    opacity: feature.properties.opacity
-                };
+                return feature.properties;
             }
         }
         
@@ -45,28 +41,36 @@
             L.geoJson(json.request.to.position, {
             }).addTo(map);
             
-            if (typeof json.routes[0].segments[0].geometryGeoJson !== 'undefined') {
-                fullRoute = json.routes[0].segments[0].geometryGeoJson;
-                console.log(fullRoute);
-                L.geoJson(fullRoute, {
-                    style: function (feature) {
-                        return styleGeoJson(feature);
+            for(var routeId = 0; routeId < json.routes.length; routeId++) {
+                for(var segmentId = 0; segmentId < json.routes[routeId].segments.length; segmentId++) {
+                    if (typeof json.routes[routeId].segments[segmentId].geometryGeoJson !== 'undefined') {
+                        fullRoute = json.routes[routeId].segments[segmentId].geometryGeoJson;
+                        console.log(fullRoute);
+                        L.geoJson(fullRoute, {
+                            style: function (feature) {
+                                return styleGeoJson(feature);
+                            }
+                        }).addTo(map);
+                    } else {
+                        console.log("no geometryGeoJson available for route with index " + routeId);
                     }
-                }).addTo(map);
-            } else {
-                alert("no geometryGeoJson available");
+                }
             }
 
-            if (typeof json.routes[0].segments[0].geometryGeoJsonEdges !== 'undefined') {
-                edges = json.routes[0].segments[0].geometryGeoJsonEdges;
-                console.log(edges);
-                L.geoJson(edges, {
-                    style: function (feature) {
-                        return {weight: feature.properties.edgeWeight/10, opacity: 0.3};
+            for(var routeId = 0; routeId < json.routes.length; routeId++) {
+                for(var segmentId = 0; segmentId < json.routes[routeId].segments.length; segmentId++) {
+                    if (typeof json.routes[routeId].segments[segmentId].geometryGeoJsonEdges !== 'undefined') {
+                        edges = json.routes[routeId].segments[segmentId].geometryGeoJsonEdges;
+                        console.log(edges);
+                        L.geoJson(edges, {
+                            style: function (feature) {
+                                return {weight: feature.properties.edgeWeight/10, opacity: 0.3};
+                            }
+                        }).addTo(map);
+                    } else {
+                        console.log("no geometryGeoJsonEdges available for route with index " + routeId);
                     }
-                }).addTo(map);
-            } else {
-                alert("no geometryGeoJsonEdges available");
+                }
             }
         });
 

@@ -1,36 +1,47 @@
 package at.ac.ait.sproute.routeformat;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import at.ac.ait.sproute.routeformat.Sproute.VehicleType;
-import at.ac.ait.sproute.routeformat.Vehicle.Builder;
+import at.ac.ait.sproute.routeformat.ModeOfTransport.Builder;
+import at.ac.ait.sproute.routeformat.Sproute.DetailedModeOfTransportType;
+import at.ac.ait.sproute.routeformat.Sproute.GeneralizedModeOfTransportType;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 /**
+ * A {@link ModeOfTransport} at minimum specifies a {@link GeneralizedModeOfTransportType}, but can also contain
+ * detailed information about vehicles (e.g. buses, shared cars,..).
+ * 
  * @author AIT Austrian Institute of Technology GmbH
  */
 @JsonDeserialize(builder = Builder.class)
 @JsonInclude(Include.NON_EMPTY)
-public class Vehicle {
-
-	private final VehicleType type;
+public class ModeOfTransport {
+	private final GeneralizedModeOfTransportType generalizedType;
+	private final Optional<DetailedModeOfTransportType> detailedType;
 	private final Optional<String> id;
 	private final Optional<Service> service;
 	private final Optional<Boolean> electric;
 	private final Optional<Boolean> shared;
+	private final List<Sproute.AccessibilityRestriction> accessibilityRestrictions;
 	private final Map<String, Object> additionalInfo;
 
 	@JsonProperty(required = true)
-	public VehicleType getType() {
-		return type;
+	public GeneralizedModeOfTransportType getGeneralizedType() {
+		return generalizedType;
+	}
+
+	public Optional<DetailedModeOfTransportType> getDetailedType() {
+		return detailedType;
 	}
 
 	/**
@@ -58,16 +69,22 @@ public class Vehicle {
 		return shared;
 	}
 
+	public List<Sproute.AccessibilityRestriction> getAccessibilityRestrictions() {
+		return accessibilityRestrictions;
+	}
+
 	public Map<String, Object> getAdditionalInfo() {
 		return additionalInfo;
 	}
 
-	private Vehicle(Builder builder) {
-		this.type = builder.type;
+	private ModeOfTransport(Builder builder) {
+		this.generalizedType = builder.generalizedType;
+		this.detailedType = builder.detailedType;
 		this.id = builder.id;
 		this.service = builder.service;
 		this.electric = builder.electric;
 		this.shared = builder.shared;
+		this.accessibilityRestrictions = builder.accessibilityRestrictions;
 		this.additionalInfo = builder.additionalInfo;
 	}
 
@@ -76,15 +93,29 @@ public class Vehicle {
 	}
 
 	public static class Builder {
-		private VehicleType type;
+		private GeneralizedModeOfTransportType generalizedType;
+		private Optional<DetailedModeOfTransportType> detailedType = Optional.empty();
 		private Optional<String> id = Optional.empty();
 		private Optional<Service> service = Optional.empty();
 		private Optional<Boolean> electric = Optional.empty();
 		private Optional<Boolean> shared = Optional.empty();
+		private List<Sproute.AccessibilityRestriction> accessibilityRestrictions = Collections.emptyList();
 		private Map<String, Object> additionalInfo = Collections.emptyMap();
 
-		public Builder withType(VehicleType type) {
-			this.type = type;
+		public Builder withGeneralizedType(GeneralizedModeOfTransportType generalizedType) {
+			this.generalizedType = generalizedType;
+			return this;
+		}
+
+		/**
+		 * also sets the generalized type
+		 */
+		public Builder withDetailedType(DetailedModeOfTransportType detailedType) {
+			this.detailedType = Optional.ofNullable(detailedType);
+			if (detailedType == null)
+				generalizedType = null;
+			else
+				generalizedType = detailedType.getGeneralizedType();
 			return this;
 		}
 
@@ -108,18 +139,26 @@ public class Vehicle {
 			return this;
 		}
 
+		public Builder withAccessibilityRestrictions(List<Sproute.AccessibilityRestriction> accessibilityRestrictions) {
+			this.accessibilityRestrictions = ImmutableList.copyOf(accessibilityRestrictions);
+			return this;
+		}
+
 		public Builder withAdditionalInfo(Map<String, Object> additionalInfo) {
 			this.additionalInfo = ImmutableMap.copyOf(additionalInfo);
 			return this;
 		}
 
-		public Vehicle build() {
+		public ModeOfTransport build() {
 			validate();
-			return new Vehicle(this);
+			return new ModeOfTransport(this);
 		}
 
 		private void validate() {
-			Preconditions.checkArgument(type != null, "type is mandatory but missing");
+			Preconditions.checkArgument(generalizedType != null, "generalizedType is mandatory but missing");
+			if (detailedType.isPresent())
+				Preconditions.checkArgument(detailedType.get().getGeneralizedType() == generalizedType,
+						"mode of transpor types do not match");
 		}
 	}
 

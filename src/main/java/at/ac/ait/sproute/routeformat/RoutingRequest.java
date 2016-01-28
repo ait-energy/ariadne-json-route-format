@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import at.ac.ait.sproute.routeformat.RoutingRequest.Builder;
-import at.ac.ait.sproute.routeformat.Sproute.ModeOfTransport;
+import at.ac.ait.sproute.routeformat.Sproute.GeneralizedModeOfTransportType;
 import at.ac.ait.sproute.routeformat.location.Location;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -31,13 +31,15 @@ public class RoutingRequest {
 	private final Location from;
 	private final List<Location> via;
 	private final Location to;
-	private final Set<ModeOfTransport> modesOfTransport;
+	private final Set<GeneralizedModeOfTransportType> modesOfTransport; // FIXME should be more detailed, otherwise we
+																		// can not pick the detailed public MOT,
+																		// sharing,...
 	private final String optimizedFor;
 	private final Optional<ZonedDateTime> departureTime;
 	private final Optional<ZonedDateTime> arrivalTime;
 	private final Optional<Integer> acceptedDelayMinutes;
 	private final Set<Sproute.AccessibilityRestriction> accessibilityRestrictions;
-	private final Map<ModeOfTransport, List<Location>> privateVehicleLocations;
+	private final Map<GeneralizedModeOfTransportType, List<Location>> privateVehicleLocations;
 	private final Optional<String> language;
 	private final Map<String, Object> additionalInfo;
 
@@ -67,10 +69,11 @@ public class RoutingRequest {
 	 * One or more modes of transport that will be / were used for routing. In case of a single mode of transport
 	 * unimodal routing is requested, in case of several modes of transport intermodal routing is requested.
 	 * <p>
-	 * In case of intermodal routing it is guaranteed that the returned set contains {@link ModeOfTransport#FOOT}.
+	 * In case of intermodal routing it is guaranteed that the returned set contains
+	 * {@link GeneralizedModeOfTransportType#FOOT}.
 	 */
 	@JsonProperty(required = true)
-	public Set<ModeOfTransport> getModesOfTransport() {
+	public Set<GeneralizedModeOfTransportType> getModesOfTransport() {
 		return modesOfTransport;
 	}
 
@@ -147,7 +150,7 @@ public class RoutingRequest {
 	 *         calculating the route. Note, that the vehicle probably won't be used in the route if its mode of
 	 *         transport is net set in {@link #getModesOfTransport()}.
 	 */
-	public Map<ModeOfTransport, List<Location>> getPrivateVehicleLocations() {
+	public Map<GeneralizedModeOfTransportType, List<Location>> getPrivateVehicleLocations() {
 		return privateVehicleLocations;
 	}
 
@@ -191,13 +194,13 @@ public class RoutingRequest {
 		private Location from;
 		private List<Location> via = Collections.emptyList();
 		private Location to;
-		private Set<ModeOfTransport> modesOfTransport = Collections.emptySet();
+		private Set<GeneralizedModeOfTransportType> modesOfTransport = Collections.emptySet();
 		private String optimizedFor;
 		private Optional<ZonedDateTime> departureTime = Optional.empty();
 		private Optional<ZonedDateTime> arrivalTime = Optional.empty();
 		private Optional<Integer> acceptedDelayMinutes = Optional.empty();
 		private Set<Sproute.AccessibilityRestriction> accessibilityRestrictions = Collections.emptySet();
-		private Map<ModeOfTransport, List<Location>> privateVehicleLocations = Collections.emptyMap();
+		private Map<GeneralizedModeOfTransportType, List<Location>> privateVehicleLocations = Collections.emptyMap();
 		private Optional<String> language = Optional.empty();
 		private Map<String, Object> additionalInfo = Collections.emptyMap();
 
@@ -228,7 +231,7 @@ public class RoutingRequest {
 		}
 
 		@JsonProperty
-		public Builder withModesOfTransport(Set<ModeOfTransport> modesOfTransport) {
+		public Builder withModesOfTransport(Set<GeneralizedModeOfTransportType> modesOfTransport) {
 			this.modesOfTransport = ImmutableSet.copyOf(modesOfTransport);
 			return this;
 		}
@@ -284,7 +287,8 @@ public class RoutingRequest {
 			return this;
 		}
 
-		public Builder withPrivateVehicleLocations(Map<ModeOfTransport, List<Location>> privateVehicleLocations) {
+		public Builder withPrivateVehicleLocations(
+				Map<GeneralizedModeOfTransportType, List<Location>> privateVehicleLocations) {
 			this.privateVehicleLocations = privateVehicleLocations;
 			return this;
 		}
@@ -311,8 +315,8 @@ public class RoutingRequest {
 			Preconditions.checkArgument(modesOfTransport != null || modesOfTransport.isEmpty(),
 					"modesOfTransport is mandatory but missing/empty");
 			Preconditions.checkArgument(modesOfTransport.size() >= 1, ">= 1 modesOfTransport must be used");
-			if (modesOfTransport.size() > 1 && !modesOfTransport.contains(ModeOfTransport.FOOT)) {
-				modesOfTransport.add(ModeOfTransport.FOOT);
+			if (modesOfTransport.size() > 1 && !modesOfTransport.contains(GeneralizedModeOfTransportType.FOOT)) {
+				modesOfTransport.add(GeneralizedModeOfTransportType.FOOT);
 			}
 
 			if (optimizedFor == null) {

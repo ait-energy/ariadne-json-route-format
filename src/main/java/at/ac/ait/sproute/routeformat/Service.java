@@ -12,6 +12,11 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 
+/**
+ * A {@link Service} typically represents a public transport service / line
+ * 
+ * @author AIT Austrian Institute of Technology GmbH
+ */
 @JsonDeserialize(builder = Builder.class)
 @JsonInclude(Include.NON_EMPTY)
 public class Service {
