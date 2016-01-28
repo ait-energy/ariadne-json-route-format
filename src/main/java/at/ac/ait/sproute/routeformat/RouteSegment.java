@@ -47,7 +47,6 @@ public class RouteSegment {
 	private final Optional<ZonedDateTime> departureTime;
 	private final Optional<ZonedDateTime> arrivalTime;
 	private final Optional<Vehicle> vehicle;
-	private final Optional<ServiceProvider> operator;
 	private final List<IntermediateStop> intermediateStops;
 	private final Optional<GeoJSONFeature<GeoJSONPolygon>> boundingBox;
 	private final Optional<String> geometryEncodedPolyLine;
@@ -119,10 +118,6 @@ public class RouteSegment {
 		return vehicle;
 	}
 
-	public Optional<ServiceProvider> getOperator() {
-		return operator;
-	}
-
 	/** intermediate stops on the way (mostly useful for public transport routes) */
 	public List<IntermediateStop> getIntermediateStops() {
 		return intermediateStops;
@@ -177,7 +172,6 @@ public class RouteSegment {
 		this.departureTime = builder.departureTime;
 		this.arrivalTime = builder.arrivalTime;
 		this.vehicle = builder.vehicle;
-		this.operator = builder.operator;
 		this.intermediateStops = builder.intermediateStops;
 		this.boundingBox = builder.boundingBox;
 		this.geometryEncodedPolyLine = builder.geometryEncodedPolyLine;
@@ -203,7 +197,6 @@ public class RouteSegment {
 		private Optional<ZonedDateTime> departureTime = Optional.empty();
 		private Optional<ZonedDateTime> arrivalTime = Optional.empty();
 		private Optional<Vehicle> vehicle = Optional.empty();
-		private Optional<ServiceProvider> operator = Optional.empty();
 		private List<IntermediateStop> intermediateStops = Collections.emptyList();
 		private Optional<GeoJSONFeature<GeoJSONPolygon>> boundingBox = Optional.empty();
 		private Optional<String> geometryEncodedPolyLine = Optional.empty();
@@ -278,11 +271,6 @@ public class RouteSegment {
 
 		public Builder withVehicle(Vehicle vehicle) {
 			this.vehicle = Optional.ofNullable(vehicle);
-			return this;
-		}
-
-		public Builder withOperator(ServiceProvider operator) {
-			this.operator = Optional.ofNullable(operator);
 			return this;
 		}
 
