@@ -27,12 +27,16 @@ import com.google.common.collect.ImmutableSet;
 @JsonDeserialize(builder = Builder.class)
 @JsonInclude(Include.NON_EMPTY)
 public class RoutingRequest {
+	public static final String DEFAULT_OPTIMIZED_FOR = "TRAVELTIME";
+	public static final Integer DEFAULT_MAXIMUM_TRANSFERS = 3;
+
 	private final String serviceId;
 	private final Location from;
 	private final List<Location> via;
 	private final Location to;
 	private final Set<GeneralizedModeOfTransportType> modesOfTransport;
 	private final String optimizedFor;
+	private final Optional<Integer> maximumTransfers;
 	private final Optional<ZonedDateTime> departureTime;
 	private final Optional<ZonedDateTime> arrivalTime;
 	private final Optional<Integer> acceptedDelayMinutes;
@@ -81,6 +85,16 @@ public class RoutingRequest {
 	@JsonProperty(required = true)
 	public String getOptimizedFor() {
 		return optimizedFor;
+	}
+
+	/**
+	 * @return maximum number of transfers not including the first and last 'transfer' to walking, i.e. walking to the a
+	 *         bike-sharing station, riding the bike, walking to the final destination counts as zero transfers (default
+	 *         = 3)
+	 */
+	@JsonProperty
+	public Optional<Integer> getMaximumTransfers() {
+		return maximumTransfers;
 	}
 
 	/**
@@ -174,6 +188,7 @@ public class RoutingRequest {
 		this.to = builder.to;
 		this.modesOfTransport = builder.modesOfTransport;
 		this.optimizedFor = builder.optimizedFor;
+		this.maximumTransfers = builder.maximumTransfers;
 		this.departureTime = builder.departureTime;
 		this.arrivalTime = builder.arrivalTime;
 		this.acceptedDelayMinutes = builder.acceptedDelayMinutes;
@@ -194,6 +209,7 @@ public class RoutingRequest {
 		private Location to;
 		private Set<GeneralizedModeOfTransportType> modesOfTransport = Collections.emptySet();
 		private String optimizedFor;
+		private Optional<Integer> maximumTransfers = Optional.empty();
 		private Optional<ZonedDateTime> departureTime = Optional.empty();
 		private Optional<ZonedDateTime> arrivalTime = Optional.empty();
 		private Optional<Integer> acceptedDelayMinutes = Optional.empty();
@@ -236,6 +252,11 @@ public class RoutingRequest {
 
 		public Builder withOptimizedFor(String optimizedFor) {
 			this.optimizedFor = optimizedFor;
+			return this;
+		}
+
+		public Builder withMaximumTransfers(Integer maximumTransfers) {
+			this.maximumTransfers = Optional.ofNullable(maximumTransfers);
 			return this;
 		}
 
@@ -318,7 +339,14 @@ public class RoutingRequest {
 			}
 
 			if (optimizedFor == null) {
-				optimizedFor = "TRAVELTIME";
+				optimizedFor = DEFAULT_OPTIMIZED_FOR;
+			}
+
+			if (maximumTransfers.isPresent()) {
+				Preconditions.checkArgument(maximumTransfers.get() >= 0,
+						"only positive numbers for maximumTransfers are allowed, was %s", maximumTransfers);
+			} else {
+				maximumTransfers = Optional.of(DEFAULT_MAXIMUM_TRANSFERS);
 			}
 
 			Preconditions.checkArgument(!(departureTime.isPresent() && arrivalTime.isPresent()),

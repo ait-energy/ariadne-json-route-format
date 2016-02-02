@@ -201,7 +201,7 @@ public class IntermodalRouteExample {
 				.withAccessibilityRestrictions(ImmutableSet.of(AccessibilityRestriction.NO_ELEVATOR))
 				.withModesOfTransport(Sets.newHashSet(GeneralizedModeOfTransportType.PUBLIC_TRANSPORT))
 				// TODO more finegrained support for MOTs!
-				.withOptimizedFor("traveltime").withAdditionalInfo(additionalInfoRouteRequest)
+				.withOptimizedFor("traveltime").withMaximumTransfers(10).withAdditionalInfo(additionalInfoRouteRequest)
 				.withPrivateVehicleLocations(privateVehicleLocations).build();
 	}
 

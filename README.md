@@ -21,7 +21,8 @@ A simple example how to display a route in a browser with Leaflet is shown in `r
 As soon as use-cases or more fine-grained data (e.g. GTFS data sets) become available the following aspects could be worked on:
 
 - public transport station details: differentiate between station entries & platforms, add travel time to transfer segments e.g. 5 min walk, 1 min escalators down, 2 min walk, 1 min elevator up;
-- maximum distance/travel time for modes of transport (in the request)
+- RoutingRequest: maximum distance/travel time for modes of transport
+- RoutingRequest: estimated speed (may also vary for different modes of transport)
    
 
 ## License
