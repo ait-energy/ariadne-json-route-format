@@ -24,7 +24,8 @@ import com.google.common.collect.ImmutableMap;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({ @JsonSubTypes.Type(value = Location.class, name = "Location"),
 		@JsonSubTypes.Type(value = PointOfInterest.class, name = "PointOfInterest"),
-		@JsonSubTypes.Type(value = PublicTransportStop.class, name = "PublicTransportStop") })
+		@JsonSubTypes.Type(value = PublicTransportStop.class, name = "PublicTransportStop"),
+		@JsonSubTypes.Type(value = SharingStation.class, name = "SharingStation") })
 @JsonDeserialize(builder = Builder2.class)
 @JsonInclude(Include.NON_EMPTY)
 public class Location {

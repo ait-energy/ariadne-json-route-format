@@ -31,10 +31,12 @@ import at.ac.ait.ariadne.routeformat.location.Address;
 import at.ac.ait.ariadne.routeformat.location.Location;
 import at.ac.ait.ariadne.routeformat.location.PointOfInterest;
 import at.ac.ait.ariadne.routeformat.location.PublicTransportStop;
+import at.ac.ait.ariadne.routeformat.location.SharingStation;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
@@ -47,15 +49,15 @@ import com.google.common.collect.Sets;
 public class IntermodalRouteExample {
 
 	private Operator wienerLinienOperator, citybikeOperator, car2goOperator;
-	private Service service28A, serviceU6;
 	private Location giefinggasseAit, heinrichVonBuolGasseBusStop, floridsdorfBusStop, floridsdorfSubwayStop,
 			neueDonauSubwayStop, handelskaiSubwayStop, handelskaiSubwayEntry, handelskaiCitybike,
 			friedrichEngelsPlatzCitybike, car2goPickup, privateBicycleAdalbertStifterStraße, privateBicycleHopsagasse,
 			antonKummererPark, treustrasse92;
+	private Service service28A, serviceU6;
 
 	public IntermodalRouteExample() {
-		initializeLocations();
 		initializeOperators();
+		initializeLocations();
 		initializePublicTransportServices();
 	}
 
@@ -94,15 +96,23 @@ public class IntermodalRouteExample {
 				.withCoordinate(GeoJSONFeature.newPointFeature(new CoordinatePoint(16.3848877, 48.2416471)))
 				.withName("Handelskai Eingang").build();
 
-		handelskaiCitybike = Location.builder()
+		handelskaiCitybike = SharingStation
+				.builder()
 				.withCoordinate(GeoJSONFeature.newPointFeature(new CoordinatePoint(16.3847976, 48.2420356)))
-				// .withName("Millennium Tower (2005)")
-				.build(); // TODO name, capacity 35, current bikes & current boxes
+				.withName("Millennium Tower")
+				.withId("2005")
+				.withModesOfTransport(ImmutableSet.of(GeneralizedModeOfTransportType.BICYCLE))
+				.withOperator(citybikeOperator)
+				.withAdditionalInfo(ImmutableMap.of("capacity", "35", "bikes_available", "10", "boxes_available", "25"))
+				.build();
 
-		friedrichEngelsPlatzCitybike = Location.builder()
+		friedrichEngelsPlatzCitybike = SharingStation.builder()
 				.withCoordinate(GeoJSONFeature.newPointFeature(new CoordinatePoint(16.3792033, 48.2441354)))
-				// .withName("Friedrich Engels Platz (2006)")
-				.build(); // TODO name, capacity 27, current bikes & current boxes
+				.withName("Friedrich Engels Platz").withId("2006")
+				.withModesOfTransport(ImmutableSet.of(GeneralizedModeOfTransportType.BICYCLE))
+				.withOperator(citybikeOperator)
+				.withAdditionalInfo(ImmutableMap.of("capacity", "27", "bikes_available", "27", "boxes_available", "0"))
+				.build();
 
 		car2goPickup = Location.builder()
 				.withCoordinate(GeoJSONFeature.newPointFeature(new CoordinatePoint(16.377454, 48.24386)))
