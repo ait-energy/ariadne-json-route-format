@@ -8,6 +8,7 @@ import java.util.Optional;
 import at.ac.ait.ariadne.routeformat.ModeOfTransport.Builder;
 import at.ac.ait.ariadne.routeformat.Sproute.DetailedModeOfTransportType;
 import at.ac.ait.ariadne.routeformat.Sproute.GeneralizedModeOfTransportType;
+import at.ac.ait.ariadne.routeformat.Sproute.Sharing;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -32,7 +33,7 @@ public class ModeOfTransport {
 	private final Optional<Service> service;
 	private final Optional<Operator> operator;
 	private final Optional<Boolean> electric;
-	private final Optional<Boolean> shared;
+	private final Optional<Sharing> sharingType;
 	private final List<Sproute.Accessibility> accessibility;
 	private final Map<String, Object> additionalInfo;
 
@@ -68,10 +69,10 @@ public class ModeOfTransport {
 	}
 
 	/**
-	 * @return <code>true</code> for shared mobility services such as car/bike/ride-sharing
+	 * @return the sharing type. If empty the mode of transport is not shared.
 	 */
-	public Optional<Boolean> isShared() {
-		return shared;
+	public Optional<Sharing> getSharingType() {
+		return sharingType;
 	}
 
 	public List<Sproute.Accessibility> getAccessibility() {
@@ -89,7 +90,7 @@ public class ModeOfTransport {
 		this.service = builder.service;
 		this.operator = builder.operator;
 		this.electric = builder.electric;
-		this.shared = builder.shared;
+		this.sharingType = builder.sharingType;
 		this.accessibility = builder.accessibility;
 		this.additionalInfo = builder.additionalInfo;
 	}
@@ -105,7 +106,7 @@ public class ModeOfTransport {
 		private Optional<Service> service = Optional.empty();
 		private Optional<Operator> operator = Optional.empty();
 		private Optional<Boolean> electric = Optional.empty();
-		private Optional<Boolean> shared = Optional.empty();
+		private Optional<Sharing> sharingType = Optional.empty();
 		private List<Sproute.Accessibility> accessibility = Collections.emptyList();
 		private Map<String, Object> additionalInfo = Collections.emptyMap();
 
@@ -146,8 +147,8 @@ public class ModeOfTransport {
 			return this;
 		}
 
-		public Builder withShared(boolean shared) {
-			this.shared = Optional.ofNullable(shared);
+		public Builder withSharingType(Sharing sharingType) {
+			this.sharingType = Optional.ofNullable(sharingType);
 			return this;
 		}
 

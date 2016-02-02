@@ -64,6 +64,10 @@ public class Sproute {
 		FOOT, BICYCLE, MOTORCYCLE, CAR, PUBLIC_TRANSPORT
 	}
 
+	/**
+	 * @deprecated maybe this will be removed in the future.. client software should figure this out itself
+	 */
+	@Deprecated
 	public enum RouteType {
 		// unimodal routes
 		/** only walking */
@@ -105,6 +109,18 @@ public class Sproute {
 
 		/** generic intermodal route type not covered by the other types */
 		INTERMODAL_OTHER
+	}
+
+	/**
+	 * Detailed classification of the sharing type
+	 */
+	public enum Sharing {
+		/** e.g. Citybike Vienna, Citibike New York, Zipcar */
+		STATION_BOUND_VEHICLE_SHARING,
+		/** e.g. Car2Go */
+		FREE_FLOATING_VEHICLE_SHARING,
+		/** e.g. flinc */
+		RIDE_SHARING, RIDE_SOURCING
 	}
 
 	public enum Status {

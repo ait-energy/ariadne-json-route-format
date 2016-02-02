@@ -22,6 +22,7 @@ import at.ac.ait.ariadne.routeformat.Service;
 import at.ac.ait.ariadne.routeformat.Sproute.Accessibility;
 import at.ac.ait.ariadne.routeformat.Sproute.DetailedModeOfTransportType;
 import at.ac.ait.ariadne.routeformat.Sproute.GeneralizedModeOfTransportType;
+import at.ac.ait.ariadne.routeformat.Sproute.Sharing;
 import at.ac.ait.ariadne.routeformat.Sproute.Status;
 import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
@@ -48,11 +49,11 @@ import com.google.common.collect.Sets;
  */
 public class IntermodalRouteExample {
 
-	private Operator wienerLinienOperator, citybikeOperator, car2goOperator;
+	private Operator wienerLinienOperator, citybikeOperator, car2goOperator, flincOperator;
 	private Location giefinggasseAit, heinrichVonBuolGasseBusStop, floridsdorfBusStop, floridsdorfSubwayStop,
 			neueDonauSubwayStop, handelskaiSubwayStop, handelskaiSubwayEntry, handelskaiCitybike,
-			friedrichEngelsPlatzCitybike, car2goPickup, privateBicycleAdalbertStifterStraße, privateBicycleHopsagasse,
-			antonKummererPark, treustrasse92;
+			friedrichEngelsPlatzCitybike, car2goPickup, adalbertStifterStrasse15, privateBicycleHopsagasse,
+			antonKummererPark, treustrasse92, gaussplatz;
 	private Service service28A, serviceU6;
 
 	public IntermodalRouteExample() {
@@ -74,27 +75,29 @@ public class IntermodalRouteExample {
 
 		floridsdorfBusStop = PublicTransportStop.builder()
 				.withCoordinate(GeoJSONFeature.newPointFeature(new CoordinatePoint("16.40073", "48.25625")))
-				.withName("Floridsdorf Bus").build(); // TODO bahnsteig?
+				.withName("Floridsdorf").withPlatform("C").build();
 
 		floridsdorfSubwayStop = PublicTransportStop.builder()
 				.withCoordinate(GeoJSONFeature.newPointFeature(new CoordinatePoint("16.40050", "48.25618")))
-				.withName("Floridsdorf U-Bahn").build();
+				.withName("Floridsdorf").withPlatform("2 (U-Bahn)").build();
 
 		neueDonauSubwayStop = PublicTransportStop
 				.builder()
 				.withCoordinate(GeoJSONFeature.newPointFeature(new CoordinatePoint(16.39468, 48.24630)))
 				.withName("Neue Donau")
+				.withPlatform("2")
 				.withRelatedLines(
 						ImmutableMap.of("20A", DetailedModeOfTransportType.BUS, "20B", DetailedModeOfTransportType.BUS))
 				.build();
 
 		handelskaiSubwayStop = PublicTransportStop.builder()
 				.withCoordinate(GeoJSONFeature.newPointFeature(new CoordinatePoint(16.38541, 48.24173)))
-				.withName("Handelskai U-Bahn (Bahnsteig 2)").build();
+				.withName("Handelskai").withPlatform("2").build();
 
 		handelskaiSubwayEntry = PublicTransportStop.builder()
 				.withCoordinate(GeoJSONFeature.newPointFeature(new CoordinatePoint(16.3848877, 48.2416471)))
-				.withName("Handelskai Eingang").build();
+				.withName("Handelskai (Stationseingang)").build();
+		// TODO separately model station entries?
 
 		handelskaiCitybike = SharingStation
 				.builder()
@@ -119,7 +122,7 @@ public class IntermodalRouteExample {
 				.withAddress(Address.builder().withStreetName("Adalbert-Stifter-Straße").withHouseNumber("71").build())
 				.build();
 
-		privateBicycleAdalbertStifterStraße = Location.builder()
+		adalbertStifterStrasse15 = Location.builder()
 				.withCoordinate(GeoJSONFeature.newPointFeature(new CoordinatePoint(16.3655, 48.23752)))
 				.withAddress(Address.builder().withStreetName("Adalbert-Stifter-Straße").withHouseNumber("15").build())
 				.build();
@@ -140,6 +143,10 @@ public class IntermodalRouteExample {
 				.withAddress(
 						Address.builder().withStreetName("Treustraße").withHouseNumber("92").withPostCode("1200")
 								.build()).build();
+
+		gaussplatz = Location.builder()
+				.withCoordinate(GeoJSONFeature.newPointFeature(new CoordinatePoint(16.369045, 48.2267)))
+				.withAddress(Address.builder().withStreetName("Gaußplatz").build()).build();
 	}
 
 	private void initializeOperators() {
@@ -159,6 +166,8 @@ public class IntermodalRouteExample {
 
 		car2goOperator = Operator.builder().withName("Car2Go").withWebsite("https://www.car2go.com/de/wien")
 				.withCustomerServiceEmail("wien@car2go.com").build();
+
+		flincOperator = Operator.builder().withName("Flinc").withWebsite("https://flinc.org").build();
 	}
 
 	private void initializePublicTransportServices() {
@@ -175,11 +184,11 @@ public class IntermodalRouteExample {
 
 		Map<GeneralizedModeOfTransportType, List<Location>> privateVehicleLocations = new HashMap<>();
 		privateVehicleLocations.put(GeneralizedModeOfTransportType.BICYCLE,
-				Arrays.asList(privateBicycleAdalbertStifterStraße, privateBicycleHopsagasse));
+				Arrays.asList(adalbertStifterStrasse15, privateBicycleHopsagasse));
 		privateVehicleLocations.put(GeneralizedModeOfTransportType.CAR, Arrays.asList(treustrasse92));
 
 		RoutingRequest request = RoutingRequest.builder().withServiceId("ariadne_webservice_vienna")
-				.withFrom(giefinggasseAit).withTo(treustrasse92).withDepartureTime("2016-01-01T15:00:00+01:00")
+				.withFrom(giefinggasseAit).withTo(gaussplatz).withDepartureTime("2016-01-01T15:00:00+01:00")
 				.withModesOfTransport(Sets.newHashSet(GeneralizedModeOfTransportType.PUBLIC_TRANSPORT))
 				// TODO more finegrained support for MOTs!
 				.withOptimizedFor("traveltime").withAdditionalInfo(additionalInfoRouteRequest)
@@ -254,8 +263,9 @@ public class IntermodalRouteExample {
 
 		// ### ride bus (bus is not wheelchair accessible!) ###
 		geometryGeoJson = getGeoJSONLineStringFeature(heinrichVonBuolGasseBusStop, floridsdorfBusStop,
-				new CoordinatePoint(16.4236, 48.2621), new CoordinatePoint(16.4044, 48.2576), new CoordinatePoint(
-						16.40305, 48.25621), new CoordinatePoint(16.40127, 48.25698));
+				new CoordinatePoint(16.42354, 48.26306), new CoordinatePoint(16.4236, 48.2621), new CoordinatePoint(
+						16.4044, 48.2576), new CoordinatePoint(16.40305, 48.25621), new CoordinatePoint(16.40127,
+						48.25698));
 		RouteSegment busFromHeinrichVonBuolGgasseToFloridsdorf = RouteSegment
 				.builder()
 				.withNr(++segmentNr)
@@ -363,8 +373,8 @@ public class IntermodalRouteExample {
 				.withAlightingSeconds(60 * 1)
 				.withModeOfTransport(
 						ModeOfTransport.builder().withDetailedType(DetailedModeOfTransportType.BICYCLE)
-								.withShared(true).withOperator(citybikeOperator).build())
-				.withGeometryGeoJson(geometryGeoJson).build();
+								.withSharingType(Sharing.STATION_BOUND_VEHICLE_SHARING).withOperator(citybikeOperator)
+								.build()).withGeometryGeoJson(geometryGeoJson).build();
 		segments.add(citybikeFromHandelskaiToFriedrichEngelsPlatz);
 
 		// ### walk to free-floating sharing (car-sharing) - over stairs (general info that there are stairs) ###
@@ -384,23 +394,22 @@ public class IntermodalRouteExample {
 		segments.add(walkToCar2go);
 
 		// ### ride free-floating sharing (electric car-sharing) ###
-		geometryGeoJson = getGeoJSONLineStringFeature(car2goPickup, privateBicycleAdalbertStifterStraße,
-				new CoordinatePoint(16.373601, 48.24218));
+		geometryGeoJson = getGeoJSONLineStringFeature(car2goPickup, adalbertStifterStrasse15, new CoordinatePoint(
+				16.373601, 48.24218));
 		RouteSegment car2goAlongAdalbertStifterStrasse = RouteSegment
 				.builder()
 				.withNr(++segmentNr)
 				.withFrom(car2goPickup)
-				.withTo(privateBicycleAdalbertStifterStraße)
+				.withTo(adalbertStifterStrasse15)
 				.withLengthMeters(692)
 				// 4 minutes ride, 2 minutes renting the car, 1 minute parking the car
 				.withDurationSeconds(60 * 7)
 				.withBoardingSeconds(60 * 2)
 				.withAlightingSeconds(60 * 1)
 				.withModeOfTransport(
-						ModeOfTransport
-								.builder()
+						ModeOfTransport.builder()
 								.withDetailedType(DetailedModeOfTransportType.CAR)
-								.withShared(true)
+								.withSharingType(Sharing.FREE_FLOATING_VEHICLE_SHARING)
 								.withElectric(true)
 								.withOperator(car2goOperator)
 								// for now specific information goes as additional info
@@ -411,12 +420,12 @@ public class IntermodalRouteExample {
 		segments.add(car2goAlongAdalbertStifterStrasse);
 
 		// ### ride private vehicle (bicycle) - and there is a park as potential stop on the way ###
-		geometryGeoJson = getGeoJSONLineStringFeature(privateBicycleAdalbertStifterStraße, treustrasse92,
-				new CoordinatePoint(16.36515, 48.23729), new CoordinatePoint(16.3656, 48.23515), new CoordinatePoint(
-						16.36288, 48.23509));
-		RouteSegment bicycleFromAdalbertStifterStrasseToTreugasse = RouteSegment.builder()
+		geometryGeoJson = getGeoJSONLineStringFeature(adalbertStifterStrasse15, treustrasse92, new CoordinatePoint(
+				16.36515, 48.23729), new CoordinatePoint(16.3656, 48.23515), new CoordinatePoint(16.36288, 48.23509));
+		RouteSegment bicycleFromAdalbertStifterStrasseToTreugasse = RouteSegment
+				.builder()
 				.withNr(++segmentNr)
-				.withFrom(privateBicycleAdalbertStifterStraße)
+				.withFrom(adalbertStifterStrasse15)
 				.withTo(treustrasse92)
 				.withLengthMeters(597)
 				// 106 seconds ride, 1 minutes unlocking bike, 1 minute parking & locking biker
@@ -424,13 +433,35 @@ public class IntermodalRouteExample {
 				.withBoardingSeconds(60 * 1)
 				.withAlightingSeconds(60 * 1)
 				.withIntermediateStops(Arrays.asList(IntermediateStop.builder().withStop(antonKummererPark).build()))
+				// additional info about vehicles provided in the request can be added here (such as in project SMILE)
+				.withAdditionalInfo(ImmutableMap.of("name", "Univega Mountainbike"))
 				.withModeOfTransport(
-						ModeOfTransport.builder().withDetailedType(DetailedModeOfTransportType.BICYCLE)
-								.withShared(false).build()).withGeometryGeoJson(geometryGeoJson).build();
-		// TODO name, type,.. even for private vehicles (such as in project SMILE)
+						ModeOfTransport.builder().withDetailedType(DetailedModeOfTransportType.BICYCLE).build())
+				.withGeometryGeoJson(geometryGeoJson).build();
 		segments.add(bicycleFromAdalbertStifterStrasseToTreugasse);
 
-		// TODO ride-sharing
+		// ### ride-sharing (via car) ###
+		geometryGeoJson = getGeoJSONLineStringFeature(treustrasse92, gaussplatz, new CoordinatePoint(16.3644, 48.2311),
+				new CoordinatePoint(16.36638, 48.22886));
+		RouteSegment rideSharingFromTreugasseToGaussplatz = RouteSegment.builder()
+				.withNr(++segmentNr)
+				.withFrom(treustrasse92)
+				.withTo(gaussplatz)
+				.withLengthMeters(941)
+				// 112 seconds ride, 3 minutes waiting for ride-sharing & hopping on board
+				.withDurationSeconds(112 + 60 * 3)
+				.withBoardingSeconds(60 * 3)
+				.withModeOfTransport(
+						ModeOfTransport
+								.builder()
+								.withDetailedType(DetailedModeOfTransportType.CAR)
+								.withSharingType(Sharing.RIDE_SHARING)
+								.withOperator(flincOperator)
+								// for now specific information goes as additional info
+								.withAdditionalInfo(
+										ImmutableMap.of("userName", "herbertWien78", "phoneNumber", "+43 650 7734343"))
+								.build()).withGeometryGeoJson(geometryGeoJson).build();
+		segments.add(rideSharingFromTreugasseToGaussplatz);
 
 		return segments;
 	}
