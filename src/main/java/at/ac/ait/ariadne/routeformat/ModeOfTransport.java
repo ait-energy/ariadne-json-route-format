@@ -34,7 +34,7 @@ public class ModeOfTransport {
 	private final Optional<Operator> operator;
 	private final Optional<Boolean> electric;
 	private final Optional<Sharing> sharingType;
-	private final List<Sproute.Accessibility> accessibility;
+	private final List<Sproute.VehicleAccessibility> accessibility;
 	private final Map<String, Object> additionalInfo;
 
 	@JsonProperty(required = true)
@@ -75,7 +75,7 @@ public class ModeOfTransport {
 		return sharingType;
 	}
 
-	public List<Sproute.Accessibility> getAccessibility() {
+	public List<Sproute.VehicleAccessibility> getAccessibility() {
 		return accessibility;
 	}
 
@@ -107,7 +107,7 @@ public class ModeOfTransport {
 		private Optional<Operator> operator = Optional.empty();
 		private Optional<Boolean> electric = Optional.empty();
 		private Optional<Sharing> sharingType = Optional.empty();
-		private List<Sproute.Accessibility> accessibility = Collections.emptyList();
+		private List<Sproute.VehicleAccessibility> accessibility = Collections.emptyList();
 		private Map<String, Object> additionalInfo = Collections.emptyMap();
 
 		public Builder withGeneralizedType(GeneralizedModeOfTransportType generalizedType) {
@@ -152,7 +152,7 @@ public class ModeOfTransport {
 			return this;
 		}
 
-		public Builder withAccessibility(List<Sproute.Accessibility> accessibility) {
+		public Builder withAccessibility(List<Sproute.VehicleAccessibility> accessibility) {
 			this.accessibility = ImmutableList.copyOf(accessibility);
 			return this;
 		}

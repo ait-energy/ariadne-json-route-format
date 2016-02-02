@@ -31,14 +31,12 @@ public class RoutingRequest {
 	private final Location from;
 	private final List<Location> via;
 	private final Location to;
-	private final Set<GeneralizedModeOfTransportType> modesOfTransport; // FIXME should be more detailed, otherwise we
-																		// can not pick the detailed public MOT,
-																		// sharing,...
+	private final Set<GeneralizedModeOfTransportType> modesOfTransport;
 	private final String optimizedFor;
 	private final Optional<ZonedDateTime> departureTime;
 	private final Optional<ZonedDateTime> arrivalTime;
 	private final Optional<Integer> acceptedDelayMinutes;
-	private final Set<Sproute.Accessibility> accessibilityRestrictions;
+	private final Set<Sproute.AccessibilityRestriction> accessibilityRestrictions;
 	private final Map<GeneralizedModeOfTransportType, List<Location>> privateVehicleLocations;
 	private final Optional<String> language;
 	private final Map<String, Object> additionalInfo;
@@ -141,7 +139,7 @@ public class RoutingRequest {
 		return acceptedDelayMinutes;
 	}
 
-	public Set<Sproute.Accessibility> getAccessibilityRestrictions() {
+	public Set<Sproute.AccessibilityRestriction> getAccessibilityRestrictions() {
 		return accessibilityRestrictions;
 	}
 
@@ -199,7 +197,7 @@ public class RoutingRequest {
 		private Optional<ZonedDateTime> departureTime = Optional.empty();
 		private Optional<ZonedDateTime> arrivalTime = Optional.empty();
 		private Optional<Integer> acceptedDelayMinutes = Optional.empty();
-		private Set<Sproute.Accessibility> accessibilityRestrictions = Collections.emptySet();
+		private Set<Sproute.AccessibilityRestriction> accessibilityRestrictions = Collections.emptySet();
 		private Map<GeneralizedModeOfTransportType, List<Location>> privateVehicleLocations = Collections.emptyMap();
 		private Optional<String> language = Optional.empty();
 		private Map<String, Object> additionalInfo = Collections.emptyMap();
@@ -282,7 +280,7 @@ public class RoutingRequest {
 			return this;
 		}
 
-		public Builder withAccessibilityRestrictions(Set<Sproute.Accessibility> accessibilityRestrictions) {
+		public Builder withAccessibilityRestrictions(Set<Sproute.AccessibilityRestriction> accessibilityRestrictions) {
 			this.accessibilityRestrictions = ImmutableSet.copyOf(accessibilityRestrictions);
 			return this;
 		}

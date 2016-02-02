@@ -10,11 +10,19 @@ import static at.ac.ait.ariadne.routeformat.Sproute.GeneralizedModeOfTransportTy
 public class Sproute {
 
 	public enum Accessibility {
-		STAIRS, ESCALATOR, ELEVATOR, WHEELCHAIR_ACCESSIBLE, NOT_WHEELHAIR_ACCESSIBLE
+		STAIRS_DOWN, STAIRS_UP, ESCALATOR_DOWN, ESCALATOR_UP, ELEVATOR_DOWN, ELEVATOR_UP
 	}
 
-	public enum CompassDirection {
-		N, NE, E, SE, S, SW, W, NW
+	public enum VehicleAccessibility {
+		LOW_FLOOR_VEHICLE, HIGH_FLOOR_VEHICLE
+	}
+
+	public enum AccessibilityRestriction {
+		NO_STAIRS, NO_ESCALATOR, NO_ELEVATOR, ONLY_LOW_FLOOR_VEHICLE
+	}
+
+	public enum GeneralizedModeOfTransportType {
+		FOOT, BICYCLE, MOTORCYCLE, CAR, PUBLIC_TRANSPORT
 	}
 
 	public enum DetailedModeOfTransportType {
@@ -46,6 +54,18 @@ public class Sproute {
 		}
 	}
 
+	/**
+	 * Detailed classification of the sharing type
+	 */
+	public enum Sharing {
+		/** e.g. Citybike Vienna, Citibike New York, Zipcar */
+		STATION_BOUND_VEHICLE_SHARING,
+		/** e.g. Car2Go */
+		FREE_FLOATING_VEHICLE_SHARING,
+		/** e.g. flinc */
+		RIDE_SHARING, RIDE_SOURCING
+	}
+
 	public enum FormOfWay {
 		MOTORWAY,
 		/** everything below motorways and down to residential roads */
@@ -60,8 +80,27 @@ public class Sproute {
 		PATH
 	}
 
-	public enum GeneralizedModeOfTransportType {
-		FOOT, BICYCLE, MOTORCYCLE, CAR, PUBLIC_TRANSPORT
+	public enum CompassDirection {
+		N, NE, E, SE, S, SW, W, NW
+	}
+
+	public enum TurnDirection {
+		STRAIGHT, SLIGHT_LEFT, SLIGHT_RIGHT, LEFT, RIGHT, SHARP_LEFT, SHARP_RIGHT, U_TURN;
+	}
+
+	public enum Status {
+		/**
+		 * Everything OK, route(s) are available.
+		 */
+		OK,
+		/**
+		 * Problems occurred when routing request parameters were parsed - neither request nor routes are available.
+		 */
+		INVALID_REQUEST,
+		/**
+		 * Error while routing (or general error). No routes are available.
+		 */
+		ERROR;
 	}
 
 	/**
@@ -109,37 +148,6 @@ public class Sproute {
 
 		/** generic intermodal route type not covered by the other types */
 		INTERMODAL_OTHER
-	}
-
-	/**
-	 * Detailed classification of the sharing type
-	 */
-	public enum Sharing {
-		/** e.g. Citybike Vienna, Citibike New York, Zipcar */
-		STATION_BOUND_VEHICLE_SHARING,
-		/** e.g. Car2Go */
-		FREE_FLOATING_VEHICLE_SHARING,
-		/** e.g. flinc */
-		RIDE_SHARING, RIDE_SOURCING
-	}
-
-	public enum Status {
-		/**
-		 * Everything OK, route(s) are available.
-		 */
-		OK,
-		/**
-		 * Problems occurred when routing request parameters were parsed - neither request nor routes are available.
-		 */
-		INVALID_REQUEST,
-		/**
-		 * Error while routing (or general error). No routes are available.
-		 */
-		ERROR;
-	}
-
-	public enum TurnDirection {
-		STRAIGHT, SLIGHT_LEFT, SLIGHT_RIGHT, LEFT, RIGHT, SHARP_LEFT, SHARP_RIGHT, U_TURN;
 	}
 
 }

@@ -158,6 +158,10 @@ public class RouteSegment {
 		return navigationInstructions;
 	}
 
+	/**
+	 * @return the ordered list of potential obstacles for mobility impaired persons (e.g. first up the elevator, then
+	 *         up the stairs,..)
+	 */
 	public List<Sproute.Accessibility> getAccessibility() {
 		return accessibility;
 	}

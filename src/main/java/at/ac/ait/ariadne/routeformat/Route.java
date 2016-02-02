@@ -1,7 +1,9 @@
 package at.ac.ait.ariadne.routeformat;
 
+import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -78,7 +80,7 @@ public class Route {
 	public Optional<String> getDepartureTime() {
 		return departureTime.map(time -> time.toString());
 	}
-	
+
 	@JsonIgnore
 	public Optional<ZonedDateTime> getDepartureTimeAsZonedDateTime() {
 		return departureTime;
@@ -87,7 +89,7 @@ public class Route {
 	public Optional<String> getArrivalTime() {
 		return arrivalTime.map(time -> time.toString());
 	}
-	
+
 	@JsonIgnore
 	public Optional<ZonedDateTime> getArrivalTimeAsZonedDateTime() {
 		return arrivalTime;
@@ -136,6 +138,24 @@ public class Route {
 
 	public static Builder builder() {
 		return new Builder();
+	}
+
+	/**
+	 * @return a builder conveniently preinitialized with from/to location, departure/arrival time, length, duration and
+	 *         of course the segments themselves
+	 */
+	public static Builder builder(LinkedList<RouteSegment> segments) {
+		int lengthMeters = 0;
+		int durationSeconds = 0;
+		for (RouteSegment segment : segments) {
+			lengthMeters += segment.getLengthMeters();
+			durationSeconds += segment.getDurationSeconds();
+		}
+
+		return Route.builder().withFrom(segments.getFirst().getFrom()).withTo(segments.getLast().getTo())
+				.withDepartureTime(segments.getFirst().getDepartureTimeAsZonedDateTime().orElse(null))
+				.withArrivalTime(segments.getLast().getArrivalTimeAsZonedDateTime().orElse(null))
+				.withLengthMeters(lengthMeters).withDurationSeconds(durationSeconds).withSegments(segments);
 	}
 
 	public static class Builder {
@@ -246,8 +266,16 @@ public class Route {
 					durationSeconds);
 
 			Preconditions.checkArgument(!segments.isEmpty(), "segments must not be empty");
-		}
-		
-	}
 
+			if (departureTime.isPresent() && arrivalTime.isPresent()) {
+				Preconditions.checkArgument(!arrivalTime.get().isBefore(departureTime.get()),
+						"arrivalTime must be <= departureTime");
+
+				long durationBetweenTimestamps = Duration.between(departureTime.get(), arrivalTime.get()).getSeconds();
+				Preconditions.checkArgument(durationSeconds == durationBetweenTimestamps,
+						"durationSeconds does not match seconds between arrival & departure time: %s!=%s",
+						durationSeconds, durationBetweenTimestamps);
+			}
+		}
+	}
 }
