@@ -162,8 +162,8 @@ public class IntermodalRouteExample {
 	}
 
 	private void initializePublicTransportServices() {
-		service28A = Service.builder().withName("28A").withDirection("Floridsdorf").build();
-		serviceU6 = Service.builder().withName("U6").withDirection("Siebenhirten").build();
+		service28A = Service.builder().withName("28A").withTowards("Floridsdorf").build();
+		serviceU6 = Service.builder().withName("U6").withTowards("Siebenhirten").withColor("#bf7700").build();
 	}
 
 	public RouteFormatRoot getRouteFormatRoot() throws JsonGenerationException, JsonMappingException, IOException {
@@ -296,11 +296,6 @@ public class IntermodalRouteExample {
 		// ### ride subway (wheelchair accessible!) ###
 		geometryGeoJson = getGeoJSONLineStringFeature(floridsdorfSubwayStop, handelskaiSubwayStop, new CoordinatePoint(
 				16.39468, 48.24630));
-		// NOTE: example on how to add additional properties to the geometry be used e.g. in Leaflet
-		// let's paint U6 in the color that is used on official maps (and a bit fatter & opaque)
-		geometryGeoJson.properties.put("color", "#bf7700");
-		geometryGeoJson.properties.put("weight", "10");
-		geometryGeoJson.properties.put("opacity", "0.9");
 		RouteSegment subwayFromFloridsdorfToHandelskai = RouteSegment
 				.builder()
 				.withNr(++segmentNr)
@@ -352,6 +347,10 @@ public class IntermodalRouteExample {
 		geometryGeoJson = getGeoJSONLineStringFeature(handelskaiCitybike, friedrichEngelsPlatzCitybike,
 				new CoordinatePoint(16.3838145, 48.2413853), new CoordinatePoint(16.3807639, 48.2442201),
 				new CoordinatePoint(16.3793906, 48.2438237));
+		// NOTE: example on how to add additional properties to the geometry be used e.g. in Leaflet
+		geometryGeoJson.properties.put("color", "#FFBBCC");
+		geometryGeoJson.properties.put("weight", "7");
+		geometryGeoJson.properties.put("opacity", "0.9");
 		RouteSegment citybikeFromHandelskaiToFriedrichEngelsPlatz = RouteSegment
 				.builder()
 				.withNr(++segmentNr)
@@ -398,10 +397,17 @@ public class IntermodalRouteExample {
 				.withBoardingSeconds(60 * 2)
 				.withAlightingSeconds(60 * 1)
 				.withModeOfTransport(
-						ModeOfTransport.builder().withDetailedType(DetailedModeOfTransportType.CAR).withShared(true)
-								.withElectric(true).withOperator(car2goOperator).build())
+						ModeOfTransport
+								.builder()
+								.withDetailedType(DetailedModeOfTransportType.CAR)
+								.withShared(true)
+								.withElectric(true)
+								.withOperator(car2goOperator)
+								// for now specific information goes as additional info
+								.withAdditionalInfo(
+										ImmutableMap.of("licensePlate", "W-123456", "fuelPercentage", "80",
+												"interiorState", "good", "exteriorState", "unacceptable")).build())
 				.withGeometryGeoJson(geometryGeoJson).build();
-		// TODO status of car2go, license plate,..
 		segments.add(car2goAlongAdalbertStifterStrasse);
 
 		// ### ride private vehicle (bicycle) - and there is a park as potential stop on the way ###
@@ -471,6 +477,8 @@ public class IntermodalRouteExample {
 				.withPlannedDepartureTime(departureTime).withEstimatedArrivalTime(arrivalTime)
 				.withEstimatedDepartureTime(departureTime).build();
 	}
+
+	// TODO add exemplary navigation instructions
 	// List<Instruction> navigationInstructions = new ArrayList<>();
 	// navigationInstructions.add(BasicRoadInstruction
 	// .builder()

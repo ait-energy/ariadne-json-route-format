@@ -21,37 +21,31 @@ import com.google.common.collect.ImmutableMap;
 @JsonInclude(Include.NON_EMPTY)
 public class Service {
 	private final String name;
-	private final Optional<String> id;
 	private final Optional<String> towards;
-	private final Optional<String> direction;
-	private final Optional<String> platform;
+	private final Optional<String> color;
 	private final Map<String, Object> additionalInfo;
 
 	/**
-	 * @return the official name of the service such as the line name (e.g. U3 for a metro/underground line) to be
-	 *         provided to the user
+	 * @return the official name of the service such as the line name (e.g. U3 for a subway line) to be provided to the
+	 *         user
 	 */
 	public String getName() {
 		return name;
 	}
 
 	/**
-	 * @return an identifier for internal use, most probably not useful for the end user
+	 * @return the destination of the line as noted on the headsign of the vehicle
 	 */
-	public Optional<String> getId() {
-		return id;
-	}
-
 	public Optional<String> getTowards() {
 		return towards;
 	}
 
-	public Optional<String> getDirection() {
-		return direction;
-	}
-
-	public Optional<String> getPlatform() {
-		return platform;
+	/**
+	 * @return the color of the line used by the public transport operator (e.g. red for U1 in Vienna) in hash-prepended
+	 *         six-digit hexadacimal notation (e.g. #FF0000)
+	 */
+	public Optional<String> getColor() {
+		return color;
 	}
 
 	public Map<String, Object> getAdditionalInfo() {
@@ -60,10 +54,8 @@ public class Service {
 
 	public Service(Builder builder) {
 		this.name = builder.name;
-		this.id = builder.id;
 		this.towards = builder.towards;
-		this.direction = builder.direction;
-		this.platform = builder.platform;
+		this.color = builder.color;
 		this.additionalInfo = builder.additionalInfo;
 	}
 
@@ -73,19 +65,12 @@ public class Service {
 
 	public static class Builder {
 		private String name;
-		private Optional<String> id = Optional.empty();
 		private Optional<String> towards = Optional.empty();
-		private Optional<String> direction = Optional.empty();
-		private Optional<String> platform = Optional.empty();
+		private Optional<String> color = Optional.empty();
 		private Map<String, Object> additionalInfo = Collections.emptyMap();
 
 		public Builder withName(String name) {
 			this.name = name;
-			return this;
-		}
-
-		public Builder withId(String id) {
-			this.id = Optional.ofNullable(id);
 			return this;
 		}
 
@@ -94,13 +79,8 @@ public class Service {
 			return this;
 		}
 
-		public Builder withDirection(String direction) {
-			this.direction = Optional.ofNullable(direction);
-			return this;
-		}
-
-		public Builder withPlatform(String platform) {
-			this.platform = Optional.ofNullable(platform);
+		public Builder withColor(String color) {
+			this.color = Optional.ofNullable(color);
 			return this;
 		}
 
@@ -116,6 +96,17 @@ public class Service {
 
 		private void validate() {
 			Preconditions.checkArgument(name != null, "name is mandatory but missing");
+			if (color.isPresent()) {
+				String colorStr = color.get();
+				String error = "color must be represented as hash-prepended six-digit hexadecimal String but was %s";
+				Preconditions.checkArgument(colorStr.startsWith("#"), error, colorStr);
+				Preconditions.checkArgument(colorStr.length() == 7, error, colorStr);
+				try {
+					Long.parseLong(colorStr.substring(1, 7), 16);
+				} catch (NumberFormatException e) {
+					Preconditions.checkArgument(false, error, colorStr);
+				}
+			}
 		}
 	}
 

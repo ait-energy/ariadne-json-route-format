@@ -52,9 +52,14 @@
             for(var routeId = 0; routeId < json.routes.length; routeId++) {
                 for(var segmentId = 0; segmentId < json.routes[routeId].segments.length; segmentId++) {
                     if (typeof json.routes[routeId].segments[segmentId].geometryGeoJson !== 'undefined') {
-                        fullRoute = json.routes[routeId].segments[segmentId].geometryGeoJson;
-                        console.log(fullRoute);
-                        L.geoJson(fullRoute, {
+                        segment = json.routes[routeId].segments[segmentId];
+                        // overrule color of line to paint with service-color
+                        if (typeof segment.modeOfTransport.service !== 'undefined' &&
+                                typeof segment.modeOfTransport.service.color !== 'undefined') {
+                            segment.geometryGeoJson.properties.color = segment.modeOfTransport.service.color;
+                        }
+                        console.log(segment.geometryGeoJson);
+                        L.geoJson(segment.geometryGeoJson, {
                             style: function (feature) {
                                 return styleGeoJson(feature);
                             }

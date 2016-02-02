@@ -1,14 +1,14 @@
 {
-  "routeFormatVersion" : "0.10-SNAPSHOT",
+  "routeFormatVersion" : "0.11-SNAPSHOT",
   "requestId" : "999",
-  "processedTime" : "2015-12-17T13:28:27.951+01:00[Europe/Vienna]",
+  "processedTime" : "2016-02-02T15:05:21.671+01:00[Europe/Vienna]",
   "status" : "OK",
   "debugMessage" : "Route calculated in 0.002 seconds",
   "coordinateReferenceSystem" : "EPSG:4326",
   "request" : {
-    "serviceId" : "OSM_test",
+    "serviceId" : "ariadne_webservice_vienna",
     "from" : {
-      "type" : "Location",
+      "type" : "PointOfInterest",
       "coordinate" : {
         "type" : "Feature",
         "geometry" : {
@@ -23,7 +23,9 @@
         "postCode" : "1210",
         "streetName" : "Giefinggasse",
         "houseNumber" : "2b"
-      }
+      },
+      "poiType" : "company",
+      "name" : "AIT"
     },
     "to" : {
       "type" : "Location",
@@ -31,27 +33,76 @@
         "type" : "Feature",
         "geometry" : {
           "type" : "Point",
-          "coordinates" : [ 16.4319054, 48.269724 ]
+          "coordinates" : [ 16.3632900, 48.2340770 ]
         },
         "properties" : { }
       },
       "address" : {
-        "streetName" : "Richard-Neutra-Gasse",
-        "houseNumber" : "6"
+        "postCode" : "1200",
+        "streetName" : "Treustraße",
+        "houseNumber" : "92"
       }
     },
-    "modesOfTransport" : [ "BICYCLE" ],
+    "modesOfTransport" : [ "PUBLIC_TRANSPORT" ],
     "optimizedFor" : "traveltime",
-    "departureTime" : "2015-12-17T13:28:27.949+01:00[Europe/Vienna]",
+    "departureTime" : "2016-01-01T15:00+01:00",
+    "privateVehicleLocations" : {
+      "CAR" : [ {
+        "type" : "Location",
+        "coordinate" : {
+          "type" : "Feature",
+          "geometry" : {
+            "type" : "Point",
+            "coordinates" : [ 16.3632900, 48.2340770 ]
+          },
+          "properties" : { }
+        },
+        "address" : {
+          "postCode" : "1200",
+          "streetName" : "Treustraße",
+          "houseNumber" : "92"
+        }
+      } ],
+      "BICYCLE" : [ {
+        "type" : "Location",
+        "coordinate" : {
+          "type" : "Feature",
+          "geometry" : {
+            "type" : "Point",
+            "coordinates" : [ 16.3655000, 48.2375200 ]
+          },
+          "properties" : { }
+        },
+        "address" : {
+          "streetName" : "Adalbert-Stifter-Straße",
+          "houseNumber" : "15"
+        }
+      }, {
+        "type" : "Location",
+        "coordinate" : {
+          "type" : "Feature",
+          "geometry" : {
+            "type" : "Point",
+            "coordinates" : [ 16.3715916, 48.2466090 ]
+          },
+          "properties" : { }
+        },
+        "address" : {
+          "postCode" : "1200",
+          "streetName" : "Hopsagasse",
+          "houseNumber" : "5"
+        }
+      } ]
+    },
     "additionalInfo" : {
-      "ait:additionalList" : [ 1, 2, 3 ],
-      "ait:additionalBigDecimal" : 12.34567,
-      "ait:additionalString" : "hello this is a String",
-      "ait:additionalObject" : {
+      "ait:additionalTestString" : "hello this is a String",
+      "ait:additionalTestBigDecimal" : 12.34567,
+      "ait:additionalTestList" : [ 1, 2, 3, 4, 5, 6, 7 ],
+      "ait:additionalTestObject" : {
         "name" : "Wiener Linien",
         "website" : "http://www.wienerlinien.at",
+        "customerServiceEmail" : "post@wienerlinien.at",
         "additionalInfo" : {
-          "email" : "post@wienerlinien.at",
           "email_ticketshop" : "ticketshop@wienerlinien.at"
         }
       }
@@ -59,7 +110,7 @@
   },
   "routes" : [ {
     "from" : {
-      "type" : "Location",
+      "type" : "PointOfInterest",
       "coordinate" : {
         "type" : "Feature",
         "geometry" : {
@@ -74,7 +125,9 @@
         "postCode" : "1210",
         "streetName" : "Giefinggasse",
         "houseNumber" : "2b"
-      }
+      },
+      "poiType" : "company",
+      "name" : "AIT"
     },
     "to" : {
       "type" : "Location",
@@ -82,18 +135,19 @@
         "type" : "Feature",
         "geometry" : {
           "type" : "Point",
-          "coordinates" : [ 16.4319054, 48.269724 ]
+          "coordinates" : [ 16.3632900, 48.2340770 ]
         },
         "properties" : { }
       },
       "address" : {
-        "streetName" : "Richard-Neutra-Gasse",
-        "houseNumber" : "6"
+        "postCode" : "1200",
+        "streetName" : "Treustraße",
+        "houseNumber" : "92"
       }
     },
-    "lengthMeters" : 570,
-    "durationSeconds" : 150,
-    "departureTime" : "2015-01-01T10:15:30+01:00",
+    "lengthMeters" : 6968,
+    "durationSeconds" : 2811,
+    "departureTime" : "2016-01-01T15:00+01:00",
     "segments" : [ {
       "nr" : 1,
       "from" : {
@@ -117,36 +171,32 @@
         "name" : "AIT"
       },
       "to" : {
-        "type" : "Location",
+        "type" : "PublicTransportStop",
         "coordinate" : {
           "type" : "Feature",
           "geometry" : {
             "type" : "Point",
-            "coordinates" : [ 16.4319054, 48.269724 ]
+            "coordinates" : [ 16.42791, 48.26680 ]
           },
           "properties" : { }
         },
-        "address" : {
-          "streetName" : "Richard-Neutra-Gasse",
-          "houseNumber" : "6"
-        }
+        "name" : "Heinrich-von-Buol-Gasse/Siemensstraße"
       },
-      "lengthMeters" : 570,
-      "durationSeconds" : 150,
-      "modeOfTransport" : "BICYCLE",
-      "departureTime" : "2015-01-01T10:15:30+01:00",
-      "arrivalTime" : "2015-01-01T10:18+01:00",
+      "lengthMeters" : 200,
+      "durationSeconds" : 60,
+      "modeOfTransport" : {
+        "generalizedType" : "FOOT",
+        "detailedType" : "FOOT"
+      },
+      "departureTime" : "2016-01-01T15:00+01:00",
+      "arrivalTime" : "2016-01-01T15:01+01:00",
       "geometryGeoJson" : {
         "type" : "Feature",
         "geometry" : {
           "type" : "LineString",
-          "coordinates" : [ [ 16.4265263, 48.2686617 ], [ 16.426593, 48.269826 ], [ 16.4319054, 48.269724 ] ]
+          "coordinates" : [ [ 16.4265263, 48.2686617 ], [ 16.4263000, 48.2682000 ], [ 16.4282400, 48.2671900 ], [ 16.42791, 48.26680 ] ]
         },
-        "properties" : {
-          "color" : "#FF11BB",
-          "weight" : 2,
-          "opacity" : "0.5"
-        }
+        "properties" : { }
       },
       "geometryGeoJsonEdges" : {
         "type" : "FeatureCollection",
@@ -154,72 +204,484 @@
           "type" : "Feature",
           "geometry" : {
             "type" : "LineString",
-            "coordinates" : [ [ 16.4265263, 48.2686617 ], [ 16.426593, 48.269826 ] ]
+            "coordinates" : [ [ 16.4265263, 48.2686617 ], [ 16.4263000, 48.2682000 ] ]
           },
           "properties" : {
             "frc" : "6",
             "name" : "Giefinggasse",
-            "edgeWeight" : "123"
+            "edgeWeight" : "54.1"
           }
         }, {
           "type" : "Feature",
           "geometry" : {
             "type" : "LineString",
-            "coordinates" : [ [ 16.426593, 48.269826 ], [ 16.4319054, 48.269724 ] ]
+            "coordinates" : [ [ 16.4263000, 48.2682000 ], [ 16.4282400, 48.2671900 ] ]
           },
           "properties" : {
-            "frc" : "6",
-            "name" : "Paukerwerkgasse",
-            "edgeWeight" : "187"
+            "frc" : "2",
+            "name" : "Siemensstraße",
+            "edgeWeight" : "182.5"
+          }
+        }, {
+          "type" : "Feature",
+          "geometry" : {
+            "type" : "LineString",
+            "coordinates" : [ [ 16.4282400, 48.2671900 ], [ 16.42791, 48.26680 ] ]
+          },
+          "properties" : {
+            "frc" : "3",
+            "name" : "Heinrich-von-Buol-Gasse",
+            "edgeWeight" : "49.8"
           }
         } ]
-      },
-      "navigationInstructions" : [ {
-        "type" : "BasicRoadInstruction",
-        "position" : {
-          "type" : "Feature",
-          "geometry" : {
-            "type" : "Point",
-            "coordinates" : [ 16.4265263, 48.2686617 ]
-          },
-          "properties" : { }
-        },
-        "subType" : "ROUTE_END",
-        "ontoStreetName" : "Hügelweg",
-        "ontoFormOfWay" : "PEDESTRIAN_ZONE"
-      }, {
-        "type" : "RoundaboutInstruction",
-        "position" : {
-          "type" : "Feature",
-          "geometry" : {
-            "type" : "Point",
-            "coordinates" : [ 16.4265263, 48.2686617 ]
-          },
-          "properties" : { }
-        },
-        "subType" : "ENTER",
-        "ontoStreetName" : "Bergstraße",
-        "ontoFormOfWay" : "CYCLEPATH",
-        "exitNr" : 3
-      } ]
+      }
     }, {
-      "nr" : 1,
+      "nr" : 2,
       "from" : {
-        "type" : "Location",
+        "type" : "PublicTransportStop",
         "coordinate" : {
           "type" : "Feature",
           "geometry" : {
             "type" : "Point",
-            "coordinates" : [ 16.4265263, 48.2686617 ]
+            "coordinates" : [ 16.42791, 48.26680 ]
           },
           "properties" : { }
         },
-        "address" : {
-          "country" : "Austria",
-          "city" : "Wien",
-          "postCode" : "1210",
-          "streetName" : "Giefinggasse",
-          "houseNumber" : "2b"
+        "name" : "Heinrich-von-Buol-Gasse/Siemensstraße"
+      },
+      "to" : {
+        "type" : "PublicTransportStop",
+        "coordinate" : {
+          "type" : "Feature",
+          "geometry" : {
+            "type" : "Point",
+            "coordinates" : [ 16.42791, 48.26680 ]
+          },
+          "properties" : { }
+        },
+        "name" : "Heinrich-von-Buol-Gasse/Siemensstraße"
+      },
+      "lengthMeters" : 0,
+      "durationSeconds" : 300,
+      "modeOfTransport" : {
+        "generalizedType" : "FOOT",
+        "detailedType" : "TRANSFER"
+      },
+      "boardingSeconds" : 300,
+      "departureTime" : "2016-01-01T15:01+01:00",
+      "arrivalTime" : "2016-01-01T15:06+01:00",
+      "geometryGeoJson" : {
+        "type" : "Feature",
+        "geometry" : {
+          "type" : "LineString",
+          "coordinates" : [ [ 16.42791, 48.26680 ], [ 16.42791, 48.26680 ] ]
+        },
+        "properties" : { }
+      }
+    }, {
+      "nr" : 3,
+      "from" : {
+        "type" : "PublicTransportStop",
+        "coordinate" : {
+          "type" : "Feature",
+          "geometry" : {
+            "type" : "Point",
+            "coordinates" : [ 16.42791, 48.26680 ]
+          },
+          "properties" : { }
+        },
+        "name" : "Heinrich-von-Buol-Gasse/Siemensstraße"
+      },
+      "to" : {
+        "type" : "PublicTransportStop",
+        "coordinate" : {
+          "type" : "Feature",
+          "geometry" : {
+            "type" : "Point",
+            "coordinates" : [ 16.40073, 48.25625 ]
+          },
+          "properties" : { }
+        },
+        "name" : "Floridsdorf Bus"
+      },
+      "lengthMeters" : 2500,
+      "durationSeconds" : 630,
+      "modeOfTransport" : {
+        "generalizedType" : "PUBLIC_TRANSPORT",
+        "detailedType" : "BUS",
+        "service" : {
+          "name" : "28A",
+          "towards" : "Floridsdorf"
+        },
+        "operator" : {
+          "name" : "Wiener Linien",
+          "website" : "http://www.wienerlinien.at",
+          "customerServiceEmail" : "post@wienerlinien.at",
+          "additionalInfo" : {
+            "email_ticketshop" : "ticketshop@wienerlinien.at"
+          }
+        },
+        "accessibility" : [ "NOT_WHEELHAIR_ACCESSIBLE" ]
+      },
+      "departureTime" : "2016-01-01T15:06+01:00",
+      "arrivalTime" : "2016-01-01T15:16:30+01:00",
+      "geometryGeoJson" : {
+        "type" : "Feature",
+        "geometry" : {
+          "type" : "LineString",
+          "coordinates" : [ [ 16.42791, 48.26680 ], [ 16.4236000, 48.2621000 ], [ 16.4044000, 48.2576000 ], [ 16.4030500, 48.2562100 ], [ 16.4012700, 48.2569800 ], [ 16.40073, 48.25625 ] ]
+        },
+        "properties" : { }
+      }
+    }, {
+      "nr" : 4,
+      "from" : {
+        "type" : "PublicTransportStop",
+        "coordinate" : {
+          "type" : "Feature",
+          "geometry" : {
+            "type" : "Point",
+            "coordinates" : [ 16.40073, 48.25625 ]
+          },
+          "properties" : { }
+        },
+        "name" : "Floridsdorf Bus"
+      },
+      "to" : {
+        "type" : "PublicTransportStop",
+        "coordinate" : {
+          "type" : "Feature",
+          "geometry" : {
+            "type" : "Point",
+            "coordinates" : [ 16.40050, 48.25618 ]
+          },
+          "properties" : { }
+        },
+        "name" : "Floridsdorf U-Bahn"
+      },
+      "lengthMeters" : 40,
+      "durationSeconds" : 240,
+      "modeOfTransport" : {
+        "generalizedType" : "FOOT",
+        "detailedType" : "TRANSFER"
+      },
+      "boardingSeconds" : 180,
+      "departureTime" : "2016-01-01T15:16:30+01:00",
+      "arrivalTime" : "2016-01-01T15:20:30+01:00",
+      "geometryGeoJson" : {
+        "type" : "Feature",
+        "geometry" : {
+          "type" : "LineString",
+          "coordinates" : [ [ 16.40073, 48.25625 ], [ 16.40050, 48.25618 ] ]
+        },
+        "properties" : { }
+      },
+      "accessibility" : [ "ESCALATOR", "STAIRS", "ESCALATOR" ]
+    }, {
+      "nr" : 5,
+      "from" : {
+        "type" : "PublicTransportStop",
+        "coordinate" : {
+          "type" : "Feature",
+          "geometry" : {
+            "type" : "Point",
+            "coordinates" : [ 16.40050, 48.25618 ]
+          },
+          "properties" : { }
+        },
+        "name" : "Floridsdorf U-Bahn"
+      },
+      "to" : {
+        "type" : "PublicTransportStop",
+        "coordinate" : {
+          "type" : "Feature",
+          "geometry" : {
+            "type" : "Point",
+            "coordinates" : [ 16.3854100, 48.2417300 ]
+          },
+          "properties" : { }
+        },
+        "name" : "Handelskai U-Bahn (Bahnsteig 2)"
+      },
+      "lengthMeters" : 2000,
+      "durationSeconds" : 240,
+      "modeOfTransport" : {
+        "generalizedType" : "PUBLIC_TRANSPORT",
+        "detailedType" : "SUBWAY",
+        "service" : {
+          "name" : "U6",
+          "towards" : "Siebenhirten",
+          "color" : "#bf7700"
+        },
+        "operator" : {
+          "name" : "Wiener Linien",
+          "website" : "http://www.wienerlinien.at",
+          "customerServiceEmail" : "post@wienerlinien.at",
+          "additionalInfo" : {
+            "email_ticketshop" : "ticketshop@wienerlinien.at"
+          }
+        },
+        "accessibility" : [ "WHEELCHAIR_ACCESSIBLE" ]
+      },
+      "departureTime" : "2016-01-01T15:20:30+01:00",
+      "arrivalTime" : "2016-01-01T15:24:30+01:00",
+      "intermediateStops" : [ {
+        "stop" : {
+          "type" : "PublicTransportStop",
+          "coordinate" : {
+            "type" : "Feature",
+            "geometry" : {
+              "type" : "Point",
+              "coordinates" : [ 16.3946800, 48.2463000 ]
+            },
+            "properties" : { }
+          },
+          "name" : "Neue Donau",
+          "relatedLines" : {
+            "20A" : "BUS",
+            "20B" : "BUS"
+          }
+        },
+        "plannedArrivalTime" : "2016-01-01T15:22:30+01:00",
+        "plannedDepartureTime" : "2016-01-01T15:23:30+01:00",
+        "estimatedArrivalTime" : "2016-01-01T15:22:30+01:00",
+        "estimatedDepartureTime" : "2016-01-01T15:23:30+01:00"
+      } ],
+      "geometryGeoJson" : {
+        "type" : "Feature",
+        "geometry" : {
+          "type" : "LineString",
+          "coordinates" : [ [ 16.40050, 48.25618 ], [ 16.3946800, 48.2463000 ], [ 16.3854100, 48.2417300 ] ]
+        },
+        "properties" : { }
+      }
+    }, {
+      "nr" : 6,
+      "from" : {
+        "type" : "PublicTransportStop",
+        "coordinate" : {
+          "type" : "Feature",
+          "geometry" : {
+            "type" : "Point",
+            "coordinates" : [ 16.3854100, 48.2417300 ]
+          },
+          "properties" : { }
+        },
+        "name" : "Handelskai U-Bahn (Bahnsteig 2)"
+      },
+      "to" : {
+        "type" : "PublicTransportStop",
+        "coordinate" : {
+          "type" : "Feature",
+          "geometry" : {
+            "type" : "Point",
+            "coordinates" : [ 16.3848877, 48.2416471 ]
+          },
+          "properties" : { }
+        },
+        "name" : "Handelskai Eingang"
+      },
+      "lengthMeters" : 40,
+      "durationSeconds" : 180,
+      "modeOfTransport" : {
+        "generalizedType" : "FOOT",
+        "detailedType" : "TRANSFER"
+      },
+      "geometryGeoJson" : {
+        "type" : "Feature",
+        "geometry" : {
+          "type" : "LineString",
+          "coordinates" : [ [ 16.3854100, 48.2417300 ], [ 16.3848877, 48.2416471 ] ]
+        },
+        "properties" : { }
+      },
+      "accessibility" : [ "ESCALATOR" ]
+    }, {
+      "nr" : 7,
+      "from" : {
+        "type" : "PublicTransportStop",
+        "coordinate" : {
+          "type" : "Feature",
+          "geometry" : {
+            "type" : "Point",
+            "coordinates" : [ 16.3848877, 48.2416471 ]
+          },
+          "properties" : { }
+        },
+        "name" : "Handelskai Eingang"
+      },
+      "to" : {
+        "type" : "SharingStation",
+        "coordinate" : {
+          "type" : "Feature",
+          "geometry" : {
+            "type" : "Point",
+            "coordinates" : [ 16.3847976, 48.2420356 ]
+          },
+          "properties" : { }
+        },
+        "additionalInfo" : {
+          "capacity" : "35",
+          "bikes_available" : "10",
+          "boxes_available" : "25"
+        },
+        "name" : "Millennium Tower",
+        "id" : "2005",
+        "modesOfTransport" : [ "BICYCLE" ],
+        "operator" : {
+          "name" : "Citybike Wien",
+          "address" : {
+            "city" : "Wien",
+            "postCode" : "1030",
+            "streetName" : "Litfaßstraße",
+            "houseNumber" : "6"
+          },
+          "website" : "http://citybikewien.at",
+          "customerServiceEmail" : "kontakt@citybikewien.at",
+          "customerServicePhone" : "0810 500 500"
+        }
+      },
+      "lengthMeters" : 57,
+      "durationSeconds" : 40,
+      "modeOfTransport" : {
+        "generalizedType" : "FOOT",
+        "detailedType" : "FOOT"
+      },
+      "geometryGeoJson" : {
+        "type" : "Feature",
+        "geometry" : {
+          "type" : "LineString",
+          "coordinates" : [ [ 16.3848877, 48.2416471 ], [ 16.3845846, 48.2418792 ], [ 16.3847976, 48.2420356 ] ]
+        },
+        "properties" : { }
+      }
+    }, {
+      "nr" : 8,
+      "from" : {
+        "type" : "SharingStation",
+        "coordinate" : {
+          "type" : "Feature",
+          "geometry" : {
+            "type" : "Point",
+            "coordinates" : [ 16.3847976, 48.2420356 ]
+          },
+          "properties" : { }
+        },
+        "additionalInfo" : {
+          "capacity" : "35",
+          "bikes_available" : "10",
+          "boxes_available" : "25"
+        },
+        "name" : "Millennium Tower",
+        "id" : "2005",
+        "modesOfTransport" : [ "BICYCLE" ],
+        "operator" : {
+          "name" : "Citybike Wien",
+          "address" : {
+            "city" : "Wien",
+            "postCode" : "1030",
+            "streetName" : "Litfaßstraße",
+            "houseNumber" : "6"
+          },
+          "website" : "http://citybikewien.at",
+          "customerServiceEmail" : "kontakt@citybikewien.at",
+          "customerServicePhone" : "0810 500 500"
+        }
+      },
+      "to" : {
+        "type" : "SharingStation",
+        "coordinate" : {
+          "type" : "Feature",
+          "geometry" : {
+            "type" : "Point",
+            "coordinates" : [ 16.3792033, 48.2441354 ]
+          },
+          "properties" : { }
+        },
+        "additionalInfo" : {
+          "capacity" : "27",
+          "bikes_available" : "27",
+          "boxes_available" : "0"
+        },
+        "name" : "Friedrich Engels Platz",
+        "id" : "2006",
+        "modesOfTransport" : [ "BICYCLE" ],
+        "operator" : {
+          "name" : "Citybike Wien",
+          "address" : {
+            "city" : "Wien",
+            "postCode" : "1030",
+            "streetName" : "Litfaßstraße",
+            "houseNumber" : "6"
+          },
+          "website" : "http://citybikewien.at",
+          "customerServiceEmail" : "kontakt@citybikewien.at",
+          "customerServicePhone" : "0810 500 500"
+        }
+      },
+      "lengthMeters" : 692,
+      "durationSeconds" : 360,
+      "modeOfTransport" : {
+        "generalizedType" : "BICYCLE",
+        "detailedType" : "BICYCLE",
+        "operator" : {
+          "name" : "Citybike Wien",
+          "address" : {
+            "city" : "Wien",
+            "postCode" : "1030",
+            "streetName" : "Litfaßstraße",
+            "houseNumber" : "6"
+          },
+          "website" : "http://citybikewien.at",
+          "customerServiceEmail" : "kontakt@citybikewien.at",
+          "customerServicePhone" : "0810 500 500"
+        }
+      },
+      "boardingSeconds" : 120,
+      "alightingSeconds" : 60,
+      "geometryGeoJson" : {
+        "type" : "Feature",
+        "geometry" : {
+          "type" : "LineString",
+          "coordinates" : [ [ 16.3847976, 48.2420356 ], [ 16.3838145, 48.2413853 ], [ 16.3807639, 48.2442201 ], [ 16.3793906, 48.2438237 ], [ 16.3792033, 48.2441354 ] ]
+        },
+        "properties" : {
+          "color" : "#FFBBCC",
+          "weight" : "7",
+          "opacity" : "0.9"
+        }
+      }
+    }, {
+      "nr" : 9,
+      "from" : {
+        "type" : "SharingStation",
+        "coordinate" : {
+          "type" : "Feature",
+          "geometry" : {
+            "type" : "Point",
+            "coordinates" : [ 16.3792033, 48.2441354 ]
+          },
+          "properties" : { }
+        },
+        "additionalInfo" : {
+          "capacity" : "27",
+          "bikes_available" : "27",
+          "boxes_available" : "0"
+        },
+        "name" : "Friedrich Engels Platz",
+        "id" : "2006",
+        "modesOfTransport" : [ "BICYCLE" ],
+        "operator" : {
+          "name" : "Citybike Wien",
+          "address" : {
+            "city" : "Wien",
+            "postCode" : "1030",
+            "streetName" : "Litfaßstraße",
+            "houseNumber" : "6"
+          },
+          "website" : "http://citybikewien.at",
+          "customerServiceEmail" : "kontakt@citybikewien.at",
+          "customerServicePhone" : "0810 500 500"
         }
       },
       "to" : {
@@ -228,74 +690,153 @@
           "type" : "Feature",
           "geometry" : {
             "type" : "Point",
-            "coordinates" : [ 16.4319054, 48.269724 ]
+            "coordinates" : [ 16.3774540, 48.2438600 ]
           },
           "properties" : { }
         },
         "address" : {
-          "streetName" : "Richard-Neutra-Gasse",
-          "houseNumber" : "6"
+          "streetName" : "Adalbert-Stifter-Straße",
+          "houseNumber" : "71"
         }
       },
-      "lengthMeters" : 570,
-      "durationSeconds" : 150,
-      "modeOfTransport" : "PUBLIC_TRANSPORT",
-      "departureTime" : "2015-01-01T10:15:30+01:00",
-      "arrivalTime" : "2015-01-01T10:18+01:00",
-      "vehicle" : {
-        "type" : "BUS",
-        "service" : {
-          "provider" : {
-            "name" : "Wiener Linien",
-            "website" : "http://www.wienerlinien.at",
-            "additionalInfo" : {
-              "email" : "post@wienerlinien.at",
-              "email_ticketshop" : "ticketshop@wienerlinien.at"
-            }
-          },
-          "name" : "28A",
-          "direction" : "Floridsdorf"
-        }
+      "lengthMeters" : 150,
+      "durationSeconds" : 115,
+      "modeOfTransport" : {
+        "generalizedType" : "FOOT",
+        "detailedType" : "FOOT"
       },
       "geometryGeoJson" : {
         "type" : "Feature",
         "geometry" : {
           "type" : "LineString",
-          "coordinates" : [ [ 16.4265263, 48.2686617 ], [ 16.426593, 48.269826 ], [ 16.4319054, 48.269724 ] ]
+          "coordinates" : [ [ 16.3792033, 48.2441354 ], [ 16.3776302, 48.2436923 ], [ 16.3774540, 48.2438600 ] ]
         },
-        "properties" : {
-          "color" : "#FF11BB",
-          "weight" : 2,
-          "opacity" : "0.5"
+        "properties" : { }
+      },
+      "accessibility" : [ "STAIRS" ]
+    }, {
+      "nr" : 10,
+      "from" : {
+        "type" : "Location",
+        "coordinate" : {
+          "type" : "Feature",
+          "geometry" : {
+            "type" : "Point",
+            "coordinates" : [ 16.3774540, 48.2438600 ]
+          },
+          "properties" : { }
+        },
+        "address" : {
+          "streetName" : "Adalbert-Stifter-Straße",
+          "houseNumber" : "71"
         }
       },
-      "geometryGeoJsonEdges" : {
-        "type" : "FeatureCollection",
-        "features" : [ {
+      "to" : {
+        "type" : "Location",
+        "coordinate" : {
           "type" : "Feature",
           "geometry" : {
-            "type" : "LineString",
-            "coordinates" : [ [ 16.4265263, 48.2686617 ], [ 16.426593, 48.269826 ] ]
+            "type" : "Point",
+            "coordinates" : [ 16.3655000, 48.2375200 ]
           },
-          "properties" : {
-            "frc" : "6",
-            "name" : "Giefinggasse",
-            "edgeWeight" : "123"
-          }
-        }, {
-          "type" : "Feature",
-          "geometry" : {
-            "type" : "LineString",
-            "coordinates" : [ [ 16.426593, 48.269826 ], [ 16.4319054, 48.269724 ] ]
-          },
-          "properties" : {
-            "frc" : "6",
-            "name" : "Paukerwerkgasse",
-            "edgeWeight" : "187"
-          }
-        } ]
+          "properties" : { }
+        },
+        "address" : {
+          "streetName" : "Adalbert-Stifter-Straße",
+          "houseNumber" : "15"
+        }
+      },
+      "lengthMeters" : 692,
+      "durationSeconds" : 420,
+      "modeOfTransport" : {
+        "generalizedType" : "CAR",
+        "detailedType" : "CAR",
+        "operator" : {
+          "name" : "Car2Go",
+          "website" : "https://www.car2go.com/de/wien",
+          "customerServiceEmail" : "wien@car2go.com"
+        },
+        "additionalInfo" : {
+          "licensePlate" : "W-123456",
+          "fuelPercentage" : "80",
+          "interiorState" : "good",
+          "exteriorState" : "unacceptable"
+        }
+      },
+      "boardingSeconds" : 120,
+      "alightingSeconds" : 60,
+      "geometryGeoJson" : {
+        "type" : "Feature",
+        "geometry" : {
+          "type" : "LineString",
+          "coordinates" : [ [ 16.3774540, 48.2438600 ], [ 16.3736010, 48.2421800 ], [ 16.3655000, 48.2375200 ] ]
+        },
+        "properties" : { }
       }
-    } ],
-    "type" : "BICYCLE_AND_PUBLIC_TRANSPORT"
+    }, {
+      "nr" : 11,
+      "from" : {
+        "type" : "Location",
+        "coordinate" : {
+          "type" : "Feature",
+          "geometry" : {
+            "type" : "Point",
+            "coordinates" : [ 16.3655000, 48.2375200 ]
+          },
+          "properties" : { }
+        },
+        "address" : {
+          "streetName" : "Adalbert-Stifter-Straße",
+          "houseNumber" : "15"
+        }
+      },
+      "to" : {
+        "type" : "Location",
+        "coordinate" : {
+          "type" : "Feature",
+          "geometry" : {
+            "type" : "Point",
+            "coordinates" : [ 16.3632900, 48.2340770 ]
+          },
+          "properties" : { }
+        },
+        "address" : {
+          "postCode" : "1200",
+          "streetName" : "Treustraße",
+          "houseNumber" : "92"
+        }
+      },
+      "lengthMeters" : 597,
+      "durationSeconds" : 226,
+      "modeOfTransport" : {
+        "generalizedType" : "BICYCLE",
+        "detailedType" : "BICYCLE"
+      },
+      "boardingSeconds" : 60,
+      "alightingSeconds" : 60,
+      "intermediateStops" : [ {
+        "stop" : {
+          "type" : "PointOfInterest",
+          "coordinate" : {
+            "type" : "Feature",
+            "geometry" : {
+              "type" : "Point",
+              "coordinates" : [ 16.3640740, 48.2350109 ]
+            },
+            "properties" : { }
+          },
+          "poiType" : "park",
+          "name" : "Anton-Kummerer-Park"
+        }
+      } ],
+      "geometryGeoJson" : {
+        "type" : "Feature",
+        "geometry" : {
+          "type" : "LineString",
+          "coordinates" : [ [ 16.3655000, 48.2375200 ], [ 16.3651500, 48.2372900 ], [ 16.3656000, 48.2351500 ], [ 16.3628800, 48.2350900 ], [ 16.3632900, 48.2340770 ] ]
+        },
+        "properties" : { }
+      }
+    } ]
   } ]
 }

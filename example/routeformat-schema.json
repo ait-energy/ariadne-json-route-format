@@ -1,72 +1,91 @@
 {
   "type" : "object",
-  "id" : "urn:jsonschema:at:ac:ait:sproute:routeformat:RouteFormatRoot",
   "$schema" : "http://json-schema.org/draft-04/schema#",
+  "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:RouteFormatRoot",
   "properties" : {
-    "routeFormatVersion" : {
-      "type" : "string",
-      "required" : true
-    },
-    "requestId" : {
-      "type" : "string",
-      "required" : true
-    },
-    "processedTime" : {
-      "type" : "string",
-      "required" : true
-    },
-    "status" : {
-      "type" : "string",
-      "required" : true,
-      "enum" : [ "OK", "INVALID_REQUEST", "ERROR" ]
-    },
-    "debugMessage" : {
-      "type" : "string"
-    },
     "coordinateReferenceSystem" : {
       "type" : "string",
       "required" : true
     },
     "request" : {
       "type" : "object",
-      "id" : "urn:jsonschema:at:ac:ait:sproute:routeformat:RoutingRequest",
+      "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:RoutingRequest",
       "properties" : {
-        "serviceId" : {
+        "departureTime" : {
+          "type" : "string"
+        },
+        "accessibilityRestrictions" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string",
+            "enum" : [ "STAIRS", "ESCALATOR", "ELEVATOR", "WHEELCHAIR_ACCESSIBLE", "NOT_WHEELHAIR_ACCESSIBLE" ]
+          }
+        },
+        "acceptedDelayMinutes" : {
+          "type" : "integer"
+        },
+        "modesOfTransport" : {
+          "type" : "array",
+          "required" : true,
+          "items" : {
+            "type" : "string",
+            "enum" : [ "FOOT", "BICYCLE", "MOTORCYCLE", "CAR", "PUBLIC_TRANSPORT" ]
+          }
+        },
+        "language" : {
+          "type" : "string"
+        },
+        "optimizedFor" : {
           "type" : "string",
           "required" : true
         },
+        "via" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:location:Location"
+          }
+        },
+        "arrivalTime" : {
+          "type" : "string"
+        },
+        "additionalInfo" : {
+          "type" : "object",
+          "additionalProperties" : {
+            "type" : "any"
+          }
+        },
         "from" : {
           "type" : "object",
-          "id" : "urn:jsonschema:at:ac:ait:sproute:routeformat:location:Location",
+          "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:location:Location",
           "required" : true,
           "properties" : {
             "coordinate" : {
               "type" : "object",
-              "id" : "urn:jsonschema:at:ac:ait:sproute:routeformat:geojson:GeoJSONFeature<at:ac:ait:sproute:routeformat:geojson:GeoJSONPoint>",
+              "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONFeature<at:ac:ait:ariadne:routeformat:geojson:GeoJSONPoint>",
               "properties" : {
-                "type" : {
-                  "type" : "string",
-                  "required" : true,
-                  "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon" ]
-                },
                 "geometry" : {
                   "type" : "object",
-                  "id" : "urn:jsonschema:at:ac:ait:sproute:routeformat:geojson:GeoJSONPoint",
+                  "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONPoint",
                   "required" : true,
                   "properties" : {
-                    "type" : {
-                      "type" : "string",
-                      "required" : true,
-                      "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon" ]
-                    },
                     "coordinates" : {
                       "type" : "array",
                       "required" : true,
                       "items" : {
                         "type" : "number"
                       }
+                    },
+                    "type" : {
+                      "type" : "string",
+                      "required" : true,
+                      "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon" ]
                     }
                   }
+                },
+                "type" : {
+                  "type" : "string",
+                  "required" : true,
+                  "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon" ]
                 },
                 "properties" : {
                   "type" : "object",
@@ -79,21 +98,21 @@
             },
             "address" : {
               "type" : "object",
-              "id" : "urn:jsonschema:at:ac:ait:sproute:routeformat:location:Address",
+              "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:location:Address",
               "properties" : {
                 "country" : {
-                  "type" : "string"
-                },
-                "city" : {
-                  "type" : "string"
-                },
-                "postCode" : {
                   "type" : "string"
                 },
                 "streetName" : {
                   "type" : "string"
                 },
+                "city" : {
+                  "type" : "string"
+                },
                 "houseNumber" : {
+                  "type" : "string"
+                },
+                "postCode" : {
                   "type" : "string"
                 }
               }
@@ -106,52 +125,22 @@
             }
           }
         },
-        "via" : {
-          "type" : "array",
-          "items" : {
-            "$ref" : "urn:jsonschema:at:ac:ait:sproute:routeformat:location:Location"
-          }
-        },
         "to" : {
           "type" : "object",
-          "$ref" : "urn:jsonschema:at:ac:ait:sproute:routeformat:location:Location",
+          "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:location:Location",
           "required" : true
         },
-        "modesOfTransport" : {
-          "type" : "array",
-          "required" : true,
-          "items" : {
-            "type" : "string",
-            "enum" : [ "FOOT", "BICYCLE", "MOTORCYCLE", "CAR", "PUBLIC_TRANSPORT" ]
-          }
-        },
-        "optimizedFor" : {
+        "serviceId" : {
           "type" : "string",
           "required" : true
         },
-        "departureTime" : {
-          "type" : "string"
-        },
-        "arrivalTime" : {
-          "type" : "string"
-        },
-        "acceptedDelayMinutes" : {
-          "type" : "integer"
-        },
-        "accessibilityRestrictions" : {
-          "type" : "array",
-          "items" : {
-            "type" : "string",
-            "enum" : [ "STAIRS", "ESCALATOR", "ELEVATOR", "NOT_WHEELHAIR_ACCESSIBLE" ]
-          }
-        },
-        "language" : {
-          "type" : "string"
-        },
-        "additionalInfo" : {
+        "privateVehicleLocations" : {
           "type" : "object",
           "additionalProperties" : {
-            "type" : "any"
+            "type" : "array",
+            "items" : {
+              "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:location:Location"
+            }
           }
         }
       }
@@ -161,54 +150,20 @@
       "required" : true,
       "items" : {
         "type" : "object",
-        "id" : "urn:jsonschema:at:ac:ait:sproute:routeformat:Route",
+        "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:Route",
         "properties" : {
-          "from" : {
-            "type" : "object",
-            "$ref" : "urn:jsonschema:at:ac:ait:sproute:routeformat:location:Location",
-            "required" : true
-          },
-          "to" : {
-            "type" : "object",
-            "$ref" : "urn:jsonschema:at:ac:ait:sproute:routeformat:location:Location",
-            "required" : true
-          },
-          "lengthMeters" : {
-            "type" : "integer",
-            "required" : true
-          },
-          "durationSeconds" : {
-            "type" : "integer",
-            "required" : true
-          },
-          "id" : {
-            "type" : "string"
-          },
           "departureTime" : {
-            "type" : "string"
-          },
-          "arrivalTime" : {
             "type" : "string"
           },
           "boundingBox" : {
             "type" : "object",
-            "id" : "urn:jsonschema:at:ac:ait:sproute:routeformat:geojson:GeoJSONFeature<at:ac:ait:sproute:routeformat:geojson:GeoJSONPolygon>",
+            "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONFeature<at:ac:ait:ariadne:routeformat:geojson:GeoJSONPolygon>",
             "properties" : {
-              "type" : {
-                "type" : "string",
-                "required" : true,
-                "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon" ]
-              },
               "geometry" : {
                 "type" : "object",
-                "id" : "urn:jsonschema:at:ac:ait:sproute:routeformat:geojson:GeoJSONPolygon",
+                "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONPolygon",
                 "required" : true,
                 "properties" : {
-                  "type" : {
-                    "type" : "string",
-                    "required" : true,
-                    "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon" ]
-                  },
                   "coordinates" : {
                     "type" : "array",
                     "required" : true,
@@ -221,8 +176,18 @@
                         }
                       }
                     }
+                  },
+                  "type" : {
+                    "type" : "string",
+                    "required" : true,
+                    "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon" ]
                   }
                 }
+              },
+              "type" : {
+                "type" : "string",
+                "required" : true,
+                "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon" ]
               },
               "properties" : {
                 "type" : "object",
@@ -236,25 +201,27 @@
           "simplifiedGeometryEncodedPolyLine" : {
             "type" : "string"
           },
+          "durationSeconds" : {
+            "type" : "integer",
+            "required" : true
+          },
+          "type" : {
+            "type" : "string",
+            "enum" : [ "FOOT", "BICYCLE", "MOTORCYCLE", "CAR", "PUBLIC_TRANSPORT", "TAXI", "TAXI_SHARED", "CAR_SHARED", "BICYCLE_SHARED", "CAR_AND_PUBLIC_TRANSPORT", "BICYCLE_AND_PUBLIC_TRANSPORT", "SHARED_CAR_AND_PUBLIC_TRANSPORT", "SHARED_BICYCLE_AND_PUBLIC_TRANSPORT", "TAXI_AND_PUBLIC_TRANSPORT", "SHARED_TAXI_AND_PUBLIC_TRANSPORT", "SHARED_CAR_AND_SHARED_BICYCLE", "INTERMODAL_OTHER" ]
+          },
+          "lengthMeters" : {
+            "type" : "integer",
+            "required" : true
+          },
           "simplifiedGeometryGeoJson" : {
             "type" : "object",
-            "id" : "urn:jsonschema:at:ac:ait:sproute:routeformat:geojson:GeoJSONFeature<at:ac:ait:sproute:routeformat:geojson:GeoJSONLineString>",
+            "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONFeature<at:ac:ait:ariadne:routeformat:geojson:GeoJSONLineString>",
             "properties" : {
-              "type" : {
-                "type" : "string",
-                "required" : true,
-                "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon" ]
-              },
               "geometry" : {
                 "type" : "object",
-                "id" : "urn:jsonschema:at:ac:ait:sproute:routeformat:geojson:GeoJSONLineString",
+                "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONLineString",
                 "required" : true,
                 "properties" : {
-                  "type" : {
-                    "type" : "string",
-                    "required" : true,
-                    "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon" ]
-                  },
                   "coordinates" : {
                     "type" : "array",
                     "required" : true,
@@ -264,8 +231,18 @@
                         "type" : "number"
                       }
                     }
+                  },
+                  "type" : {
+                    "type" : "string",
+                    "required" : true,
+                    "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon" ]
                   }
                 }
+              },
+              "type" : {
+                "type" : "string",
+                "required" : true,
+                "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon" ]
               },
               "properties" : {
                 "type" : "object",
@@ -281,23 +258,35 @@
             "required" : true,
             "items" : {
               "type" : "object",
-              "id" : "urn:jsonschema:at:ac:ait:sproute:routeformat:RouteSegment",
+              "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:RouteSegment",
               "properties" : {
+                "departureTime" : {
+                  "type" : "string"
+                },
+                "boundingBox" : {
+                  "type" : "object",
+                  "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONFeature<at:ac:ait:ariadne:routeformat:geojson:GeoJSONPolygon>",
+                  "properties" : {
+                    "geometry" : {
+                      "type" : "object",
+                      "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONPolygon",
+                      "required" : true
+                    },
+                    "type" : {
+                      "type" : "string",
+                      "required" : true,
+                      "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon" ]
+                    },
+                    "properties" : {
+                      "type" : "object",
+                      "required" : true,
+                      "additionalProperties" : {
+                        "type" : "any"
+                      }
+                    }
+                  }
+                },
                 "nr" : {
-                  "type" : "integer",
-                  "required" : true
-                },
-                "from" : {
-                  "type" : "object",
-                  "$ref" : "urn:jsonschema:at:ac:ait:sproute:routeformat:location:Location",
-                  "required" : true
-                },
-                "to" : {
-                  "type" : "object",
-                  "$ref" : "urn:jsonschema:at:ac:ait:sproute:routeformat:location:Location",
-                  "required" : true
-                },
-                "lengthMeters" : {
                   "type" : "integer",
                   "required" : true
                 },
@@ -305,92 +294,39 @@
                   "type" : "integer",
                   "required" : true
                 },
+                "boardingSeconds" : {
+                  "type" : "integer"
+                },
+                "alightingSeconds" : {
+                  "type" : "integer"
+                },
+                "accessibility" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "string",
+                    "enum" : [ "STAIRS", "ESCALATOR", "ELEVATOR", "WHEELCHAIR_ACCESSIBLE", "NOT_WHEELHAIR_ACCESSIBLE" ]
+                  }
+                },
                 "modeOfTransport" : {
-                  "type" : "string",
-                  "required" : true,
-                  "enum" : [ "FOOT", "BICYCLE", "MOTORCYCLE", "CAR", "PUBLIC_TRANSPORT" ]
-                },
-                "departureTime" : {
-                  "type" : "string"
-                },
-                "arrivalTime" : {
-                  "type" : "string"
-                },
-                "vehicle" : {
                   "type" : "object",
-                  "id" : "urn:jsonschema:at:ac:ait:sproute:routeformat:Vehicle",
+                  "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:ModeOfTransport",
+                  "required" : true,
                   "properties" : {
-                    "type" : {
-                      "type" : "string",
-                      "required" : true,
-                      "enum" : [ "TRAIN", "LIGHTRAIL", "SUBWAY", "MONORAIL", "TRAM", "BUS", "TROLLEYBUS", "AERIALWAY", "FERRY", "BICYCLE", "MOTORCYCLE", "CAR", "TAXI" ]
-                    },
-                    "id" : {
-                      "type" : "string"
+                    "accessibility" : {
+                      "type" : "array",
+                      "items" : {
+                        "type" : "string",
+                        "enum" : [ "STAIRS", "ESCALATOR", "ELEVATOR", "WHEELCHAIR_ACCESSIBLE", "NOT_WHEELHAIR_ACCESSIBLE" ]
+                      }
                     },
                     "service" : {
                       "type" : "object",
-                      "id" : "urn:jsonschema:at:ac:ait:sproute:routeformat:Service",
+                      "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:Service",
                       "properties" : {
-                        "provider" : {
-                          "type" : "object",
-                          "id" : "urn:jsonschema:at:ac:ait:sproute:routeformat:ServiceProvider",
-                          "properties" : {
-                            "name" : {
-                              "type" : "string",
-                              "required" : true
-                            },
-                            "id" : {
-                              "type" : "string"
-                            },
-                            "address" : {
-                              "type" : "object",
-                              "id" : "urn:jsonschema:at:ac:ait:sproute:routeformat:location:Address",
-                              "properties" : {
-                                "country" : {
-                                  "type" : "string"
-                                },
-                                "city" : {
-                                  "type" : "string"
-                                },
-                                "postCode" : {
-                                  "type" : "string"
-                                },
-                                "streetName" : {
-                                  "type" : "string"
-                                },
-                                "houseNumber" : {
-                                  "type" : "string"
-                                }
-                              }
-                            },
-                            "phoneNumber" : {
-                              "type" : "string"
-                            },
-                            "website" : {
-                              "type" : "string"
-                            },
-                            "additionalInfo" : {
-                              "type" : "object",
-                              "additionalProperties" : {
-                                "type" : "any"
-                              }
-                            }
-                          }
+                        "color" : {
+                          "type" : "string"
                         },
                         "name" : {
-                          "type" : "string"
-                        },
-                        "id" : {
-                          "type" : "string"
-                        },
-                        "towards" : {
-                          "type" : "string"
-                        },
-                        "direction" : {
-                          "type" : "string"
-                        },
-                        "platform" : {
                           "type" : "string"
                         },
                         "additionalInfo" : {
@@ -398,6 +334,9 @@
                           "additionalProperties" : {
                             "type" : "any"
                           }
+                        },
+                        "towards" : {
+                          "type" : "string"
                         }
                       }
                     },
@@ -406,592 +345,66 @@
                       "additionalProperties" : {
                         "type" : "any"
                       }
-                    }
-                  }
-                },
-                "operator" : {
-                  "type" : "object",
-                  "id" : "urn:jsonschema:at:ac:ait:sproute:routeformat:ServiceProvider",
-                  "properties" : {
-                    "name" : {
+                    },
+                    "generalizedType" : {
                       "type" : "string",
-                      "required" : true
+                      "required" : true,
+                      "enum" : [ "FOOT", "BICYCLE", "MOTORCYCLE", "CAR", "PUBLIC_TRANSPORT" ]
+                    },
+                    "detailedType" : {
+                      "type" : "string",
+                      "enum" : [ "TRAIN", "LIGHTRAIL", "SUBWAY", "MONORAIL", "TRAM", "BUS", "TROLLEYBUS", "AERIALWAY", "SHIP", "AIRPLANE", "BICYCLE", "MOTORCYCLE", "CAR", "TAXI", "FOOT", "TRANSFER" ]
                     },
                     "id" : {
                       "type" : "string"
                     },
-                    "address" : {
+                    "operator" : {
                       "type" : "object",
-                      "id" : "urn:jsonschema:at:ac:ait:sproute:routeformat:location:Address",
+                      "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:Operator",
                       "properties" : {
-                        "country" : {
+                        "website" : {
                           "type" : "string"
                         },
-                        "city" : {
-                          "type" : "string"
-                        },
-                        "postCode" : {
-                          "type" : "string"
-                        },
-                        "streetName" : {
-                          "type" : "string"
-                        },
-                        "houseNumber" : {
-                          "type" : "string"
-                        }
-                      }
-                    },
-                    "phoneNumber" : {
-                      "type" : "string"
-                    },
-                    "website" : {
-                      "type" : "string"
-                    },
-                    "additionalInfo" : {
-                      "type" : "object",
-                      "additionalProperties" : {
-                        "type" : "any"
-                      }
-                    }
-                  }
-                },
-                "intermediateStops" : {
-                  "type" : "array",
-                  "items" : {
-                    "type" : "object",
-                    "id" : "urn:jsonschema:at:ac:ait:sproute:routeformat:IntermediateStop",
-                    "properties" : {
-                      "stop" : {
-                        "type" : "object",
-                        "id" : "urn:jsonschema:at:ac:ait:sproute:routeformat:location:PublicTransportStop",
-                        "properties" : {
-                          "coordinate" : {
-                            "type" : "object",
-                            "$ref" : "urn:jsonschema:at:ac:ait:sproute:routeformat:geojson:GeoJSONFeature<at:ac:ait:sproute:routeformat:geojson:GeoJSONPoint>"
-                          },
-                          "address" : {
-                            "type" : "object",
-                            "id" : "urn:jsonschema:at:ac:ait:sproute:routeformat:location:Address",
-                            "properties" : {
-                              "country" : {
-                                "type" : "string"
-                              },
-                              "city" : {
-                                "type" : "string"
-                              },
-                              "postCode" : {
-                                "type" : "string"
-                              },
-                              "streetName" : {
-                                "type" : "string"
-                              },
-                              "houseNumber" : {
-                                "type" : "string"
-                              }
-                            }
-                          },
-                          "additionalInfo" : {
-                            "type" : "object",
-                            "additionalProperties" : {
+                        "address" : {
+                          "type" : "object",
+                          "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:location:Address",
+                          "properties" : {
+                            "country" : {
+                              "type" : "string"
+                            },
+                            "streetName" : {
+                              "type" : "string"
+                            },
+                            "city" : {
+                              "type" : "string"
+                            },
+                            "houseNumber" : {
+                              "type" : "string"
+                            },
+                            "postCode" : {
                               "type" : "string"
                             }
-                          },
-                          "name" : {
-                            "type" : "string"
-                          },
-                          "relatedLines" : {
-                            "type" : "array",
-                            "items" : {
-                              "type" : "string"
-                            }
-                          },
-                          "accessibilityRestrictions" : {
-                            "type" : "array",
-                            "items" : {
-                              "type" : "string",
-                              "enum" : [ "STAIRS", "ESCALATOR", "ELEVATOR", "NOT_WHEELHAIR_ACCESSIBLE" ]
-                            }
                           }
-                        }
-                      },
-                      "plannedArrivalTime" : {
-                        "type" : "object",
-                        "id" : "urn:jsonschema:java:time:ZonedDateTime",
-                        "properties" : {
-                          "offset" : {
-                            "type" : "object",
-                            "id" : "urn:jsonschema:java:time:ZoneOffset",
-                            "properties" : {
-                              "totalSeconds" : {
-                                "type" : "integer"
-                              },
-                              "id" : {
-                                "type" : "string"
-                              },
-                              "rules" : {
-                                "type" : "object",
-                                "id" : "urn:jsonschema:java:time:zone:ZoneRules",
-                                "properties" : {
-                                  "fixedOffset" : {
-                                    "type" : "boolean"
-                                  },
-                                  "transitions" : {
-                                    "type" : "array",
-                                    "items" : {
-                                      "type" : "object",
-                                      "id" : "urn:jsonschema:java:time:zone:ZoneOffsetTransition",
-                                      "properties" : {
-                                        "offsetBefore" : {
-                                          "type" : "object",
-                                          "$ref" : "urn:jsonschema:java:time:ZoneOffset"
-                                        },
-                                        "offsetAfter" : {
-                                          "type" : "object",
-                                          "$ref" : "urn:jsonschema:java:time:ZoneOffset"
-                                        },
-                                        "gap" : {
-                                          "type" : "boolean"
-                                        },
-                                        "overlap" : {
-                                          "type" : "boolean"
-                                        },
-                                        "duration" : {
-                                          "type" : "object",
-                                          "id" : "urn:jsonschema:java:time:Duration",
-                                          "properties" : {
-                                            "seconds" : {
-                                              "type" : "integer"
-                                            },
-                                            "zero" : {
-                                              "type" : "boolean"
-                                            },
-                                            "nano" : {
-                                              "type" : "integer"
-                                            },
-                                            "units" : {
-                                              "type" : "array",
-                                              "items" : {
-                                                "type" : "object",
-                                                "id" : "urn:jsonschema:java:time:temporal:TemporalUnit",
-                                                "properties" : {
-                                                  "duration" : {
-                                                    "type" : "object",
-                                                    "$ref" : "urn:jsonschema:java:time:Duration"
-                                                  },
-                                                  "durationEstimated" : {
-                                                    "type" : "boolean"
-                                                  },
-                                                  "dateBased" : {
-                                                    "type" : "boolean"
-                                                  },
-                                                  "timeBased" : {
-                                                    "type" : "boolean"
-                                                  }
-                                                }
-                                              }
-                                            },
-                                            "negative" : {
-                                              "type" : "boolean"
-                                            }
-                                          }
-                                        },
-                                        "dateTimeAfter" : {
-                                          "type" : "object",
-                                          "id" : "urn:jsonschema:java:time:LocalDateTime",
-                                          "properties" : {
-                                            "year" : {
-                                              "type" : "integer"
-                                            },
-                                            "monthValue" : {
-                                              "type" : "integer"
-                                            },
-                                            "month" : {
-                                              "type" : "string",
-                                              "enum" : [ "JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER" ]
-                                            },
-                                            "dayOfMonth" : {
-                                              "type" : "integer"
-                                            },
-                                            "dayOfYear" : {
-                                              "type" : "integer"
-                                            },
-                                            "dayOfWeek" : {
-                                              "type" : "string",
-                                              "enum" : [ "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY" ]
-                                            },
-                                            "hour" : {
-                                              "type" : "integer"
-                                            },
-                                            "minute" : {
-                                              "type" : "integer"
-                                            },
-                                            "second" : {
-                                              "type" : "integer"
-                                            },
-                                            "nano" : {
-                                              "type" : "integer"
-                                            },
-                                            "chronology" : {
-                                              "type" : "object",
-                                              "id" : "urn:jsonschema:java:time:chrono:Chronology",
-                                              "properties" : {
-                                                "calendarType" : {
-                                                  "type" : "string"
-                                                },
-                                                "id" : {
-                                                  "type" : "string"
-                                                }
-                                              }
-                                            }
-                                          }
-                                        },
-                                        "dateTimeBefore" : {
-                                          "type" : "object",
-                                          "$ref" : "urn:jsonschema:java:time:LocalDateTime"
-                                        },
-                                        "instant" : {
-                                          "type" : "object",
-                                          "id" : "urn:jsonschema:java:time:Instant",
-                                          "properties" : {
-                                            "nano" : {
-                                              "type" : "integer"
-                                            },
-                                            "epochSecond" : {
-                                              "type" : "integer"
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
-                                  },
-                                  "transitionRules" : {
-                                    "type" : "array",
-                                    "items" : {
-                                      "type" : "object",
-                                      "id" : "urn:jsonschema:java:time:zone:ZoneOffsetTransitionRule",
-                                      "properties" : {
-                                        "month" : {
-                                          "type" : "string",
-                                          "enum" : [ "JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER" ]
-                                        },
-                                        "timeDefinition" : {
-                                          "type" : "string",
-                                          "enum" : [ "UTC", "WALL", "STANDARD" ]
-                                        },
-                                        "standardOffset" : {
-                                          "type" : "object",
-                                          "$ref" : "urn:jsonschema:java:time:ZoneOffset"
-                                        },
-                                        "offsetBefore" : {
-                                          "type" : "object",
-                                          "$ref" : "urn:jsonschema:java:time:ZoneOffset"
-                                        },
-                                        "offsetAfter" : {
-                                          "type" : "object",
-                                          "$ref" : "urn:jsonschema:java:time:ZoneOffset"
-                                        },
-                                        "dayOfWeek" : {
-                                          "type" : "string",
-                                          "enum" : [ "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY" ]
-                                        },
-                                        "dayOfMonthIndicator" : {
-                                          "type" : "integer"
-                                        },
-                                        "localTime" : {
-                                          "type" : "object",
-                                          "id" : "urn:jsonschema:java:time:LocalTime",
-                                          "properties" : {
-                                            "hour" : {
-                                              "type" : "integer"
-                                            },
-                                            "minute" : {
-                                              "type" : "integer"
-                                            },
-                                            "second" : {
-                                              "type" : "integer"
-                                            },
-                                            "nano" : {
-                                              "type" : "integer"
-                                            }
-                                          }
-                                        },
-                                        "midnightEndOfDay" : {
-                                          "type" : "boolean"
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          },
-                          "zone" : {
-                            "type" : "object",
-                            "id" : "urn:jsonschema:java:time:ZoneId",
-                            "properties" : {
-                              "rules" : {
-                                "type" : "object",
-                                "$ref" : "urn:jsonschema:java:time:zone:ZoneRules"
-                              },
-                              "id" : {
-                                "type" : "string"
-                              }
-                            }
-                          },
-                          "year" : {
-                            "type" : "integer"
-                          },
-                          "monthValue" : {
-                            "type" : "integer"
-                          },
-                          "month" : {
-                            "type" : "string",
-                            "enum" : [ "JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER" ]
-                          },
-                          "dayOfMonth" : {
-                            "type" : "integer"
-                          },
-                          "dayOfYear" : {
-                            "type" : "integer"
-                          },
-                          "dayOfWeek" : {
-                            "type" : "string",
-                            "enum" : [ "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY" ]
-                          },
-                          "hour" : {
-                            "type" : "integer"
-                          },
-                          "minute" : {
-                            "type" : "integer"
-                          },
-                          "second" : {
-                            "type" : "integer"
-                          },
-                          "nano" : {
-                            "type" : "integer"
-                          },
-                          "chronology" : {
-                            "type" : "object",
-                            "$ref" : "urn:jsonschema:java:time:chrono:Chronology"
+                        },
+                        "customerServicePhone" : {
+                          "type" : "string"
+                        },
+                        "name" : {
+                          "type" : "string",
+                          "required" : true
+                        },
+                        "additionalInfo" : {
+                          "type" : "object",
+                          "additionalProperties" : {
+                            "type" : "any"
                           }
+                        },
+                        "id" : {
+                          "type" : "string"
+                        },
+                        "customerServiceEmail" : {
+                          "type" : "string"
                         }
-                      },
-                      "plannedDepartureTime" : {
-                        "type" : "object",
-                        "id" : "urn:jsonschema:java:time:ZonedDateTime",
-                        "properties" : {
-                          "offset" : {
-                            "type" : "object",
-                            "$ref" : "urn:jsonschema:java:time:ZoneOffset"
-                          },
-                          "zone" : {
-                            "type" : "object",
-                            "$ref" : "urn:jsonschema:java:time:ZoneId"
-                          },
-                          "year" : {
-                            "type" : "integer"
-                          },
-                          "monthValue" : {
-                            "type" : "integer"
-                          },
-                          "month" : {
-                            "type" : "string",
-                            "enum" : [ "JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER" ]
-                          },
-                          "dayOfMonth" : {
-                            "type" : "integer"
-                          },
-                          "dayOfYear" : {
-                            "type" : "integer"
-                          },
-                          "dayOfWeek" : {
-                            "type" : "string",
-                            "enum" : [ "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY" ]
-                          },
-                          "hour" : {
-                            "type" : "integer"
-                          },
-                          "minute" : {
-                            "type" : "integer"
-                          },
-                          "second" : {
-                            "type" : "integer"
-                          },
-                          "nano" : {
-                            "type" : "integer"
-                          },
-                          "chronology" : {
-                            "type" : "object",
-                            "$ref" : "urn:jsonschema:java:time:chrono:Chronology"
-                          }
-                        }
-                      },
-                      "estimatedArrivalTime" : {
-                        "type" : "object",
-                        "id" : "urn:jsonschema:java:time:ZonedDateTime",
-                        "properties" : {
-                          "offset" : {
-                            "type" : "object",
-                            "$ref" : "urn:jsonschema:java:time:ZoneOffset"
-                          },
-                          "zone" : {
-                            "type" : "object",
-                            "$ref" : "urn:jsonschema:java:time:ZoneId"
-                          },
-                          "year" : {
-                            "type" : "integer"
-                          },
-                          "monthValue" : {
-                            "type" : "integer"
-                          },
-                          "month" : {
-                            "type" : "string",
-                            "enum" : [ "JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER" ]
-                          },
-                          "dayOfMonth" : {
-                            "type" : "integer"
-                          },
-                          "dayOfYear" : {
-                            "type" : "integer"
-                          },
-                          "dayOfWeek" : {
-                            "type" : "string",
-                            "enum" : [ "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY" ]
-                          },
-                          "hour" : {
-                            "type" : "integer"
-                          },
-                          "minute" : {
-                            "type" : "integer"
-                          },
-                          "second" : {
-                            "type" : "integer"
-                          },
-                          "nano" : {
-                            "type" : "integer"
-                          },
-                          "chronology" : {
-                            "type" : "object",
-                            "$ref" : "urn:jsonschema:java:time:chrono:Chronology"
-                          }
-                        }
-                      },
-                      "estimatedDepartureTime" : {
-                        "type" : "object",
-                        "id" : "urn:jsonschema:java:time:ZonedDateTime",
-                        "properties" : {
-                          "offset" : {
-                            "type" : "object",
-                            "$ref" : "urn:jsonschema:java:time:ZoneOffset"
-                          },
-                          "zone" : {
-                            "type" : "object",
-                            "$ref" : "urn:jsonschema:java:time:ZoneId"
-                          },
-                          "year" : {
-                            "type" : "integer"
-                          },
-                          "monthValue" : {
-                            "type" : "integer"
-                          },
-                          "month" : {
-                            "type" : "string",
-                            "enum" : [ "JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER" ]
-                          },
-                          "dayOfMonth" : {
-                            "type" : "integer"
-                          },
-                          "dayOfYear" : {
-                            "type" : "integer"
-                          },
-                          "dayOfWeek" : {
-                            "type" : "string",
-                            "enum" : [ "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY" ]
-                          },
-                          "hour" : {
-                            "type" : "integer"
-                          },
-                          "minute" : {
-                            "type" : "integer"
-                          },
-                          "second" : {
-                            "type" : "integer"
-                          },
-                          "nano" : {
-                            "type" : "integer"
-                          },
-                          "chronology" : {
-                            "type" : "object",
-                            "$ref" : "urn:jsonschema:java:time:chrono:Chronology"
-                          }
-                        }
-                      }
-                    }
-                  }
-                },
-                "boundingBox" : {
-                  "type" : "object",
-                  "id" : "urn:jsonschema:at:ac:ait:sproute:routeformat:geojson:GeoJSONFeature<at:ac:ait:sproute:routeformat:geojson:GeoJSONPolygon>",
-                  "properties" : {
-                    "type" : {
-                      "type" : "string",
-                      "required" : true,
-                      "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon" ]
-                    },
-                    "geometry" : {
-                      "type" : "object",
-                      "$ref" : "urn:jsonschema:at:ac:ait:sproute:routeformat:geojson:GeoJSONPolygon",
-                      "required" : true
-                    },
-                    "properties" : {
-                      "type" : "object",
-                      "required" : true,
-                      "additionalProperties" : {
-                        "type" : "any"
-                      }
-                    }
-                  }
-                },
-                "geometryEncodedPolyLine" : {
-                  "type" : "string"
-                },
-                "geometryGeoJson" : {
-                  "type" : "object",
-                  "id" : "urn:jsonschema:at:ac:ait:sproute:routeformat:geojson:GeoJSONFeature<at:ac:ait:sproute:routeformat:geojson:GeoJSONLineString>",
-                  "properties" : {
-                    "type" : {
-                      "type" : "string",
-                      "required" : true,
-                      "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon" ]
-                    },
-                    "geometry" : {
-                      "type" : "object",
-                      "$ref" : "urn:jsonschema:at:ac:ait:sproute:routeformat:geojson:GeoJSONLineString",
-                      "required" : true
-                    },
-                    "properties" : {
-                      "type" : "object",
-                      "required" : true,
-                      "additionalProperties" : {
-                        "type" : "any"
-                      }
-                    }
-                  }
-                },
-                "geometryGeoJsonEdges" : {
-                  "type" : "object",
-                  "id" : "urn:jsonschema:at:ac:ait:sproute:routeformat:geojson:GeoJSONFeatureCollection<at:ac:ait:sproute:routeformat:geojson:GeoJSONLineString>",
-                  "properties" : {
-                    "type" : {
-                      "type" : "string",
-                      "required" : true,
-                      "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon" ]
-                    },
-                    "features" : {
-                      "type" : "array",
-                      "required" : true,
-                      "items" : {
-                        "$ref" : "urn:jsonschema:at:ac:ait:sproute:routeformat:geojson:GeoJSONFeature<at:ac:ait:sproute:routeformat:geojson:GeoJSONLineString>"
                       }
                     }
                   }
@@ -1000,25 +413,21 @@
                   "type" : "array",
                   "items" : {
                     "type" : "object",
-                    "id" : "urn:jsonschema:at:ac:ait:sproute:routeformat:instruction:Instruction",
+                    "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:instruction:Instruction",
                     "properties" : {
-                      "position" : {
+                      "confirmationTriggerPosition" : {
                         "type" : "object",
-                        "$ref" : "urn:jsonschema:at:ac:ait:sproute:routeformat:geojson:GeoJSONFeature<at:ac:ait:sproute:routeformat:geojson:GeoJSONPoint>"
-                      },
-                      "previewTriggerPosition" : {
-                        "type" : "object",
-                        "id" : "urn:jsonschema:at:ac:ait:sproute:routeformat:geojson:GeoJSONFeature<at:ac:ait:sproute:routeformat:geojson:GeoJSONPoint>",
+                        "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONFeature<at:ac:ait:ariadne:routeformat:geojson:GeoJSONPoint>",
                         "properties" : {
+                          "geometry" : {
+                            "type" : "object",
+                            "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONPoint",
+                            "required" : true
+                          },
                           "type" : {
                             "type" : "string",
                             "required" : true,
                             "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon" ]
-                          },
-                          "geometry" : {
-                            "type" : "object",
-                            "$ref" : "urn:jsonschema:at:ac:ait:sproute:routeformat:geojson:GeoJSONPoint",
-                            "required" : true
                           },
                           "properties" : {
                             "type" : "object",
@@ -1029,19 +438,23 @@
                           }
                         }
                       },
-                      "confirmationTriggerPosition" : {
+                      "position" : {
                         "type" : "object",
-                        "id" : "urn:jsonschema:at:ac:ait:sproute:routeformat:geojson:GeoJSONFeature<at:ac:ait:sproute:routeformat:geojson:GeoJSONPoint>",
+                        "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONFeature<at:ac:ait:ariadne:routeformat:geojson:GeoJSONPoint>"
+                      },
+                      "previewTriggerPosition" : {
+                        "type" : "object",
+                        "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONFeature<at:ac:ait:ariadne:routeformat:geojson:GeoJSONPoint>",
                         "properties" : {
+                          "geometry" : {
+                            "type" : "object",
+                            "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONPoint",
+                            "required" : true
+                          },
                           "type" : {
                             "type" : "string",
                             "required" : true,
                             "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon" ]
-                          },
-                          "geometry" : {
-                            "type" : "object",
-                            "$ref" : "urn:jsonschema:at:ac:ait:sproute:routeformat:geojson:GeoJSONPoint",
-                            "required" : true
                           },
                           "properties" : {
                             "type" : "object",
@@ -1055,33 +468,151 @@
                     }
                   }
                 },
+                "lengthMeters" : {
+                  "type" : "integer",
+                  "required" : true
+                },
+                "geometryEncodedPolyLine" : {
+                  "type" : "string"
+                },
+                "geometryGeoJsonEdges" : {
+                  "type" : "object",
+                  "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONFeatureCollection<at:ac:ait:ariadne:routeformat:geojson:GeoJSONLineString>",
+                  "properties" : {
+                    "features" : {
+                      "type" : "array",
+                      "required" : true,
+                      "items" : {
+                        "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONFeature<at:ac:ait:ariadne:routeformat:geojson:GeoJSONLineString>"
+                      }
+                    },
+                    "type" : {
+                      "type" : "string",
+                      "required" : true,
+                      "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon" ]
+                    }
+                  }
+                },
+                "arrivalTime" : {
+                  "type" : "string"
+                },
                 "additionalInfo" : {
                   "type" : "object",
                   "additionalProperties" : {
                     "type" : "any"
                   }
+                },
+                "from" : {
+                  "type" : "object",
+                  "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:location:Location",
+                  "required" : true
+                },
+                "to" : {
+                  "type" : "object",
+                  "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:location:Location",
+                  "required" : true
+                },
+                "intermediateStops" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:IntermediateStop",
+                    "properties" : {
+                      "estimatedDepartureTime" : {
+                        "type" : "string"
+                      },
+                      "stop" : {
+                        "type" : "object",
+                        "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:location:Location"
+                      },
+                      "plannedArrivalTime" : {
+                        "type" : "string"
+                      },
+                      "plannedDepartureTime" : {
+                        "type" : "string"
+                      },
+                      "estimatedArrivalTime" : {
+                        "type" : "string"
+                      }
+                    }
+                  }
+                },
+                "geometryGeoJson" : {
+                  "type" : "object",
+                  "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONFeature<at:ac:ait:ariadne:routeformat:geojson:GeoJSONLineString>",
+                  "properties" : {
+                    "geometry" : {
+                      "type" : "object",
+                      "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONLineString",
+                      "required" : true
+                    },
+                    "type" : {
+                      "type" : "string",
+                      "required" : true,
+                      "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon" ]
+                    },
+                    "properties" : {
+                      "type" : "object",
+                      "required" : true,
+                      "additionalProperties" : {
+                        "type" : "any"
+                      }
+                    }
+                  }
                 }
               }
             }
           },
-          "type" : {
-            "type" : "string",
-            "enum" : [ "FOOT", "BICYCLE", "MOTORCYCLE", "CAR", "PUBLIC_TRANSPORT", "TAXI", "TAXI_SHARED", "CAR_SHARED", "BICYCLE_SHARED", "CAR_AND_PUBLIC_TRANSPORT", "BICYCLE_AND_PUBLIC_TRANSPORT", "SHARED_CAR_AND_PUBLIC_TRANSPORT", "SHARED_BICYCLE_AND_PUBLIC_TRANSPORT", "TAXI_AND_PUBLIC_TRANSPORT", "SHARED_TAXI_AND_PUBLIC_TRANSPORT", "SHARED_CAR_AND_SHARED_BICYCLE", "INTERMODAL_OTHER" ]
+          "arrivalTime" : {
+            "type" : "string"
           },
           "additionalInfo" : {
             "type" : "object",
             "additionalProperties" : {
               "type" : "any"
             }
+          },
+          "from" : {
+            "type" : "object",
+            "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:location:Location",
+            "required" : true
+          },
+          "to" : {
+            "type" : "object",
+            "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:location:Location",
+            "required" : true
+          },
+          "id" : {
+            "type" : "string"
           }
         }
       }
+    },
+    "requestId" : {
+      "type" : "string",
+      "required" : true
+    },
+    "routeFormatVersion" : {
+      "type" : "string",
+      "required" : true
     },
     "additionalInfo" : {
       "type" : "object",
       "additionalProperties" : {
         "type" : "any"
       }
+    },
+    "debugMessage" : {
+      "type" : "string"
+    },
+    "processedTime" : {
+      "type" : "string",
+      "required" : true
+    },
+    "status" : {
+      "type" : "string",
+      "required" : true,
+      "enum" : [ "OK", "INVALID_REQUEST", "ERROR" ]
     }
   }
 }
