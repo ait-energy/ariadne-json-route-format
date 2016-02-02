@@ -42,10 +42,11 @@ public class JacksonExample {
 		RouteFormatRoot root = new IntermodalRouteExample().getRouteFormatRoot();
 
 		ObjectMapper mapper = new ObjectMapper();
-		mapper.registerModule(new Jdk8Module());
+		mapper.findAndRegisterModules();
 		mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
 		System.out.println(mapper.writeValueAsString(root));
+		System.out.println("##########");
 		mapper.writeValue(new File(exampleFile), root);
 	}
 
@@ -61,6 +62,7 @@ public class JacksonExample {
 		System.out.println(status);
 		System.out.println(secondGeometryPointOfRoute);
 		System.out.println(root.getProcessedTime());
+		System.out.println("##########");
 
 		// variant 2 - tree model
 		JsonNode rootNode = mapper.readValue(new File(exampleFile), JsonNode.class);
@@ -68,11 +70,12 @@ public class JacksonExample {
 		System.out.println(rootNode.get("routes").get(0).get("segments").get(0).get("geometryGeoJson").get("geometry")
 				.get("coordinates").get(1));
 		System.out.println(rootNode.get("calculationTime"));
+		System.out.println("##########");
 	}
 
 	public void writeSchema() throws JsonGenerationException, IOException {
 		ObjectMapper mapper = new ObjectMapper();
-		mapper.registerModule(new Jdk8Module());
+		mapper.findAndRegisterModules();
 		mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
 		SchemaFactoryWrapper visitor = new SchemaFactoryWrapper();
@@ -81,6 +84,7 @@ public class JacksonExample {
 		jsonSchema.set$schema("http://json-schema.org/draft-04/schema#");
 
 		System.out.println(mapper.writeValueAsString(jsonSchema));
+		System.out.println("##########");
 		mapper.writeValue(new File(schemaFile), jsonSchema);
 	}
 

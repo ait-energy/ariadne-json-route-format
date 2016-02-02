@@ -20,17 +20,12 @@ import com.google.common.collect.ImmutableMap;
 @JsonDeserialize(builder = Builder.class)
 @JsonInclude(Include.NON_EMPTY)
 public class Service {
-	private final ServiceProvider provider;
 	private final String name;
 	private final Optional<String> id;
 	private final Optional<String> towards;
 	private final Optional<String> direction;
 	private final Optional<String> platform;
 	private final Map<String, Object> additionalInfo;
-
-	public ServiceProvider getProvider() {
-		return provider;
-	}
 
 	/**
 	 * @return the official name of the service such as the line name (e.g. U3 for a metro/underground line) to be
@@ -64,7 +59,6 @@ public class Service {
 	}
 
 	public Service(Builder builder) {
-		this.provider = builder.provider;
 		this.name = builder.name;
 		this.id = builder.id;
 		this.towards = builder.towards;
@@ -78,18 +72,12 @@ public class Service {
 	}
 
 	public static class Builder {
-		private ServiceProvider provider;
 		private String name;
 		private Optional<String> id = Optional.empty();
 		private Optional<String> towards = Optional.empty();
 		private Optional<String> direction = Optional.empty();
 		private Optional<String> platform = Optional.empty();
 		private Map<String, Object> additionalInfo = Collections.emptyMap();
-
-		public Builder withProvider(ServiceProvider provider) {
-			this.provider = provider;
-			return this;
-		}
 
 		public Builder withName(String name) {
 			this.name = name;
@@ -127,7 +115,6 @@ public class Service {
 		}
 
 		private void validate() {
-			Preconditions.checkArgument(provider != null, "provider is mandatory but missing");
 			Preconditions.checkArgument(name != null, "name is mandatory but missing");
 		}
 	}

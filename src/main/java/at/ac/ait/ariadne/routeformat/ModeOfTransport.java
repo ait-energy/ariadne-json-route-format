@@ -30,9 +30,10 @@ public class ModeOfTransport {
 	private final Optional<DetailedModeOfTransportType> detailedType;
 	private final Optional<String> id;
 	private final Optional<Service> service;
+	private final Optional<Operator> operator;
 	private final Optional<Boolean> electric;
 	private final Optional<Boolean> shared;
-	private final List<Sproute.AccessibilityRestriction> accessibilityRestrictions;
+	private final List<Sproute.Accessibility> accessibility;
 	private final Map<String, Object> additionalInfo;
 
 	@JsonProperty(required = true)
@@ -52,10 +53,14 @@ public class ModeOfTransport {
 	}
 
 	/**
-	 * @return a service in case this vehicle is part of public transport
+	 * @return a service (in case this vehicle is part of public transport)
 	 */
 	public Optional<Service> getService() {
 		return service;
+	}
+
+	public Optional<Operator> getOperator() {
+		return operator;
 	}
 
 	public Optional<Boolean> isElectric() {
@@ -63,14 +68,14 @@ public class ModeOfTransport {
 	}
 
 	/**
-	 * @return <code>true</code> in case of shared mobility services such as car sharing or bike sharing
+	 * @return <code>true</code> for shared mobility services such as car/bike/ride-sharing
 	 */
 	public Optional<Boolean> isShared() {
 		return shared;
 	}
 
-	public List<Sproute.AccessibilityRestriction> getAccessibilityRestrictions() {
-		return accessibilityRestrictions;
+	public List<Sproute.Accessibility> getAccessibility() {
+		return accessibility;
 	}
 
 	public Map<String, Object> getAdditionalInfo() {
@@ -82,9 +87,10 @@ public class ModeOfTransport {
 		this.detailedType = builder.detailedType;
 		this.id = builder.id;
 		this.service = builder.service;
+		this.operator = builder.operator;
 		this.electric = builder.electric;
 		this.shared = builder.shared;
-		this.accessibilityRestrictions = builder.accessibilityRestrictions;
+		this.accessibility = builder.accessibility;
 		this.additionalInfo = builder.additionalInfo;
 	}
 
@@ -97,9 +103,10 @@ public class ModeOfTransport {
 		private Optional<DetailedModeOfTransportType> detailedType = Optional.empty();
 		private Optional<String> id = Optional.empty();
 		private Optional<Service> service = Optional.empty();
+		private Optional<Operator> operator = Optional.empty();
 		private Optional<Boolean> electric = Optional.empty();
 		private Optional<Boolean> shared = Optional.empty();
-		private List<Sproute.AccessibilityRestriction> accessibilityRestrictions = Collections.emptyList();
+		private List<Sproute.Accessibility> accessibility = Collections.emptyList();
 		private Map<String, Object> additionalInfo = Collections.emptyMap();
 
 		public Builder withGeneralizedType(GeneralizedModeOfTransportType generalizedType) {
@@ -129,6 +136,11 @@ public class ModeOfTransport {
 			return this;
 		}
 
+		public Builder withOperator(Operator operator) {
+			this.operator = Optional.ofNullable(operator);
+			return this;
+		}
+
 		public Builder withElectric(boolean electric) {
 			this.electric = Optional.ofNullable(electric);
 			return this;
@@ -139,8 +151,8 @@ public class ModeOfTransport {
 			return this;
 		}
 
-		public Builder withAccessibilityRestrictions(List<Sproute.AccessibilityRestriction> accessibilityRestrictions) {
-			this.accessibilityRestrictions = ImmutableList.copyOf(accessibilityRestrictions);
+		public Builder withAccessibility(List<Sproute.Accessibility> accessibility) {
+			this.accessibility = ImmutableList.copyOf(accessibility);
 			return this;
 		}
 

@@ -17,5 +17,6 @@ A simple example how to display a route in a browser with Leaflet is shown in `r
 - builders check if mandatory arguments are provided and throw an IllegalArgumentException in case of missing / invalid arguments
 - for easy generic extension the map "additionalInfo" is provided for many classes
 
+
 ## License
 Everything in this repository is licensed under CC0.

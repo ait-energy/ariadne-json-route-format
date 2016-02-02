@@ -2,10 +2,15 @@ package at.ac.ait.ariadne.routeformat;
 
 import static at.ac.ait.ariadne.routeformat.Sproute.GeneralizedModeOfTransportType.PUBLIC_TRANSPORT;
 
+/**
+ * {@link Sproute} holds all {@link Enum}s of the sproute route format
+ * 
+ * @author AIT Austrian Institute of Technology GmbH
+ */
 public class Sproute {
 
-	public enum AccessibilityRestriction {
-		STAIRS, ESCALATOR, ELEVATOR, NOT_WHEELHAIR_ACCESSIBLE
+	public enum Accessibility {
+		STAIRS, ESCALATOR, ELEVATOR, WHEELCHAIR_ACCESSIBLE, NOT_WHEELHAIR_ACCESSIBLE
 	}
 
 	public enum CompassDirection {

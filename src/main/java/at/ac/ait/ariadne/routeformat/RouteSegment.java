@@ -50,6 +50,7 @@ public class RouteSegment {
 	private final Optional<GeoJSONFeature<GeoJSONLineString>> geometryGeoJson;
 	private final Optional<GeoJSONFeatureCollection<GeoJSONLineString>> geometryGeoJsonEdges;
 	private final List<Instruction> navigationInstructions;
+	private final List<Sproute.Accessibility> accessibility;
 	private final Map<String, Object> additionalInfo;
 
 	/** number of the segment in the route (starts with 1) */
@@ -156,6 +157,10 @@ public class RouteSegment {
 		return navigationInstructions;
 	}
 
+	public List<Sproute.Accessibility> getAccessibility() {
+		return accessibility;
+	}
+
 	/**
 	 * @return additional information, e.g. other weights for the segment (energy,..)
 	 */
@@ -180,6 +185,7 @@ public class RouteSegment {
 		this.geometryGeoJson = builder.geometryGeoJson;
 		this.geometryGeoJsonEdges = builder.geometryGeoJsonEdges;
 		this.navigationInstructions = builder.navigationInstructions;
+		this.accessibility = builder.accessibility;
 		this.additionalInfo = builder.additionalInfo;
 	}
 
@@ -204,6 +210,7 @@ public class RouteSegment {
 		private Optional<GeoJSONFeature<GeoJSONLineString>> geometryGeoJson = Optional.empty();
 		private Optional<GeoJSONFeatureCollection<GeoJSONLineString>> geometryGeoJsonEdges = Optional.empty();
 		private List<Instruction> navigationInstructions = Collections.emptyList();
+		private List<Sproute.Accessibility> accessibility = Collections.emptyList();
 		private Map<String, Object> additionalInfo = Collections.emptyMap();
 
 		public Builder withNr(int nr) {
@@ -297,6 +304,11 @@ public class RouteSegment {
 
 		public Builder withNavigationInstructions(List<Instruction> navigationInstructions) {
 			this.navigationInstructions = ImmutableList.copyOf(navigationInstructions);
+			return this;
+		}
+
+		public Builder withAccessibility(List<Sproute.Accessibility> accessibility) {
+			this.accessibility = ImmutableList.copyOf(accessibility);
 			return this;
 		}
 
