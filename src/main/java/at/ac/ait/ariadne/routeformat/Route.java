@@ -247,6 +247,7 @@ public class Route {
 
 			Preconditions.checkArgument(!segments.isEmpty(), "segments must not be empty");
 		}
+		
 	}
 
 }

@@ -4,7 +4,7 @@ import java.time.ZonedDateTime;
 import java.util.Optional;
 
 import at.ac.ait.ariadne.routeformat.IntermediateStop.Builder;
-import at.ac.ait.ariadne.routeformat.location.PublicTransportStop;
+import at.ac.ait.ariadne.routeformat.location.Location;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -14,21 +14,22 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Preconditions;
 
 /**
- * An {@link IntermediateStop} represents public transport stops on a {@link RouteSegment} where the user is not
- * expected to exit
+ * An {@link IntermediateStop} represents a stop on a {@link RouteSegment} of interest to the user, e.g. a public
+ * transport stop where the public transport line the user is traveling with stops or a point of interest along a cycle
+ * route.
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */
 @JsonDeserialize(builder = Builder.class)
 @JsonInclude(Include.NON_EMPTY)
 public class IntermediateStop {
-	private final PublicTransportStop stop;
+	private final Location stop;
 	private final Optional<ZonedDateTime> plannedArrivalTime;
 	private final Optional<ZonedDateTime> plannedDepartureTime;
 	private final Optional<ZonedDateTime> estimatedArrivalTime;
 	private final Optional<ZonedDateTime> estimatedDepartureTime;
 
-	public PublicTransportStop getStop() {
+	public Location getStop() {
 		return stop;
 	}
 
@@ -105,13 +106,13 @@ public class IntermediateStop {
 	}
 
 	public static class Builder {
-		private PublicTransportStop stop;
+		private Location stop;
 		private Optional<ZonedDateTime> plannedArrivalTime = Optional.empty();
 		private Optional<ZonedDateTime> plannedDepartureTime = Optional.empty();
 		private Optional<ZonedDateTime> estimatedArrivalTime = Optional.empty();
 		private Optional<ZonedDateTime> estimatedDepartureTime = Optional.empty();
 
-		public Builder withStop(PublicTransportStop stop) {
+		public Builder withStop(Location stop) {
 			this.stop = stop;
 			return this;
 		}

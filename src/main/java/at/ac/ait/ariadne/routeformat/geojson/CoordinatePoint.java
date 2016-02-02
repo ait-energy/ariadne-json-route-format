@@ -38,7 +38,11 @@ public class CoordinatePoint {
 		list.add(y);
 		return list;
 	}
-	
+
+	public static CoordinatePoint fromGeoJSONPointFeature(GeoJSONFeature<GeoJSONPoint> pointFeature) {
+		return fromGeoJSONPoint(pointFeature.geometry);
+	}
+
 	public static CoordinatePoint fromGeoJSONPoint(GeoJSONPoint point) {
 		BigDecimal x = point.coordinates.get(0);
 		BigDecimal y = point.coordinates.get(1);

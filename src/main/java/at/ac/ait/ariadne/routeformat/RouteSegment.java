@@ -1,5 +1,6 @@
 package at.ac.ait.ariadne.routeformat;
 
+import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -335,13 +336,49 @@ public class RouteSegment {
 			Preconditions.checkArgument(durationSeconds >= 0, "durationSeconds must be >= 0, but was %s",
 					durationSeconds);
 			Preconditions.checkArgument(alightingSeconds.orElse(0) + boardingSeconds.orElse(0) <= durationSeconds,
-					"boarding+alighting seconds must be smaller than the total duration");
+					"boarding+alighting seconds must be equal to or smaller than the total duration");
+
+			if (departureTime.isPresent() && arrivalTime.isPresent()) {
+				Preconditions.checkArgument(!arrivalTime.get().isBefore(departureTime.get()),
+						"arrivalTime must be <= departureTime");
+
+				long durationBetweenTimestamps = Duration.between(departureTime.get(), arrivalTime.get()).getSeconds();
+				Preconditions.checkArgument(durationSeconds == durationBetweenTimestamps,
+						"durationSeconds does not match seconds between arrival & departure time: %s!=%s",
+						durationSeconds, durationBetweenTimestamps);
+
+				String error = "timestamps of intermediate stops must fall in interval between departure & arrival of this segment";
+				for (IntermediateStop stop : intermediateStops) {
+					Preconditions.checkArgument(
+							isBetween(departureTime.get(), stop.getPlannedArrivalTimeAsZonedDateTime(),
+									arrivalTime.get()), error);
+					Preconditions.checkArgument(
+							isBetween(departureTime.get(), stop.getPlannedDepartureTimeAsZonedDateTime(),
+									arrivalTime.get()), error);
+					Preconditions.checkArgument(
+							isBetween(departureTime.get(), stop.getEstimatedArrivalTimeAsZonedDateTime(),
+									arrivalTime.get()), error);
+					Preconditions.checkArgument(
+							isBetween(departureTime.get(), stop.getEstimatedDepartureTimeAsZonedDateTime(),
+									arrivalTime.get()), error);
+				}
+			}
 
 			boolean geometryPresent = geometryEncodedPolyLine.isPresent() || geometryGeoJson.isPresent()
 					|| geometryGeoJsonEdges.isPresent();
 			Preconditions.checkArgument(geometryPresent, "at least one geometry must be present");
 		}
 
+		/**
+		 * @return <code>true</code> if 'between' is really between (or equal) to start and end
+		 */
+		private boolean isBetween(ZonedDateTime start, Optional<ZonedDateTime> between, ZonedDateTime end) {
+			if (between.isPresent()) {
+				if (start.isAfter(between.get()) || end.isBefore(between.get()))
+					return false;
+			}
+			return true;
+		}
 	}
 
 }
