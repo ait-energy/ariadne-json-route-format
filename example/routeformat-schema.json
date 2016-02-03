@@ -18,8 +18,11 @@
           "type" : "array",
           "items" : {
             "type" : "string",
-            "enum" : [ "STAIRS", "ESCALATOR", "ELEVATOR", "WHEELCHAIR_ACCESSIBLE", "NOT_WHEELHAIR_ACCESSIBLE" ]
+            "enum" : [ "NO_STAIRS", "NO_ESCALATOR", "NO_ELEVATOR", "ONLY_LOW_FLOOR_VEHICLE" ]
           }
+        },
+        "maximumPublicTransportRoutes" : {
+          "type" : "integer"
         },
         "acceptedDelayMinutes" : {
           "type" : "integer"
@@ -39,6 +42,13 @@
           "type" : "string",
           "required" : true
         },
+        "excludedPublicTransport" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string",
+            "enum" : [ "TRAIN", "LIGHTRAIL", "SUBWAY", "TRAM", "BUS", "TROLLEYBUS", "AERIALWAY", "SHIP", "AIRPLANE", "BICYCLE", "MOTORCYCLE", "CAR", "TAXI", "FOOT", "TRANSFER" ]
+          }
+        },
         "via" : {
           "type" : "array",
           "items" : {
@@ -53,6 +63,9 @@
           "additionalProperties" : {
             "type" : "any"
           }
+        },
+        "maximumTransfers" : {
+          "type" : "integer"
         },
         "from" : {
           "type" : "object",
@@ -304,7 +317,7 @@
                   "type" : "array",
                   "items" : {
                     "type" : "string",
-                    "enum" : [ "STAIRS", "ESCALATOR", "ELEVATOR", "WHEELCHAIR_ACCESSIBLE", "NOT_WHEELHAIR_ACCESSIBLE" ]
+                    "enum" : [ "STAIRS_DOWN", "STAIRS_UP", "ESCALATOR_DOWN", "ESCALATOR_UP", "ELEVATOR_DOWN", "ELEVATOR_UP" ]
                   }
                 },
                 "modeOfTransport" : {
@@ -316,7 +329,7 @@
                       "type" : "array",
                       "items" : {
                         "type" : "string",
-                        "enum" : [ "STAIRS", "ESCALATOR", "ELEVATOR", "WHEELCHAIR_ACCESSIBLE", "NOT_WHEELHAIR_ACCESSIBLE" ]
+                        "enum" : [ "LOW_FLOOR_VEHICLE", "HIGH_FLOOR_VEHICLE" ]
                       }
                     },
                     "service" : {
@@ -353,10 +366,14 @@
                     },
                     "detailedType" : {
                       "type" : "string",
-                      "enum" : [ "TRAIN", "LIGHTRAIL", "SUBWAY", "MONORAIL", "TRAM", "BUS", "TROLLEYBUS", "AERIALWAY", "SHIP", "AIRPLANE", "BICYCLE", "MOTORCYCLE", "CAR", "TAXI", "FOOT", "TRANSFER" ]
+                      "enum" : [ "TRAIN", "LIGHTRAIL", "SUBWAY", "TRAM", "BUS", "TROLLEYBUS", "AERIALWAY", "SHIP", "AIRPLANE", "BICYCLE", "MOTORCYCLE", "CAR", "TAXI", "FOOT", "TRANSFER" ]
                     },
                     "id" : {
                       "type" : "string"
+                    },
+                    "sharingType" : {
+                      "type" : "string",
+                      "enum" : [ "STATION_BOUND_VEHICLE_SHARING", "FREE_FLOATING_VEHICLE_SHARING", "RIDE_SHARING", "RIDE_SOURCING" ]
                     },
                     "operator" : {
                       "type" : "object",

@@ -108,6 +108,8 @@ public class RoutingRequest {
 	/**
 	 * @return a set of public transport types which must not be used for routing. For this field to have any effect
 	 *         {@link #getModesOfTransport()} must already contain
+	 *         {@link GeneralizedModeOfTransportType#PUBLIC_TRANSPORT}. It is guaranteed that for all returned mots
+	 *         {@link DetailedModeOfTransportType#getGeneralizedType()} returns
 	 *         {@link GeneralizedModeOfTransportType#PUBLIC_TRANSPORT}
 	 */
 	@JsonProperty
@@ -298,7 +300,7 @@ public class RoutingRequest {
 		}
 
 		public Builder withExcludedPublicTransport(Set<DetailedModeOfTransportType> excludedPublicTransport) {
-			this.excludedPublicTransport = excludedPublicTransport;
+			this.excludedPublicTransport = ImmutableSet.copyOf(excludedPublicTransport);
 			return this;
 		}
 
@@ -394,6 +396,12 @@ public class RoutingRequest {
 			if (modesOfTransport.size() > 1 && !modesOfTransport.contains(GeneralizedModeOfTransportType.FOOT)) {
 				modesOfTransport = ImmutableSet.<Sproute.GeneralizedModeOfTransportType> builder()
 						.addAll(modesOfTransport).add(GeneralizedModeOfTransportType.FOOT).build();
+			}
+
+			for (DetailedModeOfTransportType mot : excludedPublicTransport) {
+				Preconditions.checkArgument(
+						mot.getGeneralizedType() == GeneralizedModeOfTransportType.PUBLIC_TRANSPORT,
+						"only detailed public transport mots allowed when excluding public transport");
 			}
 
 			if (optimizedFor == null) {

@@ -1,7 +1,7 @@
 {
   "routeFormatVersion" : "0.11-SNAPSHOT",
   "requestId" : "999",
-  "processedTime" : "2016-02-02T15:05:21.671+01:00[Europe/Vienna]",
+  "processedTime" : "2016-02-03T16:12:08.063+01:00[Europe/Vienna]",
   "status" : "OK",
   "debugMessage" : "Route calculated in 0.002 seconds",
   "coordinateReferenceSystem" : "EPSG:4326",
@@ -33,19 +33,22 @@
         "type" : "Feature",
         "geometry" : {
           "type" : "Point",
-          "coordinates" : [ 16.3632900, 48.2340770 ]
+          "coordinates" : [ 16.3690450, 48.2267000 ]
         },
         "properties" : { }
       },
       "address" : {
-        "postCode" : "1200",
-        "streetName" : "Treustraße",
-        "houseNumber" : "92"
+        "streetName" : "Gaußplatz"
       }
     },
-    "modesOfTransport" : [ "PUBLIC_TRANSPORT" ],
+    "modesOfTransport" : [ "FOOT", "BICYCLE", "MOTORCYCLE", "CAR", "PUBLIC_TRANSPORT" ],
+    "excludedPublicTransport" : [ "AERIALWAY", "AIRPLANE", "SHIP" ],
     "optimizedFor" : "traveltime",
+    "maximumTransfers" : 10,
     "departureTime" : "2016-01-01T15:00+01:00",
+    "acceptedDelayMinutes" : 30,
+    "maximumPublicTransportRoutes" : 20,
+    "accessibilityRestrictions" : [ "NO_ELEVATOR" ],
     "privateVehicleLocations" : {
       "CAR" : [ {
         "type" : "Location",
@@ -94,9 +97,11 @@
         }
       } ]
     },
+    "language" : "DE",
     "additionalInfo" : {
       "ait:additionalTestString" : "hello this is a String",
       "ait:additionalTestBigDecimal" : 12.34567,
+      "include_operators" : "flinc;car2go_vienna;citybike_vienna",
       "ait:additionalTestList" : [ 1, 2, 3, 4, 5, 6, 7 ],
       "ait:additionalTestObject" : {
         "name" : "Wiener Linien",
@@ -135,18 +140,16 @@
         "type" : "Feature",
         "geometry" : {
           "type" : "Point",
-          "coordinates" : [ 16.3632900, 48.2340770 ]
+          "coordinates" : [ 16.3690450, 48.2267000 ]
         },
         "properties" : { }
       },
       "address" : {
-        "postCode" : "1200",
-        "streetName" : "Treustraße",
-        "houseNumber" : "92"
+        "streetName" : "Gaußplatz"
       }
     },
-    "lengthMeters" : 6968,
-    "durationSeconds" : 2811,
+    "lengthMeters" : 7909,
+    "durationSeconds" : 3103,
     "departureTime" : "2016-01-01T15:00+01:00",
     "segments" : [ {
       "nr" : 1,
@@ -302,7 +305,8 @@
           },
           "properties" : { }
         },
-        "name" : "Floridsdorf Bus"
+        "name" : "Floridsdorf",
+        "platform" : "C"
       },
       "lengthMeters" : 2500,
       "durationSeconds" : 630,
@@ -321,7 +325,7 @@
             "email_ticketshop" : "ticketshop@wienerlinien.at"
           }
         },
-        "accessibility" : [ "NOT_WHEELHAIR_ACCESSIBLE" ]
+        "accessibility" : [ "HIGH_FLOOR_VEHICLE" ]
       },
       "departureTime" : "2016-01-01T15:06+01:00",
       "arrivalTime" : "2016-01-01T15:16:30+01:00",
@@ -329,7 +333,7 @@
         "type" : "Feature",
         "geometry" : {
           "type" : "LineString",
-          "coordinates" : [ [ 16.42791, 48.26680 ], [ 16.4236000, 48.2621000 ], [ 16.4044000, 48.2576000 ], [ 16.4030500, 48.2562100 ], [ 16.4012700, 48.2569800 ], [ 16.40073, 48.25625 ] ]
+          "coordinates" : [ [ 16.42791, 48.26680 ], [ 16.4235400, 48.2630600 ], [ 16.4236000, 48.2621000 ], [ 16.4044000, 48.2576000 ], [ 16.4030500, 48.2562100 ], [ 16.4012700, 48.2569800 ], [ 16.40073, 48.25625 ] ]
         },
         "properties" : { }
       }
@@ -345,7 +349,8 @@
           },
           "properties" : { }
         },
-        "name" : "Floridsdorf Bus"
+        "name" : "Floridsdorf",
+        "platform" : "C"
       },
       "to" : {
         "type" : "PublicTransportStop",
@@ -357,7 +362,8 @@
           },
           "properties" : { }
         },
-        "name" : "Floridsdorf U-Bahn"
+        "name" : "Floridsdorf",
+        "platform" : "2 (U-Bahn)"
       },
       "lengthMeters" : 40,
       "durationSeconds" : 240,
@@ -376,7 +382,7 @@
         },
         "properties" : { }
       },
-      "accessibility" : [ "ESCALATOR", "STAIRS", "ESCALATOR" ]
+      "accessibility" : [ "STAIRS_DOWN" ]
     }, {
       "nr" : 5,
       "from" : {
@@ -389,7 +395,8 @@
           },
           "properties" : { }
         },
-        "name" : "Floridsdorf U-Bahn"
+        "name" : "Floridsdorf",
+        "platform" : "2 (U-Bahn)"
       },
       "to" : {
         "type" : "PublicTransportStop",
@@ -401,7 +408,8 @@
           },
           "properties" : { }
         },
-        "name" : "Handelskai U-Bahn (Bahnsteig 2)"
+        "name" : "Handelskai",
+        "platform" : "2"
       },
       "lengthMeters" : 2000,
       "durationSeconds" : 240,
@@ -421,7 +429,7 @@
             "email_ticketshop" : "ticketshop@wienerlinien.at"
           }
         },
-        "accessibility" : [ "WHEELCHAIR_ACCESSIBLE" ]
+        "accessibility" : [ "LOW_FLOOR_VEHICLE" ]
       },
       "departureTime" : "2016-01-01T15:20:30+01:00",
       "arrivalTime" : "2016-01-01T15:24:30+01:00",
@@ -437,6 +445,7 @@
             "properties" : { }
           },
           "name" : "Neue Donau",
+          "platform" : "2",
           "relatedLines" : {
             "20A" : "BUS",
             "20B" : "BUS"
@@ -467,7 +476,8 @@
           },
           "properties" : { }
         },
-        "name" : "Handelskai U-Bahn (Bahnsteig 2)"
+        "name" : "Handelskai",
+        "platform" : "2"
       },
       "to" : {
         "type" : "PublicTransportStop",
@@ -479,7 +489,7 @@
           },
           "properties" : { }
         },
-        "name" : "Handelskai Eingang"
+        "name" : "Handelskai (Stationseingang)"
       },
       "lengthMeters" : 40,
       "durationSeconds" : 180,
@@ -495,7 +505,7 @@
         },
         "properties" : { }
       },
-      "accessibility" : [ "ESCALATOR" ]
+      "accessibility" : [ "ESCALATOR_DOWN", "STAIRS_DOWN" ]
     }, {
       "nr" : 7,
       "from" : {
@@ -508,7 +518,7 @@
           },
           "properties" : { }
         },
-        "name" : "Handelskai Eingang"
+        "name" : "Handelskai (Stationseingang)"
       },
       "to" : {
         "type" : "SharingStation",
@@ -635,7 +645,8 @@
           "website" : "http://citybikewien.at",
           "customerServiceEmail" : "kontakt@citybikewien.at",
           "customerServicePhone" : "0810 500 500"
-        }
+        },
+        "sharingType" : "STATION_BOUND_VEHICLE_SHARING"
       },
       "boardingSeconds" : 120,
       "alightingSeconds" : 60,
@@ -713,7 +724,7 @@
         },
         "properties" : { }
       },
-      "accessibility" : [ "STAIRS" ]
+      "accessibility" : [ "STAIRS_UP" ]
     }, {
       "nr" : 10,
       "from" : {
@@ -756,6 +767,7 @@
           "website" : "https://www.car2go.com/de/wien",
           "customerServiceEmail" : "wien@car2go.com"
         },
+        "sharingType" : "FREE_FLOATING_VEHICLE_SHARING",
         "additionalInfo" : {
           "licensePlate" : "W-123456",
           "fuelPercentage" : "80",
@@ -834,6 +846,65 @@
         "geometry" : {
           "type" : "LineString",
           "coordinates" : [ [ 16.3655000, 48.2375200 ], [ 16.3651500, 48.2372900 ], [ 16.3656000, 48.2351500 ], [ 16.3628800, 48.2350900 ], [ 16.3632900, 48.2340770 ] ]
+        },
+        "properties" : { }
+      },
+      "additionalInfo" : {
+        "name" : "Univega Mountainbike"
+      }
+    }, {
+      "nr" : 12,
+      "from" : {
+        "type" : "Location",
+        "coordinate" : {
+          "type" : "Feature",
+          "geometry" : {
+            "type" : "Point",
+            "coordinates" : [ 16.3632900, 48.2340770 ]
+          },
+          "properties" : { }
+        },
+        "address" : {
+          "postCode" : "1200",
+          "streetName" : "Treustraße",
+          "houseNumber" : "92"
+        }
+      },
+      "to" : {
+        "type" : "Location",
+        "coordinate" : {
+          "type" : "Feature",
+          "geometry" : {
+            "type" : "Point",
+            "coordinates" : [ 16.3690450, 48.2267000 ]
+          },
+          "properties" : { }
+        },
+        "address" : {
+          "streetName" : "Gaußplatz"
+        }
+      },
+      "lengthMeters" : 941,
+      "durationSeconds" : 292,
+      "modeOfTransport" : {
+        "generalizedType" : "CAR",
+        "detailedType" : "CAR",
+        "operator" : {
+          "name" : "Flinc",
+          "website" : "https://flinc.org"
+        },
+        "sharingType" : "RIDE_SHARING",
+        "additionalInfo" : {
+          "userName" : "herbertWien78",
+          "phoneNumber" : "+43 650 7734343"
+        }
+      },
+      "boardingSeconds" : 180,
+      "geometryGeoJson" : {
+        "type" : "Feature",
+        "geometry" : {
+          "type" : "LineString",
+          "coordinates" : [ [ 16.3632900, 48.2340770 ], [ 16.3644000, 48.2311000 ], [ 16.3663800, 48.2288600 ], [ 16.3690450, 48.2267000 ] ]
         },
         "properties" : { }
       }

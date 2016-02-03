@@ -5,6 +5,7 @@ import java.util.Collections;
 import org.junit.Assert;
 import org.junit.Test;
 
+import at.ac.ait.ariadne.routeformat.Sproute.DetailedModeOfTransportType;
 import at.ac.ait.ariadne.routeformat.Sproute.GeneralizedModeOfTransportType;
 
 import com.google.common.collect.ImmutableSet;
@@ -50,6 +51,24 @@ public class RoutingRequestTest {
 		try {
 			getBuilder().withModesOfTransport(Collections.emptySet()).build();
 			Assert.fail("at least one mot must be set");
+		} catch (IllegalArgumentException e) {
+		}
+	}
+
+	@Test
+	public void publicExclusionMots() {
+		Assert.assertEquals(
+				"exclusions must be set",
+				2,
+				getBuilder()
+						.withExcludedPublicTransport(
+								ImmutableSet.of(DetailedModeOfTransportType.AERIALWAY,
+										DetailedModeOfTransportType.AIRPLANE)).build().getExcludedPublicTransport()
+						.size());
+
+		try {
+			getBuilder().withExcludedPublicTransport(ImmutableSet.of(DetailedModeOfTransportType.BICYCLE)).build();
+			Assert.fail("non-public transport mots must not be not allowed");
 		} catch (IllegalArgumentException e) {
 		}
 	}

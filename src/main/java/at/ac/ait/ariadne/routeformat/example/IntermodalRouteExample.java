@@ -41,7 +41,6 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 
 /**
  * This class is an example playground where we manually created an intermodal route to check if the route format
@@ -189,19 +188,28 @@ public class IntermodalRouteExample {
 		additionalInfoRouteRequest.put("ait:additionalTestObject", wienerLinienOperator);
 		additionalInfoRouteRequest.put("ait:additionalTestList", Lists.newArrayList(1, 2, 3, 4, 5, 6, 7));
 		additionalInfoRouteRequest.put("ait:additionalTestString", "hello this is a String");
+		additionalInfoRouteRequest.put("include_operators", "flinc;car2go_vienna;citybike_vienna");
 
 		Map<GeneralizedModeOfTransportType, List<Location>> privateVehicleLocations = new HashMap<>();
 		privateVehicleLocations.put(GeneralizedModeOfTransportType.BICYCLE,
 				Arrays.asList(adalbertStifterStrasse15, privateBicycleHopsagasse));
 		privateVehicleLocations.put(GeneralizedModeOfTransportType.CAR, Arrays.asList(treustrasse92));
 
-		return RoutingRequest.builder().withServiceId("ariadne_webservice_vienna").withFrom(giefinggasseAit)
-				.withTo(gaussplatz).withDepartureTime("2016-01-01T15:00:00+01:00").withAcceptedDelayMinutes(10)
+		return RoutingRequest
+				.builder()
+				.withServiceId("ariadne_webservice_vienna")
+				.withFrom(giefinggasseAit)
+				.withTo(gaussplatz)
+				.withDepartureTime("2016-01-01T15:00:00+01:00")
+				.withAcceptedDelayMinutes(30)
+				.withMaximumPublicTransportRoutes(20)
 				.withLanguage("DE")
 				.withAccessibilityRestrictions(ImmutableSet.of(AccessibilityRestriction.NO_ELEVATOR))
-				.withModesOfTransport(Sets.newHashSet(GeneralizedModeOfTransportType.PUBLIC_TRANSPORT))
-				// TODO more finegrained support for MOTs!
-				.withOptimizedFor("traveltime").withMaximumTransfers(10).withAdditionalInfo(additionalInfoRouteRequest)
+				.withModesOfTransport(ImmutableSet.copyOf(GeneralizedModeOfTransportType.values()))
+				.withExcludedPublicTransport(
+						ImmutableSet.of(DetailedModeOfTransportType.AERIALWAY, DetailedModeOfTransportType.AIRPLANE,
+								DetailedModeOfTransportType.SHIP)).withOptimizedFor("traveltime")
+				.withMaximumTransfers(10).withAdditionalInfo(additionalInfoRouteRequest)
 				.withPrivateVehicleLocations(privateVehicleLocations).build();
 	}
 
