@@ -26,9 +26,12 @@ public class Sproute {
 	}
 
 	public enum DetailedModeOfTransportType {
+		// Note: maybe switch to TPEG-HVT in the future?
+		// https://support.google.com/transitpartners/answer/3520902?hl=en
+
 		// "classic" public transport
-		TRAIN(PUBLIC_TRANSPORT), LIGHTRAIL(PUBLIC_TRANSPORT), SUBWAY(PUBLIC_TRANSPORT), MONORAIL(PUBLIC_TRANSPORT), TRAM(
-				PUBLIC_TRANSPORT), BUS(PUBLIC_TRANSPORT), TROLLEYBUS(PUBLIC_TRANSPORT),
+		TRAIN(PUBLIC_TRANSPORT), LIGHTRAIL(PUBLIC_TRANSPORT), SUBWAY(PUBLIC_TRANSPORT), TRAM(PUBLIC_TRANSPORT), BUS(
+				PUBLIC_TRANSPORT), TROLLEYBUS(PUBLIC_TRANSPORT),
 		/** e.g. gondolas, cable cars, chair lifts,.. see http://wiki.openstreetmap.org/wiki/Key:aerialway */
 		AERIALWAY(PUBLIC_TRANSPORT),
 		/** water-bound transport */

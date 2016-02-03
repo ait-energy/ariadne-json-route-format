@@ -10,6 +10,7 @@ import at.ac.ait.ariadne.routeformat.location.Location;
 
 public class TestUtil {
 
+	public static final String serviceId = "test_service";
 	public static final String departureTime = "2007-12-03T10:15:30+01:00";
 	public static final String arrivalTime = "2007-12-03T10:16:30+01:00";
 	public static final Location from = Location.builder()

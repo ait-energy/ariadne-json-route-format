@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import at.ac.ait.ariadne.routeformat.RoutingRequest.Builder;
+import at.ac.ait.ariadne.routeformat.Sproute.DetailedModeOfTransportType;
 import at.ac.ait.ariadne.routeformat.Sproute.GeneralizedModeOfTransportType;
 import at.ac.ait.ariadne.routeformat.location.Location;
 
@@ -22,6 +23,27 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
 /**
+ * A {@link RoutingRequest} encapsulates typically required request parameters for an intermodal routing service as
+ * separate fields. Parameters specific for a certain service can be added via {@link #getAdditionalInfo()}. This is
+ * especially true for the detailed inclusion / exclusion of public transport / (shared) mobility providers or more
+ * detailed preferences for certain modes of transport. Some use-cases could include:
+ * 
+ * <pre>
+ * walking_kph = 7
+ * max_walking_meters = 3000
+ * max_walking_minutes = 10 
+ * include_sharing_providers = citybikewien;car2gobratislava
+ * only_use_mots_provided_by = ÖBB
+ * exclude_public_transport_line = WL_28A;WL_29A
+ * exclude_provider = CAT
+ * exclude_mot = call_taxi
+ * regional_bus = no
+ * taxi = yes
+ * </pre>
+ * <p>
+ * For public transport routing {@link #getMaximumPublicTransportRoutes()} and {@link #getAcceptedDelayMinutes()} both
+ * restrict the number of results.
+ * 
  * @author AIT Austrian Institute of Technology GmbH
  */
 @JsonDeserialize(builder = Builder.class)
@@ -29,17 +51,21 @@ import com.google.common.collect.ImmutableSet;
 public class RoutingRequest {
 	public static final String DEFAULT_OPTIMIZED_FOR = "TRAVELTIME";
 	public static final Integer DEFAULT_MAXIMUM_TRANSFERS = 3;
+	public static final Integer DEFAULT_ACCEPTED_DELAY_MINUTES = 60;
+	public static final Integer DEFAULT_MAXIMUM_PUBLIC_TRANSPORT_ROUTES = 10;
 
 	private final String serviceId;
 	private final Location from;
 	private final List<Location> via;
 	private final Location to;
 	private final Set<GeneralizedModeOfTransportType> modesOfTransport;
+	private final Set<DetailedModeOfTransportType> excludedPublicTransport;
 	private final String optimizedFor;
 	private final Optional<Integer> maximumTransfers;
 	private final Optional<ZonedDateTime> departureTime;
 	private final Optional<ZonedDateTime> arrivalTime;
 	private final Optional<Integer> acceptedDelayMinutes;
+	private final Optional<Integer> maximumPublicTransportRoutes;
 	private final Set<Sproute.AccessibilityRestriction> accessibilityRestrictions;
 	private final Map<GeneralizedModeOfTransportType, List<Location>> privateVehicleLocations;
 	private final Optional<String> language;
@@ -77,6 +103,16 @@ public class RoutingRequest {
 	@JsonProperty(required = true)
 	public Set<GeneralizedModeOfTransportType> getModesOfTransport() {
 		return modesOfTransport;
+	}
+
+	/**
+	 * @return a set of public transport types which must not be used for routing. For this field to have any effect
+	 *         {@link #getModesOfTransport()} must already contain
+	 *         {@link GeneralizedModeOfTransportType#PUBLIC_TRANSPORT}
+	 */
+	@JsonProperty
+	public Set<DetailedModeOfTransportType> getExcludedPublicTransport() {
+		return excludedPublicTransport;
 	}
 
 	/**
@@ -147,10 +183,17 @@ public class RoutingRequest {
 	 * <p>
 	 * Note, that for non-public transport routes this probably has no effect.
 	 * 
-	 * @return empty / a non-negative number of minutes
+	 * @return empty / a non-negative number of minutes (default: 60)
 	 */
 	public Optional<Integer> getAcceptedDelayMinutes() {
 		return acceptedDelayMinutes;
+	}
+
+	/**
+	 * @return the maximum number of public transport routes to be returned (default: 10)
+	 */
+	public Optional<Integer> getMaximumPublicTransportRoutes() {
+		return maximumPublicTransportRoutes;
 	}
 
 	public Set<Sproute.AccessibilityRestriction> getAccessibilityRestrictions() {
@@ -187,11 +230,13 @@ public class RoutingRequest {
 		this.via = builder.via;
 		this.to = builder.to;
 		this.modesOfTransport = builder.modesOfTransport;
+		this.excludedPublicTransport = builder.excludedPublicTransport;
 		this.optimizedFor = builder.optimizedFor;
 		this.maximumTransfers = builder.maximumTransfers;
 		this.departureTime = builder.departureTime;
 		this.arrivalTime = builder.arrivalTime;
 		this.acceptedDelayMinutes = builder.acceptedDelayMinutes;
+		this.maximumPublicTransportRoutes = builder.maximumPublicTransportRoutes;
 		this.accessibilityRestrictions = builder.accessibilityRestrictions;
 		this.privateVehicleLocations = builder.privateVehicleLocations;
 		this.language = builder.language;
@@ -208,11 +253,13 @@ public class RoutingRequest {
 		private List<Location> via = Collections.emptyList();
 		private Location to;
 		private Set<GeneralizedModeOfTransportType> modesOfTransport = Collections.emptySet();
+		private Set<DetailedModeOfTransportType> excludedPublicTransport = Collections.emptySet();
 		private String optimizedFor;
 		private Optional<Integer> maximumTransfers = Optional.empty();
 		private Optional<ZonedDateTime> departureTime = Optional.empty();
 		private Optional<ZonedDateTime> arrivalTime = Optional.empty();
 		private Optional<Integer> acceptedDelayMinutes = Optional.empty();
+		private Optional<Integer> maximumPublicTransportRoutes = Optional.empty();
 		private Set<Sproute.AccessibilityRestriction> accessibilityRestrictions = Collections.emptySet();
 		private Map<GeneralizedModeOfTransportType, List<Location>> privateVehicleLocations = Collections.emptyMap();
 		private Optional<String> language = Optional.empty();
@@ -247,6 +294,11 @@ public class RoutingRequest {
 		@JsonProperty
 		public Builder withModesOfTransport(Set<GeneralizedModeOfTransportType> modesOfTransport) {
 			this.modesOfTransport = ImmutableSet.copyOf(modesOfTransport);
+			return this;
+		}
+
+		public Builder withExcludedPublicTransport(Set<DetailedModeOfTransportType> excludedPublicTransport) {
+			this.excludedPublicTransport = excludedPublicTransport;
 			return this;
 		}
 
@@ -301,6 +353,11 @@ public class RoutingRequest {
 			return this;
 		}
 
+		public Builder withMaximumPublicTransportRoutes(Integer maximumPublicTransportRoutes) {
+			this.maximumPublicTransportRoutes = Optional.ofNullable(maximumPublicTransportRoutes);
+			return this;
+		}
+
 		public Builder withAccessibilityRestrictions(Set<Sproute.AccessibilityRestriction> accessibilityRestrictions) {
 			this.accessibilityRestrictions = ImmutableSet.copyOf(accessibilityRestrictions);
 			return this;
@@ -335,29 +392,38 @@ public class RoutingRequest {
 					"modesOfTransport is mandatory but missing/empty");
 			Preconditions.checkArgument(modesOfTransport.size() >= 1, ">= 1 modesOfTransport must be used");
 			if (modesOfTransport.size() > 1 && !modesOfTransport.contains(GeneralizedModeOfTransportType.FOOT)) {
-				modesOfTransport.add(GeneralizedModeOfTransportType.FOOT);
+				modesOfTransport = ImmutableSet.<Sproute.GeneralizedModeOfTransportType> builder()
+						.addAll(modesOfTransport).add(GeneralizedModeOfTransportType.FOOT).build();
 			}
 
 			if (optimizedFor == null) {
 				optimizedFor = DEFAULT_OPTIMIZED_FOR;
 			}
 
-			if (maximumTransfers.isPresent()) {
-				Preconditions.checkArgument(maximumTransfers.get() >= 0,
-						"only positive numbers for maximumTransfers are allowed, was %s", maximumTransfers);
-			} else {
-				maximumTransfers = Optional.of(DEFAULT_MAXIMUM_TRANSFERS);
-			}
+			maximumTransfers = enforcePositiveInteger(maximumTransfers, DEFAULT_MAXIMUM_TRANSFERS, "maximumTransfers");
+			acceptedDelayMinutes = enforcePositiveInteger(acceptedDelayMinutes, DEFAULT_ACCEPTED_DELAY_MINUTES,
+					"acceptedDelayMinutes");
+			maximumPublicTransportRoutes = enforcePositiveInteger(maximumPublicTransportRoutes,
+					DEFAULT_MAXIMUM_PUBLIC_TRANSPORT_ROUTES, "maximumPublicTransportRoutes");
 
 			Preconditions.checkArgument(!(departureTime.isPresent() && arrivalTime.isPresent()),
 					"departureTime and arrivalTime are mutually exclusive, only one can be set at once");
 			if (!departureTime.isPresent() && !arrivalTime.isPresent()) {
 				departureTime = Optional.of(ZonedDateTime.now());
 			}
-
-			if (acceptedDelayMinutes.isPresent())
-				Preconditions.checkArgument(acceptedDelayMinutes.get() >= 0, "accepted delay must not be negative");
 		}
+
+		private Optional<Integer> enforcePositiveInteger(Optional<Integer> value, Integer defaultValue,
+				String variableName) {
+			if (value.isPresent()) {
+				Preconditions.checkArgument(value.get() >= 0, "only positive numbers for %s are allowed, was %s",
+						variableName, value);
+			} else {
+				value = Optional.of(defaultValue);
+			}
+			return value;
+		}
+
 	}
 
 }
