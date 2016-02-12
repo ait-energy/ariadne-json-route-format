@@ -25,7 +25,7 @@ public class RoutingRequestTest {
 
 	@Test
 	public void testMaximumTransfers() {
-		Assert.assertEquals(RoutingRequest.DEFAULT_MAXIMUM_TRANSFERS, getBuilder().build().getMaximumTransfers().get());
+		Assert.assertFalse(getBuilder().build().getMaximumTransfers().isPresent());
 		Assert.assertEquals(10, (int) getBuilder().withMaximumTransfers(10).build().getMaximumTransfers().get());
 		try {
 			getBuilder().withMaximumTransfers(-1).build();

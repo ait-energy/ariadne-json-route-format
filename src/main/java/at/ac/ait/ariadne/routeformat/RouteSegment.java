@@ -344,7 +344,7 @@ public class RouteSegment {
 
 			if (departureTime.isPresent() && arrivalTime.isPresent()) {
 				Preconditions.checkArgument(!arrivalTime.get().isBefore(departureTime.get()),
-						"arrivalTime must be <= departureTime");
+						"departureTime must be <= arrivalTime");
 
 				long durationBetweenTimestamps = Duration.between(departureTime.get(), arrivalTime.get()).getSeconds();
 				Preconditions.checkArgument(durationSeconds == durationBetweenTimestamps,

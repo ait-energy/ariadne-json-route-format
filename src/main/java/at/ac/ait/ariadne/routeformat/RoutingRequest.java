@@ -50,9 +50,6 @@ import com.google.common.collect.ImmutableSet;
 @JsonInclude(Include.NON_EMPTY)
 public class RoutingRequest {
 	public static final String DEFAULT_OPTIMIZED_FOR = "TRAVELTIME";
-	public static final Integer DEFAULT_MAXIMUM_TRANSFERS = 3;
-	public static final Integer DEFAULT_ACCEPTED_DELAY_MINUTES = 60;
-	public static final Integer DEFAULT_MAXIMUM_PUBLIC_TRANSPORT_ROUTES = 10;
 
 	private final String serviceId;
 	private final Location from;
@@ -408,11 +405,10 @@ public class RoutingRequest {
 				optimizedFor = DEFAULT_OPTIMIZED_FOR;
 			}
 
-			maximumTransfers = enforcePositiveInteger(maximumTransfers, DEFAULT_MAXIMUM_TRANSFERS, "maximumTransfers");
-			acceptedDelayMinutes = enforcePositiveInteger(acceptedDelayMinutes, DEFAULT_ACCEPTED_DELAY_MINUTES,
-					"acceptedDelayMinutes");
+			maximumTransfers = enforcePositiveInteger(maximumTransfers, "maximumTransfers");
+			acceptedDelayMinutes = enforcePositiveInteger(acceptedDelayMinutes, "acceptedDelayMinutes");
 			maximumPublicTransportRoutes = enforcePositiveInteger(maximumPublicTransportRoutes,
-					DEFAULT_MAXIMUM_PUBLIC_TRANSPORT_ROUTES, "maximumPublicTransportRoutes");
+					"maximumPublicTransportRoutes");
 
 			Preconditions.checkArgument(!(departureTime.isPresent() && arrivalTime.isPresent()),
 					"departureTime and arrivalTime are mutually exclusive, only one can be set at once");
@@ -421,13 +417,10 @@ public class RoutingRequest {
 			}
 		}
 
-		private Optional<Integer> enforcePositiveInteger(Optional<Integer> value, Integer defaultValue,
-				String variableName) {
+		private Optional<Integer> enforcePositiveInteger(Optional<Integer> value, String variableName) {
 			if (value.isPresent()) {
 				Preconditions.checkArgument(value.get() >= 0, "only positive numbers for %s are allowed, was %s",
 						variableName, value);
-			} else {
-				value = Optional.of(defaultValue);
 			}
 			return value;
 		}
