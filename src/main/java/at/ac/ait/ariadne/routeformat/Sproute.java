@@ -30,9 +30,33 @@ public class Sproute {
 		// https://support.google.com/transitpartners/answer/3520902?hl=en
 
 		// "classic" public transport
-		TRAIN(PUBLIC_TRANSPORT), LIGHTRAIL(PUBLIC_TRANSPORT), SUBWAY(PUBLIC_TRANSPORT), TRAM(PUBLIC_TRANSPORT), BUS(
-				PUBLIC_TRANSPORT), TROLLEYBUS(PUBLIC_TRANSPORT),
-		/** e.g. gondolas, cable cars, chair lifts,.. see http://wiki.openstreetmap.org/wiki/Key:aerialway */
+		/** trains (in general) */
+		RAILWAY(PUBLIC_TRANSPORT),
+		/** high-speed / long distance trains such as the Austrian RailJet */
+		LONG_DISTANCE_RAILWAY(PUBLIC_TRANSPORT), SUBURBAN_RAILWAY(PUBLIC_TRANSPORT), URBAN_RAILWAY(PUBLIC_TRANSPORT),
+		/** metro */
+		SUBWAY(PUBLIC_TRANSPORT),
+		//
+		TRAM(PUBLIC_TRANSPORT),
+		/**
+		 * ground-based vehicles that are pulled by a cable (such as the popular
+		 * cable cars in San Francisco). For gondolas and chairlift (as known
+		 * from skiing resorts) are described with
+		 * BasePublicTransportMot#AERIALWAY
+		 */
+		CABLE_CAR(PUBLIC_TRANSPORT),
+		/**
+		 * a special type of BasePublicTransportMot#CABLE_CAR, see
+		 * https://en.wikipedia.org/wiki/Funicular
+		 */
+		FUNICULAR(PUBLIC_TRANSPORT),
+		//
+		BUS(PUBLIC_TRANSPORT), TROLLEYBUS(PUBLIC_TRANSPORT),
+		//
+		/**
+		 * e.g. gondolas, cable cars, chair lifts,.. see
+		 * http://wiki.openstreetmap.org/wiki/Key:aerialway
+		 */
 		AERIALWAY(PUBLIC_TRANSPORT),
 		/** water-bound transport */
 		SHIP(PUBLIC_TRANSPORT),
@@ -43,7 +67,10 @@ public class Sproute {
 				GeneralizedModeOfTransportType.CAR),
 		// taxi
 		TAXI(GeneralizedModeOfTransportType.CAR), FOOT(GeneralizedModeOfTransportType.FOOT),
-		/** walking or taking elevators, escalators,.. within public transport stations */
+		/**
+		 * walking or taking elevators, escalators,.. within public transport
+		 * stations
+		 */
 		TRANSFER(GeneralizedModeOfTransportType.FOOT);
 
 		private final GeneralizedModeOfTransportType mot;
@@ -97,7 +124,8 @@ public class Sproute {
 		 */
 		OK,
 		/**
-		 * Problems occurred when routing request parameters were parsed - neither request nor routes are available.
+		 * Problems occurred when routing request parameters were parsed -
+		 * neither request nor routes are available.
 		 */
 		INVALID_REQUEST,
 		/**
@@ -107,7 +135,8 @@ public class Sproute {
 	}
 
 	/**
-	 * @deprecated maybe this will be removed in the future.. client software should figure this out itself
+	 * @deprecated maybe this will be removed in the future.. client software
+	 *             should figure this out itself
 	 */
 	@Deprecated
 	public enum RouteType {
@@ -138,9 +167,15 @@ public class Sproute {
 		CAR_AND_PUBLIC_TRANSPORT,
 		/** "bike and ride": cycling + car + public transport */
 		BICYCLE_AND_PUBLIC_TRANSPORT,
-		/** "park and ride" using car sharing: walking + shared car + public transport */
+		/**
+		 * "park and ride" using car sharing: walking + shared car + public
+		 * transport
+		 */
 		SHARED_CAR_AND_PUBLIC_TRANSPORT,
-		/** "bike and ride" using car sharing: walking + shared bicycle + public transport */
+		/**
+		 * "bike and ride" using car sharing: walking + shared bicycle + public
+		 * transport
+		 */
 		SHARED_BICYCLE_AND_PUBLIC_TRANSPORT,
 		/** walking + taxi + public transport */
 		TAXI_AND_PUBLIC_TRANSPORT,
