@@ -179,7 +179,9 @@ public class IntermodalRouteExample {
 		return RouteFormatRoot.builder().withRouteFormatVersion("0.11-SNAPSHOT").withRequestId("999")
 				.withProcessedTimeNow().withStatus(Status.OK).withDebugMessage("Route calculated in 0.002 seconds")
 				.withCoordinateReferenceSystem("EPSG:4326").withRequest(getRoutingRequest())
-				.withRoutes(Arrays.asList(Route.builder(getRouteSegments()).build())).build();
+				.withRoutes(Arrays.asList(
+						Route.builder(getRouteSegments()).withOptimizedFor("travel time and low costs").build()))
+				.build();
 	}
 
 	private RoutingRequest getRoutingRequest() {

@@ -41,6 +41,7 @@ public class Route {
 	private final Optional<String> id;
 	private final Optional<ZonedDateTime> departureTime;
 	private final Optional<ZonedDateTime> arrivalTime;
+	private final Optional<String> optimizedFor;
 	private final Optional<GeoJSONFeature<GeoJSONPolygon>> boundingBox;
 	private final Optional<String> simplifiedGeometryEncodedPolyLine;
 	private final Optional<GeoJSONFeature<GeoJSONLineString>> simplifiedGeometryGeoJson;
@@ -95,6 +96,17 @@ public class Route {
 		return arrivalTime;
 	}
 
+	/**
+	 * @return a description of the optimization criteria for calculating the
+	 *         route. This field is more specific than the one in
+	 *         {@link RoutingRequest} (and typically set when a
+	 *         {@link RouteFormatRoot} contains several (alternative) routes for
+	 *         one request.
+	 */
+	public Optional<String> getOptimizedFor() {
+		return optimizedFor;
+	}
+	
 	public Optional<GeoJSONFeature<GeoJSONPolygon>> getBoundingBox() {
 		return boundingBox;
 	}
@@ -129,6 +141,7 @@ public class Route {
 		this.id = builder.id;
 		this.departureTime = builder.departureTime;
 		this.arrivalTime = builder.arrivalTime;
+		this.optimizedFor = builder.optimizedFor;
 		this.boundingBox = builder.boundingBox;
 		this.simplifiedGeometryEncodedPolyLine = builder.simplifiedGeometryEncodedPolyLine;
 		this.simplifiedGeometryGeoJson = builder.simplifiedGeometryGeoJson;
@@ -167,6 +180,7 @@ public class Route {
 		private Optional<String> id = Optional.empty();
 		private Optional<ZonedDateTime> departureTime = Optional.empty();
 		private Optional<ZonedDateTime> arrivalTime = Optional.empty();
+		private Optional<String> optimizedFor = Optional.empty();
 		private Optional<GeoJSONFeature<GeoJSONPolygon>> boundingBox = Optional.empty();
 		private Optional<String> simplifiedGeometryEncodedPolyLine = Optional.empty();
 		private Optional<GeoJSONFeature<GeoJSONLineString>> simplifiedGeometryGeoJson = Optional.empty();
@@ -224,6 +238,11 @@ public class Route {
 		@JsonProperty
 		public Builder withArrivalTime(String arrivalTime) {
 			this.arrivalTime = Optional.ofNullable(SprouteUtils.parseZonedDateTime(arrivalTime, "arrivalTime"));
+			return this;
+		}
+		
+		public Builder withOptimizedFor(String optimizedFor) {
+			this.optimizedFor = Optional.ofNullable(optimizedFor);
 			return this;
 		}
 

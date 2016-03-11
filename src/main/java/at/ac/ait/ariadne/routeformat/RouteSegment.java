@@ -90,8 +90,10 @@ public class RouteSegment {
 	}
 
 	/**
-	 * @return the number of seconds it takes to board the mode of transport, e.g. estimated time it takes to walk to
-	 *         your bicycle or car and unlock it, average time to hail a taxi,..
+	 * @return the number of seconds it takes to board (or wait for) the mode of
+	 *         transport, e.g. estimated time it takes to walk to your bicycle
+	 *         or car and unlock it, average time to hail a taxi, waiting time
+	 *         for public transport..
 	 */
 	public Optional<Integer> getBoardingSeconds() {
 		return boardingSeconds;
