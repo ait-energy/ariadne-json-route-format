@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<properties>
@@ -12,7 +11,7 @@
 
 	<groupId>at.ac.ait</groupId>
 	<artifactId>sproute-route-format</artifactId>
-	<version>0.11-SNAPSHOT</version>
+	<version>0.11</version>
 	<name>JSON Sproute Route Format</name>
 
 	<description>JSON exchange format for routes developed by the Austrian Institute of Technology and Fluidtime</description>
@@ -21,7 +20,7 @@
 		<url>https://github.com/dts-ait/sproute-json-route-format</url>
 		<connection>scm:git:https://github.com/dts-ait/sproute-json-route-format.git</connection>
 		<developerConnection>scm:git:https://github.com/dts-ait/sproute-json-route-format.git</developerConnection>
-		<tag>HEAD</tag>
+		<tag>sproute-route-format-0.11</tag>
 	</scm>
 
 	<!-- only a temporary solution - we should release to maven central! -->
