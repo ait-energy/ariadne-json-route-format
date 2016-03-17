@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author AIT Austrian Institute of Technology GmbH
  */
 @JsonInclude(Include.ALWAYS)
-public class GeoJSONPoint implements GeoJSONGeometryObject{
+public class GeoJSONPoint implements GeoJSONGeometryObject {
 
 	@JsonProperty(required = true)
 	public final GeoJSONType type = GeoJSONType.Point;
@@ -20,12 +20,17 @@ public class GeoJSONPoint implements GeoJSONGeometryObject{
 	@JsonProperty(required = true)
 	/** a pair of coordinates: X and Y (=longitude and latitude) */
 	public List<BigDecimal> coordinates = new ArrayList<>();
-	
+
 	public GeoJSONPoint() {
 	}
-	
+
 	public GeoJSONPoint(CoordinatePoint point) {
 		coordinates = point.asNewList();
+	}
+
+	@Override
+	public String toString() {
+		return "GeoJSONPoint [coordinates=" + coordinates + "]";
 	}
 
 }

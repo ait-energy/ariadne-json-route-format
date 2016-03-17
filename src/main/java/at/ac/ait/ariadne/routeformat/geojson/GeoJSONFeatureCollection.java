@@ -18,10 +18,13 @@ public class GeoJSONFeatureCollection<T extends GeoJSONGeometryObject> {
 	@JsonProperty(required = true)
 	public final GeoJSONType type = GeoJSONType.FeatureCollection;
 
+	@JsonProperty(required = false)
+	public CRS crs = CRS.WGS84;
+
 	@JsonProperty(required = true)
 	public List<GeoJSONFeature<T>> features = new ArrayList<>();
 
 	public GeoJSONFeatureCollection() {
 	}
-	
+
 }

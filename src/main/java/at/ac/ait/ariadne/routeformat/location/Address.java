@@ -54,6 +54,12 @@ public class Address {
 		return new Builder();
 	}
 
+	@Override
+	public String toString() {
+		return "Address [country=" + country + ", city=" + city + ", postCode=" + postCode + ", streetName="
+				+ streetName + ", houseNumber=" + houseNumber + "]";
+	}
+
 	public static class Builder {
 		private Optional<String> country = Optional.empty();
 		private Optional<String> city = Optional.empty();

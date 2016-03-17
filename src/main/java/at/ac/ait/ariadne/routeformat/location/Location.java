@@ -17,7 +17,8 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 
 /**
- * A very basic version of a location, in its minimal form it only contains a coordinate.
+ * A very basic version of a location, in its minimal form it only contains a
+ * coordinate.
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */
@@ -53,6 +54,12 @@ public class Location {
 
 	public static Builder<?> builder() {
 		return new Builder2();
+	}
+
+	@Override
+	public String toString() {
+		return "Location [coordinate=" + coordinate + ", address=" + address + ", additionalInfo=" + additionalInfo
+				+ "]";
 	}
 
 	// builder pattern for subclassing:

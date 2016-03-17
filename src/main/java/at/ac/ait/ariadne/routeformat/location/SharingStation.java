@@ -60,6 +60,12 @@ public class SharingStation extends Location {
 		return new Builder2();
 	}
 
+	@Override
+	public String toString() {
+		return "SharingStation [name=" + name + ", id=" + id + ", modesOfTransport=" + modesOfTransport + ", operator="
+				+ operator + "]";
+	}
+
 	public static abstract class Builder<T extends Builder<T>> extends Location.Builder<T> {
 		private String name;
 		private Optional<String> id = Optional.empty();

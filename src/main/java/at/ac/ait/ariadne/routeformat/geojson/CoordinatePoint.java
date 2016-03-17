@@ -49,4 +49,9 @@ public class CoordinatePoint {
 		return new CoordinatePoint(x, y);
 	}
 
+	@Override
+	public String toString() {
+		return "CoordinatePoint [x=" + x + ", y=" + y + "]";
+	}
+
 }

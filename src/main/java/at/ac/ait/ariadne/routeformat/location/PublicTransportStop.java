@@ -18,10 +18,12 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 /**
- * A {@link PublicTransportStop} is used in two contexts: as from or to position of a {@link RouteSegment} and as an
- * intermediate stop. In the case of from / to position it contains information relevant for the route, i.e. the
- * accessibility information is relevant for the the way along the route and not necessarily valid for the whole
- * station. In the latter case (as an intermediate stop) the information can be interpreted more generally.
+ * A {@link PublicTransportStop} is used in two contexts: as from or to position
+ * of a {@link RouteSegment} and as an intermediate stop. In the case of from /
+ * to position it contains information relevant for the route, i.e. the
+ * accessibility information is relevant for the the way along the route and not
+ * necessarily valid for the whole station. In the latter case (as an
+ * intermediate stop) the information can be interpreted more generally.
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */
@@ -54,8 +56,9 @@ public class PublicTransportStop extends Location {
 	}
 
 	/**
-	 * @return public transport lines the user can change to at this stop (detailed public transport type and name,
-	 *         which may be an empty string)
+	 * @return public transport lines the user can change to at this stop
+	 *         (detailed public transport type and name, which may be an empty
+	 *         string)
 	 */
 	public Map<String, DetailedModeOfTransportType> getRelatedLines() {
 		return relatedLines;
@@ -67,6 +70,12 @@ public class PublicTransportStop extends Location {
 
 	public static Builder<?> builder() {
 		return new Builder2();
+	}
+
+	@Override
+	public String toString() {
+		return "PublicTransportStop [name=" + name + ", platform=" + platform + ", relatedLines=" + relatedLines
+				+ ", accessibility=" + accessibility + "]";
 	}
 
 	public static abstract class Builder<T extends Builder<T>> extends Location.Builder<T> {
