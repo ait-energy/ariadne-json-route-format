@@ -19,14 +19,29 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 /**
- * A {@link ModeOfTransport} at minimum specifies a {@link GeneralizedModeOfTransportType}, but can also contain
- * detailed information about vehicles (e.g. buses, shared cars,..).
+ * A {@link ModeOfTransport} at minimum specifies a
+ * {@link GeneralizedModeOfTransportType}, but can also contain detailed
+ * information about vehicles (e.g. buses, shared cars,..).
+ * <p>
+ * Some standard modes of transport where additional information is seldom
+ * required are provided, e.g. STANDARD_FOOT.
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */
 @JsonDeserialize(builder = Builder.class)
 @JsonInclude(Include.NON_EMPTY)
 public class ModeOfTransport {
+	public static final ModeOfTransport STANDARD_FOOT = builder().withDetailedType(DetailedModeOfTransportType.FOOT)
+			.build();
+	public static final ModeOfTransport STANDARD_BICYCLE = builder()
+			.withDetailedType(DetailedModeOfTransportType.BICYCLE).build();
+	public static final ModeOfTransport STANDARD_MOTORCYCLE = builder()
+			.withDetailedType(DetailedModeOfTransportType.MOTORCYCLE).build();
+	public static final ModeOfTransport STANDARD_CAR = builder().withDetailedType(DetailedModeOfTransportType.CAR)
+			.build();
+	public static final ModeOfTransport STANDARD_TRANSFER = builder()
+			.withDetailedType(DetailedModeOfTransportType.TRANSFER).build();
+
 	private final GeneralizedModeOfTransportType generalizedType;
 	private final Optional<DetailedModeOfTransportType> detailedType;
 	private final Optional<String> id;
@@ -97,6 +112,11 @@ public class ModeOfTransport {
 
 	public static Builder builder() {
 		return new Builder();
+	}
+
+	@Override
+	public String toString() {
+		return "ModeOfTransport [generalizedType=" + generalizedType + ", detailedType=" + detailedType + "]";
 	}
 
 	public static class Builder {

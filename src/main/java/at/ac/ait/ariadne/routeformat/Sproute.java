@@ -92,7 +92,7 @@ public class Sproute {
 		STATION_BOUND_VEHICLE_SHARING,
 		/** e.g. Car2Go */
 		FREE_FLOATING_VEHICLE_SHARING,
-		/** e.g. flinc */
+		/** e.g. shared taxi or flinc */
 		RIDE_SHARING, RIDE_SOURCING
 	}
 

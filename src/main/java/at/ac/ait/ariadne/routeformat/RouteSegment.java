@@ -25,9 +25,11 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 /**
- * A {@link RouteSegment} is a part of a route that is traveled with a single {@link ModeOfTransport}.
+ * A {@link RouteSegment} is a part of a route that is traveled with a single
+ * {@link ModeOfTransport}.
  * <p>
- * It is guaranteed that at least one of the geometry types (encoded polyline or GeoJSON) is provided.
+ * It is guaranteed that at least one of the geometry types (encoded polyline or
+ * GeoJSON) is provided.
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */
@@ -76,8 +78,8 @@ public class RouteSegment {
 	}
 
 	/**
-	 * @return the total duration for this segment including {@link #getBoardingSeconds()} and
-	 *         {@link #getAlightingSeconds()}
+	 * @return the total duration for this segment including
+	 *         {@link #getBoardingSeconds()} and {@link #getAlightingSeconds()}
 	 */
 	@JsonProperty(required = true)
 	public int getDurationSeconds() {
@@ -100,8 +102,10 @@ public class RouteSegment {
 	}
 
 	/**
-	 * @return the number of seconds it takes to alight the mode of transport, e.g. estimated time it takes to look for
-	 *         a parking spot for your bicycle or car and lock/park it, average time to pay and leave a taxi,..
+	 * @return the number of seconds it takes to alight the mode of transport,
+	 *         e.g. estimated time it takes to look for a parking spot for your
+	 *         bicycle or car and lock/park it, average time to pay and leave a
+	 *         taxi,..
 	 */
 	public Optional<Integer> getAlightingSeconds() {
 		return alightingSeconds;
@@ -125,7 +129,9 @@ public class RouteSegment {
 		return arrivalTime;
 	}
 
-	/** intermediate stops on the way (mostly useful for public transport routes) */
+	/**
+	 * intermediate stops on the way (mostly useful for public transport routes)
+	 */
 	public List<IntermediateStop> getIntermediateStops() {
 		return intermediateStops;
 	}
@@ -149,8 +155,8 @@ public class RouteSegment {
 	}
 
 	/**
-	 * segment geometry as a collection of LineStrings (one for each edge in the routing graph) with debugging
-	 * information for each edge
+	 * segment geometry as a collection of LineStrings (one for each edge in the
+	 * routing graph) with debugging information for each edge
 	 */
 	public Optional<GeoJSONFeatureCollection<GeoJSONLineString>> getGeometryGeoJsonEdges() {
 		return geometryGeoJsonEdges;
@@ -161,15 +167,16 @@ public class RouteSegment {
 	}
 
 	/**
-	 * @return the ordered list of potential obstacles for mobility impaired persons (e.g. first up the elevator, then
-	 *         up the stairs,..)
+	 * @return the ordered list of potential obstacles for mobility impaired
+	 *         persons (e.g. first up the elevator, then up the stairs,..)
 	 */
 	public List<Sproute.Accessibility> getAccessibility() {
 		return accessibility;
 	}
 
 	/**
-	 * @return additional information, e.g. other weights for the segment (energy,..)
+	 * @return additional information, e.g. other weights for the segment
+	 *         (energy,..)
 	 */
 	public Map<String, Object> getAdditionalInfo() {
 		return additionalInfo;
@@ -198,6 +205,14 @@ public class RouteSegment {
 
 	public static Builder builder() {
 		return new Builder();
+	}
+
+	@Override
+	public String toString() {
+		return "RouteSegment [nr=" + nr + ", from=" + from + ", to=" + to + ", lengthMeters=" + lengthMeters
+				+ ", durationSeconds=" + durationSeconds + ", modeOfTransport=" + modeOfTransport + ", boardingSeconds="
+				+ boardingSeconds + ", alightingSeconds=" + alightingSeconds + ", departureTime=" + departureTime
+				+ ", arrivalTime=" + arrivalTime + "]";
 	}
 
 	public static class Builder {
@@ -355,18 +370,14 @@ public class RouteSegment {
 
 				String error = "timestamps of intermediate stops must fall in interval between departure & arrival of this segment";
 				for (IntermediateStop stop : intermediateStops) {
-					Preconditions.checkArgument(
-							isBetween(departureTime.get(), stop.getPlannedArrivalTimeAsZonedDateTime(),
-									arrivalTime.get()), error);
-					Preconditions.checkArgument(
-							isBetween(departureTime.get(), stop.getPlannedDepartureTimeAsZonedDateTime(),
-									arrivalTime.get()), error);
-					Preconditions.checkArgument(
-							isBetween(departureTime.get(), stop.getEstimatedArrivalTimeAsZonedDateTime(),
-									arrivalTime.get()), error);
-					Preconditions.checkArgument(
-							isBetween(departureTime.get(), stop.getEstimatedDepartureTimeAsZonedDateTime(),
-									arrivalTime.get()), error);
+					Preconditions.checkArgument(isBetween(departureTime.get(),
+							stop.getPlannedArrivalTimeAsZonedDateTime(), arrivalTime.get()), error);
+					Preconditions.checkArgument(isBetween(departureTime.get(),
+							stop.getPlannedDepartureTimeAsZonedDateTime(), arrivalTime.get()), error);
+					Preconditions.checkArgument(isBetween(departureTime.get(),
+							stop.getEstimatedArrivalTimeAsZonedDateTime(), arrivalTime.get()), error);
+					Preconditions.checkArgument(isBetween(departureTime.get(),
+							stop.getEstimatedDepartureTimeAsZonedDateTime(), arrivalTime.get()), error);
 				}
 			}
 
@@ -376,7 +387,8 @@ public class RouteSegment {
 		}
 
 		/**
-		 * @return <code>true</code> if 'between' is really between (or equal) to start and end
+		 * @return <code>true</code> if 'between' is really between (or equal)
+		 *         to start and end
 		 */
 		private boolean isBetween(ZonedDateTime start, Optional<ZonedDateTime> between, ZonedDateTime end) {
 			if (between.isPresent()) {

@@ -60,7 +60,6 @@ public class QGISGeoJSONExporter {
 		QGISGeoJSONExporter qgisGeoJSONExporter = new QGISGeoJSONExporter(
 				new IntermodalRouteExample().getRouteFormatRoot().getRoutes().get(0));
 		qgisGeoJSONExporter.writeLines(Paths.get("/tmp/oida.geojson"));
-
 	}
 
 }

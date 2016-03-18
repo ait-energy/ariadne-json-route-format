@@ -25,9 +25,10 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 /**
- * A {@link Route} represents a way from A to B that using only one (unimodal) or several (intermodal) modes of
- * transport. Its attributes such as the length refer to the whole route, which is further split up into
- * {@link RouteSegment}s for each mode of transport.
+ * A {@link Route} represents a way from A to B that using only one (unimodal)
+ * or several (intermodal) modes of transport. Its attributes such as the length
+ * refer to the whole route, which is further split up into {@link RouteSegment}
+ * s for each mode of transport.
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */
@@ -106,7 +107,7 @@ public class Route {
 	public Optional<String> getOptimizedFor() {
 		return optimizedFor;
 	}
-	
+
 	public Optional<GeoJSONFeature<GeoJSONPolygon>> getBoundingBox() {
 		return boundingBox;
 	}
@@ -154,8 +155,9 @@ public class Route {
 	}
 
 	/**
-	 * @return a builder conveniently preinitialized with from/to location, departure/arrival time, length, duration and
-	 *         of course the segments themselves
+	 * @return a builder conveniently preinitialized with from/to location,
+	 *         departure/arrival time, length, duration and of course the
+	 *         segments themselves
 	 */
 	public static Builder builder(LinkedList<RouteSegment> segments) {
 		int lengthMeters = 0;
@@ -169,6 +171,13 @@ public class Route {
 				.withDepartureTime(segments.getFirst().getDepartureTimeAsZonedDateTime().orElse(null))
 				.withArrivalTime(segments.getLast().getArrivalTimeAsZonedDateTime().orElse(null))
 				.withLengthMeters(lengthMeters).withDurationSeconds(durationSeconds).withSegments(segments);
+	}
+
+	@Override
+	public String toString() {
+		return "Route [from=" + from + ", to=" + to + ", lengthMeters=" + lengthMeters + ", durationSeconds="
+				+ durationSeconds + ", id=" + id + ", departureTime=" + departureTime + ", arrivalTime=" + arrivalTime
+				+ ", optimizedFor=" + optimizedFor + ", segments=" + segments.size() + "]";
 	}
 
 	public static class Builder {
@@ -240,7 +249,7 @@ public class Route {
 			this.arrivalTime = Optional.ofNullable(SprouteUtils.parseZonedDateTime(arrivalTime, "arrivalTime"));
 			return this;
 		}
-		
+
 		public Builder withOptimizedFor(String optimizedFor) {
 			this.optimizedFor = Optional.ofNullable(optimizedFor);
 			return this;
