@@ -111,6 +111,10 @@ public class RouteSegment {
 		return alightingSeconds;
 	}
 
+	/**
+	 * @return the start time of this {@link RouteSegment}, i.e. when boarding
+	 *         starts
+	 */
 	public Optional<String> getDepartureTime() {
 		return departureTime.map(time -> time.toString());
 	}
@@ -120,6 +124,10 @@ public class RouteSegment {
 		return departureTime;
 	}
 
+	/**
+	 * @return the end time of this {@link RouteSegment}, i.e. when alighting is
+	 *         finished
+	 */
 	public Optional<String> getArrivalTime() {
 		return arrivalTime.map(time -> time.toString());
 	}
