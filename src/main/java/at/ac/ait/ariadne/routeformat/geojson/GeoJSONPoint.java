@@ -2,6 +2,7 @@ package at.ac.ait.ariadne.routeformat.geojson;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -31,6 +32,16 @@ public class GeoJSONPoint implements GeoJSONGeometryObject {
 	@Override
 	public String toString() {
 		return "GeoJSONPoint [coordinates=" + coordinates + "]";
+	}
+
+	@Override
+	public String toWKT() {
+		StringBuilder sb = new StringBuilder(type.name().toUpperCase()).append(" ");
+		if (coordinates.isEmpty())
+			return sb.append("EMPTY").toString();
+
+		sb.append(WKTUtil.getCoordinateStringPointOrLineString(Arrays.asList(coordinates)));
+		return sb.toString();
 	}
 
 }

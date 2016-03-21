@@ -41,4 +41,11 @@ public class GeoJSONLineString implements GeoJSONGeometryObject {
 		sub.coordinates = new ArrayList<>(coordinates.subList(fromIndex, toIndex));
 		return sub;
 	}
+
+	@Override
+	public String toWKT() {
+		StringBuilder sb = new StringBuilder(type.name().toUpperCase()).append(" ");
+		sb.append(WKTUtil.getCoordinateStringPointOrLineString(coordinates));
+		return sb.toString();
+	}
 }

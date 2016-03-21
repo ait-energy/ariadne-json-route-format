@@ -18,10 +18,12 @@ public class GeoJSONPolygon implements GeoJSONGeometryObject {
 	public final GeoJSONType type = GeoJSONType.Polygon;
 
 	/**
-	 * Coordinates of a polygon are an array of LinearRing coordinate arrays. The first element in the array represents
-	 * the exterior ring. Any subsequent elements represent interior rings (or holes).
+	 * Coordinates of a polygon are an array of LinearRing coordinate arrays.
+	 * The first element in the array represents the exterior ring. Any
+	 * subsequent elements represent interior rings (or holes).
 	 * <p>
-	 * The inner list of {@link BigDecimal} is always a pair of coordinates: X and Y (=longitude and latitude)
+	 * The inner list of {@link BigDecimal} is always a pair of coordinates: X
+	 * and Y (=longitude and latitude)
 	 */
 	@JsonProperty(required = true)
 	public List<List<List<BigDecimal>>> coordinates = new ArrayList<>();
@@ -36,6 +38,16 @@ public class GeoJSONPolygon implements GeoJSONGeometryObject {
 				ring.add(point.asNewList());
 			coordinates.add(ring);
 		}
+	}
+
+	@Override
+	public String toWKT() {
+		StringBuilder sb = new StringBuilder(type.name().toUpperCase()).append(" ");
+		if (coordinates.isEmpty())
+			return sb.append("EMPTY").toString();
+
+		sb.append(WKTUtil.getCoordinateStringPolygon(coordinates));
+		return sb.toString();
 	}
 
 }
