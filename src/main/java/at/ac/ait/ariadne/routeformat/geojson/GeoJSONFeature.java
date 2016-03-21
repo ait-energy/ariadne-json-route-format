@@ -35,6 +35,10 @@ public class GeoJSONFeature<T extends GeoJSONGeometryObject> {
 	@JsonProperty(required = true)
 	public Map<String, Object> properties = new HashMap<>();
 
+	public String toWKT() {
+		return geometry.toWKT();
+	}
+
 	@Override
 	public String toString() {
 		return "GeoJSONFeature [type=" + type + ", geometry=" + geometry + ", properties=" + properties + "]";
