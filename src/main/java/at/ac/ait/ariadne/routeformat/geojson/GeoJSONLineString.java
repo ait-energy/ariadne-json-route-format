@@ -48,4 +48,9 @@ public class GeoJSONLineString implements GeoJSONGeometryObject {
 		sb.append(WKTUtil.getCoordinateStringPointOrLineString(coordinates));
 		return sb.toString();
 	}
+
+	@Override
+	public boolean isEmpty() {
+		return coordinates.isEmpty();
+	}
 }

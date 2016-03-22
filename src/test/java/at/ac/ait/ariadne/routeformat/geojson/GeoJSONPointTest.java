@@ -13,8 +13,9 @@ public class GeoJSONPointTest {
 
 	@Test
 	public void emptyWktTest() {
-		GeoJSONPoint p = new GeoJSONPoint();
-		Assert.assertEquals("POINT EMPTY", p.toWKT());
+		GeoJSONPoint empty = new GeoJSONPoint();
+		Assert.assertTrue(empty.isEmpty());
+		Assert.assertEquals("POINT EMPTY", empty.toWKT());
 	}
 
 }

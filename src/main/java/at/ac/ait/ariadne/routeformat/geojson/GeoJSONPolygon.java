@@ -50,4 +50,9 @@ public class GeoJSONPolygon implements GeoJSONGeometryObject {
 		return sb.toString();
 	}
 
+	@Override
+	public boolean isEmpty() {
+		return coordinates.isEmpty();
+	}
+
 }

@@ -38,7 +38,9 @@ public class GeoJSONLineStringTest {
 
 	@Test
 	public void emptyWktTest() {
-		Assert.assertEquals("LINESTRING EMPTY", new GeoJSONLineString().toWKT());
+		GeoJSONLineString empty = new GeoJSONLineString();
+		Assert.assertTrue(empty.isEmpty());
+		Assert.assertEquals("LINESTRING EMPTY", empty.toWKT());
 	}
 
 }

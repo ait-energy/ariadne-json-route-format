@@ -9,8 +9,9 @@ public class GeoJSONPolygonTest {
 
 	@Test
 	public void emptyWktTest() {
-		GeoJSONPolygon polygon = new GeoJSONPolygon();
-		Assert.assertEquals("POLYGON EMPTY", polygon.toWKT());
+		GeoJSONPolygon empty = new GeoJSONPolygon();
+		Assert.assertTrue(empty.isEmpty());
+		Assert.assertEquals("POLYGON EMPTY", empty.toWKT());
 	}
 
 	@Test
