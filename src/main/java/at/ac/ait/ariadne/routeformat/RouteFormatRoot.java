@@ -46,13 +46,14 @@ public class RouteFormatRoot {
 	}
 
 	/**
-	 * Time when request / calculations were finished or deemed not possible in case of an error.
+	 * Time when request / calculations were finished or deemed not possible in
+	 * case of an error.
 	 */
 	@JsonProperty(required = true)
 	public String getProcessedTime() {
 		return processedTime.toString();
 	}
-	
+
 	@JsonIgnore
 	public ZonedDateTime getProcessedTimeAsZonedDateTime() {
 		return processedTime;
@@ -75,9 +76,10 @@ public class RouteFormatRoot {
 	}
 
 	/**
-	 * @return The original request used to calculate the route(s). It is guaranteed that if at least one route is
-	 *         returned there is also a request here. The request will only be omitted if the request itself could not
-	 *         be created due to invalid request parameters.
+	 * @return The original request used to calculate the route(s). It is
+	 *         guaranteed that if at least one route is returned there is also a
+	 *         request here. The request will only be omitted if the request
+	 *         itself could not be created due to invalid request parameters.
 	 */
 	public Optional<RoutingRequest> getRequest() {
 		return request;
@@ -108,6 +110,10 @@ public class RouteFormatRoot {
 		return new Builder();
 	}
 
+	public static Builder builder(RouteFormatRoot root) {
+		return new Builder(root);
+	}
+
 	public static class Builder {
 		private String routeFormatVersion;
 		private String requestId;
@@ -118,6 +124,21 @@ public class RouteFormatRoot {
 		private Optional<RoutingRequest> request = Optional.empty();
 		private List<Route> routes = Collections.emptyList();
 		private Map<String, Object> additionalInfo = Collections.emptyMap();
+
+		public Builder() {
+		}
+
+		public Builder(RouteFormatRoot root) {
+			this.routeFormatVersion = root.getRouteFormatVersion();
+			this.requestId = root.getRequestId();
+			this.processedTime = root.getProcessedTimeAsZonedDateTime();
+			this.status = root.getStatus();
+			this.debugMessage = root.getDebugMessage();
+			this.coordinateReferenceSystem = root.getCoordinateReferenceSystem();
+			this.request = root.getRequest();
+			this.routes = root.getRoutes();
+			this.additionalInfo = root.getAdditionalInfo();
+		}
 
 		public Builder withRouteFormatVersion(String routeFormatVersion) {
 			this.routeFormatVersion = routeFormatVersion;

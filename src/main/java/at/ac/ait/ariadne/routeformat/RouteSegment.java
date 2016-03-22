@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import at.ac.ait.ariadne.routeformat.RouteSegment.Builder;
+import at.ac.ait.ariadne.routeformat.Sproute.Accessibility;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeatureCollection;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONLineString;
@@ -215,6 +216,10 @@ public class RouteSegment {
 		return new Builder();
 	}
 
+	public static Builder builder(RouteSegment segment) {
+		return new Builder(segment);
+	}
+
 	@Override
 	public String toString() {
 		return "RouteSegment [nr=" + nr + ", from=" + from + ", to=" + to + ", lengthMeters=" + lengthMeters
@@ -242,6 +247,30 @@ public class RouteSegment {
 		private List<Instruction> navigationInstructions = Collections.emptyList();
 		private List<Sproute.Accessibility> accessibility = Collections.emptyList();
 		private Map<String, Object> additionalInfo = Collections.emptyMap();
+
+		public Builder() {
+		}
+
+		public Builder(RouteSegment segment) {
+			this.nr = segment.getNr();
+			this.from = segment.getFrom();
+			this.to = segment.getTo();
+			this.lengthMeters = segment.getLengthMeters();
+			this.durationSeconds = segment.getDurationSeconds();
+			this.modeOfTransport = segment.getModeOfTransport();
+			this.boardingSeconds = segment.getBoardingSeconds();
+			this.alightingSeconds = segment.getAlightingSeconds();
+			this.departureTime = segment.getDepartureTimeAsZonedDateTime();
+			this.arrivalTime = segment.getArrivalTimeAsZonedDateTime();
+			this.intermediateStops = segment.getIntermediateStops();
+			this.boundingBox = segment.getBoundingBox();
+			this.geometryEncodedPolyLine = segment.getGeometryEncodedPolyLine();
+			this.geometryGeoJson = segment.getGeometryGeoJson();
+			this.geometryGeoJsonEdges = segment.geometryGeoJsonEdges;
+			this.navigationInstructions = segment.getNavigationInstructions();
+			this.accessibility = segment.getAccessibility();
+			this.additionalInfo = segment.getAdditionalInfo();
+		}
 
 		public Builder withNr(int nr) {
 			this.nr = nr;
