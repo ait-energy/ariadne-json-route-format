@@ -2,6 +2,7 @@ package at.ac.ait.ariadne.routeformat.geojson;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,6 +18,10 @@ class WKTUtil {
 	 */
 	public static String getCoordinateStringPointOrLineString(List<List<BigDecimal>> coordinates) {
 		DecimalFormat df = new DecimalFormat("#.#######");
+		DecimalFormatSymbols custom = new DecimalFormatSymbols();
+		custom.setDecimalSeparator('.');
+		df.setDecimalFormatSymbols(custom);
+
 		StringBuilder sb = new StringBuilder();
 		if (coordinates.isEmpty())
 			sb.append("EMPTY");

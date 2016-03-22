@@ -8,13 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import at.ac.ait.ariadne.routeformat.Route.Builder;
-import at.ac.ait.ariadne.routeformat.Sproute.RouteType;
-import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
-import at.ac.ait.ariadne.routeformat.geojson.GeoJSONLineString;
-import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPolygon;
-import at.ac.ait.ariadne.routeformat.location.Location;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -23,6 +16,13 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+
+import at.ac.ait.ariadne.routeformat.Route.Builder;
+import at.ac.ait.ariadne.routeformat.Sproute.RouteType;
+import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
+import at.ac.ait.ariadne.routeformat.geojson.GeoJSONLineString;
+import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPolygon;
+import at.ac.ait.ariadne.routeformat.location.Location;
 
 /**
  * A {@link Route} represents a way from A to B that using only one (unimodal)
@@ -154,6 +154,10 @@ public class Route {
 		return new Builder();
 	}
 
+	public static Builder builder(Route route) {
+		return new Builder(route);
+	}
+
 	/**
 	 * @return a builder conveniently preinitialized with from/to location,
 	 *         departure/arrival time, length, duration and of course the
@@ -195,6 +199,26 @@ public class Route {
 		private Optional<GeoJSONFeature<GeoJSONLineString>> simplifiedGeometryGeoJson = Optional.empty();
 		private Optional<RouteType> type = Optional.empty();
 		private Map<String, Object> additionalInfo = Collections.emptyMap();
+
+		public Builder() {
+		}
+
+		public Builder(Route route) {
+			this.from = route.getFrom();
+			this.to = route.getTo();
+			this.lengthMeters = route.getLengthMeters();
+			this.durationSeconds = route.getDurationSeconds();
+			this.segments = route.getSegments();
+			this.id = route.getId();
+			this.departureTime = route.getDepartureTimeAsZonedDateTime();
+			this.arrivalTime = route.getArrivalTimeAsZonedDateTime();
+			this.optimizedFor = route.getOptimizedFor();
+			this.boundingBox = route.getBoundingBox();
+			this.simplifiedGeometryEncodedPolyLine = route.getSimplifiedGeometryEncodedPolyLine();
+			this.simplifiedGeometryGeoJson = route.getSimplifiedGeometryGeoJson();
+			this.type = route.getType();
+			this.additionalInfo = route.getAdditionalInfo();
+		}
 
 		public Builder withFrom(Location from) {
 			this.from = from;
