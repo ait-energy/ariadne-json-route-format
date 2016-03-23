@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -242,6 +243,31 @@ public class Route {
 
 		public Builder withSegments(List<RouteSegment> segments) {
 			this.segments = ImmutableList.copyOf(segments);
+			return this;
+		}
+
+		/**
+		 * sets segments and infers from/to location, arrival/departure time,
+		 * duration, length
+		 */
+		@JsonIgnore
+		public Builder withSegmentsAndSetAutomaticallyInferredFields(List<RouteSegment> segments) {
+			this.segments = ImmutableList.copyOf(segments);
+			if (!segments.isEmpty()) {
+				RouteSegment first = segments.get(0);
+				RouteSegment last = segments.get(segments.size() - 1);
+				withFrom(first.getFrom());
+				withTo(last.getTo());
+				first.getDepartureTimeAsZonedDateTime().ifPresent(t -> withDepartureTime(t));
+				last.getArrivalTimeAsZonedDateTime().ifPresent(t -> withArrivalTime(t));
+				withLengthMeters(segments.stream().mapToInt(s -> s.getLengthMeters()).sum());
+				if (departureTime.isPresent() && arrivalTime.isPresent()) {
+					withDurationSeconds(
+							(int) (Duration.between(departureTime.get(), arrivalTime.get()).toMillis() / 1000));
+				} else {
+					withDurationSeconds(segments.stream().mapToInt(s -> s.getDurationSeconds()).sum());
+				}
+			}
 			return this;
 		}
 

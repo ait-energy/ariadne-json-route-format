@@ -5,6 +5,10 @@ import java.time.format.DateTimeParseException;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
 import at.ac.ait.ariadne.routeformat.Sproute.GeneralizedModeOfTransportType;
 import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
@@ -46,6 +50,13 @@ public class SprouteUtils {
 	public static Location createLocation(double latitude, double longitude) {
 		GeoJSONFeature<GeoJSONPoint> point = GeoJSONFeature.newPointFeature(new CoordinatePoint(longitude, latitude));
 		return Location.builder().withCoordinate(point).build();
+	}
+	
+	public static String getJsonString(Object object) throws JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.findAndRegisterModules();
+		mapper.enable(SerializationFeature.INDENT_OUTPUT);
+		return mapper.writeValueAsString(object);
 	}
 
 }

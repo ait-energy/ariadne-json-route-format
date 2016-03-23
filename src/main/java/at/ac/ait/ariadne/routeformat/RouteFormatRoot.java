@@ -114,6 +114,12 @@ public class RouteFormatRoot {
 		return new Builder(root);
 	}
 
+	@Override
+	public String toString() {
+		return "RouteFormatRoot [requestId=" + requestId + ", processedTime=" + processedTime + ", status=" + status
+				+ ", routes=" + routes.size() + "]";
+	}
+
 	public static class Builder {
 		private String routeFormatVersion;
 		private String requestId;
