@@ -13,7 +13,7 @@ public class RouteTest {
 	public void enforceDepartureArrivalOrder() {
 		LinkedList<RouteSegment> segments = new LinkedList<>();
 		segments.add(TestUtil.buildRouteSegment(TestUtil.departureTime, TestUtil.arrivalTime));
-		Builder routeBuilder = Route.builder(segments);
+		Builder routeBuilder = Route.builder().withSegmentsAndSetAutomaticallyInferredFields(segments);
 
 		routeBuilder.build();
 

@@ -7,15 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import at.ac.ait.ariadne.routeformat.RouteSegment.Builder;
-import at.ac.ait.ariadne.routeformat.Sproute.Accessibility;
-import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
-import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeatureCollection;
-import at.ac.ait.ariadne.routeformat.geojson.GeoJSONLineString;
-import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPolygon;
-import at.ac.ait.ariadne.routeformat.instruction.Instruction;
-import at.ac.ait.ariadne.routeformat.location.Location;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -24,6 +15,14 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+
+import at.ac.ait.ariadne.routeformat.RouteSegment.Builder;
+import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
+import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeatureCollection;
+import at.ac.ait.ariadne.routeformat.geojson.GeoJSONLineString;
+import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPolygon;
+import at.ac.ait.ariadne.routeformat.instruction.Instruction;
+import at.ac.ait.ariadne.routeformat.location.Location;
 
 /**
  * A {@link RouteSegment} is a part of a route that is traveled with a single

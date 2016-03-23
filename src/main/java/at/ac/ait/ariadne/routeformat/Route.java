@@ -3,11 +3,9 @@ package at.ac.ait.ariadne.routeformat;
 import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -157,25 +155,6 @@ public class Route {
 
 	public static Builder builder(Route route) {
 		return new Builder(route);
-	}
-
-	/**
-	 * @return a builder conveniently preinitialized with from/to location,
-	 *         departure/arrival time, length, duration and of course the
-	 *         segments themselves
-	 */
-	public static Builder builder(LinkedList<RouteSegment> segments) {
-		int lengthMeters = 0;
-		int durationSeconds = 0;
-		for (RouteSegment segment : segments) {
-			lengthMeters += segment.getLengthMeters();
-			durationSeconds += segment.getDurationSeconds();
-		}
-
-		return Route.builder().withFrom(segments.getFirst().getFrom()).withTo(segments.getLast().getTo())
-				.withDepartureTime(segments.getFirst().getDepartureTimeAsZonedDateTime().orElse(null))
-				.withArrivalTime(segments.getLast().getArrivalTimeAsZonedDateTime().orElse(null))
-				.withLengthMeters(lengthMeters).withDurationSeconds(durationSeconds).withSegments(segments);
 	}
 
 	@Override
