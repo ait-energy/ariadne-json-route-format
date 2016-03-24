@@ -62,6 +62,15 @@ public class Service {
 	public static Builder builder() {
 		return new Builder();
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder(name);
+		towards.ifPresent(t -> builder.append(" -> " + t));
+		return builder.toString();
+	}
+
+
 
 	public static class Builder {
 		private String name;

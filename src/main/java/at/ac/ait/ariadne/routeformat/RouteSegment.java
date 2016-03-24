@@ -221,10 +221,10 @@ public class RouteSegment {
 
 	@Override
 	public String toString() {
-		return "RouteSegment [nr=" + nr + ", from=" + from + ", to=" + to + ", lengthMeters=" + lengthMeters
-				+ ", durationSeconds=" + durationSeconds + ", modeOfTransport=" + modeOfTransport + ", boardingSeconds="
-				+ boardingSeconds + ", alightingSeconds=" + alightingSeconds + ", departureTime=" + departureTime
-				+ ", arrivalTime=" + arrivalTime + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append(String.format("%d: %s %dm %ds (%s - %s)", nr, modeOfTransport.toString(), lengthMeters,
+				durationSeconds, SprouteUtils.getShortString(departureTime), SprouteUtils.getShortString(arrivalTime)));
+		return builder.toString();
 	}
 
 	public static class Builder {

@@ -1,8 +1,10 @@
 package at.ac.ait.ariadne.routeformat;
 
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -28,11 +30,18 @@ public class SprouteUtils {
 		}
 	}
 
+	public static String getShortString(Optional<ZonedDateTime> departureTime) {
+		if (!departureTime.isPresent())
+			return "?";
+		return departureTime.get().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+	}
+
 	/**
 	 * @param modesOfTransport
 	 *            a comma-separated list of MOTs
 	 */
-	public static Set<GeneralizedModeOfTransportType> parseModesOfTransport(String modesOfTransport, String variableName) {
+	public static Set<GeneralizedModeOfTransportType> parseModesOfTransport(String modesOfTransport,
+			String variableName) {
 		if (modesOfTransport == null)
 			throw new IllegalArgumentException(modesOfTransport + " must not be null");
 
@@ -51,7 +60,7 @@ public class SprouteUtils {
 		GeoJSONFeature<GeoJSONPoint> point = GeoJSONFeature.newPointFeature(new CoordinatePoint(longitude, latitude));
 		return Location.builder().withCoordinate(point).build();
 	}
-	
+
 	public static String getJsonString(Object object) throws JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.findAndRegisterModules();

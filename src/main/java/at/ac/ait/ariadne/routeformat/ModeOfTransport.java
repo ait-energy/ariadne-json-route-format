@@ -116,7 +116,10 @@ public class ModeOfTransport {
 
 	@Override
 	public String toString() {
-		return "ModeOfTransport [generalizedType=" + generalizedType + ", detailedType=" + detailedType + "]";
+		StringBuilder builder = new StringBuilder(generalizedType.name());
+		detailedType.ifPresent(d -> builder.append("-" + d));
+		service.ifPresent(s -> builder.append(" " + s.toString()));
+		return builder.toString();
 	}
 
 	public static class Builder {
