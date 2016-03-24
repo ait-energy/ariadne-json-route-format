@@ -39,8 +39,8 @@ public class Route {
 	private final int lengthMeters;
 	private final int durationSeconds;
 	private final Optional<String> id;
-	private final Optional<ZonedDateTime> departureTime;
-	private final Optional<ZonedDateTime> arrivalTime;
+	private final ZonedDateTime departureTime;
+	private final ZonedDateTime arrivalTime;
 	private final Optional<String> optimizedFor;
 	private final Optional<GeoJSONFeature<GeoJSONPolygon>> boundingBox;
 	private final Optional<String> simplifiedGeometryEncodedPolyLine;
@@ -78,21 +78,21 @@ public class Route {
 		return id;
 	}
 
-	public Optional<String> getDepartureTime() {
-		return departureTime.map(time -> time.toString());
+	public String getDepartureTime() {
+		return departureTime.toString();
 	}
 
 	@JsonIgnore
-	public Optional<ZonedDateTime> getDepartureTimeAsZonedDateTime() {
+	public ZonedDateTime getDepartureTimeAsZonedDateTime() {
 		return departureTime;
 	}
 
-	public Optional<String> getArrivalTime() {
-		return arrivalTime.map(time -> time.toString());
+	public String getArrivalTime() {
+		return arrivalTime.toString();
 	}
 
 	@JsonIgnore
-	public Optional<ZonedDateTime> getArrivalTimeAsZonedDateTime() {
+	public ZonedDateTime getArrivalTimeAsZonedDateTime() {
 		return arrivalTime;
 	}
 
@@ -171,8 +171,8 @@ public class Route {
 		private int durationSeconds;
 		private List<RouteSegment> segments = Collections.emptyList();
 		private Optional<String> id = Optional.empty();
-		private Optional<ZonedDateTime> departureTime = Optional.empty();
-		private Optional<ZonedDateTime> arrivalTime = Optional.empty();
+		private ZonedDateTime departureTime = null;
+		private ZonedDateTime arrivalTime = null;
 		private Optional<String> optimizedFor = Optional.empty();
 		private Optional<GeoJSONFeature<GeoJSONPolygon>> boundingBox = Optional.empty();
 		private Optional<String> simplifiedGeometryEncodedPolyLine = Optional.empty();
@@ -237,15 +237,10 @@ public class Route {
 				RouteSegment last = segments.get(segments.size() - 1);
 				withFrom(first.getFrom());
 				withTo(last.getTo());
-				first.getDepartureTimeAsZonedDateTime().ifPresent(t -> withDepartureTime(t));
-				last.getArrivalTimeAsZonedDateTime().ifPresent(t -> withArrivalTime(t));
+				withDepartureTime(first.getDepartureTime());
+				withArrivalTime(last.getArrivalTime());
 				withLengthMeters(segments.stream().mapToInt(s -> s.getLengthMeters()).sum());
-				if (departureTime.isPresent() && arrivalTime.isPresent()) {
-					withDurationSeconds(
-							(int) (Duration.between(departureTime.get(), arrivalTime.get()).toMillis() / 1000));
-				} else {
-					withDurationSeconds(segments.stream().mapToInt(s -> s.getDurationSeconds()).sum());
-				}
+				withDurationSeconds((int) (Duration.between(departureTime, arrivalTime).toMillis() / 1000));
 			}
 			return this;
 		}
@@ -257,25 +252,25 @@ public class Route {
 
 		@JsonIgnore
 		public Builder withDepartureTime(ZonedDateTime departureTime) {
-			this.departureTime = Optional.ofNullable(departureTime);
+			this.departureTime = departureTime;
 			return this;
 		}
 
 		@JsonProperty
 		public Builder withDepartureTime(String departureTime) {
-			this.departureTime = Optional.ofNullable(SprouteUtils.parseZonedDateTime(departureTime, "departureTime"));
+			this.departureTime = SprouteUtils.parseZonedDateTime(departureTime, "departureTime");
 			return this;
 		}
 
 		@JsonIgnore
 		public Builder withArrivalTime(ZonedDateTime arrivalTime) {
-			this.arrivalTime = Optional.ofNullable(arrivalTime);
+			this.arrivalTime = arrivalTime;
 			return this;
 		}
 
 		@JsonProperty
 		public Builder withArrivalTime(String arrivalTime) {
-			this.arrivalTime = Optional.ofNullable(SprouteUtils.parseZonedDateTime(arrivalTime, "arrivalTime"));
+			this.arrivalTime = SprouteUtils.parseZonedDateTime(arrivalTime, "arrivalTime");
 			return this;
 		}
 
@@ -317,6 +312,8 @@ public class Route {
 		private void validate() {
 			Preconditions.checkArgument(from != null, "from is mandatory but missing");
 			Preconditions.checkArgument(to != null, "to is mandatory but missing");
+			Preconditions.checkArgument(departureTime != null, "departureTime is mandatory but missing");
+			Preconditions.checkArgument(arrivalTime != null, "arrivalTime is mandatory but missing");
 
 			Preconditions.checkArgument(lengthMeters >= 0, "lengthMeters must be >= 0, but was %s", lengthMeters);
 			Preconditions.checkArgument(durationSeconds >= 0, "durationSeconds must be >= 0, but was %s",
@@ -324,15 +321,12 @@ public class Route {
 
 			Preconditions.checkArgument(!segments.isEmpty(), "segments must not be empty");
 
-			if (departureTime.isPresent() && arrivalTime.isPresent()) {
-				Preconditions.checkArgument(!arrivalTime.get().isBefore(departureTime.get()),
-						"arrivalTime must be <= departureTime");
+			Preconditions.checkArgument(!arrivalTime.isBefore(departureTime), "arrivalTime must be <= departureTime");
 
-				long durationBetweenTimestamps = Duration.between(departureTime.get(), arrivalTime.get()).getSeconds();
-				Preconditions.checkArgument(durationSeconds == durationBetweenTimestamps,
-						"durationSeconds does not match seconds between arrival & departure time: %s!=%s",
-						durationSeconds, durationBetweenTimestamps);
-			}
+			long durationBetweenTimestamps = Duration.between(departureTime, arrivalTime).getSeconds();
+			Preconditions.checkArgument(durationSeconds == durationBetweenTimestamps,
+					"durationSeconds does not match seconds between arrival & departure time: %s!=%s", durationSeconds,
+					durationBetweenTimestamps);
 		}
 	}
 }

@@ -169,8 +169,8 @@ public class IntermodalRouteExample {
 		return RouteFormatRoot.builder().withRouteFormatVersion("0.12-SNAPSHOT").withRequestId("999")
 				.withProcessedTimeNow().withStatus(Status.OK).withDebugMessage("Route calculated in 0.002 seconds")
 				.withCoordinateReferenceSystem("EPSG:4326").withRequest(getRoutingRequest())
-				.withRoutes(Arrays.asList(
-						Route.builder().withSegmentsAndSetAutomaticallyInferredFields(getRouteSegments())
+				.withRoutes(
+						Arrays.asList(Route.builder().withSegmentsAndSetAutomaticallyInferredFields(getRouteSegments())
 								.withOptimizedFor("travel time and low costs").build()))
 				.build();
 	}
@@ -280,7 +280,8 @@ public class IntermodalRouteExample {
 		RouteSegment transferHandelskaiFromSubwayToExit = RouteSegment.builder().withNr(++segmentNr)
 				.withFrom(handelskaiSubwayStop).withTo(handelskaiSubwayEntry).withLengthMeters(40)
 				// 3 minutes walking time
-				.withDurationSeconds(60 * 3)
+				.withDurationSeconds(60 * 3).withDepartureTime("2016-01-01T15:24:30+01:00")
+				.withArrivalTime("2016-01-01T15:27:30+01:00")
 				.withModeOfTransport(
 						ModeOfTransport.builder().withDetailedType(DetailedModeOfTransportType.TRANSFER).build())
 				.withAccessibility(Arrays.asList(Accessibility.ESCALATOR_DOWN, Accessibility.STAIRS_DOWN))
@@ -292,6 +293,7 @@ public class IntermodalRouteExample {
 				new CoordinatePoint(16.3845846, 48.2418792));
 		RouteSegment walkToCitybikeHandelskai = RouteSegment.builder().withNr(++segmentNr)
 				.withFrom(handelskaiSubwayEntry).withTo(handelskaiCitybike).withLengthMeters(57).withDurationSeconds(40)
+				.withDepartureTime("2016-01-01T15:27:30+01:00").withArrivalTime("2016-01-01T15:28:10+01:00")
 				.withModeOfTransport(
 						ModeOfTransport.builder().withDetailedType(DetailedModeOfTransportType.FOOT).build())
 				.withGeometryGeoJson(geometryGeoJson).build();
@@ -312,6 +314,7 @@ public class IntermodalRouteExample {
 				// 3 minutes ride, 2 minutes renting the bike, 1 minute
 				// returning the bike
 				.withDurationSeconds(60 * 6).withBoardingSeconds(60 * 2).withAlightingSeconds(60 * 1)
+				.withDepartureTime("2016-01-01T15:28:10+01:00").withArrivalTime("2016-01-01T15:34:10+01:00")
 				.withModeOfTransport(ModeOfTransport.builder().withDetailedType(DetailedModeOfTransportType.BICYCLE)
 						.withSharingType(Sharing.STATION_BOUND_VEHICLE_SHARING).withOperator(citybikeOperator).build())
 				.withGeometryGeoJson(geometryGeoJson).build();
@@ -323,6 +326,7 @@ public class IntermodalRouteExample {
 				new CoordinatePoint(16.37763018715632, 48.243692289787816));
 		RouteSegment walkToCar2go = RouteSegment.builder().withNr(++segmentNr).withFrom(friedrichEngelsPlatzCitybike)
 				.withTo(car2goPickup).withLengthMeters(150).withDurationSeconds(115)
+				.withDepartureTime("2016-01-01T15:34:10+01:00").withArrivalTime("2016-01-01T15:36:05+01:00")
 				.withAccessibility(Arrays.asList(Accessibility.STAIRS_UP))
 				.withModeOfTransport(
 						ModeOfTransport.builder().withDetailedType(DetailedModeOfTransportType.FOOT).build())
@@ -337,6 +341,7 @@ public class IntermodalRouteExample {
 				// 4 minutes ride, 2 minutes renting the car, 1 minute parking
 				// the car
 				.withDurationSeconds(60 * 7).withBoardingSeconds(60 * 2).withAlightingSeconds(60 * 1)
+				.withDepartureTime("2016-01-01T15:34:10+01:00").withArrivalTime("2016-01-01T15:41:10+01:00")
 				.withModeOfTransport(ModeOfTransport.builder().withDetailedType(DetailedModeOfTransportType.CAR)
 						.withSharingType(Sharing.FREE_FLOATING_VEHICLE_SHARING).withElectric(true)
 						.withOperator(car2goOperator)
@@ -357,6 +362,7 @@ public class IntermodalRouteExample {
 				// 106 seconds ride, 1 minutes unlocking bike, 1 minute parking
 				// & locking biker
 				.withDurationSeconds(106 + 60 * 2).withBoardingSeconds(60 * 1).withAlightingSeconds(60 * 1)
+				.withDepartureTime("2016-01-01T15:34:10+01:00").withArrivalTime("2016-01-01T15:37:56+01:00")
 				.withIntermediateStops(Arrays.asList(IntermediateStop.builder().withStop(antonKummererPark).build()))
 				// additional info about vehicles provided in the request can be
 				// added here (such as in project SMILE)
@@ -374,6 +380,7 @@ public class IntermodalRouteExample {
 				// 112 seconds ride, 3 minutes waiting for ride-sharing &
 				// hopping on board
 				.withDurationSeconds(112 + 60 * 3).withBoardingSeconds(60 * 3)
+				.withDepartureTime("2016-01-01T15:37:56+01:00").withArrivalTime("2016-01-01T15:42:48+01:00")
 				.withModeOfTransport(ModeOfTransport.builder().withDetailedType(DetailedModeOfTransportType.CAR)
 						.withSharingType(Sharing.RIDE_SHARING).withOperator(flincOperator)
 						// for now specific information goes as additional info

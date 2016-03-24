@@ -4,7 +4,6 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -30,10 +29,8 @@ public class SprouteUtils {
 		}
 	}
 
-	public static String getShortString(Optional<ZonedDateTime> departureTime) {
-		if (!departureTime.isPresent())
-			return "?";
-		return departureTime.get().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+	public static String getShortString(ZonedDateTime time) {
+		return time.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
 	}
 
 	/**

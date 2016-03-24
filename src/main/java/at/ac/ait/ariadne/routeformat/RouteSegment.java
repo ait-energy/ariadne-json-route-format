@@ -45,8 +45,8 @@ public class RouteSegment {
 	private final ModeOfTransport modeOfTransport;
 	private final Optional<Integer> boardingSeconds;
 	private final Optional<Integer> alightingSeconds;
-	private final Optional<ZonedDateTime> departureTime;
-	private final Optional<ZonedDateTime> arrivalTime;
+	private final ZonedDateTime departureTime;
+	private final ZonedDateTime arrivalTime;
 	private final List<IntermediateStop> intermediateStops;
 	private final Optional<GeoJSONFeature<GeoJSONPolygon>> boundingBox;
 	private final Optional<String> geometryEncodedPolyLine;
@@ -115,12 +115,12 @@ public class RouteSegment {
 	 * @return the start time of this {@link RouteSegment}, i.e. when boarding
 	 *         starts
 	 */
-	public Optional<String> getDepartureTime() {
-		return departureTime.map(time -> time.toString());
+	public String getDepartureTime() {
+		return departureTime.toString();
 	}
 
 	@JsonIgnore
-	public Optional<ZonedDateTime> getDepartureTimeAsZonedDateTime() {
+	public ZonedDateTime getDepartureTimeAsZonedDateTime() {
 		return departureTime;
 	}
 
@@ -128,12 +128,12 @@ public class RouteSegment {
 	 * @return the end time of this {@link RouteSegment}, i.e. when alighting is
 	 *         finished
 	 */
-	public Optional<String> getArrivalTime() {
-		return arrivalTime.map(time -> time.toString());
+	public String getArrivalTime() {
+		return arrivalTime.toString();
 	}
 
 	@JsonIgnore
-	public Optional<ZonedDateTime> getArrivalTimeAsZonedDateTime() {
+	public ZonedDateTime getArrivalTimeAsZonedDateTime() {
 		return arrivalTime;
 	}
 
@@ -236,8 +236,8 @@ public class RouteSegment {
 		private ModeOfTransport modeOfTransport;
 		private Optional<Integer> boardingSeconds = Optional.empty();
 		private Optional<Integer> alightingSeconds = Optional.empty();
-		private Optional<ZonedDateTime> departureTime = Optional.empty();
-		private Optional<ZonedDateTime> arrivalTime = Optional.empty();
+		private ZonedDateTime departureTime = null;
+		private ZonedDateTime arrivalTime = null;
 		private List<IntermediateStop> intermediateStops = Collections.emptyList();
 		private Optional<GeoJSONFeature<GeoJSONPolygon>> boundingBox = Optional.empty();
 		private Optional<String> geometryEncodedPolyLine = Optional.empty();
@@ -313,25 +313,25 @@ public class RouteSegment {
 
 		@JsonIgnore
 		public Builder withDepartureTime(ZonedDateTime departureTime) {
-			this.departureTime = Optional.ofNullable(departureTime);
+			this.departureTime = departureTime;
 			return this;
 		}
 
 		@JsonProperty
 		public Builder withDepartureTime(String departureTime) {
-			this.departureTime = Optional.ofNullable(SprouteUtils.parseZonedDateTime(departureTime, "departureTime"));
+			this.departureTime = SprouteUtils.parseZonedDateTime(departureTime, "departureTime");
 			return this;
 		}
 
 		@JsonIgnore
 		public Builder withArrivalTime(ZonedDateTime arrivalTime) {
-			this.arrivalTime = Optional.ofNullable(arrivalTime);
+			this.arrivalTime = arrivalTime;
 			return this;
 		}
 
 		@JsonProperty
 		public Builder withArrivalTime(String arrivalTime) {
-			this.arrivalTime = Optional.ofNullable(SprouteUtils.parseZonedDateTime(arrivalTime, "arrivalTime"));
+			this.arrivalTime = SprouteUtils.parseZonedDateTime(arrivalTime, "arrivalTime");
 			return this;
 		}
 
@@ -387,6 +387,8 @@ public class RouteSegment {
 			Preconditions.checkArgument(lengthMeters != null, "lengthMeters is mandatory but missing");
 			Preconditions.checkArgument(durationSeconds != null, "durationSeconds is mandatory but missing");
 			Preconditions.checkArgument(modeOfTransport != null, "modeOfTransport is mandatory but missing");
+			Preconditions.checkArgument(departureTime != null, "departureTime is mandatory but missing");
+			Preconditions.checkArgument(arrivalTime != null, "arrivalTime is mandatory but missing");
 
 			Preconditions.checkArgument(nr > 0, "nr must be > 0, but was %s", nr);
 			Preconditions.checkArgument(lengthMeters >= 0, "lengthMeters must be >= 0, but was %s", lengthMeters);
@@ -395,26 +397,23 @@ public class RouteSegment {
 			Preconditions.checkArgument(alightingSeconds.orElse(0) + boardingSeconds.orElse(0) <= durationSeconds,
 					"boarding+alighting seconds must be equal to or smaller than the total duration");
 
-			if (departureTime.isPresent() && arrivalTime.isPresent()) {
-				Preconditions.checkArgument(!arrivalTime.get().isBefore(departureTime.get()),
-						"departureTime must be <= arrivalTime");
+			Preconditions.checkArgument(!arrivalTime.isBefore(departureTime), "departureTime must be <= arrivalTime");
 
-				long durationBetweenTimestamps = Duration.between(departureTime.get(), arrivalTime.get()).getSeconds();
-				Preconditions.checkArgument(durationSeconds == durationBetweenTimestamps,
-						"durationSeconds does not match seconds between arrival & departure time: %s!=%s",
-						durationSeconds, durationBetweenTimestamps);
+			long durationBetweenTimestamps = Duration.between(departureTime, arrivalTime).getSeconds();
+			Preconditions.checkArgument(durationSeconds == durationBetweenTimestamps,
+					"durationSeconds does not match seconds between arrival & departure time: %s!=%s", durationSeconds,
+					durationBetweenTimestamps);
 
-				String error = "timestamps of intermediate stops must fall in interval between departure & arrival of this segment";
-				for (IntermediateStop stop : intermediateStops) {
-					Preconditions.checkArgument(isBetween(departureTime.get(),
-							stop.getPlannedArrivalTimeAsZonedDateTime(), arrivalTime.get()), error);
-					Preconditions.checkArgument(isBetween(departureTime.get(),
-							stop.getPlannedDepartureTimeAsZonedDateTime(), arrivalTime.get()), error);
-					Preconditions.checkArgument(isBetween(departureTime.get(),
-							stop.getEstimatedArrivalTimeAsZonedDateTime(), arrivalTime.get()), error);
-					Preconditions.checkArgument(isBetween(departureTime.get(),
-							stop.getEstimatedDepartureTimeAsZonedDateTime(), arrivalTime.get()), error);
-				}
+			String error = "timestamps of intermediate stops must fall in interval between departure & arrival of this segment";
+			for (IntermediateStop stop : intermediateStops) {
+				Preconditions.checkArgument(
+						isBetween(departureTime, stop.getPlannedArrivalTimeAsZonedDateTime(), arrivalTime), error);
+				Preconditions.checkArgument(
+						isBetween(departureTime, stop.getPlannedDepartureTimeAsZonedDateTime(), arrivalTime), error);
+				Preconditions.checkArgument(
+						isBetween(departureTime, stop.getEstimatedArrivalTimeAsZonedDateTime(), arrivalTime), error);
+				Preconditions.checkArgument(
+						isBetween(departureTime, stop.getEstimatedDepartureTimeAsZonedDateTime(), arrivalTime), error);
 			}
 
 			boolean geometryPresent = geometryEncodedPolyLine.isPresent() || geometryGeoJson.isPresent()
