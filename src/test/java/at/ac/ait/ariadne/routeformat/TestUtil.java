@@ -28,7 +28,7 @@ public class TestUtil {
 		return RouteSegment.builder().withNr(1).withFrom(from).withTo(to).withModeOfTransport(modeOfTransport)
 				.withDepartureTime(departureTime).withArrivalTime(arrivalTime).withDurationSeconds(60)
 				.withLengthMeters(100).withIntermediateStops(Arrays.asList(intermediateStops))
-				.withGeometryGeoJson(geometryGeoJson).build();
+				.withGeometryGeoJson(geometryGeoJson).build(true);
 	}
 
 }

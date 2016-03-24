@@ -3,6 +3,7 @@ package at.ac.ait.ariadne.routeformat;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,12 +19,15 @@ import at.ac.ait.ariadne.routeformat.location.Location;
 
 public class SprouteUtils {
 
+	/**
+	 * @return a ZonedDateTime with seconds accuracy
+	 */
 	public static ZonedDateTime parseZonedDateTime(String zonedDateTimeString, String variableName) {
 		if (zonedDateTimeString == null)
 			throw new IllegalArgumentException(variableName + " must not be null");
 
 		try {
-			return ZonedDateTime.parse(zonedDateTimeString);
+			return ZonedDateTime.parse(zonedDateTimeString).truncatedTo(ChronoUnit.SECONDS);
 		} catch (DateTimeParseException e) {
 			throw new IllegalArgumentException(variableName + " could not be parsed: " + e.getMessage());
 		}

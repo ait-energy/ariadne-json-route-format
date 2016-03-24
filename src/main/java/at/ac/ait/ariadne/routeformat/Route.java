@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -34,6 +37,8 @@ import at.ac.ait.ariadne.routeformat.location.Location;
 @JsonDeserialize(builder = Builder.class)
 @JsonInclude(Include.NON_EMPTY)
 public class Route {
+	private final static Logger LOGGER = LoggerFactory.getLogger(Route.class);
+
 	private final Location from;
 	private final Location to;
 	private final int lengthMeters;
@@ -305,28 +310,46 @@ public class Route {
 		}
 
 		public Route build() {
-			validate();
+			validate(false);
 			return new Route(this);
 		}
 
-		private void validate() {
+		/**
+		 * @param strongValidation
+		 *            without strong validation some minor errors are only
+		 *            logged and do not throw an
+		 *            {@link IllegalArgumentException}
+		 */
+		public Route build(boolean strongValidation) {
+			validate(strongValidation);
+			return new Route(this);
+		}
+
+		private void validate(boolean strongValidation) {
 			Preconditions.checkArgument(from != null, "from is mandatory but missing");
 			Preconditions.checkArgument(to != null, "to is mandatory but missing");
 			Preconditions.checkArgument(departureTime != null, "departureTime is mandatory but missing");
 			Preconditions.checkArgument(arrivalTime != null, "arrivalTime is mandatory but missing");
 
-			Preconditions.checkArgument(lengthMeters >= 0, "lengthMeters must be >= 0, but was %s", lengthMeters);
-			Preconditions.checkArgument(durationSeconds >= 0, "durationSeconds must be >= 0, but was %s",
-					durationSeconds);
+			try {
+				Preconditions.checkArgument(lengthMeters >= 0, "lengthMeters must be >= 0, but was %s", lengthMeters);
+				Preconditions.checkArgument(durationSeconds >= 0, "durationSeconds must be >= 0, but was %s",
+						durationSeconds);
 
-			Preconditions.checkArgument(!segments.isEmpty(), "segments must not be empty");
+				Preconditions.checkArgument(!segments.isEmpty(), "segments must not be empty");
 
-			Preconditions.checkArgument(!arrivalTime.isBefore(departureTime), "arrivalTime must be <= departureTime");
+				Preconditions.checkArgument(!arrivalTime.isBefore(departureTime),
+						"arrivalTime must be <= departureTime");
 
-			long durationBetweenTimestamps = Duration.between(departureTime, arrivalTime).getSeconds();
-			Preconditions.checkArgument(durationSeconds == durationBetweenTimestamps,
-					"durationSeconds does not match seconds between arrival & departure time: %s!=%s", durationSeconds,
-					durationBetweenTimestamps);
+				long durationBetweenTimestamps = Duration.between(departureTime, arrivalTime).getSeconds();
+				Preconditions.checkArgument(durationSeconds == durationBetweenTimestamps,
+						"durationSeconds does not match seconds between arrival & departure time: %s!=%s",
+						durationSeconds, durationBetweenTimestamps);
+			} catch (IllegalArgumentException e) {
+				if (strongValidation)
+					throw e;
+				LOGGER.warn(e.getMessage());
+			}
 		}
 	}
 }

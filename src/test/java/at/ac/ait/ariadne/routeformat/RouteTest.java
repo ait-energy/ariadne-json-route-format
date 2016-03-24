@@ -18,7 +18,7 @@ public class RouteTest {
 		routeBuilder.build();
 
 		try {
-			routeBuilder.withArrivalTime(TestUtil.departureTime).withDepartureTime(TestUtil.arrivalTime).build();
+			routeBuilder.withArrivalTime(TestUtil.departureTime).withDepartureTime(TestUtil.arrivalTime).build(true);
 			Assert.fail("expected IllegalArgumentException");
 		} catch (IllegalArgumentException e) {
 		}

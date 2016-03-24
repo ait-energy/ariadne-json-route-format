@@ -1,6 +1,7 @@
 package at.ac.ait.ariadne.routeformat;
 
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -23,10 +24,12 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
 /**
- * A {@link RoutingRequest} encapsulates typically required request parameters for an intermodal routing service as
- * separate fields. Parameters specific for a certain service can be added via {@link #getAdditionalInfo()}. This is
- * especially true for the detailed inclusion / exclusion of public transport / (shared) mobility providers or more
- * detailed preferences for certain modes of transport. Some use-cases could include:
+ * A {@link RoutingRequest} encapsulates typically required request parameters
+ * for an intermodal routing service as separate fields. Parameters specific for
+ * a certain service can be added via {@link #getAdditionalInfo()}. This is
+ * especially true for the detailed inclusion / exclusion of public transport /
+ * (shared) mobility providers or more detailed preferences for certain modes of
+ * transport. Some use-cases could include:
  * 
  * <pre>
  * walking_kph = 7
@@ -41,8 +44,8 @@ import com.google.common.collect.ImmutableSet;
  * taxi = yes
  * </pre>
  * <p>
- * For public transport routing {@link #getMaximumPublicTransportRoutes()} and {@link #getAcceptedDelayMinutes()} both
- * restrict the number of results.
+ * For public transport routing {@link #getMaximumPublicTransportRoutes()} and
+ * {@link #getAcceptedDelayMinutes()} both restrict the number of results.
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */
@@ -69,7 +72,8 @@ public class RoutingRequest {
 	private final Map<String, Object> additionalInfo;
 
 	/**
-	 * Defines which routing service (a combination of maps, timeseries,..) will be / was used for routing
+	 * Defines which routing service (a combination of maps, timeseries,..) will
+	 * be / was used for routing
 	 */
 	@JsonProperty(required = true)
 	public String getServiceId() {
@@ -91,11 +95,12 @@ public class RoutingRequest {
 	}
 
 	/**
-	 * One or more modes of transport that will be / were used for routing. In case of a single mode of transport
-	 * unimodal routing is requested, in case of several modes of transport intermodal routing is requested.
+	 * One or more modes of transport that will be / were used for routing. In
+	 * case of a single mode of transport unimodal routing is requested, in case
+	 * of several modes of transport intermodal routing is requested.
 	 * <p>
-	 * In case of intermodal routing it is guaranteed that the returned set contains
-	 * {@link GeneralizedModeOfTransportType#FOOT}.
+	 * In case of intermodal routing it is guaranteed that the returned set
+	 * contains {@link GeneralizedModeOfTransportType#FOOT}.
 	 */
 	@JsonProperty(required = true)
 	public Set<GeneralizedModeOfTransportType> getModesOfTransport() {
@@ -103,9 +108,11 @@ public class RoutingRequest {
 	}
 
 	/**
-	 * @return a set of public transport types which must not be used for routing. For this field to have any effect
+	 * @return a set of public transport types which must not be used for
+	 *         routing. For this field to have any effect
 	 *         {@link #getModesOfTransport()} must already contain
-	 *         {@link GeneralizedModeOfTransportType#PUBLIC_TRANSPORT}. It is guaranteed that for all returned mots
+	 *         {@link GeneralizedModeOfTransportType#PUBLIC_TRANSPORT}. It is
+	 *         guaranteed that for all returned mots
 	 *         {@link DetailedModeOfTransportType#getGeneralizedType()} returns
 	 *         {@link GeneralizedModeOfTransportType#PUBLIC_TRANSPORT}
 	 */
@@ -115,7 +122,8 @@ public class RoutingRequest {
 	}
 
 	/**
-	 * Criteria the route will be / was optimized for, e.g. shortest travel time, which is also the default
+	 * Criteria the route will be / was optimized for, e.g. shortest travel
+	 * time, which is also the default
 	 */
 	@JsonProperty(required = true)
 	public String getOptimizedFor() {
@@ -123,9 +131,10 @@ public class RoutingRequest {
 	}
 
 	/**
-	 * @return maximum number of transfers not including the first and last 'transfer' to walking, i.e. walking to the a
-	 *         bike-sharing station, riding the bike, walking to the final destination counts as zero transfers (default
-	 *         = 3)
+	 * @return maximum number of transfers not including the first and last
+	 *         'transfer' to walking, i.e. walking to the a bike-sharing
+	 *         station, riding the bike, walking to the final destination counts
+	 *         as zero transfers (default = 3)
 	 */
 	@JsonProperty
 	public Optional<Integer> getMaximumTransfers() {
@@ -133,15 +142,18 @@ public class RoutingRequest {
 	}
 
 	/**
-	 * Requested departure time for the route. Mutual exclusive with {@link #getArrivalTime()}, it is guaranteed that
-	 * exactly one of the two times is set.
+	 * Requested departure time for the route. Mutual exclusive with
+	 * {@link #getArrivalTime()}, it is guaranteed that exactly one of the two
+	 * times is set.
 	 * <p>
-	 * If neither departure time nor arrival time were set in the builder a departure time of 'now' is automatically
-	 * added.
+	 * If neither departure time nor arrival time were set in the builder a
+	 * departure time of 'now' is automatically added.
 	 * <p>
-	 * The supported formats are defined in {@link ZonedDateTime} which uses ISO 8601 with time zone. One example is
-	 * "YYYY-MM-DDTHH:MMZ", where T is the letter T, Z is the time zone (in either HH:MM, HHMM, HH format or the letter
-	 * Z for UTC). E.g. "2015-01-31T18:05+0100". As output the default toString() of {@link ZonedDateTime} is used.
+	 * The supported formats are defined in {@link ZonedDateTime} which uses ISO
+	 * 8601 with time zone. One example is "YYYY-MM-DDTHH:MMZ", where T is the
+	 * letter T, Z is the time zone (in either HH:MM, HHMM, HH format or the
+	 * letter Z for UTC). E.g. "2015-01-31T18:05+0100". As output the default
+	 * toString() of {@link ZonedDateTime} is used.
 	 */
 	@JsonProperty
 	public Optional<String> getDepartureTime() {
@@ -157,8 +169,9 @@ public class RoutingRequest {
 	}
 
 	/**
-	 * Requested arrival time for the route. Mutual exclusive with {@link #getDepartureTime()}, it is guaranteed that
-	 * exactly one of the two times is set.
+	 * Requested arrival time for the route. Mutual exclusive with
+	 * {@link #getDepartureTime()}, it is guaranteed that exactly one of the two
+	 * times is set.
 	 * <p>
 	 * The format is the same as for {@link #getDepartureTime()}.
 	 */
@@ -176,9 +189,11 @@ public class RoutingRequest {
 	}
 
 	/**
-	 * If present then this specifies the accepted delay for {@link #getDepartureTime()} or {@link #getArrivalTime()} -
-	 * depending on which one is set. The accepted interval is specified as follows: arrival time until arrival time +
-	 * delay, departure time until departure time + delay.
+	 * If present then this specifies the accepted delay for
+	 * {@link #getDepartureTime()} or {@link #getArrivalTime()} - depending on
+	 * which one is set. The accepted interval is specified as follows: arrival
+	 * time until arrival time + delay, departure time until departure time +
+	 * delay.
 	 * <p>
 	 * Note, that for non-public transport routes this probably has no effect.
 	 * 
@@ -189,7 +204,8 @@ public class RoutingRequest {
 	}
 
 	/**
-	 * @return the maximum number of public transport routes to be returned (default: 10)
+	 * @return the maximum number of public transport routes to be returned
+	 *         (default: 10)
 	 */
 	public Optional<Integer> getMaximumPublicTransportRoutes() {
 		return maximumPublicTransportRoutes;
@@ -200,17 +216,18 @@ public class RoutingRequest {
 	}
 
 	/**
-	 * @return the locations for private vehicles (typically a bicycle, car and/or motorcycle) that can be used when
-	 *         calculating the route. Note, that the vehicle probably won't be used in the route if its mode of
-	 *         transport is net set in {@link #getModesOfTransport()}.
+	 * @return the locations for private vehicles (typically a bicycle, car
+	 *         and/or motorcycle) that can be used when calculating the route.
+	 *         Note, that the vehicle probably won't be used in the route if its
+	 *         mode of transport is net set in {@link #getModesOfTransport()}.
 	 */
 	public Map<GeneralizedModeOfTransportType, List<Location>> getPrivateVehicleLocations() {
 		return privateVehicleLocations;
 	}
 
 	/**
-	 * @return the preferred language of the user. E.g. street or POI names can be provided in this language if
-	 *         available
+	 * @return the preferred language of the user. E.g. street or POI names can
+	 *         be provided in this language if available
 	 */
 	public Optional<String> getLanguage() {
 		return language;
@@ -313,7 +330,7 @@ public class RoutingRequest {
 
 		@JsonIgnore
 		public Builder withDepartureTime(ZonedDateTime departureTime) {
-			this.departureTime = Optional.ofNullable(departureTime);
+			this.departureTime = Optional.ofNullable(departureTime.truncatedTo(ChronoUnit.SECONDS));
 			return this;
 		}
 
@@ -322,7 +339,7 @@ public class RoutingRequest {
 			if (departureTime == null) {
 				this.departureTime = Optional.empty();
 			} else if (departureTime.equalsIgnoreCase("NOW")) {
-				this.departureTime = Optional.of(ZonedDateTime.now());
+				this.departureTime = Optional.of(ZonedDateTime.now().truncatedTo(ChronoUnit.SECONDS));
 			} else {
 				this.departureTime = Optional.of(SprouteUtils.parseZonedDateTime(departureTime, "departureTime"));
 			}
@@ -331,7 +348,7 @@ public class RoutingRequest {
 
 		@JsonIgnore
 		public Builder withArrivalTime(ZonedDateTime arrivalTime) {
-			this.arrivalTime = Optional.ofNullable(arrivalTime);
+			this.arrivalTime = Optional.ofNullable(arrivalTime.truncatedTo(ChronoUnit.SECONDS));
 			return this;
 		}
 
@@ -340,7 +357,7 @@ public class RoutingRequest {
 			if (arrivalTime == null) {
 				this.arrivalTime = Optional.empty();
 			} else if (arrivalTime.equalsIgnoreCase("NOW")) {
-				this.arrivalTime = Optional.of(ZonedDateTime.now());
+				this.arrivalTime = Optional.of(ZonedDateTime.now().truncatedTo(ChronoUnit.SECONDS));
 			} else {
 				this.arrivalTime = Optional.of(SprouteUtils.parseZonedDateTime(arrivalTime, "arrivalTime"));
 			}
@@ -396,8 +413,7 @@ public class RoutingRequest {
 			}
 
 			for (DetailedModeOfTransportType mot : excludedPublicTransport) {
-				Preconditions.checkArgument(
-						mot.getGeneralizedType() == GeneralizedModeOfTransportType.PUBLIC_TRANSPORT,
+				Preconditions.checkArgument(mot.getGeneralizedType() == GeneralizedModeOfTransportType.PUBLIC_TRANSPORT,
 						"only detailed public transport mots allowed when excluding public transport");
 			}
 
@@ -413,7 +429,7 @@ public class RoutingRequest {
 			Preconditions.checkArgument(!(departureTime.isPresent() && arrivalTime.isPresent()),
 					"departureTime and arrivalTime are mutually exclusive, only one can be set at once");
 			if (!departureTime.isPresent() && !arrivalTime.isPresent()) {
-				departureTime = Optional.of(ZonedDateTime.now());
+				departureTime = Optional.of(ZonedDateTime.now().truncatedTo(ChronoUnit.SECONDS));
 			}
 		}
 
