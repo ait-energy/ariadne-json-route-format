@@ -79,7 +79,7 @@ public class ModeOfTransport {
 		return operator;
 	}
 
-	public Optional<Boolean> isElectric() {
+	public Optional<Boolean> getElectric() {
 		return electric;
 	}
 
