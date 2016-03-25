@@ -25,12 +25,16 @@ import com.google.common.collect.ImmutableMap;
  * <p>
  * Some standard modes of transport where additional information is seldom
  * required are provided, e.g. STANDARD_FOOT.
+ * <p>
+ * {@link #equals(Object)} returns <code>true</code> for instances with the same
+ * content.
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */
 @JsonDeserialize(builder = Builder.class)
 @JsonInclude(Include.NON_EMPTY)
 public class ModeOfTransport {
+
 	public static final ModeOfTransport STANDARD_FOOT = builder().withDetailedType(DetailedModeOfTransportType.FOOT)
 			.build();
 	public static final ModeOfTransport STANDARD_BICYCLE = builder()
@@ -120,6 +124,76 @@ public class ModeOfTransport {
 		detailedType.ifPresent(d -> builder.append("-" + d));
 		service.ifPresent(s -> builder.append(" " + s.toString()));
 		return builder.toString();
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((accessibility == null) ? 0 : accessibility.hashCode());
+		result = prime * result + ((additionalInfo == null) ? 0 : additionalInfo.hashCode());
+		result = prime * result + ((detailedType == null) ? 0 : detailedType.hashCode());
+		result = prime * result + ((electric == null) ? 0 : electric.hashCode());
+		result = prime * result + ((generalizedType == null) ? 0 : generalizedType.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((operator == null) ? 0 : operator.hashCode());
+		result = prime * result + ((service == null) ? 0 : service.hashCode());
+		result = prime * result + ((sharingType == null) ? 0 : sharingType.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ModeOfTransport other = (ModeOfTransport) obj;
+		if (accessibility == null) {
+			if (other.accessibility != null)
+				return false;
+		} else if (!accessibility.equals(other.accessibility))
+			return false;
+		if (additionalInfo == null) {
+			if (other.additionalInfo != null)
+				return false;
+		} else if (!additionalInfo.equals(other.additionalInfo))
+			return false;
+		if (detailedType == null) {
+			if (other.detailedType != null)
+				return false;
+		} else if (!detailedType.equals(other.detailedType))
+			return false;
+		if (electric == null) {
+			if (other.electric != null)
+				return false;
+		} else if (!electric.equals(other.electric))
+			return false;
+		if (generalizedType != other.generalizedType)
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (operator == null) {
+			if (other.operator != null)
+				return false;
+		} else if (!operator.equals(other.operator))
+			return false;
+		if (service == null) {
+			if (other.service != null)
+				return false;
+		} else if (!service.equals(other.service))
+			return false;
+		if (sharingType == null) {
+			if (other.sharingType != null)
+				return false;
+		} else if (!sharingType.equals(other.sharingType))
+			return false;
+		return true;
 	}
 
 	public static class Builder {

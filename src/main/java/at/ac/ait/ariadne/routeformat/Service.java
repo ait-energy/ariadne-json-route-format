@@ -14,6 +14,9 @@ import com.google.common.collect.ImmutableMap;
 
 /**
  * A {@link Service} typically represents a public transport service / line
+ * <p>
+ * {@link #equals(Object)} returns <code>true</code> for instances with the same
+ * content.
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */
@@ -26,23 +29,25 @@ public class Service {
 	private final Map<String, Object> additionalInfo;
 
 	/**
-	 * @return the official name of the service such as the line name (e.g. U3 for a subway line) to be provided to the
-	 *         user
+	 * @return the official name of the service such as the line name (e.g. U3
+	 *         for a subway line) to be provided to the user
 	 */
 	public String getName() {
 		return name;
 	}
 
 	/**
-	 * @return the destination of the line as noted on the headsign of the vehicle
+	 * @return the destination of the line as noted on the headsign of the
+	 *         vehicle
 	 */
 	public Optional<String> getTowards() {
 		return towards;
 	}
 
 	/**
-	 * @return the color of the line used by the public transport operator (e.g. red for U1 in Vienna) in hash-prepended
-	 *         six-digit hexadacimal notation (e.g. #FF0000)
+	 * @return the color of the line used by the public transport operator (e.g.
+	 *         red for U1 in Vienna) in hash-prepended six-digit hexadacimal
+	 *         notation (e.g. #FF0000)
 	 */
 	public Optional<String> getColor() {
 		return color;
@@ -62,7 +67,7 @@ public class Service {
 	public static Builder builder() {
 		return new Builder();
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder(name);
@@ -70,7 +75,48 @@ public class Service {
 		return builder.toString();
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((additionalInfo == null) ? 0 : additionalInfo.hashCode());
+		result = prime * result + ((color == null) ? 0 : color.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((towards == null) ? 0 : towards.hashCode());
+		return result;
+	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Service other = (Service) obj;
+		if (additionalInfo == null) {
+			if (other.additionalInfo != null)
+				return false;
+		} else if (!additionalInfo.equals(other.additionalInfo))
+			return false;
+		if (color == null) {
+			if (other.color != null)
+				return false;
+		} else if (!color.equals(other.color))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (towards == null) {
+			if (other.towards != null)
+				return false;
+		} else if (!towards.equals(other.towards))
+			return false;
+		return true;
+	}
 
 	public static class Builder {
 		private String name;

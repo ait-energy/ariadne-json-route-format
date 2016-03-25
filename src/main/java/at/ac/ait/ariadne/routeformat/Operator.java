@@ -15,7 +15,11 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 
 /**
- * {@link Operator} of a {@link ModeOfTransport} such as a public transport or car/bike-sharing
+ * {@link Operator} of a {@link ModeOfTransport} such as a public transport or
+ * car/bike-sharing
+ * <p>
+ * {@link #equals(Object)} returns <code>true</code> for instances with the same
+ * content.
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */
@@ -68,6 +72,67 @@ public class Operator {
 		this.customerServiceEmail = builder.customerServiceEmail;
 		this.customerServicePhone = builder.customerServicePhone;
 		this.additionalInfo = builder.additionalInfo;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((additionalInfo == null) ? 0 : additionalInfo.hashCode());
+		result = prime * result + ((address == null) ? 0 : address.hashCode());
+		result = prime * result + ((customerServiceEmail == null) ? 0 : customerServiceEmail.hashCode());
+		result = prime * result + ((customerServicePhone == null) ? 0 : customerServicePhone.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((website == null) ? 0 : website.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Operator other = (Operator) obj;
+		if (additionalInfo == null) {
+			if (other.additionalInfo != null)
+				return false;
+		} else if (!additionalInfo.equals(other.additionalInfo))
+			return false;
+		if (address == null) {
+			if (other.address != null)
+				return false;
+		} else if (!address.equals(other.address))
+			return false;
+		if (customerServiceEmail == null) {
+			if (other.customerServiceEmail != null)
+				return false;
+		} else if (!customerServiceEmail.equals(other.customerServiceEmail))
+			return false;
+		if (customerServicePhone == null) {
+			if (other.customerServicePhone != null)
+				return false;
+		} else if (!customerServicePhone.equals(other.customerServicePhone))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (website == null) {
+			if (other.website != null)
+				return false;
+		} else if (!website.equals(other.website))
+			return false;
+		return true;
 	}
 
 	public static Builder builder() {
