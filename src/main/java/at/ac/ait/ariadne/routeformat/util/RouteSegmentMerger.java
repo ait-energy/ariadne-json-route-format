@@ -4,9 +4,11 @@ import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -23,20 +25,34 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONLineString;
 
 /**
- * Merges a list of a list of segments, where the latter is basically considered
- * a consecutive Route. Between two routes time gaps are handled as follows: for
- * positive gaps the second route will get the gap added as boarding time in the
- * first non-foot/transfer segment; for negative gaps (=overlaps) the second
- * route will be shifted (and a warning will be logged if the shifted routes
- * contain non-foot segments because this may lead to wrong routes, i.e.
- * shifting public transport routes is probably not useful)
+ * Merges a list of a list of consecutive segments (i.e. roughly without jumps
+ * such as the end of one segment is 1km away from the start of the next segment
+ * ), where the latter is considered a Route.
+ * <p>
+ * Between two routes time gaps are handled as follows:
+ * <ul>
+ * <li>for positive gaps the second route will get the gap added as boarding
+ * time in the first segment not included in
+ * {@link #getWriteWaitingTimePreferableNotInto())}.</li>
+ * <li>for negative gaps (=overlaps) the second route will be shifted (and a
+ * warning will be logged if the shifted routes contain non-foot segments
+ * because this may lead to wrong routes, i.e. shifting public transport routes
+ * is probably not useful)</li>
+ * </ul>
+ * <p>
+ * With {@link #setMergeSegmentsWithSameMot(boolean)} merging of adjacent
+ * segments with (exactly!) the same mode of transport, which is activated by
+ * default, can be (de)activated. <b>Note</b>, that for merged segments boarding
+ * and alighting time is simply summed up and the geometry is simply
+ * concatenated without recalculating the distance.
  */
 public class RouteSegmentMerger {
 
 	private static final Logger LOGGER = Logger.getLogger(RouteSegmentMerger.class.getName());
 
 	private final List<LinkedList<RouteSegment>> listOfSegmentList;
-	private boolean mergeAdjacentFootSegments = true;
+	private boolean mergeSegmentsWithSameMot = true;
+	private Set<ModeOfTransport> writeWaitingTimePreferableNotInto;
 
 	/**
 	 * @param listOfSegmentList
@@ -44,16 +60,26 @@ public class RouteSegmentMerger {
 	 *            empty.
 	 */
 	public RouteSegmentMerger(List<List<RouteSegment>> listOfSegmentList) {
-		super();
 		this.listOfSegmentList = listOfSegmentList.stream().map(l -> new LinkedList<>(l)).collect(Collectors.toList());
+		this.writeWaitingTimePreferableNotInto = new HashSet<>();
+		this.writeWaitingTimePreferableNotInto.add(ModeOfTransport.STANDARD_FOOT);
+		this.writeWaitingTimePreferableNotInto.add(ModeOfTransport.STANDARD_TRANSFER);
 	}
 
-	public boolean isMergeAdjacentFootSegments() {
-		return mergeAdjacentFootSegments;
+	public boolean isMergeSegmentsWithSameMot() {
+		return mergeSegmentsWithSameMot;
 	}
 
-	public void setMergeAdjacentFootSegments(boolean mergeAdjacentFootSegments) {
-		this.mergeAdjacentFootSegments = mergeAdjacentFootSegments;
+	public void setMergeSegmentsWithSameMot(boolean mergeSegmentsWithSameMot) {
+		this.mergeSegmentsWithSameMot = mergeSegmentsWithSameMot;
+	}
+
+	public Set<ModeOfTransport> getWriteWaitingTimePreferableNotInto() {
+		return writeWaitingTimePreferableNotInto;
+	}
+
+	public void setWriteWaitingTimePreferableNotInto(Set<ModeOfTransport> writeWaitingTimePreferableNotInto) {
+		this.writeWaitingTimePreferableNotInto = writeWaitingTimePreferableNotInto;
 	}
 
 	public List<RouteSegment> createMergedSegments() {
@@ -88,21 +114,21 @@ public class RouteSegmentMerger {
 			mergedSegments.addAll(segmentsToAdd);
 		}
 
-		if (mergeAdjacentFootSegments)
-			mergedSegments = mergeAdjacentFootSegments(mergedSegments);
+		if (mergeSegmentsWithSameMot)
+			mergedSegments = mergeSegmentsWithSameMot(mergedSegments);
 
 		return getNewSegmentsWithFixedNr(mergedSegments);
 	}
 
 	/**
-	 * Prepends waiting time (boarding time) to the first segment that is not a
-	 * FOOT or PT transfer segment
+	 * Prepends waiting time (boarding time) to the first segment that is not in
+	 * the black list (and use the last segment if all are on the black list)
 	 */
 	private List<RouteSegment> prependWaitingTime(List<RouteSegment> segments, int waitingSeconds) {
 		int firstMatchingSegmentIndex = 0;
 		while (firstMatchingSegmentIndex < segments.size()) {
 			ModeOfTransport mot = segments.get(firstMatchingSegmentIndex).getModeOfTransport();
-			if (ModeOfTransport.STANDARD_FOOT.equals(mot) || ModeOfTransport.STANDARD_TRANSFER.equals(mot)) {
+			if (writeWaitingTimePreferableNotInto.contains(mot)) {
 				firstMatchingSegmentIndex++;
 			} else {
 				break;
@@ -116,7 +142,7 @@ public class RouteSegmentMerger {
 
 		// add waiting time to chosen segment
 		Builder builder = RouteSegment.builder(old);
-		builder.withBoardingSeconds(waitingSeconds);
+		builder.withBoardingSeconds(old.getBoardingSeconds().orElse(0) + waitingSeconds);
 		builder.withDurationSeconds(old.getDurationSeconds() + waitingSeconds);
 		builder.withDepartureTime(old.getDepartureTimeAsZonedDateTime().minus(waitingSeconds, ChronoUnit.SECONDS));
 		modifiedSegments.set(firstMatchingSegmentIndex, builder.build());
@@ -151,11 +177,11 @@ public class RouteSegmentMerger {
 		return modifiedSegments;
 	}
 
-	private List<RouteSegment> mergeAdjacentFootSegments(List<RouteSegment> segments) {
+	private List<RouteSegment> mergeSegmentsWithSameMot(List<RouteSegment> segments) {
 		RangeSet<Integer> rangeSet = TreeRangeSet.create();
-		for (int i = 0; i < segments.size(); i++) {
-			if (ModeOfTransport.STANDARD_FOOT.equals(segments.get(i).getModeOfTransport())) {
-				rangeSet.add(Range.closed(i, i).canonical(DiscreteDomain.integers()));
+		for (int i = 0; i < segments.size() - 1; i++) {
+			if (segments.get(i).getModeOfTransport().equals(segments.get(i + 1).getModeOfTransport())) {
+				rangeSet.add(Range.closed(i, i + 1).canonical(DiscreteDomain.integers()));
 			}
 		}
 
@@ -201,9 +227,7 @@ public class RouteSegmentMerger {
 		a.getGeometryGeoJson().ifPresent(g -> newlineString.geometry.coordinates.addAll(g.geometry.coordinates));
 		b.getGeometryGeoJson().ifPresent(g -> newlineString.geometry.coordinates.addAll(g.geometry.coordinates));
 		builder.withGeometryGeoJson(newlineString);
-		builder.withLengthMeters(a.getLengthMeters() + b.getLengthMeters()); // TODO
-																				// recalculate
-																				// length?
+		builder.withLengthMeters(a.getLengthMeters() + b.getLengthMeters());
 
 		return builder.build();
 	}
