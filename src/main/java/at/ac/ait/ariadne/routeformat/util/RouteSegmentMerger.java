@@ -45,22 +45,29 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONLineString;
  * default, can be (de)activated. <b>Note</b>, that for merged segments boarding
  * and alighting time is simply summed up and the geometry is simply
  * concatenated without recalculating the distance.
+ * <p>
+ * With {@link #setAdditionalAlightingSecondsBetweenRoutes(List)} additional
+ * alighting seconds can be added.
  */
 public class RouteSegmentMerger {
 
 	private static final Logger LOGGER = Logger.getLogger(RouteSegmentMerger.class.getName());
 
-	private final List<LinkedList<RouteSegment>> listOfSegmentList;
+	private final List<LinkedList<RouteSegment>> routes;
+	private List<Integer> additionalAlightingSecondsBetweenRoutes;
 	private boolean mergeSegmentsWithSameMot = true;
 	private Set<ModeOfTransport> writeWaitingTimePreferableNotInto;
 
 	/**
-	 * @param listOfSegmentList
-	 *            the segments to be merged into one route. lists must not be
+	 * @param routes
+	 *            the routes to be merged into one route. lists must not be
 	 *            empty.
 	 */
-	public RouteSegmentMerger(List<List<RouteSegment>> listOfSegmentList) {
-		this.listOfSegmentList = listOfSegmentList.stream().map(l -> new LinkedList<>(l)).collect(Collectors.toList());
+	public RouteSegmentMerger(List<List<RouteSegment>> routes) {
+		this.routes = routes.stream().map(l -> new LinkedList<>(l)).collect(Collectors.toList());
+		this.additionalAlightingSecondsBetweenRoutes = new ArrayList<>();
+		for (int i = 0; i < routes.size() - 1; i++)
+			additionalAlightingSecondsBetweenRoutes.add(0);
 		this.writeWaitingTimePreferableNotInto = new HashSet<>();
 		this.writeWaitingTimePreferableNotInto.add(ModeOfTransport.STANDARD_FOOT);
 		this.writeWaitingTimePreferableNotInto.add(ModeOfTransport.STANDARD_TRANSFER);
@@ -74,12 +81,29 @@ public class RouteSegmentMerger {
 		this.mergeSegmentsWithSameMot = mergeSegmentsWithSameMot;
 	}
 
+	/**
+	 * @return a mutable copy of the internal set
+	 */
 	public Set<ModeOfTransport> getWriteWaitingTimePreferableNotInto() {
-		return writeWaitingTimePreferableNotInto;
+		return new HashSet<>(writeWaitingTimePreferableNotInto);
 	}
 
 	public void setWriteWaitingTimePreferableNotInto(Set<ModeOfTransport> writeWaitingTimePreferableNotInto) {
 		this.writeWaitingTimePreferableNotInto = writeWaitingTimePreferableNotInto;
+	}
+
+	/**
+	 * @return a mutable copy of the internal list
+	 */
+	public List<Integer> getAdditionalAlightingSecondsBetweenRoutes() {
+		return new ArrayList<>(additionalAlightingSecondsBetweenRoutes);
+	}
+
+	public void setAdditionalAlightingSecondsBetweenRoutes(List<Integer> additionalAlightingSecondsBetweenRoutes) {
+		if (additionalAlightingSecondsBetweenRoutes.size() != routes.size() - 1)
+			throw new IllegalArgumentException(
+					"alighting seconds must be given for exactly each change between routes");
+		this.additionalAlightingSecondsBetweenRoutes = additionalAlightingSecondsBetweenRoutes;
 	}
 
 	public List<RouteSegment> createMergedSegments() {
@@ -89,28 +113,40 @@ public class RouteSegmentMerger {
 	List<RouteSegment> mergeAllSegments() {
 		List<RouteSegment> mergedSegments = new ArrayList<>();
 
-		Map<Integer, Integer> index2waitingSeconds = new HashMap<>();
-		for (int i = 0; i < listOfSegmentList.size() - 1; i++) {
-			int waitingTime = (int) Math.round(Duration
-					.between(listOfSegmentList.get(i).getLast().getArrivalTimeAsZonedDateTime(),
-							listOfSegmentList.get(i + 1).getFirst().getDepartureTimeAsZonedDateTime())
-					.toMillis() / 1000);
-			if (waitingTime != 0) {
-				index2waitingSeconds.put(i + 1, waitingTime);
+		for (int i = 0; i < routes.size() - 1; i++) {
+			int alightingSeconds = additionalAlightingSecondsBetweenRoutes.get(i);
+			if (alightingSeconds > 0) {
+				RouteSegment segmentToProlong = routes.get(i).removeLast();
+				RouteSegment prolongedSegment = RouteSegment.builder(segmentToProlong)
+						.withAlightingSeconds(segmentToProlong.getAlightingSeconds().orElse(0) + alightingSeconds)
+						.withDurationSeconds(segmentToProlong.getDurationSeconds() + alightingSeconds)
+						.withArrivalTime(segmentToProlong.getArrivalTimeAsZonedDateTime().plus(alightingSeconds,
+								ChronoUnit.SECONDS))
+						.build();
+				routes.get(i).addLast(prolongedSegment);
 			}
 		}
 
-		for (int i = 0; i < listOfSegmentList.size(); i++) {
+		Map<Integer, Integer> index2waitingSeconds = new HashMap<>();
+		index2waitingSeconds.put(0, 0);
+		for (int i = 0; i < routes.size() - 1; i++) {
+			int waitingTime = (int) Math.round(Duration.between(routes.get(i).getLast().getArrivalTimeAsZonedDateTime(),
+					routes.get(i + 1).getFirst().getDepartureTimeAsZonedDateTime()).toMillis() / 1000);
+			index2waitingSeconds.put(i + 1, waitingTime);
+		}
+
+		for (int i = 0; i < routes.size(); i++) {
 			List<RouteSegment> segmentsToAdd;
-			if (index2waitingSeconds.containsKey(i)) {
-				int waitingSeconds = index2waitingSeconds.get(i);
-				if (waitingSeconds > 0)
-					segmentsToAdd = prependWaitingTime(listOfSegmentList.get(i), waitingSeconds);
-				else
-					segmentsToAdd = shiftInTime(listOfSegmentList.get(i), -waitingSeconds);
-			} else {
-				segmentsToAdd = listOfSegmentList.get(i);
-			}
+
+			int waitingSeconds = index2waitingSeconds.get(i);
+
+			if (waitingSeconds > 0)
+				segmentsToAdd = prependWaitingTime(routes.get(i), waitingSeconds);
+			else if (waitingSeconds < 0)
+				segmentsToAdd = shiftInTime(routes.get(i), -waitingSeconds);
+			else
+				segmentsToAdd = routes.get(i);
+
 			mergedSegments.addAll(segmentsToAdd);
 		}
 
