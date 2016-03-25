@@ -33,7 +33,7 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONLineString;
  * <ul>
  * <li>for positive gaps the second route will get the gap added as boarding
  * time in the first segment not included in
- * {@link #getWriteWaitingTimePreferableNotInto())}.</li>
+ * {@link #getWriteWaitingTimePreferableNotInto()}.</li>
  * <li>for negative gaps (=overlaps) the second route will be shifted (and a
  * warning will be logged if the shifted routes contain non-foot segments
  * because this may lead to wrong routes, i.e. shifting public transport routes
