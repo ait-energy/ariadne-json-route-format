@@ -387,9 +387,9 @@ public class RouteSegment {
 
 		/**
 		 * @param strongValidation
-		 *            without strong validation some minor errors are only
-		 *            logged and do not throw an
-		 *            {@link IllegalArgumentException}
+		 *            with strong validation even for minor errors an
+		 *            {@link IllegalArgumentException} is thrown (instead of a
+		 *            logged warning)
 		 */
 		public RouteSegment build(boolean strongValidation) {
 			validate(strongValidation);
