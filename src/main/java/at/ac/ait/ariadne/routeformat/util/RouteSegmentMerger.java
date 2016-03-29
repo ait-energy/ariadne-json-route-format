@@ -34,10 +34,10 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONLineString;
  * <li>for positive gaps the second route will get the gap added as boarding
  * time in the first segment not included in
  * {@link #getWriteWaitingTimePreferableNotInto()}.</li>
- * <li>for negative gaps (=overlaps) the second route will be shifted (and a
- * warning will be logged if the shifted routes contain non-foot segments
- * because this may lead to wrong routes, i.e. shifting public transport routes
- * is probably not useful)</li>
+ * <li>for negative gaps (=overlaps) the second route will be shifted so that
+ * the gap is zero (and a warning will be logged if the shifted routes contain
+ * non-foot segments because this may lead to wrong routes, i.e. shifting public
+ * transport routes is probably not useful)</li>
  * </ul>
  * <p>
  * With {@link #setMergeSegmentsWithSameMot(boolean)} merging of adjacent
@@ -208,7 +208,7 @@ public class RouteSegmentMerger {
 			builder.withArrivalTime(segment.getArrivalTimeAsZonedDateTime().plus(shiftSeconds, ChronoUnit.SECONDS));
 			modifiedSegments.add(builder.build());
 			if (!ModeOfTransport.STANDARD_FOOT.equals(segment.getModeOfTransport()))
-				LOGGER.warning("shifted segment for " + shiftSeconds + " for mot " + segment.getModeOfTransport());
+				LOGGER.warning(shiftSeconds + "s shift for mot " + segment.getModeOfTransport());
 		}
 		return modifiedSegments;
 	}

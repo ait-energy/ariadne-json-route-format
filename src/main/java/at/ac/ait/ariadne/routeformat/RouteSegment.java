@@ -2,6 +2,7 @@ package at.ac.ait.ariadne.routeformat;
 
 import java.time.Duration;
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -377,6 +378,18 @@ public class RouteSegment {
 
 		public Builder withAdditionalInfo(Map<String, Object> additionalInfo) {
 			this.additionalInfo = ImmutableMap.copyOf(additionalInfo);
+			return this;
+		}
+
+		/**
+		 * Shifts the segment in time by adjusting departure and arrival time
+		 * (if they are set)
+		 */
+		public Builder shiftInTime(long amountToAdd, ChronoUnit unit) {
+			if (departureTime != null)
+				departureTime = departureTime.plus(amountToAdd, unit);
+			if (arrivalTime != null)
+				arrivalTime = arrivalTime.plus(amountToAdd, unit);
 			return this;
 		}
 

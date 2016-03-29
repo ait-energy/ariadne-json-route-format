@@ -1,5 +1,6 @@
 package at.ac.ait.ariadne.routeformat.util;
 
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.List;
 
@@ -102,6 +103,26 @@ public class RouteSegmentMergerTest {
 		Assert.assertEquals(64 + (180 + 60 * 2), second.getDurationSeconds());
 		Assert.assertEquals(64 + 60, (int) second.getBoardingSeconds().get());
 		Assert.assertEquals(60, (int) second.getAlightingSeconds().get());
+	}
+
+	@Test
+	public void testMergingWithOverlap() {
+		RouteSegment secondSegment = getSecondSegment(ModeOfTransport.STANDARD_BICYCLE);
+		secondSegment = RouteSegment.builder(secondSegment).shiftInTime(-5, ChronoUnit.MINUTES).build();
+
+		List<List<RouteSegment>> listOfSegmentList = Arrays
+				.asList(Arrays.asList(getFirstSegment(ModeOfTransport.STANDARD_FOOT)), Arrays.asList(secondSegment));
+		RouteSegmentMerger merger = new RouteSegmentMerger(listOfSegmentList);
+		List<RouteSegment> mergedSegments = merger.createMergedSegments();
+
+		RouteSegment first = mergedSegments.get(0);
+		Assert.assertEquals("2016-01-01T15:34:10",
+				SprouteUtils.getShortString(first.getDepartureTimeAsZonedDateTime()));
+		Assert.assertEquals("2016-01-01T15:37:56", SprouteUtils.getShortString(first.getArrivalTimeAsZonedDateTime()));
+		RouteSegment second = mergedSegments.get(1);
+		Assert.assertEquals("there must be zero gap to the first segment", "2016-01-01T15:37:56",
+				SprouteUtils.getShortString(second.getDepartureTimeAsZonedDateTime()));
+		Assert.assertEquals("2016-01-01T15:42:56", SprouteUtils.getShortString(second.getArrivalTimeAsZonedDateTime()));
 	}
 
 	private RouteSegment getFirstSegment(ModeOfTransport mot) {
