@@ -1,20 +1,27 @@
 package at.ac.ait.ariadne.routeformat;
 
+import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.google.common.collect.Lists;
 
 import at.ac.ait.ariadne.routeformat.Sproute.GeneralizedModeOfTransportType;
 import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPoint;
+import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPolygon;
 import at.ac.ait.ariadne.routeformat.location.Location;
 
 public class SprouteUtils {
@@ -67,6 +74,36 @@ public class SprouteUtils {
 		mapper.findAndRegisterModules();
 		mapper.enable(SerializationFeature.INDENT_OUTPUT);
 		return mapper.writeValueAsString(object);
+	}
+
+	public static Optional<GeoJSONFeature<GeoJSONPolygon>> getBoundingBoxFromGeometryGeoJson(
+			List<RouteSegment> segments) {
+		BigDecimal minX = null, maxX = null, minY = null, maxY = null;
+		for (RouteSegment segment : segments) {
+			if (segment.getGeometryGeoJson().isPresent()) {
+				for (List<BigDecimal> xy : segment.getGeometryGeoJson().get().geometry.coordinates) {
+					if (minX == null || minX.compareTo(xy.get(0)) > 0)
+						minX = xy.get(0);
+					if (maxX == null || maxX.compareTo(xy.get(0)) < 0)
+						maxX = xy.get(0);
+					if (minY == null || minY.compareTo(xy.get(1)) > 0)
+						minY = xy.get(1);
+					if (maxY == null || maxY.compareTo(xy.get(1)) < 0)
+						maxY = xy.get(1);
+				}
+			}
+		}
+
+		if (minX == null || maxX == null || minY == null || maxY == null)
+			return Optional.empty();
+
+		List<List<BigDecimal>> outerRing = new ArrayList<>();
+		outerRing.add(Lists.newArrayList(minX, minY));
+		outerRing.add(Lists.newArrayList(minX, maxY));
+		outerRing.add(Lists.newArrayList(maxX, maxY));
+		outerRing.add(Lists.newArrayList(maxX, minY));
+		outerRing.add(Lists.newArrayList(minX, minY));
+		return Optional.of(GeoJSONFeature.newPolygonFeatureFromBigDecimals(outerRing, Collections.emptyList()));
 	}
 
 }

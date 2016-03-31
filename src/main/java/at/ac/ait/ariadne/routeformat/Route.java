@@ -112,6 +112,10 @@ public class Route {
 		return optimizedFor;
 	}
 
+	/**
+	 * @return the bounding box with the points of the polygon beginning in
+	 *         south-west and then continuing clockwise
+	 */
 	public Optional<GeoJSONFeature<GeoJSONPolygon>> getBoundingBox() {
 		return boundingBox;
 	}
@@ -232,10 +236,10 @@ public class Route {
 
 		/**
 		 * sets segments and infers from/to location, arrival/departure time,
-		 * duration, length
+		 * duration, length, and bounding box (from geometryGeoJson)
 		 */
 		@JsonIgnore
-		public Builder withSegmentsAndSetAutomaticallyInferredFields(List<RouteSegment> segments) {
+		public Builder withSegmentsAndAutomaticallyInferredFields(List<RouteSegment> segments) {
 			this.segments = ImmutableList.copyOf(segments);
 			if (!segments.isEmpty()) {
 				RouteSegment first = segments.get(0);
@@ -246,6 +250,7 @@ public class Route {
 				withArrivalTime(last.getArrivalTime());
 				withLengthMeters(segments.stream().mapToInt(s -> s.getLengthMeters()).sum());
 				withDurationSeconds((int) (Duration.between(departureTime, arrivalTime).toMillis() / 1000));
+				SprouteUtils.getBoundingBoxFromGeometryGeoJson(segments).ifPresent(b -> withBoundingBox(b));
 			}
 			return this;
 		}

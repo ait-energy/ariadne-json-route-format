@@ -18,8 +18,9 @@ public class GeoJSONPolygon implements GeoJSONGeometryObject {
 	public final GeoJSONType type = GeoJSONType.Polygon;
 
 	/**
-	 * Coordinates of a polygon are an array of LinearRing coordinate arrays.
-	 * The first element in the array represents the exterior ring. Any
+	 * Coordinates of a polygon are an array of LinearRing coordinate arrays
+	 * (the first and the last coordinate must be the same, thereby closing the
+	 * ring). The first element in the array represents the exterior ring. Any
 	 * subsequent elements represent interior rings (or holes).
 	 * <p>
 	 * The inner list of {@link BigDecimal} is always a pair of coordinates: X

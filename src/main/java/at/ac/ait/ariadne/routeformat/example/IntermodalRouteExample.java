@@ -170,7 +170,7 @@ public class IntermodalRouteExample {
 				.withProcessedTimeNow().withStatus(Status.OK).withDebugMessage("Route calculated in 0.002 seconds")
 				.withCoordinateReferenceSystem("EPSG:4326").withRequest(getRoutingRequest())
 				.withRoutes(
-						Arrays.asList(Route.builder().withSegmentsAndSetAutomaticallyInferredFields(getRouteSegments())
+						Arrays.asList(Route.builder().withSegmentsAndAutomaticallyInferredFields(getRouteSegments())
 								.withOptimizedFor("travel time and low costs").build()))
 				.build();
 	}

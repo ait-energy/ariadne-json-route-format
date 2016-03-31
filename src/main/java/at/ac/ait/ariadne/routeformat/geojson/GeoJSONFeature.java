@@ -1,5 +1,6 @@
 package at.ac.ait.ariadne.routeformat.geojson;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -8,10 +9,10 @@ import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.collect.Lists;
 
 import at.ac.ait.ariadne.routeformat.location.Location;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author AIT Austrian Institute of Technology GmbH
@@ -74,6 +75,34 @@ public class GeoJSONFeature<T extends GeoJSONGeometryObject> {
 	public static GeoJSONFeature<GeoJSONLineString> newLineStringFeature(GeoJSONLineString lineString) {
 		GeoJSONFeature<GeoJSONLineString> feature = new GeoJSONFeature<>();
 		feature.geometry = lineString;
+		return feature;
+	}
+
+	/**
+	 * @see GeoJSONPolygon#coordinates
+	 */
+	public static GeoJSONFeature<GeoJSONPolygon> newPolygonFeatureFromCoordinatePoints(
+			List<List<CoordinatePoint>> points) {
+		GeoJSONFeature<GeoJSONPolygon> feature = new GeoJSONFeature<>();
+		feature.geometry = new GeoJSONPolygon(points);
+		return feature;
+	}
+
+	/**
+	 * @see GeoJSONPolygon#coordinates
+	 * @param outerRing
+	 *            mandatory
+	 * @param innerRings
+	 *            can be empty
+	 */
+	public static GeoJSONFeature<GeoJSONPolygon> newPolygonFeatureFromBigDecimals(List<List<BigDecimal>> outerRing,
+			List<List<List<BigDecimal>>> innerRings) {
+		GeoJSONFeature<GeoJSONPolygon> feature = new GeoJSONFeature<>();
+		feature.geometry = new GeoJSONPolygon();
+		List<List<List<BigDecimal>>> rings = new ArrayList<>();
+		rings.add(outerRing);
+		rings.addAll(innerRings);
+		feature.geometry.coordinates = rings;
 		return feature;
 	}
 
