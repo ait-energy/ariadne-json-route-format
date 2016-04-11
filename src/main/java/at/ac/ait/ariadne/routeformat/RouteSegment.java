@@ -411,32 +411,39 @@ public class RouteSegment {
 
 		private void validate(boolean strongValidation) {
 			Preconditions.checkArgument(nr != null, "nr is mandatory but missing");
-			Preconditions.checkArgument(from != null, "from is mandatory but missing");
-			Preconditions.checkArgument(to != null, "to is mandatory but missing");
-			Preconditions.checkArgument(lengthMeters != null, "lengthMeters is mandatory but missing");
-			Preconditions.checkArgument(durationSeconds != null, "durationSeconds is mandatory but missing");
-			Preconditions.checkArgument(modeOfTransport != null, "modeOfTransport is mandatory but missing");
-			Preconditions.checkArgument(departureTime != null, "departureTime is mandatory but missing");
-			Preconditions.checkArgument(arrivalTime != null, "arrivalTime is mandatory but missing");
+			Preconditions.checkArgument(from != null, "from is mandatory but missing for segment #" + nr);
+			Preconditions.checkArgument(to != null, "to is mandatory but missing for segment #" + nr);
+			Preconditions.checkArgument(lengthMeters != null,
+					"lengthMeters is mandatory but missing for segment #" + nr);
+			Preconditions.checkArgument(durationSeconds != null,
+					"durationSeconds is mandatory but missing for segment #" + nr);
+			Preconditions.checkArgument(modeOfTransport != null,
+					"modeOfTransport is mandatory but missing for segment #" + nr);
+			Preconditions.checkArgument(departureTime != null,
+					"departureTime is mandatory but missing for segment #" + nr);
+			Preconditions.checkArgument(arrivalTime != null, "arrivalTime is mandatory but missing for segment #" + nr);
 
 			try {
 				Preconditions.checkArgument(nr > 0, "nr must be > 0, but was %s", nr);
-				Preconditions.checkArgument(lengthMeters >= 0, "lengthMeters must be >= 0, but was %s", lengthMeters);
-				Preconditions.checkArgument(durationSeconds >= 0, "durationSeconds must be >= 0, but was %s",
-						durationSeconds);
+				Preconditions.checkArgument(lengthMeters >= 0, "lengthMeters must be >= 0, but was %s for segment #%s",
+						lengthMeters, nr);
+				Preconditions.checkArgument(durationSeconds >= 0,
+						"durationSeconds must be >= 0, but was %s for segment #%s", durationSeconds, nr);
 
 				Preconditions.checkArgument(alightingSeconds.orElse(0) + boardingSeconds.orElse(0) <= durationSeconds,
-						"boarding+alighting seconds must be equal to or smaller than the total duration");
+						"boarding+alighting seconds must be equal to or smaller than the total duration for segment #%s",
+						nr);
 
 				Preconditions.checkArgument(!arrivalTime.isBefore(departureTime),
-						"departureTime must be <= arrivalTime");
+						"departureTime must be <= arrivalTime for segment #%s", nr);
 
 				long durationBetweenTimestamps = Duration.between(departureTime, arrivalTime).getSeconds();
 				Preconditions.checkArgument(durationSeconds == durationBetweenTimestamps,
-						"durationSeconds does not match seconds between arrival & departure time: %s!=%s",
-						durationSeconds, durationBetweenTimestamps);
+						"durationSeconds does not match seconds between arrival & departure time: %s!=%s for segment #%s",
+						durationSeconds, durationBetweenTimestamps, nr);
 
-				String error = "timestamps of intermediate stops must fall in interval between departure & arrival of this segment";
+				String error = "timestamps of intermediate stops must fall in interval between departure & arrival for segment #"
+						+ nr;
 				for (IntermediateStop stop : intermediateStops) {
 					Preconditions.checkArgument(
 							isBetween(departureTime, stop.getPlannedArrivalTimeAsZonedDateTime(), arrivalTime), error);
@@ -453,7 +460,8 @@ public class RouteSegment {
 
 				boolean geometryPresent = geometryEncodedPolyLine.isPresent() || geometryGeoJson.isPresent()
 						|| geometryGeoJsonEdges.isPresent();
-				Preconditions.checkArgument(geometryPresent, "at least one geometry must be present");
+				Preconditions.checkArgument(geometryPresent, "at least one geometry must be present for segment #%s",
+						nr);
 			} catch (IllegalArgumentException e) {
 				if (strongValidation)
 					throw e;

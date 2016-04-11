@@ -215,7 +215,7 @@ public class RouteFormatRoot {
 
 		private void validate() {
 			Preconditions.checkArgument(routeFormatVersion != null, "routeFormatVersion is mandatory but missing");
-			Preconditions.checkArgument(requestId != null, "id is mandatory but missing");
+			Preconditions.checkArgument(requestId != null, "requestId is mandatory but missing");
 			Preconditions.checkArgument(processedTime != null, "processedTime is mandatory but missing");
 			Preconditions.checkArgument(status != null, "status is mandatory but missing");
 			Preconditions.checkArgument(coordinateReferenceSystem != null,

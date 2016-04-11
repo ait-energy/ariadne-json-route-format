@@ -255,7 +255,7 @@ public class RouteSegmentMerger {
 		builder.withBoardingSeconds(a.getBoardingSeconds().orElse(0) + b.getBoardingSeconds().orElse(0));
 		builder.withAlightingSeconds(a.getAlightingSeconds().orElse(0) + b.getAlightingSeconds().orElse(0));
 		builder.withDurationSeconds(totalSeconds);
-		builder.withArrivalTime(b.getArrivalTime());
+		builder.withArrivalTime(a.getDepartureTimeAsZonedDateTime().plus(totalSeconds, ChronoUnit.SECONDS));
 
 		// adapt geometry & length
 		builder.withTo(b.getTo());

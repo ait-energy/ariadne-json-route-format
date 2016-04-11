@@ -350,6 +350,14 @@ public class Route {
 				Preconditions.checkArgument(durationSeconds == durationBetweenTimestamps,
 						"durationSeconds does not match seconds between arrival & departure time: %s!=%s",
 						durationSeconds, durationBetweenTimestamps);
+				int durationSecondsSum = segments.stream().mapToInt(s -> s.getDurationSeconds()).sum();
+				Preconditions.checkArgument(durationSeconds == durationSecondsSum,
+						"durationSeconds does not match the sum of durationSeconds of all route segments: %s!=%s",
+						durationSeconds, durationSecondsSum);
+				int lengthMetersSum = segments.stream().mapToInt(s -> s.getLengthMeters()).sum();
+				Preconditions.checkArgument(lengthMeters == lengthMetersSum,
+						"lengthMeters does not match the sum of lengthMeters of all route segments: %s!=%s",
+						lengthMeters, lengthMetersSum);
 			} catch (IllegalArgumentException e) {
 				if (strongValidation)
 					throw e;

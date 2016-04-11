@@ -24,6 +24,8 @@ As soon as use-cases or more fine-grained data (e.g. GTFS data sets) become avai
 - public transport station details: differentiate between station entries & platforms, add travel time to transfer segments e.g. 5 min walk, 1 min escalators down, 2 min walk, 1 min elevator up;
 - RoutingRequest: maximum distance/travel time for modes of transport
 - RoutingRequest: estimated speed (may also vary for different modes of transport)
+- RoutingRequest: details for mode of transport (not only GeneralizedMOT)
+- RoutingRequest: first/last mot
    
 
 ## License
