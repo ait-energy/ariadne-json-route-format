@@ -2,9 +2,9 @@
 This repository holds the JSON exchange format for intermodal routes developed by the [AIT Austrian Institute of Technology](http://dts.ait.ac.at) and [Fluidtime](http://www.fluidtime.com).
 
 It specifies the format of a routing request as well as the format of the returned routes. The routes contain geometries and important meta information that can e.g. be used to properly display a route in a smart phone app or on a website.
-Geometries are stored in GeoJSON format.
+Geometries are represented in the [GeoJSON](http://geojson.org) format.
 
-The format is defined through the Java classes in the package `at.ac.ait.sproute.routeformat`.
+The route format is defined through the Java classes in the package `at.ac.ait.sproute.routeformat`.
 Reading and writing of a route and exporting the JSON schema with Jackson is demonstrated in `JacksonExample.java`.
 A simple example how to display a route in a browser with Leaflet is shown in `routeformat-usage-in-leaflet.html`.
 

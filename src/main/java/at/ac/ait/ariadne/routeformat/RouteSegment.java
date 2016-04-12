@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 import at.ac.ait.ariadne.routeformat.RouteSegment.Builder;
+import at.ac.ait.ariadne.routeformat.Sproute.DetailedModeOfTransportType;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeatureCollection;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONLineString;
@@ -34,6 +35,29 @@ import at.ac.ait.ariadne.routeformat.location.Location;
  * <p>
  * It is guaranteed that at least one of the geometry types (encoded polyline or
  * GeoJSON) is provided.
+ * <p>
+ * <b>A note on public transport:</b> transfers between two lines (e.g. from bus
+ * 28A to subway U6) can be represented in two variants.
+ * <ol>
+ * <li><b>PT_DETAILED:</b> in this (preferred) variant a segment with
+ * {@link DetailedModeOfTransportType#TRANSFER} is inserted before, between, and
+ * after public transport segments. Such a transfer segment represents the
+ * transfer within a (logical) public transport station including waiting times
+ * for the next line. It contains the walking distance in the station (
+ * {@link #getLengthMeters()}), the walking time ({@link #getDurationSeconds()}
+ * minus alighting time), and the waiting time for the next public transport
+ * line ({@link #getAlightingSeconds()}). The public transport segments
+ * themselves only contain the ride time (without any boarding or alighting
+ * time). When using this variant it is much easier to differentiate between
+ * transfer and ride, e.g. regarding accessibility.</li>
+ * <li><b>PT_CONDENSED:</b> this variant is more compact but less detailed. Due
+ * to the missing transfer segments transfer and waiting time must be added to
+ * the public transport segment itself. It then contains the waiting time and
+ * optionally the the transfer time to the segment (
+ * {@link #getBoardingSeconds()}), the transfer time to the next segment (
+ * {@link #getAlightingSeconds()}), and of course the ride time (
+ * {@link #getDurationSeconds()} minus boarding and alighting time).</li>
+ * </ol>
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */
@@ -101,7 +125,7 @@ public class RouteSegment {
 	 * @return the number of seconds it takes to board (or wait for) the mode of
 	 *         transport, e.g. estimated time it takes to walk to your bicycle
 	 *         or car and unlock it, average time to hail a taxi, waiting time
-	 *         for public transport..
+	 *         in case this is a public transport segment (PT_CONDENSED),..
 	 */
 	public Optional<Integer> getBoardingSeconds() {
 		return boardingSeconds;
@@ -111,7 +135,10 @@ public class RouteSegment {
 	 * @return the number of seconds it takes to alight the mode of transport,
 	 *         e.g. estimated time it takes to look for a parking spot for your
 	 *         bicycle or car and lock/park it, average time to pay and leave a
-	 *         taxi,..
+	 *         taxi, waiting time for the next public transport line in case
+	 *         this is a {@link DetailedModeOfTransportType#TRANSFER} segment
+	 *         (PT_DETAILED), transfer (walking) time in case this is a public
+	 *         transport segment (PT_CONDENSED),..
 	 */
 	public Optional<Integer> getAlightingSeconds() {
 		return alightingSeconds;
@@ -231,7 +258,8 @@ public class RouteSegment {
 		builder.append(String.format("%d: %s %dm %ds (%s ", nr, modeOfTransport.toString(), lengthMeters,
 				durationSeconds, SprouteUtils.getShortStringDate(departureTime)));
 		if (boardingSeconds.isPresent() && boardingSeconds.get() > 0) {
-			builder.append(String.format("boarding: %s, departure: %s, ", SprouteUtils.getShortStringTime(departureTime),
+			builder.append(String.format("boarding: %s, departure: %s, ",
+					SprouteUtils.getShortStringTime(departureTime),
 					SprouteUtils.getShortStringTime(departureTime.plus(boardingSeconds.get(), ChronoUnit.SECONDS))));
 		} else {
 			builder.append(String.format("departure: %s, ", SprouteUtils.getShortStringTime(departureTime)));
