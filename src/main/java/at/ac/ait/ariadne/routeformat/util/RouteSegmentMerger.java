@@ -22,6 +22,7 @@ import com.google.common.collect.TreeRangeSet;
 import at.ac.ait.ariadne.routeformat.ModeOfTransport;
 import at.ac.ait.ariadne.routeformat.RouteSegment;
 import at.ac.ait.ariadne.routeformat.RouteSegment.Builder;
+import at.ac.ait.ariadne.routeformat.Sproute.DetailedModeOfTransportType;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONLineString;
 
@@ -34,7 +35,8 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONLineString;
  * <ul>
  * <li>for positive gaps the second route will get the gap added as boarding
  * time in the first segment not included in
- * {@link #getWriteWaitingTimePreferableNotInto()}.</li>
+ * {@link #getWriteWaitingTimePreferableNotInto()} (or as alighting time if the
+ * segment is {@link DetailedModeOfTransportType#TRANSFER}).</li>
  * <li>for negative gaps (=overlaps) the second route will be shifted so that
  * the gap is zero (and a warning will be logged if the shifted routes contain
  * non-foot segments because this may lead to wrong routes, i.e. shifting public
@@ -71,7 +73,6 @@ public class RouteSegmentMerger {
 			additionalAlightingSecondsBetweenRoutes.add(0);
 		this.writeWaitingTimePreferableNotInto = new HashSet<>();
 		this.writeWaitingTimePreferableNotInto.add(ModeOfTransport.STANDARD_FOOT);
-		this.writeWaitingTimePreferableNotInto.add(ModeOfTransport.STANDARD_TRANSFER);
 	}
 
 	public boolean isMergeSegmentsWithSameMot() {
@@ -183,7 +184,12 @@ public class RouteSegmentMerger {
 
 		// add waiting time to chosen segment
 		Builder builder = RouteSegment.builder(old);
-		builder.withBoardingSeconds(old.getBoardingSeconds().orElse(0) + waitingSeconds);
+		if (old.getModeOfTransport().getDetailedType().isPresent()
+				&& old.getModeOfTransport().getDetailedType().get().equals(DetailedModeOfTransportType.TRANSFER)) {
+			builder.withAlightingSeconds(old.getAlightingSeconds().orElse(0) + waitingSeconds);
+		} else {
+			builder.withBoardingSeconds(old.getBoardingSeconds().orElse(0) + waitingSeconds);
+		}
 		builder.withDurationSeconds(old.getDurationSeconds() + waitingSeconds);
 		builder.withDepartureTime(old.getDepartureTimeAsZonedDateTime().minus(waitingSeconds, ChronoUnit.SECONDS));
 		modifiedSegments.set(firstMatchingSegmentIndex, builder.build());

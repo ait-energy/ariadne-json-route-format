@@ -354,7 +354,7 @@ public class IntermodalRouteExample {
 				// 4 minutes ride, 2 minutes renting the car, 1 minute parking
 				// the car
 				.withDurationSeconds(60 * 7).withBoardingSeconds(60 * 2).withAlightingSeconds(60 * 1)
-				.withDepartureTime("2016-01-01T15:34:10+01:00").withArrivalTime("2016-01-01T15:41:10+01:00")
+				.withDepartureTime("2016-01-01T15:36:05+01:00").withArrivalTime("2016-01-01T15:43:05+01:00")
 				.withModeOfTransport(ModeOfTransport.builder().withDetailedType(DetailedModeOfTransportType.CAR)
 						.withSharingType(Sharing.FREE_FLOATING_VEHICLE_SHARING).withElectric(true)
 						.withOperator(car2goOperator)
@@ -375,7 +375,7 @@ public class IntermodalRouteExample {
 				// 106 seconds ride, 1 minutes unlocking bike, 1 minute parking
 				// & locking bike
 				.withDurationSeconds(106 + 60 * 2).withBoardingSeconds(60 * 1).withAlightingSeconds(60 * 1)
-				.withDepartureTime("2016-01-01T15:34:10+01:00").withArrivalTime("2016-01-01T15:37:56+01:00")
+				.withDepartureTime("2016-01-01T15:43:05+01:00").withArrivalTime("2016-01-01T15:46:51+01:00")
 				.withIntermediateStops(Arrays.asList(IntermediateStop.builder().withStop(antonKummererPark).build()))
 				// additional info about vehicles provided in the request can be
 				// added here (such as in project SMILE)
@@ -391,7 +391,7 @@ public class IntermodalRouteExample {
 				// 112 seconds ride, 3 minutes waiting for ride-sharing &
 				// hopping on board
 				.withDurationSeconds(112 + 60 * 3).withBoardingSeconds(60 * 3)
-				.withDepartureTime("2016-01-01T15:37:56+01:00").withArrivalTime("2016-01-01T15:42:48+01:00")
+				.withDepartureTime("2016-01-01T15:46:51+01:00").withArrivalTime("2016-01-01T15:51:43+01:00")
 				.withModeOfTransport(ModeOfTransport.builder().withDetailedType(DetailedModeOfTransportType.CAR)
 						.withSharingType(Sharing.RIDE_SHARING).withOperator(flincOperator)
 						// for now specific information goes as additional info
@@ -411,7 +411,7 @@ public class IntermodalRouteExample {
 				// 1 minute unlocking/entering time
 				// 5 minutes searching for a parking space
 				.withDurationSeconds(57 + 60 * 6).withBoardingSeconds(60).withAlightingSeconds(60 * 5)
-				.withDepartureTime("2016-01-01T15:42:48+01:00").withArrivalTime("2016-01-01T15:49:45+01:00")
+				.withDepartureTime("2016-01-01T15:51:43+01:00").withArrivalTime("2016-01-01T15:58:40+01:00")
 				.withModeOfTransport(ModeOfTransport.STANDARD_CAR).withGeometryGeoJson(geometryGeoJson).build();
 		segments.add(carFromGaussplatzToScholzgasse);
 
