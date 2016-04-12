@@ -1,6 +1,7 @@
 package at.ac.ait.ariadne.routeformat.util;
 
 import java.time.Duration;
+import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -129,10 +130,14 @@ public class RouteSegmentMerger {
 
 		Map<Integer, Integer> index2waitingSeconds = new HashMap<>();
 		index2waitingSeconds.put(0, 0);
-		for (int i = 0; i < routes.size() - 1; i++) {
-			int waitingTime = (int) Math.round(Duration.between(routes.get(i).getLast().getArrivalTimeAsZonedDateTime(),
-					routes.get(i + 1).getFirst().getDepartureTimeAsZonedDateTime()).toMillis() / 1000);
-			index2waitingSeconds.put(i + 1, waitingTime);
+		ZonedDateTime endOfLastRoute = routes.get(0).getLast().getArrivalTimeAsZonedDateTime();
+		for (int i = 1; i < routes.size(); i++) {
+			int waitingSeconds = (int) Duration
+					.between(endOfLastRoute, routes.get(i).getFirst().getDepartureTimeAsZonedDateTime()).getSeconds();
+			index2waitingSeconds.put(i, waitingSeconds);
+			int routeSeconds = routes.get(i).stream().mapToInt(s -> s.getDurationSeconds()).sum();
+			endOfLastRoute = endOfLastRoute.plus(routeSeconds + (waitingSeconds > 0 ? waitingSeconds : 0),
+					ChronoUnit.SECONDS);
 		}
 
 		for (int i = 0; i < routes.size(); i++) {

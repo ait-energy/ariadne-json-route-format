@@ -228,8 +228,22 @@ public class RouteSegment {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append(String.format("%d: %s %dm %ds (%s - %s)", nr, modeOfTransport.toString(), lengthMeters,
-				durationSeconds, SprouteUtils.getShortString(departureTime), SprouteUtils.getShortString(arrivalTime)));
+		builder.append(String.format("%d: %s %dm %ds (%s ", nr, modeOfTransport.toString(), lengthMeters,
+				durationSeconds, SprouteUtils.getShortStringDate(departureTime)));
+		if (boardingSeconds.isPresent() && boardingSeconds.get() > 0) {
+			builder.append(String.format("boarding: %s, departure: %s, ", SprouteUtils.getShortStringTime(departureTime),
+					SprouteUtils.getShortStringTime(departureTime.plus(boardingSeconds.get(), ChronoUnit.SECONDS))));
+		} else {
+			builder.append(String.format("departure: %s, ", SprouteUtils.getShortStringTime(departureTime)));
+		}
+		if (alightingSeconds.isPresent() && alightingSeconds.get() > 0) {
+			builder.append(String.format("alighting: %s, arrival: %s",
+					SprouteUtils.getShortStringTime(arrivalTime.minus(alightingSeconds.get(), ChronoUnit.SECONDS)),
+					SprouteUtils.getShortStringTime(arrivalTime)));
+		} else {
+			builder.append(String.format("arrival: %s", SprouteUtils.getShortStringTime(arrivalTime)));
+		}
+		builder.append(")");
 		return builder.toString();
 	}
 

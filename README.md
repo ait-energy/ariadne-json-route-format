@@ -26,6 +26,7 @@ As soon as use-cases or more fine-grained data (e.g. GTFS data sets) become avai
 - RoutingRequest: estimated speed (may also vary for different modes of transport)
 - RoutingRequest: details for mode of transport (not only GeneralizedMOT)
 - RoutingRequest: first/last mot
+- RouteSegment: fix misleading naming of getDepartureTime/ArrivalTime (actually start/end of segment due to boarding/alighting)
    
 
 ## License

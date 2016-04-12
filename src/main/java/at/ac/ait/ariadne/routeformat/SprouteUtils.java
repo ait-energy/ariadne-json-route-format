@@ -40,10 +40,19 @@ public class SprouteUtils {
 		}
 	}
 
-	public static String getShortString(ZonedDateTime time) {
+	public static String getShortStringDateTime(ZonedDateTime time) {
 		return time.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
 	}
+	
+	public static String getShortStringDate(ZonedDateTime time) {
+		return time.format(DateTimeFormatter.ISO_LOCAL_DATE);
+	}
 
+	public static String getShortStringTime(ZonedDateTime time) {
+		return time.format(DateTimeFormatter.ISO_LOCAL_TIME);
+	}
+
+	
 	/**
 	 * @param modesOfTransport
 	 *            a comma-separated list of MOTs

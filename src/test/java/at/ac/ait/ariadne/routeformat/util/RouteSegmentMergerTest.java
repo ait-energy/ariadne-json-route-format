@@ -61,8 +61,8 @@ public class RouteSegmentMergerTest {
 		RouteSegment merged = mergedSegments.get(0);
 		Assert.assertEquals(1, merged.getNr());
 		Assert.assertEquals("2016-01-01T15:34:10",
-				SprouteUtils.getShortString(merged.getDepartureTimeAsZonedDateTime()));
-		Assert.assertEquals("2016-01-01T15:45:00", SprouteUtils.getShortString(merged.getArrivalTimeAsZonedDateTime()));
+				SprouteUtils.getShortStringDateTime(merged.getDepartureTimeAsZonedDateTime()));
+		Assert.assertEquals("2016-01-01T15:45:00", SprouteUtils.getShortStringDateTime(merged.getArrivalTimeAsZonedDateTime()));
 		Assert.assertEquals(10 * 60 + 50, merged.getDurationSeconds());
 		Assert.assertEquals("sum of boarding of all segments + waiting inbetween", 120 + 124,
 				(int) merged.getBoardingSeconds().get());
@@ -86,9 +86,9 @@ public class RouteSegmentMergerTest {
 		RouteSegment first = mergedSegments.get(0);
 		Assert.assertEquals(1, first.getNr());
 		Assert.assertEquals("2016-01-01T15:34:10",
-				SprouteUtils.getShortString(first.getDepartureTimeAsZonedDateTime()));
+				SprouteUtils.getShortStringDateTime(first.getDepartureTimeAsZonedDateTime()));
 		Assert.assertEquals("one additional minute added", "2016-01-01T15:38:56",
-				SprouteUtils.getShortString(first.getArrivalTimeAsZonedDateTime()));
+				SprouteUtils.getShortStringDateTime(first.getArrivalTimeAsZonedDateTime()));
 		Assert.assertEquals(4 * 60 + 46, first.getDurationSeconds());
 		Assert.assertEquals(60, (int) first.getBoardingSeconds().get());
 		Assert.assertEquals("one additional minute added", 120, (int) first.getAlightingSeconds().get());
@@ -98,8 +98,8 @@ public class RouteSegmentMergerTest {
 		RouteSegment second = mergedSegments.get(1);
 		Assert.assertEquals(2, second.getNr());
 		Assert.assertEquals("2016-01-01T15:38:56",
-				SprouteUtils.getShortString(second.getDepartureTimeAsZonedDateTime()));
-		Assert.assertEquals("2016-01-01T15:45:00", SprouteUtils.getShortString(second.getArrivalTimeAsZonedDateTime()));
+				SprouteUtils.getShortStringDateTime(second.getDepartureTimeAsZonedDateTime()));
+		Assert.assertEquals("2016-01-01T15:45:00", SprouteUtils.getShortStringDateTime(second.getArrivalTimeAsZonedDateTime()));
 		Assert.assertEquals(64 + (180 + 60 * 2), second.getDurationSeconds());
 		Assert.assertEquals(64 + 60, (int) second.getBoardingSeconds().get());
 		Assert.assertEquals(60, (int) second.getAlightingSeconds().get());
@@ -117,12 +117,12 @@ public class RouteSegmentMergerTest {
 
 		RouteSegment first = mergedSegments.get(0);
 		Assert.assertEquals("2016-01-01T15:34:10",
-				SprouteUtils.getShortString(first.getDepartureTimeAsZonedDateTime()));
-		Assert.assertEquals("2016-01-01T15:37:56", SprouteUtils.getShortString(first.getArrivalTimeAsZonedDateTime()));
+				SprouteUtils.getShortStringDateTime(first.getDepartureTimeAsZonedDateTime()));
+		Assert.assertEquals("2016-01-01T15:37:56", SprouteUtils.getShortStringDateTime(first.getArrivalTimeAsZonedDateTime()));
 		RouteSegment second = mergedSegments.get(1);
 		Assert.assertEquals("there must be zero gap to the first segment", "2016-01-01T15:37:56",
-				SprouteUtils.getShortString(second.getDepartureTimeAsZonedDateTime()));
-		Assert.assertEquals("2016-01-01T15:42:56", SprouteUtils.getShortString(second.getArrivalTimeAsZonedDateTime()));
+				SprouteUtils.getShortStringDateTime(second.getDepartureTimeAsZonedDateTime()));
+		Assert.assertEquals("2016-01-01T15:42:56", SprouteUtils.getShortStringDateTime(second.getArrivalTimeAsZonedDateTime()));
 	}
 
 	private RouteSegment getFirstSegment(ModeOfTransport mot) {
