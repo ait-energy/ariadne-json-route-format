@@ -10,8 +10,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.BoundType;
 import com.google.common.collect.DiscreteDomain;
@@ -54,7 +56,7 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONLineString;
  */
 public class RouteSegmentMerger {
 
-	private static final Logger LOGGER = Logger.getLogger(RouteSegmentMerger.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(RouteSegmentMerger.class);
 
 	private final List<LinkedList<RouteSegment>> routes;
 	private List<Integer> additionalAlightingSecondsBetweenRoutes;
@@ -218,8 +220,8 @@ public class RouteSegmentMerger {
 			builder.withDepartureTime(segment.getDepartureTimeAsZonedDateTime().plus(shiftSeconds, ChronoUnit.SECONDS));
 			builder.withArrivalTime(segment.getArrivalTimeAsZonedDateTime().plus(shiftSeconds, ChronoUnit.SECONDS));
 			modifiedSegments.add(builder.build());
-			if (!ModeOfTransport.STANDARD_FOOT.equals(segment.getModeOfTransport()))
-				LOGGER.warning(shiftSeconds + "s shift for mot " + segment.getModeOfTransport());
+			if (!segment.getModeOfTransport().equals(ModeOfTransport.STANDARD_FOOT))
+				LOGGER.warn(shiftSeconds + "s shift for mot " + segment.getModeOfTransport());
 		}
 		return modifiedSegments;
 	}
