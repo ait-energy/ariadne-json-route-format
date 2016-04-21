@@ -1,0 +1,849 @@
+{ "segmentsToMerge" : [ [ {
+  "nr" : 1,
+  "from" : {
+    "type" : "Location",
+    "coordinate" : {
+      "type" : "Feature",
+      "crs" : {
+        "type" : "name",
+        "properties" : {
+          "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+        }
+      },
+      "geometry" : {
+        "type" : "Point",
+        "coordinates" : [ 16.4240150, 48.1651154 ]
+      },
+      "properties" : { }
+    }
+  },
+  "to" : {
+    "type" : "Location",
+    "coordinate" : {
+      "type" : "Feature",
+      "crs" : {
+        "type" : "name",
+        "properties" : {
+          "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+        }
+      },
+      "geometry" : {
+        "type" : "Point",
+        "coordinates" : [ 16.4235573, 48.1672401 ]
+      },
+      "properties" : { }
+    }
+  },
+  "lengthMeters" : 311,
+  "durationSeconds" : 229,
+  "modeOfTransport" : {
+    "generalizedType" : "FOOT",
+    "detailedType" : "FOOT"
+  },
+  "boardingSeconds" : 0,
+  "alightingSeconds" : 0,
+  "departureTime" : "2016-04-12T16:26:36+02:00",
+  "arrivalTime" : "2016-04-12T16:30:25+02:00",
+  "geometryGeoJson" : {
+    "type" : "Feature",
+    "crs" : {
+      "type" : "name",
+      "properties" : {
+        "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+      }
+    },
+    "geometry" : {
+      "type" : "LineString",
+      "coordinates" : [ [ 16.4240182, 48.1651091 ], [ 16.4240545, 48.1651455 ], [ 16.4242364, 48.1653091 ], [ 16.4247636, 48.1657818 ], [ 16.4249455, 48.1659636 ], [ 16.4249273, 48.1659636 ], [ 16.4247091, 48.1662182 ], [ 16.4241455, 48.1667636 ], [ 16.4240545, 48.1668545 ], [ 16.4235273, 48.1673273 ], [ 16.4235636, 48.1672364 ] ]
+    },
+    "properties" : { }
+  }
+} ], [ {
+  "nr" : 1,
+  "from" : {
+    "type" : "Location",
+    "coordinate" : {
+      "type" : "Feature",
+      "crs" : {
+        "type" : "name",
+        "properties" : {
+          "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+        }
+      },
+      "geometry" : {
+        "type" : "Point",
+        "coordinates" : [ 16.4235520, 48.1672320 ]
+      },
+      "properties" : { }
+    }
+  },
+  "to" : {
+    "type" : "PublicTransportStop",
+    "coordinate" : {
+      "type" : "Feature",
+      "crs" : {
+        "type" : "name",
+        "properties" : {
+          "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+        }
+      },
+      "geometry" : {
+        "type" : "Point",
+        "coordinates" : [ 16.4238310, 48.1670340 ]
+      },
+      "properties" : { }
+    },
+    "name" : "Wien Fickeysstraße"
+  },
+  "lengthMeters" : 36,
+  "durationSeconds" : 60,
+  "modeOfTransport" : {
+    "generalizedType" : "FOOT",
+    "detailedType" : "FOOT"
+  },
+  "departureTime" : "2016-04-12T16:33+02:00[Europe/Vienna]",
+  "arrivalTime" : "2016-04-12T16:34+02:00[Europe/Vienna]",
+  "geometryGeoJson" : {
+    "type" : "Feature",
+    "crs" : {
+      "type" : "name",
+      "properties" : {
+        "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+      }
+    },
+    "geometry" : {
+      "type" : "LineString",
+      "coordinates" : [ [ 16.4235520, 48.1672320 ], [ 16.4238310, 48.1670340 ] ]
+    },
+    "properties" : { }
+  }
+}, {
+  "nr" : 2,
+  "from" : {
+    "type" : "PublicTransportStop",
+    "coordinate" : {
+      "type" : "Feature",
+      "crs" : {
+        "type" : "name",
+        "properties" : {
+          "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+        }
+      },
+      "geometry" : {
+        "type" : "Point",
+        "coordinates" : [ 16.4238310, 48.1670340 ]
+      },
+      "properties" : { }
+    },
+    "name" : "Wien Fickeysstraße"
+  },
+  "to" : {
+    "type" : "PublicTransportStop",
+    "coordinate" : {
+      "type" : "Feature",
+      "crs" : {
+        "type" : "name",
+        "properties" : {
+          "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+        }
+      },
+      "geometry" : {
+        "type" : "Point",
+        "coordinates" : [ 16.4204330, 48.1701260 ]
+      },
+      "properties" : { }
+    },
+    "name" : "Wien Simmering"
+  },
+  "lengthMeters" : 435,
+  "durationSeconds" : 120,
+  "modeOfTransport" : {
+    "generalizedType" : "PUBLIC_TRANSPORT",
+    "detailedType" : "TRAM",
+    "service" : {
+      "name" : "6",
+      "towards" : "Wien Burggasse-Stadthalle"
+    }
+  },
+  "departureTime" : "2016-04-12T16:34+02:00[Europe/Vienna]",
+  "arrivalTime" : "2016-04-12T16:36+02:00[Europe/Vienna]",
+  "geometryGeoJson" : {
+    "type" : "Feature",
+    "crs" : {
+      "type" : "name",
+      "properties" : {
+        "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+      }
+    },
+    "geometry" : {
+      "type" : "LineString",
+      "coordinates" : [ [ 16.4237600, 48.1669980 ], [ 16.4234720, 48.1672960 ], [ 16.4204160, 48.1701080 ], [ 16.4204340, 48.1701260 ] ]
+    },
+    "properties" : { }
+  }
+}, {
+  "nr" : 3,
+  "from" : {
+    "type" : "PublicTransportStop",
+    "coordinate" : {
+      "type" : "Feature",
+      "crs" : {
+        "type" : "name",
+        "properties" : {
+          "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+        }
+      },
+      "geometry" : {
+        "type" : "Point",
+        "coordinates" : [ 16.4204330, 48.1701260 ]
+      },
+      "properties" : { }
+    },
+    "name" : "Wien Simmering"
+  },
+  "to" : {
+    "type" : "PublicTransportStop",
+    "coordinate" : {
+      "type" : "Feature",
+      "crs" : {
+        "type" : "name",
+        "properties" : {
+          "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+        }
+      },
+      "geometry" : {
+        "type" : "Point",
+        "coordinates" : [ 16.4202170, 48.1703600 ]
+      },
+      "properties" : { }
+    },
+    "name" : "Wien Simmering"
+  },
+  "lengthMeters" : 31,
+  "durationSeconds" : 60,
+  "modeOfTransport" : {
+    "generalizedType" : "FOOT",
+    "detailedType" : "TRANSFER"
+  },
+  "departureTime" : "2016-04-12T16:36+02:00[Europe/Vienna]",
+  "arrivalTime" : "2016-04-12T16:37+02:00[Europe/Vienna]",
+  "geometryGeoJson" : {
+    "type" : "Feature",
+    "crs" : {
+      "type" : "name",
+      "properties" : {
+        "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+      }
+    },
+    "geometry" : {
+      "type" : "LineString",
+      "coordinates" : [ [ 16.4204330, 48.1701260 ], [ 16.4202170, 48.1703600 ] ]
+    },
+    "properties" : { }
+  }
+}, {
+  "nr" : 4,
+  "from" : {
+    "type" : "PublicTransportStop",
+    "coordinate" : {
+      "type" : "Feature",
+      "crs" : {
+        "type" : "name",
+        "properties" : {
+          "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+        }
+      },
+      "geometry" : {
+        "type" : "Point",
+        "coordinates" : [ 16.4202170, 48.1703600 ]
+      },
+      "properties" : { }
+    },
+    "name" : "Wien Simmering"
+  },
+  "to" : {
+    "type" : "Location",
+    "coordinate" : {
+      "type" : "Feature",
+      "crs" : {
+        "type" : "name",
+        "properties" : {
+          "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+        }
+      },
+      "geometry" : {
+        "type" : "Point",
+        "coordinates" : [ 16.4200010, 48.1701530 ]
+      },
+      "properties" : { }
+    }
+  },
+  "lengthMeters" : 117,
+  "durationSeconds" : 180,
+  "modeOfTransport" : {
+    "generalizedType" : "FOOT",
+    "detailedType" : "FOOT"
+  },
+  "departureTime" : "2016-04-12T16:37+02:00[Europe/Vienna]",
+  "arrivalTime" : "2016-04-12T16:40+02:00[Europe/Vienna]",
+  "geometryGeoJson" : {
+    "type" : "Feature",
+    "crs" : {
+      "type" : "name",
+      "properties" : {
+        "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+      }
+    },
+    "geometry" : {
+      "type" : "LineString",
+      "coordinates" : [ [ 16.4202170, 48.1703600 ], [ 16.4200010, 48.1701530 ] ]
+    },
+    "properties" : { }
+  }
+} ], [ {
+  "nr" : 3,
+  "from" : {
+    "type" : "Location",
+    "coordinate" : {
+      "type" : "Feature",
+      "crs" : {
+        "type" : "name",
+        "properties" : {
+          "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+        }
+      },
+      "geometry" : {
+        "type" : "Point",
+        "coordinates" : [ 16.4200077, 48.1701584 ]
+      },
+      "properties" : { }
+    }
+  },
+  "to" : {
+    "type" : "Location",
+    "coordinate" : {
+      "type" : "Feature",
+      "crs" : {
+        "type" : "name",
+        "properties" : {
+          "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+        }
+      },
+      "geometry" : {
+        "type" : "Point",
+        "coordinates" : [ 16.4200077, 48.1701584 ]
+      },
+      "properties" : { }
+    }
+  },
+  "lengthMeters" : 75,
+  "durationSeconds" : 54,
+  "modeOfTransport" : {
+    "generalizedType" : "FOOT",
+    "detailedType" : "FOOT"
+  },
+  "boardingSeconds" : 0,
+  "alightingSeconds" : 0,
+  "departureTime" : "2016-04-12T16:31:44+02:00",
+  "arrivalTime" : "2016-04-12T16:32:38+02:00",
+  "geometryGeoJson" : {
+    "type" : "Feature",
+    "crs" : {
+      "type" : "name",
+      "properties" : {
+        "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+      }
+    },
+    "geometry" : {
+      "type" : "LineString",
+      "coordinates" : [ [ 16.4200000, 48.1701636 ], [ 16.4195818, 48.1703273 ], [ 16.4200000, 48.1701636 ] ]
+    },
+    "properties" : { }
+  }
+} ], [ {
+  "nr" : 1,
+  "from" : {
+    "type" : "Location",
+    "coordinate" : {
+      "type" : "Feature",
+      "crs" : {
+        "type" : "name",
+        "properties" : {
+          "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+        }
+      },
+      "geometry" : {
+        "type" : "Point",
+        "coordinates" : [ 16.4200010, 48.1701530 ]
+      },
+      "properties" : { }
+    }
+  },
+  "to" : {
+    "type" : "PublicTransportStop",
+    "coordinate" : {
+      "type" : "Feature",
+      "crs" : {
+        "type" : "name",
+        "properties" : {
+          "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+        }
+      },
+      "geometry" : {
+        "type" : "Point",
+        "coordinates" : [ 16.4201630, 48.1703600 ]
+      },
+      "properties" : { }
+    },
+    "name" : "Wien Simmering"
+  },
+  "lengthMeters" : 118,
+  "durationSeconds" : 180,
+  "modeOfTransport" : {
+    "generalizedType" : "FOOT",
+    "detailedType" : "FOOT"
+  },
+  "departureTime" : "2016-04-12T16:42+02:00[Europe/Vienna]",
+  "arrivalTime" : "2016-04-12T16:45+02:00[Europe/Vienna]",
+  "geometryGeoJson" : {
+    "type" : "Feature",
+    "crs" : {
+      "type" : "name",
+      "properties" : {
+        "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+      }
+    },
+    "geometry" : {
+      "type" : "LineString",
+      "coordinates" : [ [ 16.4200010, 48.1701530 ], [ 16.4201630, 48.1703600 ] ]
+    },
+    "properties" : { }
+  }
+}, {
+  "nr" : 2,
+  "from" : {
+    "type" : "PublicTransportStop",
+    "coordinate" : {
+      "type" : "Feature",
+      "crs" : {
+        "type" : "name",
+        "properties" : {
+          "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+        }
+      },
+      "geometry" : {
+        "type" : "Point",
+        "coordinates" : [ 16.4201630, 48.1703600 ]
+      },
+      "properties" : { }
+    },
+    "name" : "Wien Simmering"
+  },
+  "to" : {
+    "type" : "PublicTransportStop",
+    "coordinate" : {
+      "type" : "Feature",
+      "crs" : {
+        "type" : "name",
+        "properties" : {
+          "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+        }
+      },
+      "geometry" : {
+        "type" : "Point",
+        "coordinates" : [ 16.4195790, 48.1705400 ]
+      },
+      "properties" : { }
+    },
+    "name" : "Wien Simmering"
+  },
+  "lengthMeters" : 48,
+  "durationSeconds" : 120,
+  "modeOfTransport" : {
+    "generalizedType" : "FOOT",
+    "detailedType" : "TRANSFER"
+  },
+  "departureTime" : "2016-04-12T16:45+02:00[Europe/Vienna]",
+  "arrivalTime" : "2016-04-12T16:47+02:00[Europe/Vienna]",
+  "geometryGeoJson" : {
+    "type" : "Feature",
+    "crs" : {
+      "type" : "name",
+      "properties" : {
+        "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+      }
+    },
+    "geometry" : {
+      "type" : "LineString",
+      "coordinates" : [ [ 16.4201630, 48.1703600 ], [ 16.4195790, 48.1705400 ] ]
+    },
+    "properties" : { }
+  }
+}, {
+  "nr" : 3,
+  "from" : {
+    "type" : "PublicTransportStop",
+    "coordinate" : {
+      "type" : "Feature",
+      "crs" : {
+        "type" : "name",
+        "properties" : {
+          "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+        }
+      },
+      "geometry" : {
+        "type" : "Point",
+        "coordinates" : [ 16.4195790, 48.1705400 ]
+      },
+      "properties" : { }
+    },
+    "name" : "Wien Simmering"
+  },
+  "to" : {
+    "type" : "PublicTransportStop",
+    "coordinate" : {
+      "type" : "Feature",
+      "crs" : {
+        "type" : "name",
+        "properties" : {
+          "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+        }
+      },
+      "geometry" : {
+        "type" : "Point",
+        "coordinates" : [ 16.3856090, 48.2058320 ]
+      },
+      "properties" : { }
+    },
+    "name" : "Wien Mitte-Landstraße"
+  },
+  "lengthMeters" : 5602,
+  "durationSeconds" : 600,
+  "modeOfTransport" : {
+    "generalizedType" : "PUBLIC_TRANSPORT",
+    "detailedType" : "SUBWAY",
+    "service" : {
+      "name" : "U3",
+      "towards" : "Wien Ottakring"
+    }
+  },
+  "departureTime" : "2016-04-12T16:47+02:00[Europe/Vienna]",
+  "arrivalTime" : "2016-04-12T16:57+02:00[Europe/Vienna]",
+  "geometryGeoJson" : {
+    "type" : "Feature",
+    "crs" : {
+      "type" : "name",
+      "properties" : {
+        "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+      }
+    },
+    "geometry" : {
+      "type" : "LineString",
+      "coordinates" : [ [ 16.4195800, 48.1705400 ], [ 16.4195180, 48.1705060 ], [ 16.4192480, 48.1707200 ], [ 16.4189240, 48.1709980 ], [ 16.4178360, 48.1721320 ], [ 16.4174780, 48.1725260 ], [ 16.4172160, 48.1728420 ], [ 16.4169560, 48.1731660 ], [ 16.4166600, 48.1734520 ], [ 16.4162900, 48.1737320 ], [ 16.4157780, 48.1740560 ], [ 16.4147540, 48.1747200 ], [ 16.4147540, 48.1747200 ], [ 16.4119120, 48.1765540 ], [ 16.4116160, 48.1768060 ], [ 16.4114100, 48.1770400 ], [ 16.4112120, 48.1774000 ], [ 16.4111220, 48.1777760 ], [ 16.4110760, 48.1781540 ], [ 16.4110760, 48.1785320 ], [ 16.4111300, 48.1788460 ], [ 16.4113100, 48.1792240 ], [ 16.4114260, 48.1794300 ], [ 16.4119120, 48.1802660 ], [ 16.4119120, 48.1802660 ], [ 16.4120740, 48.1805540 ], [ 16.4122540, 48.1808240 ], [ 16.4125040, 48.1811120 ], [ 16.4132340, 48.1817760 ], [ 16.4136640, 48.1821000 ], [ 16.4145720, 48.1826220 ], [ 16.4154440, 48.1831260 ], [ 16.4159300, 48.1834480 ], [ 16.4162620, 48.1837000 ], [ 16.4165500, 48.1840060 ], [ 16.4172240, 48.1848600 ], [ 16.4172240, 48.1848600 ], [ 16.4175920, 48.1853180 ], [ 16.4181060, 48.1859560 ], [ 16.4183120, 48.1862800 ], [ 16.4184460, 48.1865860 ], [ 16.4185460, 48.1869100 ], [ 16.4186180, 48.1872160 ], [ 16.4186000, 48.1875380 ], [ 16.4185460, 48.1878980 ], [ 16.4184020, 48.1882580 ], [ 16.4182140, 48.1886000 ], [ 16.4180160, 48.1888700 ], [ 16.4177460, 48.1891120 ], [ 16.4173520, 48.1893820 ], [ 16.4156080, 48.1905060 ], [ 16.4144380, 48.1912420 ], [ 16.4141860, 48.1914040 ], [ 16.4141860, 48.1914040 ], [ 16.4128920, 48.1922320 ], [ 16.4120300, 48.1927800 ], [ 16.4115080, 48.1930400 ], [ 16.4110500, 48.1932300 ], [ 16.4103040, 48.1934080 ], [ 16.4097380, 48.1935160 ], [ 16.4091180, 48.1936060 ], [ 16.4085500, 48.1937420 ], [ 16.4080380, 48.1938860 ], [ 16.4075520, 48.1941020 ], [ 16.4066980, 48.1944600 ], [ 16.4066980, 48.1944600 ], [ 16.4058620, 48.1948200 ], [ 16.4014220, 48.1967700 ], [ 16.4009360, 48.1969860 ], [ 16.4006040, 48.1971580 ], [ 16.4005500, 48.1971840 ], [ 16.4005500, 48.1971840 ], [ 16.4004960, 48.1972120 ], [ 16.3989780, 48.1981200 ], [ 16.3935120, 48.2014280 ], [ 16.3916160, 48.2024260 ], [ 16.3916160, 48.2024260 ], [ 16.3913640, 48.2025680 ], [ 16.3899620, 48.2033060 ], [ 16.3893220, 48.2036660 ], [ 16.3889900, 48.2039180 ], [ 16.3878840, 48.2047900 ], [ 16.3873640, 48.2051040 ], [ 16.3865640, 48.2054720 ], [ 16.3858980, 48.2057060 ], [ 16.3855840, 48.2057960 ], [ 16.3856100, 48.2058320 ] ]
+    },
+    "properties" : { }
+  }
+}, {
+  "nr" : 4,
+  "from" : {
+    "type" : "PublicTransportStop",
+    "coordinate" : {
+      "type" : "Feature",
+      "crs" : {
+        "type" : "name",
+        "properties" : {
+          "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+        }
+      },
+      "geometry" : {
+        "type" : "Point",
+        "coordinates" : [ 16.3856090, 48.2058320 ]
+      },
+      "properties" : { }
+    },
+    "name" : "Wien Mitte-Landstraße"
+  },
+  "to" : {
+    "type" : "PublicTransportStop",
+    "coordinate" : {
+      "type" : "Feature",
+      "crs" : {
+        "type" : "name",
+        "properties" : {
+          "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+        }
+      },
+      "geometry" : {
+        "type" : "Point",
+        "coordinates" : [ 16.3843320, 48.2057960 ]
+      },
+      "properties" : { }
+    },
+    "name" : "Wien Mitte-Landstraße"
+  },
+  "lengthMeters" : 130,
+  "durationSeconds" : 240,
+  "modeOfTransport" : {
+    "generalizedType" : "FOOT",
+    "detailedType" : "TRANSFER"
+  },
+  "departureTime" : "2016-04-12T16:57+02:00[Europe/Vienna]",
+  "arrivalTime" : "2016-04-12T17:01+02:00[Europe/Vienna]",
+  "geometryGeoJson" : {
+    "type" : "Feature",
+    "crs" : {
+      "type" : "name",
+      "properties" : {
+        "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+      }
+    },
+    "geometry" : {
+      "type" : "LineString",
+      "coordinates" : [ [ 16.3856090, 48.2058320 ], [ 16.3843320, 48.2057960 ] ]
+    },
+    "properties" : { }
+  }
+}, {
+  "nr" : 5,
+  "from" : {
+    "type" : "PublicTransportStop",
+    "coordinate" : {
+      "type" : "Feature",
+      "crs" : {
+        "type" : "name",
+        "properties" : {
+          "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+        }
+      },
+      "geometry" : {
+        "type" : "Point",
+        "coordinates" : [ 16.3843320, 48.2057960 ]
+      },
+      "properties" : { }
+    },
+    "name" : "Wien Mitte-Landstraße"
+  },
+  "to" : {
+    "type" : "PublicTransportStop",
+    "coordinate" : {
+      "type" : "Feature",
+      "crs" : {
+        "type" : "name",
+        "properties" : {
+          "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+        }
+      },
+      "geometry" : {
+        "type" : "Point",
+        "coordinates" : [ 16.3751450, 48.1859650 ]
+      },
+      "properties" : { }
+    },
+    "name" : "Wien Hauptbahnhof"
+  },
+  "lengthMeters" : 3442,
+  "durationSeconds" : 360,
+  "modeOfTransport" : {
+    "generalizedType" : "PUBLIC_TRANSPORT",
+    "detailedType" : "RAILWAY",
+    "service" : {
+      "name" : "R 2251",
+      "towards" : "Wiener Neustadt Hbf."
+    }
+  },
+  "departureTime" : "2016-04-12T17:01+02:00[Europe/Vienna]",
+  "arrivalTime" : "2016-04-12T17:07+02:00[Europe/Vienna]",
+  "geometryGeoJson" : {
+    "type" : "Feature",
+    "crs" : {
+      "type" : "name",
+      "properties" : {
+        "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+      }
+    },
+    "geometry" : {
+      "type" : "LineString",
+      "coordinates" : [ [ 16.3843320, 48.2057960 ], [ 16.3842800, 48.2058140 ], [ 16.3840380, 48.2054740 ], [ 16.3839480, 48.2053480 ], [ 16.3838120, 48.2051500 ], [ 16.3837760, 48.2050860 ], [ 16.3836680, 48.2048620 ], [ 16.3835880, 48.2046820 ], [ 16.3835520, 48.2045560 ], [ 16.3835240, 48.2044120 ], [ 16.3835160, 48.2042960 ], [ 16.3835160, 48.2041700 ], [ 16.3835320, 48.2040440 ], [ 16.3835680, 48.2039100 ], [ 16.3836760, 48.2036760 ], [ 16.3837760, 48.2034780 ], [ 16.3839100, 48.2032000 ], [ 16.3839920, 48.2029920 ], [ 16.3840640, 48.2028120 ], [ 16.3841260, 48.2026140 ], [ 16.3842700, 48.2020660 ], [ 16.3844320, 48.2015000 ], [ 16.3845400, 48.2010780 ], [ 16.3848640, 48.1998920 ], [ 16.3850340, 48.1992620 ], [ 16.3851780, 48.1987580 ], [ 16.3854200, 48.1978500 ], [ 16.3855640, 48.1973200 ], [ 16.3856360, 48.1970600 ], [ 16.3856460, 48.1970060 ], [ 16.3856720, 48.1969060 ], [ 16.3856820, 48.1968160 ], [ 16.3857180, 48.1965660 ], [ 16.3857540, 48.1962860 ], [ 16.3858080, 48.1960260 ], [ 16.3859140, 48.1955400 ], [ 16.3859140, 48.1955400 ], [ 16.3859240, 48.1954960 ], [ 16.3860040, 48.1951900 ], [ 16.3861040, 48.1949560 ], [ 16.3861040, 48.1949480 ], [ 16.3861940, 48.1947760 ], [ 16.3863200, 48.1946060 ], [ 16.3864720, 48.1944340 ], [ 16.3866160, 48.1943000 ], [ 16.3868140, 48.1941660 ], [ 16.3870120, 48.1940400 ], [ 16.3871740, 48.1939580 ], [ 16.3873000, 48.1939040 ], [ 16.3875680, 48.1937960 ], [ 16.3880000, 48.1936260 ], [ 16.3886380, 48.1933920 ], [ 16.3889620, 48.1932660 ], [ 16.3892400, 48.1931500 ], [ 16.3894560, 48.1930420 ], [ 16.3896540, 48.1929340 ], [ 16.3898700, 48.1928080 ], [ 16.3900320, 48.1927000 ], [ 16.3902020, 48.1925820 ], [ 16.3902840, 48.1925200 ], [ 16.3904000, 48.1924300 ], [ 16.3905260, 48.1923220 ], [ 16.3906620, 48.1921880 ], [ 16.3908400, 48.1920080 ], [ 16.3909300, 48.1918900 ], [ 16.3910560, 48.1917100 ], [ 16.3911380, 48.1915760 ], [ 16.3912540, 48.1913780 ], [ 16.3913620, 48.1911180 ], [ 16.3914080, 48.1909740 ], [ 16.3914620, 48.1907860 ], [ 16.3914800, 48.1906500 ], [ 16.3914880, 48.1904980 ], [ 16.3914980, 48.1903080 ], [ 16.3914900, 48.1900840 ], [ 16.3914620, 48.1899220 ], [ 16.3914360, 48.1897600 ], [ 16.3913900, 48.1896260 ], [ 16.3913540, 48.1895180 ], [ 16.3913000, 48.1893920 ], [ 16.3912560, 48.1892660 ], [ 16.3911660, 48.1891040 ], [ 16.3910480, 48.1889340 ], [ 16.3909040, 48.1887260 ], [ 16.3907980, 48.1886000 ], [ 16.3906800, 48.1884740 ], [ 16.3905180, 48.1883220 ], [ 16.3904200, 48.1882240 ], [ 16.3902940, 48.1881240 ], [ 16.3901400, 48.1880080 ], [ 16.3899800, 48.1878900 ], [ 16.3898260, 48.1878000 ], [ 16.3896820, 48.1877200 ], [ 16.3893940, 48.1875760 ], [ 16.3891960, 48.1874960 ], [ 16.3889900, 48.1874060 ], [ 16.3887840, 48.1873420 ], [ 16.3886040, 48.1872880 ], [ 16.3883700, 48.1872340 ], [ 16.3881540, 48.1871900 ], [ 16.3879840, 48.1871620 ], [ 16.3877860, 48.1871440 ], [ 16.3876420, 48.1871260 ], [ 16.3874540, 48.1871180 ], [ 16.3872560, 48.1871180 ], [ 16.3870400, 48.1871180 ], [ 16.3867700, 48.1871340 ], [ 16.3864820, 48.1871700 ], [ 16.3861860, 48.1872240 ], [ 16.3858340, 48.1873060 ], [ 16.3854840, 48.1874040 ], [ 16.3850520, 48.1875480 ], [ 16.3847120, 48.1876640 ], [ 16.3844680, 48.1877460 ], [ 16.3842620, 48.1878000 ], [ 16.3840460, 48.1878620 ], [ 16.3837680, 48.1879260 ], [ 16.3835420, 48.1879620 ], [ 16.3833440, 48.1879880 ], [ 16.3831200, 48.1880240 ], [ 16.3828960, 48.1880420 ], [ 16.3826520, 48.1880600 ], [ 16.3823300, 48.1880700 ], [ 16.3820420, 48.1880620 ], [ 16.3820420, 48.1880620 ], [ 16.3820060, 48.1880620 ], [ 16.3817620, 48.1880440 ], [ 16.3815200, 48.1880260 ], [ 16.3813320, 48.1879980 ], [ 16.3810440, 48.1879540 ], [ 16.3807560, 48.1879000 ], [ 16.3804060, 48.1878180 ], [ 16.3799380, 48.1877100 ], [ 16.3797860, 48.1876660 ], [ 16.3792900, 48.1875400 ], [ 16.3787780, 48.1873880 ], [ 16.3784180, 48.1872620 ], [ 16.3780960, 48.1871440 ], [ 16.3775380, 48.1869280 ], [ 16.3774300, 48.1868920 ], [ 16.3770340, 48.1867400 ], [ 16.3764420, 48.1865160 ], [ 16.3755340, 48.1861740 ], [ 16.3751100, 48.1860120 ], [ 16.3751460, 48.1859660 ] ]
+    },
+    "properties" : { }
+  }
+}, {
+  "nr" : 6,
+  "from" : {
+    "type" : "PublicTransportStop",
+    "coordinate" : {
+      "type" : "Feature",
+      "crs" : {
+        "type" : "name",
+        "properties" : {
+          "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+        }
+      },
+      "geometry" : {
+        "type" : "Point",
+        "coordinates" : [ 16.3751450, 48.1859650 ]
+      },
+      "properties" : { }
+    },
+    "name" : "Wien Hauptbahnhof"
+  },
+  "to" : {
+    "type" : "PublicTransportStop",
+    "coordinate" : {
+      "type" : "Feature",
+      "crs" : {
+        "type" : "name",
+        "properties" : {
+          "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+        }
+      },
+      "geometry" : {
+        "type" : "Point",
+        "coordinates" : [ 16.3743540, 48.1858390 ]
+      },
+      "properties" : { }
+    },
+    "name" : "Wien Hauptbahnhof"
+  },
+  "lengthMeters" : 60,
+  "durationSeconds" : 60,
+  "modeOfTransport" : {
+    "generalizedType" : "FOOT",
+    "detailedType" : "TRANSFER"
+  },
+  "departureTime" : "2016-04-12T17:07+02:00[Europe/Vienna]",
+  "arrivalTime" : "2016-04-12T17:08+02:00[Europe/Vienna]",
+  "geometryGeoJson" : {
+    "type" : "Feature",
+    "crs" : {
+      "type" : "name",
+      "properties" : {
+        "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+      }
+    },
+    "geometry" : {
+      "type" : "LineString",
+      "coordinates" : [ [ 16.3751450, 48.1859650 ], [ 16.3743540, 48.1858390 ] ]
+    },
+    "properties" : { }
+  }
+}, {
+  "nr" : 7,
+  "from" : {
+    "type" : "PublicTransportStop",
+    "coordinate" : {
+      "type" : "Feature",
+      "crs" : {
+        "type" : "name",
+        "properties" : {
+          "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+        }
+      },
+      "geometry" : {
+        "type" : "Point",
+        "coordinates" : [ 16.3743540, 48.1858390 ]
+      },
+      "properties" : { }
+    },
+    "name" : "Wien Hauptbahnhof"
+  },
+  "to" : {
+    "type" : "Location",
+    "coordinate" : {
+      "type" : "Feature",
+      "crs" : {
+        "type" : "name",
+        "properties" : {
+          "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+        }
+      },
+      "geometry" : {
+        "type" : "Point",
+        "coordinates" : [ 16.3737340, 48.1861450 ]
+      },
+      "properties" : { }
+    }
+  },
+  "lengthMeters" : 66,
+  "durationSeconds" : 120,
+  "modeOfTransport" : {
+    "generalizedType" : "FOOT",
+    "detailedType" : "FOOT"
+  },
+  "departureTime" : "2016-04-12T17:08+02:00[Europe/Vienna]",
+  "arrivalTime" : "2016-04-12T17:10+02:00[Europe/Vienna]",
+  "geometryGeoJson" : {
+    "type" : "Feature",
+    "crs" : {
+      "type" : "name",
+      "properties" : {
+        "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+      }
+    },
+    "geometry" : {
+      "type" : "LineString",
+      "coordinates" : [ [ 16.3743540, 48.1858390 ], [ 16.3737340, 48.1861450 ] ]
+    },
+    "properties" : { }
+  }
+} ], [ {
+  "nr" : 5,
+  "from" : {
+    "type" : "Location",
+    "coordinate" : {
+      "type" : "Feature",
+      "crs" : {
+        "type" : "name",
+        "properties" : {
+          "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+        }
+      },
+      "geometry" : {
+        "type" : "Point",
+        "coordinates" : [ 16.3737373, 48.1861458 ]
+      },
+      "properties" : { }
+    }
+  },
+  "to" : {
+    "type" : "Location",
+    "coordinate" : {
+      "type" : "Feature",
+      "crs" : {
+        "type" : "name",
+        "properties" : {
+          "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+        }
+      },
+      "geometry" : {
+        "type" : "Point",
+        "coordinates" : [ 16.3737373, 48.1861458 ]
+      },
+      "properties" : { }
+    }
+  },
+  "lengthMeters" : 78,
+  "durationSeconds" : 58,
+  "modeOfTransport" : {
+    "generalizedType" : "FOOT",
+    "detailedType" : "FOOT"
+  },
+  "boardingSeconds" : 0,
+  "alightingSeconds" : 0,
+  "departureTime" : "2016-04-12T16:34:49+02:00",
+  "arrivalTime" : "2016-04-12T16:35:47+02:00",
+  "geometryGeoJson" : {
+    "type" : "Feature",
+    "crs" : {
+      "type" : "name",
+      "properties" : {
+        "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
+      }
+    },
+    "geometry" : {
+      "type" : "LineString",
+      "coordinates" : [ [ 16.3737455, 48.1861455 ], [ 16.3742182, 48.1862909 ], [ 16.3737455, 48.1861455 ] ]
+    },
+    "properties" : { }
+  }
+} ] ] }

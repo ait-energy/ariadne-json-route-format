@@ -8,7 +8,7 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONLineString;
 import at.ac.ait.ariadne.routeformat.location.Location;
 
-public class TestUtil {
+public class InternalTestUtil {
 
 	public static final String serviceId = "test_service";
 	public static final String departureTime = "2007-12-03T10:15:30+01:00";

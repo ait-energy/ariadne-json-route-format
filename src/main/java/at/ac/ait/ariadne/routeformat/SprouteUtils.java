@@ -24,6 +24,12 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPoint;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPolygon;
 import at.ac.ait.ariadne.routeformat.location.Location;
 
+/**
+ * TODO move to package util in next release
+ * 
+ * @author AIT Austrian Institute of Technology GmbH
+ *
+ */
 public class SprouteUtils {
 
 	/**

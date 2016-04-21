@@ -53,6 +53,8 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONLineString;
  * <p>
  * With {@link #setAdditionalAlightingSecondsBetweenRoutes(List)} additional
  * alighting seconds can be added.
+ * 
+ * @author AIT Austrian Institute of Technology GmbH
  */
 public class RouteSegmentMerger {
 
