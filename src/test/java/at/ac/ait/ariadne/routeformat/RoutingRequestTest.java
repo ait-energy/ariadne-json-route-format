@@ -5,10 +5,10 @@ import java.util.Collections;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.google.common.collect.ImmutableSet;
+
 import at.ac.ait.ariadne.routeformat.Sproute.DetailedModeOfTransportType;
 import at.ac.ait.ariadne.routeformat.Sproute.GeneralizedModeOfTransportType;
-
-import com.google.common.collect.ImmutableSet;
 
 public class RoutingRequestTest {
 
@@ -17,7 +17,7 @@ public class RoutingRequestTest {
 		getBuilder().build();
 
 		try {
-			getBuilder().withArrivalTime(InternalTestUtil.arrivalTime).build();
+			getBuilder().withArrivalTime(TestUtil.ARRIVAL_TIME).build();
 			Assert.fail("expected IllegalArgumentException");
 		} catch (IllegalArgumentException e) {
 		}
@@ -38,8 +38,8 @@ public class RoutingRequestTest {
 	public void motsTest() {
 		RoutingRequest request = getBuilder().build();
 		Assert.assertEquals("set MOT must be present", 1, request.getModesOfTransport().size());
-		Assert.assertEquals("set MOT must be present", GeneralizedModeOfTransportType.BICYCLE, request
-				.getModesOfTransport().iterator().next());
+		Assert.assertEquals("set MOT must be present", GeneralizedModeOfTransportType.BICYCLE,
+				request.getModesOfTransport().iterator().next());
 
 		request = getBuilder().withModesOfTransport(
 				ImmutableSet.of(GeneralizedModeOfTransportType.CAR, GeneralizedModeOfTransportType.PUBLIC_TRANSPORT))
@@ -57,14 +57,10 @@ public class RoutingRequestTest {
 
 	@Test
 	public void publicExclusionMots() {
-		Assert.assertEquals(
-				"exclusions must be set",
-				2,
-				getBuilder()
-						.withExcludedPublicTransport(
-								ImmutableSet.of(DetailedModeOfTransportType.AERIALWAY,
-										DetailedModeOfTransportType.AIRPLANE)).build().getExcludedPublicTransport()
-						.size());
+		Assert.assertEquals("exclusions must be set", 2,
+				getBuilder().withExcludedPublicTransport(
+						ImmutableSet.of(DetailedModeOfTransportType.AERIALWAY, DetailedModeOfTransportType.AIRPLANE))
+						.build().getExcludedPublicTransport().size());
 
 		try {
 			getBuilder().withExcludedPublicTransport(ImmutableSet.of(DetailedModeOfTransportType.BICYCLE)).build();
@@ -74,9 +70,9 @@ public class RoutingRequestTest {
 	}
 
 	public RoutingRequest.Builder getBuilder() {
-		return RoutingRequest.builder().withServiceId(InternalTestUtil.serviceId).withFrom(InternalTestUtil.from).withTo(InternalTestUtil.to)
+		return RoutingRequest.builder().withServiceId(TestUtil.SERVICE_ID).withFrom(TestUtil.FROM).withTo(TestUtil.TO)
 				.withModesOfTransport(ImmutableSet.of(GeneralizedModeOfTransportType.BICYCLE))
-				.withDepartureTime(InternalTestUtil.departureTime);
+				.withDepartureTime(TestUtil.DEPARTURE_TIME);
 	}
 
 }

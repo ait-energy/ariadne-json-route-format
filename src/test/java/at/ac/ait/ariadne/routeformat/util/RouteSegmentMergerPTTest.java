@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 
 import at.ac.ait.ariadne.routeformat.RouteSegment;
+import at.ac.ait.ariadne.routeformat.TestUtil;
 import at.ac.ait.ariadne.routeformat.Sproute.DetailedModeOfTransportType;
 import at.ac.ait.ariadne.routeformat.Sproute.GeneralizedModeOfTransportType;
 

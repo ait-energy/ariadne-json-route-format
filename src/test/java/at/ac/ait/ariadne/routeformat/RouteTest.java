@@ -19,13 +19,13 @@ public class RouteTest {
 	@Test
 	public void enforceDepartureArrivalOrder() {
 		LinkedList<RouteSegment> segments = new LinkedList<>();
-		segments.add(InternalTestUtil.buildRouteSegment(InternalTestUtil.departureTime, InternalTestUtil.arrivalTime));
+		segments.add(TestUtil.buildTestRouteSegment(TestUtil.DEPARTURE_TIME, TestUtil.ARRIVAL_TIME));
 		Builder routeBuilder = Route.builder().withSegmentsAndAutomaticallyInferredFields(segments);
 
 		routeBuilder.build();
 
 		try {
-			routeBuilder.withArrivalTime(InternalTestUtil.departureTime).withDepartureTime(InternalTestUtil.arrivalTime).build(true);
+			routeBuilder.withArrivalTime(TestUtil.DEPARTURE_TIME).withDepartureTime(TestUtil.ARRIVAL_TIME).build(true);
 			Assert.fail("expected IllegalArgumentException");
 		} catch (IllegalArgumentException e) {
 		}
