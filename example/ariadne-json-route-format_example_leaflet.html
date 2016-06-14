@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ariadne JSON Route Format Example</title>
+    <meta charset="utf-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- hosted versions of Leaflet & jQuery -->
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+    <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    
+    <link rel="stylesheet" href="js/leaflet-markercluster/MarkerCluster.css" />
+    <link rel="stylesheet" href="js/leaflet-markercluster/MarkerCluster.Default.css" />
+    <script src="js/leaflet-markercluster/leaflet.markercluster.js"></script>
+    
+    <link rel="stylesheet" href="js/leaflet-easybutton/easy-button.css" />
+    <script src="js/leaflet-easybutton/easy-button.js"></script>
+    
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+        html, body, #map {
+            height: 100%;
+            width: 100%;
+        }
+        .info {
+            padding: 6px 8px;
+            font: 14px/16px Arial, Helvetica, sans-serif;
+            background: white;
+            background: rgba(255,255,255,0.8);
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            border-radius: 5px;
+        }
+        .info h4 {
+            margin: 0 0 5px;
+            color: #777;
+        }
+        pre {
+            font-size: 65%;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+
+    <script>
+        var normalOpacity = 0.7;
+        var highlightOpacity = 1.0;
+        var normalWeight = 6;
+        var highlightWeight = 8;
+        
+        // TODO use map.fitBounds([ [40.712, -74.227], [40.774, -74.125] ]); -> of first route?
+        var map = L.map('map', { 'zoomControl' : false } ).setView([48.245,16.4], 14);
+        
+        var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+        var osmAttrib='Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
+        var mapboxStreets = L.tileLayer('https://api.tiles.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png?access_token={accessToken}', {
+            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery &copy; <a href="http://mapbox.com">Mapbox</a>',
+            maxZoom: 18,
+            accessToken: '###TODO_INSERT_YOUR_ACCESS_TOKEN_HERE###'
+        })
+        var osm = L.tileLayer(osmUrl, {minZoom: 8, maxZoom: 18, attribution: osmAttrib}).addTo(map);
+        var mapboxSatellite = L.tileLayer('https://api.tiles.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.png?access_token={accessToken}', {
+            attribution: 'Imagery &copy; <a href="http://mapbox.com">Mapbox</a>',
+            maxZoom: 18,
+            accessToken: '###TODO_INSERT_YOUR_ACCESS_TOKEN_HERE###'
+        })
+        var baseMaps = {
+            "OpenStreetMap (Mapbox)": mapboxStreets,
+            "OpenStreetMap": osm,
+            "Satellite (Mapbox)": mapboxSatellite
+        };
+        var overlayMaps = {};
+        var layerControl = L.control.layers(baseMaps, overlayMaps, { 'position' : 'topleft', 'collapsed' : false } ).addTo(map);
+        
+        L.control.zoom().addTo(map);
+        
+        // control that shows route segment info on hover
+        var info = L.control();
+        var routeFormatRootForInfo = null;
+        var routeWithInfo = [];
+        info.onAdd = function (map) {
+            this._div = L.DomUtil.create('div', 'info');
+            this.update();
+            return this._div;
+        };
+        info.update = function (html) {
+            var fallbackText = 'Hover over the route for more details';
+            var visibleRoutes = []
+            for(var i = 0; i<routeWithInfo.length; i++) {
+                if(map.hasLayer(routeWithInfo[i]['routeLayerGroupSegments'])) {
+                    visibleRoutes.push(routeWithInfo[i]);
+                }
+            }
+            if(visibleRoutes.length == 1) {
+                fallbackText = visibleRoutes[0]['infoText'];
+            } else if (typeof routeFormatRootForInfo !== 'undefined' && routeFormatRootForInfo != null) {
+                fallbackText = routeFormatRootForInfo;
+            }
+            this._div.innerHTML = html ? html : fallbackText;
+        };
+        info.addTo(map);
+        map.on( { 'overlayadd' : displayedRoutesChanged, 'overlayremove' : displayedRoutesChanged} );
+        
+        var markers = L.markerClusterGroup();
+        map.addLayer(markers);
+        
+        var toggleMarkers = L.easyButton({
+            states: [{
+                title: 'Hide location markers',
+                icon: '&ofcir;',
+                stateName: 'remove-markers',
+                onClick: function(control) {
+                    map.removeLayer(markers);
+                    control.state('add-markers');
+                }
+            },{
+                title: 'Show location markers',
+                icon: '&olcir;',
+                stateName: 'add-markers',
+                onClick: function(control) {
+                    map.addLayer(markers);
+                    control.state('remove-markers');
+                }
+            }]
+        });
+        toggleMarkers.addTo(map);
+                
+        var generalMotColors = {
+            "FOOT": "#2b1800",
+            "BICYCLE": "#6fd615",
+            "MOTORCYCLE": "#ac19c6",
+            "CAR": "#c62100",
+            "PUBLIC_TRANSPORT": "#1a4fcc"
+        };
+        
+        /** 
+        expects: a feature (linestring) with properties
+        returns: a style for the feature depending on the properties
+        */
+        function styleGeoJson(feature) {
+            if (typeof feature.properties !== 'undefined') {
+                return feature.properties;
+            }
+        }
+        
+        function displayedRoutesChanged() {
+            addDisplayedRouteMarkersToMarkerCluster()
+            info.update();
+        }
+        
+        function addDisplayedRouteMarkersToMarkerCluster() {
+            for(var i = 0; i<routeWithInfo.length; i++) {
+                if(map.hasLayer(routeWithInfo[i]['routeLayerGroupSegments'])) {
+                    markers.addLayer(routeWithInfo[i]['routeLayerGroupMarkers']);
+                } else {
+                    markers.removeLayer(routeWithInfo[i]['routeLayerGroupMarkers']);
+                }
+            }
+        }
+        
+        function highlightFeature(e) {
+            var layer = e.target;
+            layer.setStyle({
+                weight: highlightWeight,
+                opacity: highlightOpacity
+            });
+            if (!L.Browser.ie && !L.Browser.opera) {
+                layer.bringToFront();
+            }
+            info.update(layer.feature.properties.infoString);
+        }
+        
+        function resetHighlightFeature(e) {
+            var layer = e.target;
+            layer.setStyle({
+                weight: normalWeight,
+                opacity: normalOpacity
+            });
+            info.update();
+        }
+        
+        function highlightMarker(e) {
+            e.target.setOpacity(highlightOpacity);
+            var layer = e.target;
+            info.update(e.target.infoText);
+        }
+        
+        function resetHighlightMarker(e) {
+            e.target.setOpacity(normalOpacity);
+            info.update();
+        }
+        
+        function registerJsonMouseListeners(feature, layer) {
+            layer.on({
+                mouseover: highlightFeature,
+                mouseout: resetHighlightFeature
+            });
+        }
+        
+        function registerMarkerMouseListeners(feature, layer) {
+            layer.setOpacity(normalOpacity);
+            layer.on({
+                mouseover: highlightMarker,
+                mouseout: resetHighlightMarker
+            });
+        }
+        
+        function getSegmentDescription(segment) {
+            var html = '<h4>Segment #' + segment.nr + ' - ';
+            // mot
+            var mot = segment.modeOfTransport;
+            html += mot.detailedType ? mot.detailedType : mot.generalizedType;
+            if(typeof mot.service !== 'undefined')
+                html += ' ' + mot.service.name + (mot.service.towards ? ' -> ' + mot.service.towards : '');
+            html += mot.sharingType ? ' (' + mot.sharingType + ')' : '';
+            html += '</h4>';
+            html += 'distance:  ' + getDistanceString(segment.lengthMeters) + '<br>';
+            html += 'departure: ' + getTimeFromDateTimeString(segment.departureTime) + '<br>';
+            html += 'arrival:   ' + getTimeFromDateTimeString(segment.arrivalTime) + '<br>';
+            html += 'duration:  ' + getDurationString(segment.durationSeconds) + '<br>';
+            var clone = JSON.parse(JSON.stringify(segment));
+            clone.from = '...';
+            clone.to = '...';
+            if(typeof clone.geometryGeoJson !== 'undefined') {
+                clone.geometryGeoJson = '...';
+            }
+            if(typeof clone.geometryGeoJsonEdges !== 'undefined') {
+                clone.geometryGeoJsonEdges  = '...';
+            }
+            html += '<pre>' + JSON.stringify(clone,null,2) + '</pre>';
+            return html;
+        };
+        
+        function getFromDescription(segmentOrRequest) {
+            return getLocationDescription(segmentOrRequest, true);
+        }
+        
+        function getToDescription(segmentOrRequest) {
+            return getLocationDescription(segmentOrRequest, false);
+        }
+        
+        function getLocationDescription(segmentOrRequest, isFrom) {
+            var fromOrTo = isFrom ? segmentOrRequest.from : segmentOrRequest.to;
+            var clone = JSON.parse(JSON.stringify(fromOrTo));
+            clone.coordinate = '...';
+            var html = '';
+            if(typeof segmentOrRequest.nr === 'undefined') // in this case it's the request
+                html += '<h4>Request: ' + (isFrom ? 'from' : 'to') + '</h4>';
+            else // it's a segment
+                html += '<h4>Segment #' + segmentOrRequest.nr + ': ' + (isFrom ? 'from' : 'to') + '</h4>';
+            html += '<pre>' + JSON.stringify(clone,null,2) + '</pre>';
+            return html;
+        }
+        
+        function getDurationString(seconds) {
+            var fm = [
+                Math.floor(seconds / 60 / 60 / 24), // DAYS
+                Math.floor(seconds / 60 / 60) % 24, // HOURS
+                Math.floor(seconds / 60) % 60, // MINUTES
+                seconds % 60 // SECONDS
+            ];
+            var spliceCount = 0;
+            for(var i=0; i<3; i++) {
+                if(fm[i] == 0)
+                    spliceCount++;
+            }
+            fm = fm.splice(spliceCount, fm.length-1);
+            return $.map(fm, function(v, i) { return ((v < 10) ? '0' : '') + v; }).join(':');
+        }
+        
+        function getDistanceString(meters) {
+            if(meters < 1000)
+                return meters + 'm';
+            return (meters/1000).toFixed(2) + 'km'
+        }
+        
+        function getTimeFromDateTimeString(dateTimeString) {
+            var start = dateTimeString.indexOf('T')+1;
+            var end = dateTimeString.indexOf('+');
+            if(end == -1)
+                end = dateTimeString.length;
+            if(start < 0 || start >= dateTimeString.length || end > dateTimeString.length)
+                return dateTimeString;
+            return dateTimeString.substring(start, end);
+        }
+        
+        function addRoutesToCanvas(json) {
+            var clone = JSON.parse(JSON.stringify(json));
+            clone.routes = '...(' + clone.routes.length + ')';
+            clone.request.from = '...';
+            clone.request.to = '...';
+            routeFormatRootForInfo = '<h4>RouteFormatRoot</h4><pre>' + JSON.stringify(clone,null,2) + '</pre>';
+            
+            var fromMarker = L.marker(json.request.from.coordinate.geometry.coordinates.reverse(), {title: 'A', alt: 'A', opacity: normalOpacity});
+            fromMarker.on({
+                mouseover: highlightMarker,
+                mouseout: resetHighlightMarker
+            });
+            fromMarker.infoText = getFromDescription(json.request);
+            markers.addLayer(fromMarker);
+           
+            var toMarker = L.marker(json.request.to.coordinate.geometry.coordinates.reverse(), {title: 'B', alt: 'B', opacity: normalOpacity});
+            toMarker.on({
+                mouseover: highlightMarker,
+                mouseout: resetHighlightMarker
+            });
+            toMarker.infoText = getToDescription(json.request);
+            markers.addLayer(toMarker);
+            
+            for(var routeId = 0; routeId < json.routes.length; routeId++) {
+                var routeLayerGroupSegments = L.layerGroup();
+                var routeLayerGroupMarkers = L.layerGroup();
+                for(var segmentId = 0; segmentId < json.routes[routeId].segments.length; segmentId++) {
+                    if (typeof json.routes[routeId].segments[segmentId].geometryGeoJson !== 'undefined') {
+                        segment = json.routes[routeId].segments[segmentId];
+                        // set default color & opacity for segments (if none is set yet)
+                        if (typeof segment.geometryGeoJson.properties.color === 'undefined')
+                            segment.geometryGeoJson.properties.color = generalMotColors[segment.modeOfTransport.generalizedType];
+                        if (typeof segment.geometryGeoJson.properties.opacity === 'undefined')
+                            segment.geometryGeoJson.properties.opacity = normalOpacity;
+                        // overrule color of line to paint with service-color
+                        if (typeof segment.modeOfTransport.service !== 'undefined' &&
+                                typeof segment.modeOfTransport.service.color !== 'undefined') {
+                            segment.geometryGeoJson.properties.color = segment.modeOfTransport.service.color;
+                        }
+                        //console.log(segment.geometryGeoJson);
+                        L.geoJson(segment.geometryGeoJson, {
+                            style: function (feature) {
+                                return styleGeoJson(feature);
+                            },
+                            onEachFeature : function (feature, layer) {
+                                registerJsonMouseListeners(feature, layer);
+                                feature.properties.infoString = getSegmentDescription(segment);
+                            }
+                        }).addTo(routeLayerGroupSegments);
+                        
+                        var fromMarker = L.marker(segment.from.coordinate.geometry.coordinates.reverse(), {title: 'from', alt: 'from', opacity: normalOpacity});
+                        fromMarker.on({
+                            mouseover: highlightMarker,
+                            mouseout: resetHighlightMarker
+                        }).addTo(routeLayerGroupMarkers);
+                        fromMarker.infoText = getFromDescription(segment);
+                        
+                        var toMarker = L.marker(segment.to.coordinate.geometry.coordinates.reverse(), {title: 'to', alt: 'to', opacity: normalOpacity});
+                        toMarker.on({
+                            mouseover: highlightMarker,
+                            mouseout: resetHighlightMarker
+                        }).addTo(routeLayerGroupMarkers);
+                        toMarker.infoText = getToDescription(segment);
+                    } else {
+                        console.log('no geometryGeoJson available for route with index ' + routeId);
+                    }
+                }
+                layerControl.addOverlay(routeLayerGroupSegments, 'Route #' + (routeId+1));
+                if(routeId == 0) {
+                    map.addLayer(routeLayerGroupSegments);
+                }
+                
+                var route = json.routes[routeId];
+                var clone = JSON.parse(JSON.stringify(route));
+                clone.from = '...';
+                clone.to = '...';
+                clone.boundingBox = '...';
+                clone.geometry = '...';
+                clone.segments = '...(' + clone.segments.length + ')';
+                var routeInfoText = '<h4>Route #' + (routeId+1);
+                if(typeof route['optimizedFor'] !== 'undefined' && route['optimizedFor'].length > 0)
+                    routeInfoText += ' - ' + route['optimizedFor'];
+                routeInfoText += '</h4>';
+                routeInfoText += 'distance:  ' + getDistanceString(route.lengthMeters) + '<br>';
+                routeInfoText += 'departure: ' + getTimeFromDateTimeString(route.departureTime) + '<br>';
+                routeInfoText += 'arrival:   ' + getTimeFromDateTimeString(route.arrivalTime) + '<br>';
+                routeInfoText += 'duration:  ' + getDurationString(route.durationSeconds) + '<br>';
+                routeInfoText += '<pre>' + JSON.stringify(clone,null,2) + '</pre>';
+                routeWithInfo.push({'routeLayerGroupSegments': routeLayerGroupSegments, 'routeLayerGroupMarkers' : routeLayerGroupMarkers, 'infoText' : routeInfoText });
+            }
+
+            for(var routeId = 0; routeId < json.routes.length; routeId++) {
+                for(var segmentId = 0; segmentId < json.routes[routeId].segments.length; segmentId++) {
+                    if (typeof json.routes[routeId].segments[segmentId].geometryGeoJsonEdges !== 'undefined') {
+                        edges = json.routes[routeId].segments[segmentId].geometryGeoJsonEdges;
+                        console.log(edges);
+                        L.geoJson(edges, {
+                            style: function (feature) {
+                                return {weight: feature.properties.edgeWeight/5, opacity: 0.3, color:'#f00'};
+                            }
+                        }).addTo(map);
+                    } else {
+                        console.log('no geometryGeoJsonEdges available for route with index ' + routeId);
+                    }
+                }
+            }
+            displayedRoutesChanged();
+        }
+        
+         //addRoutesToCanvas($.parseJSON(`###JSON###`));
+        $.getJSON('routeformat-example.json', addRoutesToCanvas);
+    </script>
+</body>
+</html>

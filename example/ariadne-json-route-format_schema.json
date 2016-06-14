@@ -46,7 +46,7 @@
           "type" : "array",
           "items" : {
             "type" : "string",
-            "enum" : [ "TRAIN", "LIGHTRAIL", "SUBWAY", "TRAM", "BUS", "TROLLEYBUS", "AERIALWAY", "SHIP", "AIRPLANE", "BICYCLE", "MOTORCYCLE", "CAR", "TAXI", "FOOT", "TRANSFER" ]
+            "enum" : [ "RAILWAY", "LONG_DISTANCE_RAILWAY", "SUBURBAN_RAILWAY", "URBAN_RAILWAY", "SUBWAY", "TRAM", "CABLE_CAR", "FUNICULAR", "BUS", "TROLLEYBUS", "AERIALWAY", "SHIP", "AIRPLANE", "BICYCLE", "MOTORCYCLE", "CAR", "TAXI", "FOOT", "TRANSFER" ]
           }
         },
         "via" : {
@@ -76,6 +76,23 @@
               "type" : "object",
               "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONFeature<at:ac:ait:ariadne:routeformat:geojson:GeoJSONPoint>",
               "properties" : {
+                "crs" : {
+                  "type" : "object",
+                  "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS",
+                  "properties" : {
+                    "type" : {
+                      "type" : "string",
+                      "required" : true
+                    },
+                    "properties" : {
+                      "type" : "object",
+                      "required" : true,
+                      "additionalProperties" : {
+                        "type" : "any"
+                      }
+                    }
+                  }
+                },
                 "geometry" : {
                   "type" : "object",
                   "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONPoint",
@@ -172,6 +189,10 @@
             "type" : "object",
             "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONFeature<at:ac:ait:ariadne:routeformat:geojson:GeoJSONPolygon>",
             "properties" : {
+              "crs" : {
+                "type" : "object",
+                "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS"
+              },
               "geometry" : {
                 "type" : "object",
                 "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONPolygon",
@@ -218,6 +239,9 @@
             "type" : "integer",
             "required" : true
           },
+          "optimizedFor" : {
+            "type" : "string"
+          },
           "type" : {
             "type" : "string",
             "enum" : [ "FOOT", "BICYCLE", "MOTORCYCLE", "CAR", "PUBLIC_TRANSPORT", "TAXI", "TAXI_SHARED", "CAR_SHARED", "BICYCLE_SHARED", "CAR_AND_PUBLIC_TRANSPORT", "BICYCLE_AND_PUBLIC_TRANSPORT", "SHARED_CAR_AND_PUBLIC_TRANSPORT", "SHARED_BICYCLE_AND_PUBLIC_TRANSPORT", "TAXI_AND_PUBLIC_TRANSPORT", "SHARED_TAXI_AND_PUBLIC_TRANSPORT", "SHARED_CAR_AND_SHARED_BICYCLE", "INTERMODAL_OTHER" ]
@@ -230,6 +254,10 @@
             "type" : "object",
             "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONFeature<at:ac:ait:ariadne:routeformat:geojson:GeoJSONLineString>",
             "properties" : {
+              "crs" : {
+                "type" : "object",
+                "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS"
+              },
               "geometry" : {
                 "type" : "object",
                 "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONLineString",
@@ -280,6 +308,10 @@
                   "type" : "object",
                   "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONFeature<at:ac:ait:ariadne:routeformat:geojson:GeoJSONPolygon>",
                   "properties" : {
+                    "crs" : {
+                      "type" : "object",
+                      "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS"
+                    },
                     "geometry" : {
                       "type" : "object",
                       "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONPolygon",
@@ -353,6 +385,9 @@
                         }
                       }
                     },
+                    "electric" : {
+                      "type" : "boolean"
+                    },
                     "additionalInfo" : {
                       "type" : "object",
                       "additionalProperties" : {
@@ -366,7 +401,7 @@
                     },
                     "detailedType" : {
                       "type" : "string",
-                      "enum" : [ "TRAIN", "LIGHTRAIL", "SUBWAY", "TRAM", "BUS", "TROLLEYBUS", "AERIALWAY", "SHIP", "AIRPLANE", "BICYCLE", "MOTORCYCLE", "CAR", "TAXI", "FOOT", "TRANSFER" ]
+                      "enum" : [ "RAILWAY", "LONG_DISTANCE_RAILWAY", "SUBURBAN_RAILWAY", "URBAN_RAILWAY", "SUBWAY", "TRAM", "CABLE_CAR", "FUNICULAR", "BUS", "TROLLEYBUS", "AERIALWAY", "SHIP", "AIRPLANE", "BICYCLE", "MOTORCYCLE", "CAR", "TAXI", "FOOT", "TRANSFER" ]
                     },
                     "id" : {
                       "type" : "string"
@@ -436,6 +471,10 @@
                         "type" : "object",
                         "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONFeature<at:ac:ait:ariadne:routeformat:geojson:GeoJSONPoint>",
                         "properties" : {
+                          "crs" : {
+                            "type" : "object",
+                            "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS"
+                          },
                           "geometry" : {
                             "type" : "object",
                             "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONPoint",
@@ -463,6 +502,10 @@
                         "type" : "object",
                         "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONFeature<at:ac:ait:ariadne:routeformat:geojson:GeoJSONPoint>",
                         "properties" : {
+                          "crs" : {
+                            "type" : "object",
+                            "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS"
+                          },
                           "geometry" : {
                             "type" : "object",
                             "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONPoint",
@@ -502,6 +545,10 @@
                       "items" : {
                         "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONFeature<at:ac:ait:ariadne:routeformat:geojson:GeoJSONLineString>"
                       }
+                    },
+                    "crs" : {
+                      "type" : "object",
+                      "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS"
                     },
                     "type" : {
                       "type" : "string",
@@ -558,6 +605,10 @@
                   "type" : "object",
                   "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONFeature<at:ac:ait:ariadne:routeformat:geojson:GeoJSONLineString>",
                   "properties" : {
+                    "crs" : {
+                      "type" : "object",
+                      "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS"
+                    },
                     "geometry" : {
                       "type" : "object",
                       "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONLineString",

@@ -212,7 +212,7 @@ public class IntermodalRouteExample {
 		privateVehicleLocations.put(GeneralizedModeOfTransportType.CAR, Arrays.asList(treustrasse92));
 
 		return RoutingRequest.builder().withServiceId("ariadne_webservice_vienna").withFrom(giefinggasseAit)
-				.withTo(gaussplatz).withDepartureTime("2016-01-01T15:00:00+01:00").withAcceptedDelayMinutes(30)
+				.withTo(scholzgasse1).withDepartureTime("2016-01-01T15:00:00+01:00").withAcceptedDelayMinutes(30)
 				.withMaximumPublicTransportRoutes(20).withLanguage("DE")
 				.withAccessibilityRestrictions(ImmutableSet.of(AccessibilityRestriction.NO_ELEVATOR))
 				.withModesOfTransport(ImmutableSet.copyOf(GeneralizedModeOfTransportType.values()))
