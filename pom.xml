@@ -11,7 +11,7 @@
 
 	<groupId>at.ac.ait</groupId>
 	<artifactId>sproute-route-format</artifactId>
-	<version>0.12</version>
+	<version>0.13-SNAPSHOT</version>
 	<name>JSON Sproute Route Format</name>
 
 	<description>JSON exchange format for routes developed by the Austrian Institute of Technology and Fluidtime</description>
@@ -20,7 +20,7 @@
 		<url>https://github.com/dts-ait/sproute-json-route-format</url>
 		<connection>scm:git:https://github.com/dts-ait/sproute-json-route-format.git</connection>
 		<developerConnection>scm:git:https://github.com/dts-ait/sproute-json-route-format.git</developerConnection>
-		<tag>sproute-route-format-0.12</tag>
+		<tag>HEAD</tag>
 	</scm>
 
 	<!-- only a temporary solution - we should release to maven central! -->
