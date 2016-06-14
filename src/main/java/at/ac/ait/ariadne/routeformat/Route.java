@@ -41,7 +41,7 @@ public class Route {
 
 	private final Location from;
 	private final Location to;
-	private final int lengthMeters;
+	private final int distanceMeters;
 	private final int durationSeconds;
 	private final Optional<String> id;
 	private final ZonedDateTime departureTime;
@@ -65,8 +65,8 @@ public class Route {
 	}
 
 	@JsonProperty(required = true)
-	public int getLengthMeters() {
-		return lengthMeters;
+	public int getDistanceMeters() {
+		return distanceMeters;
 	}
 
 	@JsonProperty(required = true)
@@ -144,7 +144,7 @@ public class Route {
 	private Route(Builder builder) {
 		this.from = builder.from;
 		this.to = builder.to;
-		this.lengthMeters = builder.lengthMeters;
+		this.distanceMeters = builder.distanceMeters;
 		this.durationSeconds = builder.durationSeconds;
 		this.segments = builder.segments;
 		this.id = builder.id;
@@ -168,7 +168,7 @@ public class Route {
 
 	@Override
 	public String toString() {
-		return "Route [from=" + from + ", to=" + to + ", lengthMeters=" + lengthMeters + ", durationSeconds="
+		return "Route [from=" + from + ", to=" + to + ", distanceMeters=" + distanceMeters + ", durationSeconds="
 				+ durationSeconds + ", id=" + id + ", departureTime=" + departureTime + ", arrivalTime=" + arrivalTime
 				+ ", optimizedFor=" + optimizedFor + ", segments=" + segments.size() + "]";
 	}
@@ -176,7 +176,7 @@ public class Route {
 	public static class Builder {
 		private Location from;
 		private Location to;
-		private int lengthMeters;
+		private int distanceMeters;
 		private int durationSeconds;
 		private List<RouteSegment> segments = Collections.emptyList();
 		private Optional<String> id = Optional.empty();
@@ -195,7 +195,7 @@ public class Route {
 		public Builder(Route route) {
 			this.from = route.getFrom();
 			this.to = route.getTo();
-			this.lengthMeters = route.getLengthMeters();
+			this.distanceMeters = route.getDistanceMeters();
 			this.durationSeconds = route.getDurationSeconds();
 			this.segments = route.getSegments();
 			this.id = route.getId();
@@ -219,8 +219,8 @@ public class Route {
 			return this;
 		}
 
-		public Builder withLengthMeters(int lengthMeters) {
-			this.lengthMeters = lengthMeters;
+		public Builder withDistanceMeters(int distanceMeters) {
+			this.distanceMeters = distanceMeters;
 			return this;
 		}
 
@@ -248,7 +248,7 @@ public class Route {
 				withTo(last.getTo());
 				withDepartureTime(first.getDepartureTime());
 				withArrivalTime(last.getArrivalTime());
-				withLengthMeters(segments.stream().mapToInt(s -> s.getLengthMeters()).sum());
+				withDistanceMeters(segments.stream().mapToInt(s -> s.getDistanceMeters()).sum());
 				withDurationSeconds((int) (Duration.between(departureTime, arrivalTime).toMillis() / 1000));
 				SprouteUtils.getBoundingBoxFromGeometryGeoJson(segments).ifPresent(b -> withBoundingBox(b));
 			}
@@ -337,7 +337,7 @@ public class Route {
 			Preconditions.checkArgument(arrivalTime != null, "arrivalTime is mandatory but missing");
 
 			try {
-				Preconditions.checkArgument(lengthMeters >= 0, "lengthMeters must be >= 0, but was %s", lengthMeters);
+				Preconditions.checkArgument(distanceMeters >= 0, "distanceMeters must be >= 0, but was %s", distanceMeters);
 				Preconditions.checkArgument(durationSeconds >= 0, "durationSeconds must be >= 0, but was %s",
 						durationSeconds);
 
@@ -354,10 +354,10 @@ public class Route {
 				Preconditions.checkArgument(durationSeconds == durationSecondsSum,
 						"durationSeconds does not match the sum of durationSeconds of all route segments: %s!=%s",
 						durationSeconds, durationSecondsSum);
-				int lengthMetersSum = segments.stream().mapToInt(s -> s.getLengthMeters()).sum();
-				Preconditions.checkArgument(lengthMeters == lengthMetersSum,
-						"lengthMeters does not match the sum of lengthMeters of all route segments: %s!=%s",
-						lengthMeters, lengthMetersSum);
+				int distanceMetersSum = segments.stream().mapToInt(s -> s.getDistanceMeters()).sum();
+				Preconditions.checkArgument(distanceMeters == distanceMetersSum,
+						"distanceMeters does not match the sum of distanceMeters of all route segments: %s!=%s",
+						distanceMeters, distanceMetersSum);
 			} catch (IllegalArgumentException e) {
 				if (strongValidation)
 					throw e;

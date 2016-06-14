@@ -185,6 +185,10 @@
           "departureTime" : {
             "type" : "string"
           },
+          "distanceMeters" : {
+            "type" : "integer",
+            "required" : true
+          },
           "boundingBox" : {
             "type" : "object",
             "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONFeature<at:ac:ait:ariadne:routeformat:geojson:GeoJSONPolygon>",
@@ -246,10 +250,6 @@
             "type" : "string",
             "enum" : [ "FOOT", "BICYCLE", "MOTORCYCLE", "CAR", "PUBLIC_TRANSPORT", "TAXI", "TAXI_SHARED", "CAR_SHARED", "BICYCLE_SHARED", "CAR_AND_PUBLIC_TRANSPORT", "BICYCLE_AND_PUBLIC_TRANSPORT", "SHARED_CAR_AND_PUBLIC_TRANSPORT", "SHARED_BICYCLE_AND_PUBLIC_TRANSPORT", "TAXI_AND_PUBLIC_TRANSPORT", "SHARED_TAXI_AND_PUBLIC_TRANSPORT", "SHARED_CAR_AND_SHARED_BICYCLE", "INTERMODAL_OTHER" ]
           },
-          "lengthMeters" : {
-            "type" : "integer",
-            "required" : true
-          },
           "simplifiedGeometryGeoJson" : {
             "type" : "object",
             "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONFeature<at:ac:ait:ariadne:routeformat:geojson:GeoJSONLineString>",
@@ -303,6 +303,10 @@
               "properties" : {
                 "departureTime" : {
                   "type" : "string"
+                },
+                "distanceMeters" : {
+                  "type" : "integer",
+                  "required" : true
                 },
                 "boundingBox" : {
                   "type" : "object",
@@ -527,10 +531,6 @@
                       }
                     }
                   }
-                },
-                "lengthMeters" : {
-                  "type" : "integer",
-                  "required" : true
                 },
                 "geometryEncodedPolyLine" : {
                   "type" : "string"

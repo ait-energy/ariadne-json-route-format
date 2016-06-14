@@ -34,7 +34,7 @@
       "properties" : { }
     }
   },
-  "lengthMeters" : 311,
+  "distanceMeters" : 311,
   "durationSeconds" : 229,
   "modeOfTransport" : {
     "generalizedType" : "FOOT",
@@ -95,7 +95,7 @@
     },
     "name" : "Wien Fickeysstraße"
   },
-  "lengthMeters" : 36,
+  "distanceMeters" : 36,
   "durationSeconds" : 60,
   "modeOfTransport" : {
     "generalizedType" : "FOOT",
@@ -155,7 +155,7 @@
     },
     "name" : "Wien Simmering"
   },
-  "lengthMeters" : 435,
+  "distanceMeters" : 435,
   "durationSeconds" : 120,
   "modeOfTransport" : {
     "generalizedType" : "PUBLIC_TRANSPORT",
@@ -219,7 +219,7 @@
     },
     "name" : "Wien Simmering"
   },
-  "lengthMeters" : 31,
+  "distanceMeters" : 31,
   "durationSeconds" : 60,
   "modeOfTransport" : {
     "generalizedType" : "FOOT",
@@ -278,7 +278,7 @@
       "properties" : { }
     }
   },
-  "lengthMeters" : 117,
+  "distanceMeters" : 117,
   "durationSeconds" : 180,
   "modeOfTransport" : {
     "generalizedType" : "FOOT",
@@ -336,7 +336,7 @@
       "properties" : { }
     }
   },
-  "lengthMeters" : 75,
+  "distanceMeters" : 75,
   "durationSeconds" : 54,
   "modeOfTransport" : {
     "generalizedType" : "FOOT",
@@ -397,7 +397,7 @@
     },
     "name" : "Wien Simmering"
   },
-  "lengthMeters" : 118,
+  "distanceMeters" : 118,
   "durationSeconds" : 180,
   "modeOfTransport" : {
     "generalizedType" : "FOOT",
@@ -457,7 +457,7 @@
     },
     "name" : "Wien Simmering"
   },
-  "lengthMeters" : 48,
+  "distanceMeters" : 48,
   "durationSeconds" : 120,
   "modeOfTransport" : {
     "generalizedType" : "FOOT",
@@ -517,7 +517,7 @@
     },
     "name" : "Wien Mitte-Landstraße"
   },
-  "lengthMeters" : 5602,
+  "distanceMeters" : 5602,
   "durationSeconds" : 600,
   "modeOfTransport" : {
     "generalizedType" : "PUBLIC_TRANSPORT",
@@ -581,7 +581,7 @@
     },
     "name" : "Wien Mitte-Landstraße"
   },
-  "lengthMeters" : 130,
+  "distanceMeters" : 130,
   "durationSeconds" : 240,
   "modeOfTransport" : {
     "generalizedType" : "FOOT",
@@ -641,7 +641,7 @@
     },
     "name" : "Wien Hauptbahnhof"
   },
-  "lengthMeters" : 3442,
+  "distanceMeters" : 3442,
   "durationSeconds" : 360,
   "modeOfTransport" : {
     "generalizedType" : "PUBLIC_TRANSPORT",
@@ -705,7 +705,7 @@
     },
     "name" : "Wien Hauptbahnhof"
   },
-  "lengthMeters" : 60,
+  "distanceMeters" : 60,
   "durationSeconds" : 60,
   "modeOfTransport" : {
     "generalizedType" : "FOOT",
@@ -764,7 +764,7 @@
       "properties" : { }
     }
   },
-  "lengthMeters" : 66,
+  "distanceMeters" : 66,
   "durationSeconds" : 120,
   "modeOfTransport" : {
     "generalizedType" : "FOOT",
@@ -822,7 +822,7 @@
       "properties" : { }
     }
   },
-  "lengthMeters" : 78,
+  "distanceMeters" : 78,
   "durationSeconds" : 58,
   "modeOfTransport" : {
     "generalizedType" : "FOOT",

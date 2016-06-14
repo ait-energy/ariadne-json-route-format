@@ -36,7 +36,7 @@ public class TestUtil {
 			IntermediateStop... intermediateStops) {
 		return RouteSegment.builder().withNr(1).withFrom(FROM).withTo(TO).withModeOfTransport(MODE_OF_TRANSPORT)
 				.withDepartureTime(departureTime).withArrivalTime(arrivalTime).withDurationSeconds(60)
-				.withLengthMeters(100).withIntermediateStops(Arrays.asList(intermediateStops))
+				.withDistanceMeters(100).withIntermediateStops(Arrays.asList(intermediateStops))
 				.withGeometryGeoJson(GEOMETRY_GEOJSON).build(true);
 	}
 
@@ -87,7 +87,7 @@ public class TestUtil {
 	}
 
 	public static void checkLengthMeters(RouteSegment segment, int expected) {
-		Assert.assertEquals(expected, segment.getLengthMeters());
+		Assert.assertEquals(expected, segment.getDistanceMeters());
 	}
 
 }

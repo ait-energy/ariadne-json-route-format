@@ -44,7 +44,7 @@ import at.ac.ait.ariadne.routeformat.location.Location;
  * after public transport segments. Such a transfer segment represents the
  * transfer within a (logical) public transport station including waiting times
  * for the next line. It contains the walking distance in the station (
- * {@link #getLengthMeters()}), the walking time ({@link #getDurationSeconds()}
+ * {@link #getDistanceMeters()}), the walking time ({@link #getDurationSeconds()}
  * minus alighting time), and the waiting time for the next public transport
  * line ({@link #getAlightingSeconds()}). The public transport segments
  * themselves only contain the ride time (without any boarding or alighting
@@ -70,7 +70,7 @@ public class RouteSegment {
 	private final int nr;
 	private final Location from;
 	private final Location to;
-	private final int lengthMeters;
+	private final int distanceMeters;
 	private final int durationSeconds;
 	private final ModeOfTransport modeOfTransport;
 	private final Optional<Integer> boardingSeconds;
@@ -103,8 +103,8 @@ public class RouteSegment {
 	}
 
 	@JsonProperty(required = true)
-	public int getLengthMeters() {
-		return lengthMeters;
+	public int getDistanceMeters() {
+		return distanceMeters;
 	}
 
 	/**
@@ -227,7 +227,7 @@ public class RouteSegment {
 		this.nr = builder.nr;
 		this.from = builder.from;
 		this.to = builder.to;
-		this.lengthMeters = builder.lengthMeters;
+		this.distanceMeters = builder.distanceMeters;
 		this.durationSeconds = builder.durationSeconds;
 		this.modeOfTransport = builder.modeOfTransport;
 		this.boardingSeconds = builder.boardingSeconds;
@@ -255,7 +255,7 @@ public class RouteSegment {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append(String.format("%d: %s %dm %ds (%s ", nr, modeOfTransport.toString(), lengthMeters,
+		builder.append(String.format("%d: %s %dm %ds (%s ", nr, modeOfTransport.toString(), distanceMeters,
 				durationSeconds, SprouteUtils.getShortStringDate(departureTime)));
 		if (boardingSeconds.isPresent() && boardingSeconds.get() > 0) {
 			builder.append(String.format("boarding: %s, departure: %s, ",
@@ -279,7 +279,7 @@ public class RouteSegment {
 		private Integer nr;
 		private Location from;
 		private Location to;
-		private Integer lengthMeters;
+		private Integer distanceMeters;
 		private Integer durationSeconds;
 		private ModeOfTransport modeOfTransport;
 		private Optional<Integer> boardingSeconds = Optional.empty();
@@ -302,7 +302,7 @@ public class RouteSegment {
 			this.nr = segment.getNr();
 			this.from = segment.getFrom();
 			this.to = segment.getTo();
-			this.lengthMeters = segment.getLengthMeters();
+			this.distanceMeters = segment.getDistanceMeters();
 			this.durationSeconds = segment.getDurationSeconds();
 			this.modeOfTransport = segment.getModeOfTransport();
 			this.boardingSeconds = segment.getBoardingSeconds();
@@ -334,8 +334,8 @@ public class RouteSegment {
 			return this;
 		}
 
-		public Builder withLengthMeters(int lengthMeters) {
-			this.lengthMeters = lengthMeters;
+		public Builder withDistanceMeters(int distanceMeters) {
+			this.distanceMeters = distanceMeters;
 			return this;
 		}
 
@@ -455,8 +455,8 @@ public class RouteSegment {
 			Preconditions.checkArgument(nr != null, "nr is mandatory but missing");
 			Preconditions.checkArgument(from != null, "from is mandatory but missing for segment #" + nr);
 			Preconditions.checkArgument(to != null, "to is mandatory but missing for segment #" + nr);
-			Preconditions.checkArgument(lengthMeters != null,
-					"lengthMeters is mandatory but missing for segment #" + nr);
+			Preconditions.checkArgument(distanceMeters != null,
+					"distanceMeters is mandatory but missing for segment #" + nr);
 			Preconditions.checkArgument(durationSeconds != null,
 					"durationSeconds is mandatory but missing for segment #" + nr);
 			Preconditions.checkArgument(modeOfTransport != null,
@@ -467,8 +467,8 @@ public class RouteSegment {
 
 			try {
 				Preconditions.checkArgument(nr > 0, "nr must be > 0, but was %s", nr);
-				Preconditions.checkArgument(lengthMeters >= 0, "lengthMeters must be >= 0, but was %s for segment #%s",
-						lengthMeters, nr);
+				Preconditions.checkArgument(distanceMeters >= 0, "distanceMeters must be >= 0, but was %s for segment #%s",
+						distanceMeters, nr);
 				Preconditions.checkArgument(durationSeconds >= 0,
 						"durationSeconds must be >= 0, but was %s for segment #%s", durationSeconds, nr);
 

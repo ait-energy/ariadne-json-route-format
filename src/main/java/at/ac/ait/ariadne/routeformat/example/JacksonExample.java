@@ -28,8 +28,8 @@ import com.fasterxml.jackson.module.jsonSchema.factories.SchemaFactoryWrapper;
  */
 public class JacksonExample {
 
-	public static final String schemaFile = "src/main/resources/routeformat-schema.json";
-	public static final String exampleFile = "src/main/resources/routeformat-example.json";
+	public static final String schemaFile = "src/main/resources/ariadne-json-route-format_schema.json";
+	public static final String exampleFile = "src/main/resources/ariadne-json-route-format_example.json";
 
 	public static void main(String[] args) throws JsonGenerationException, JsonMappingException, IOException {
 		JacksonExample main = new JacksonExample();

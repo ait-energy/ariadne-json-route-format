@@ -43,7 +43,7 @@ public class RouteTest {
 				heinrichVonBuolGasseBicycleParking, new CoordinatePoint("16.4263", "48.2682"),
 				new CoordinatePoint("16.42824", "48.26719"));
 		RouteSegment walkToHeinrichVonBuolGasse = RouteSegment.builder().withNr(1).withFrom(giefinggasseAit)
-				.withTo(heinrichVonBuolGasseBicycleParking).withLengthMeters(200).withDurationSeconds(60)
+				.withTo(heinrichVonBuolGasseBicycleParking).withDistanceMeters(200).withDurationSeconds(60)
 				.withDepartureTime("2016-01-01T15:00:00+01:00").withArrivalTime("2016-01-01T15:01:00+01:00")
 				.withModeOfTransport(ModeOfTransport.STANDARD_FOOT).withGeometryGeoJson(geometryGeoJson).build();
 		geometryGeoJson = GeoJSONFeature.newLineStringFeature(heinrichVonBuolGasseBicycleParking, floridsdorf,
@@ -51,7 +51,7 @@ public class RouteTest {
 				new CoordinatePoint("16.4044", "48.2576"), new CoordinatePoint("16.40305", "48.25621"),
 				new CoordinatePoint("16.40127", "48.25698"));
 		RouteSegment cycleToFloridsdorf = RouteSegment.builder().withNr(2).withFrom(heinrichVonBuolGasseBicycleParking)
-				.withTo(floridsdorf).withLengthMeters(2500).withDurationSeconds(60 * 9)
+				.withTo(floridsdorf).withDistanceMeters(2500).withDurationSeconds(60 * 9)
 				.withDepartureTime("2016-01-01T15:01:00+01:00").withArrivalTime("2016-01-01T15:10:00+01:00")
 				.withModeOfTransport(ModeOfTransport.STANDARD_BICYCLE).withGeometryGeoJson(geometryGeoJson).build();
 

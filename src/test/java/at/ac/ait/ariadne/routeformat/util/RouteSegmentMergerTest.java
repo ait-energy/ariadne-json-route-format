@@ -67,7 +67,7 @@ public class RouteSegmentMergerTest {
 		Assert.assertEquals("sum of boarding of all segments + waiting inbetween", 120 + 124,
 				(int) merged.getBoardingSeconds().get());
 		Assert.assertEquals("sum of alighting of all segments", 120, (int) merged.getAlightingSeconds().get());
-		Assert.assertEquals(597 + 941, merged.getLengthMeters());
+		Assert.assertEquals(597 + 941, merged.getDistanceMeters());
 	}
 
 	@Test
@@ -130,7 +130,7 @@ public class RouteSegmentMergerTest {
 				adalbertStifterStrasse15, treustrasse92, new CoordinatePoint(16.36515, 48.23729),
 				new CoordinatePoint(16.3656, 48.23515), new CoordinatePoint(16.36288, 48.23509));
 		RouteSegment bicycleFromAdalbertStifterStrasseToTreugasse = RouteSegment.builder().withNr(1)
-				.withFrom(adalbertStifterStrasse15).withTo(treustrasse92).withLengthMeters(597)
+				.withFrom(adalbertStifterStrasse15).withTo(treustrasse92).withDistanceMeters(597)
 				// 106 seconds ride, 1 minutes unlocking bike, 1 minute parking
 				// & locking bike
 				.withDurationSeconds(106 + 60 * 2).withBoardingSeconds(60 * 1).withAlightingSeconds(60 * 1)
@@ -143,7 +143,7 @@ public class RouteSegmentMergerTest {
 		GeoJSONFeature<GeoJSONLineString> geometryGeoJson = GeoJSONFeature.newLineStringFeature(treustrasse84,
 				gaussplatz, new CoordinatePoint(16.3644, 48.2311), new CoordinatePoint(16.36638, 48.22886));
 		RouteSegment bicycleFromTreugasseToGaussplatz = RouteSegment.builder().withNr(2).withFrom(treustrasse84)
-				.withTo(gaussplatz).withLengthMeters(941)
+				.withTo(gaussplatz).withDistanceMeters(941)
 				// 180 seconds ride, 1 minutes unlocking bike, 1 minute parking
 				// & locking bike = 5 minutes
 				.withDurationSeconds(180 + 60 * 2).withBoardingSeconds(60 * 1).withAlightingSeconds(60 * 1)

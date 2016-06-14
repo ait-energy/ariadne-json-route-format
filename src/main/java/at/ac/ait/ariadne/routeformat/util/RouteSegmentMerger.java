@@ -278,7 +278,7 @@ public class RouteSegmentMerger {
 		a.getGeometryGeoJson().ifPresent(g -> newlineString.geometry.coordinates.addAll(g.geometry.coordinates));
 		b.getGeometryGeoJson().ifPresent(g -> newlineString.geometry.coordinates.addAll(g.geometry.coordinates));
 		builder.withGeometryGeoJson(newlineString);
-		builder.withLengthMeters(a.getLengthMeters() + b.getLengthMeters());
+		builder.withDistanceMeters(a.getDistanceMeters() + b.getDistanceMeters());
 
 		return builder.build();
 	}

@@ -219,7 +219,7 @@
                 html += ' ' + mot.service.name + (mot.service.towards ? ' -> ' + mot.service.towards : '');
             html += mot.sharingType ? ' (' + mot.sharingType + ')' : '';
             html += '</h4>';
-            html += 'distance:  ' + getDistanceString(segment.lengthMeters) + '<br>';
+            html += 'distance:  ' + getDistanceString(segment.distanceMeters) + '<br>';
             html += 'departure: ' + getTimeFromDateTimeString(segment.departureTime) + '<br>';
             html += 'arrival:   ' + getTimeFromDateTimeString(segment.arrivalTime) + '<br>';
             html += 'duration:  ' + getDurationString(segment.durationSeconds) + '<br>';
@@ -372,7 +372,7 @@
                 if(typeof route['optimizedFor'] !== 'undefined' && route['optimizedFor'].length > 0)
                     routeInfoText += ' - ' + route['optimizedFor'];
                 routeInfoText += '</h4>';
-                routeInfoText += 'distance:  ' + getDistanceString(route.lengthMeters) + '<br>';
+                routeInfoText += 'distance:  ' + getDistanceString(route.distanceMeters) + '<br>';
                 routeInfoText += 'departure: ' + getTimeFromDateTimeString(route.departureTime) + '<br>';
                 routeInfoText += 'arrival:   ' + getTimeFromDateTimeString(route.arrivalTime) + '<br>';
                 routeInfoText += 'duration:  ' + getDurationString(route.durationSeconds) + '<br>';
@@ -399,7 +399,7 @@
         }
         
          //addRoutesToCanvas($.parseJSON(`###JSON###`));
-        $.getJSON('routeformat-example.json', addRoutesToCanvas);
+        $.getJSON('ariadne-json-route-format_example.json', addRoutesToCanvas);
     </script>
 </body>
 </html>

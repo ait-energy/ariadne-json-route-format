@@ -1,7 +1,7 @@
 {
-  "routeFormatVersion" : "0.12-SNAPSHOT",
+  "routeFormatVersion" : "0.13-SNAPSHOT",
   "requestId" : "999",
-  "processedTime" : "2016-06-14T12:58:46.012+02:00[Europe/Vienna]",
+  "processedTime" : "2016-06-14T13:47:30.955+02:00[Europe/Vienna]",
   "status" : "OK",
   "debugMessage" : "Route calculated in 0.002 seconds",
   "coordinateReferenceSystem" : "EPSG:4326",
@@ -194,7 +194,7 @@
         "houseNumber" : "1"
       }
     },
-    "lengthMeters" : 8208,
+    "distanceMeters" : 8208,
     "durationSeconds" : 3520,
     "departureTime" : "2016-01-01T15:00+01:00",
     "arrivalTime" : "2016-01-01T15:58:40+01:00",
@@ -259,7 +259,7 @@
         },
         "name" : "Heinrich-von-Buol-Gasse/Siemensstraße"
       },
-      "lengthMeters" : 200,
+      "distanceMeters" : 200,
       "durationSeconds" : 60,
       "modeOfTransport" : {
         "generalizedType" : "FOOT",
@@ -380,7 +380,7 @@
         },
         "name" : "Heinrich-von-Buol-Gasse/Siemensstraße"
       },
-      "lengthMeters" : 0,
+      "distanceMeters" : 0,
       "durationSeconds" : 300,
       "modeOfTransport" : {
         "generalizedType" : "FOOT",
@@ -442,7 +442,7 @@
         "name" : "Floridsdorf",
         "platform" : "C"
       },
-      "lengthMeters" : 2500,
+      "distanceMeters" : 2500,
       "durationSeconds" : 630,
       "modeOfTransport" : {
         "generalizedType" : "PUBLIC_TRANSPORT",
@@ -517,7 +517,7 @@
         "name" : "Floridsdorf",
         "platform" : "2 (U-Bahn)"
       },
-      "lengthMeters" : 40,
+      "distanceMeters" : 40,
       "durationSeconds" : 240,
       "modeOfTransport" : {
         "generalizedType" : "FOOT",
@@ -581,7 +581,7 @@
         "name" : "Handelskai",
         "platform" : "2"
       },
-      "lengthMeters" : 2000,
+      "distanceMeters" : 2000,
       "durationSeconds" : 240,
       "modeOfTransport" : {
         "generalizedType" : "PUBLIC_TRANSPORT",
@@ -685,7 +685,7 @@
         },
         "name" : "Handelskai (Stationseingang)"
       },
-      "lengthMeters" : 40,
+      "distanceMeters" : 40,
       "durationSeconds" : 180,
       "modeOfTransport" : {
         "generalizedType" : "FOOT",
@@ -765,7 +765,7 @@
           "customerServicePhone" : "0810 500 500"
         }
       },
-      "lengthMeters" : 57,
+      "distanceMeters" : 57,
       "durationSeconds" : 40,
       "modeOfTransport" : {
         "generalizedType" : "FOOT",
@@ -863,7 +863,7 @@
           "customerServicePhone" : "0810 500 500"
         }
       },
-      "lengthMeters" : 692,
+      "distanceMeters" : 692,
       "durationSeconds" : 360,
       "modeOfTransport" : {
         "generalizedType" : "BICYCLE",
@@ -964,7 +964,7 @@
           "houseNumber" : "71"
         }
       },
-      "lengthMeters" : 150,
+      "distanceMeters" : 150,
       "durationSeconds" : 115,
       "modeOfTransport" : {
         "generalizedType" : "FOOT",
@@ -1031,7 +1031,7 @@
           "houseNumber" : "15"
         }
       },
-      "lengthMeters" : 692,
+      "distanceMeters" : 692,
       "durationSeconds" : 420,
       "modeOfTransport" : {
         "generalizedType" : "CAR",
@@ -1113,7 +1113,7 @@
           "houseNumber" : "92"
         }
       },
-      "lengthMeters" : 597,
+      "distanceMeters" : 597,
       "durationSeconds" : 226,
       "modeOfTransport" : {
         "generalizedType" : "BICYCLE",
@@ -1205,7 +1205,7 @@
           "streetName" : "Gaußplatz"
         }
       },
-      "lengthMeters" : 941,
+      "distanceMeters" : 941,
       "durationSeconds" : 292,
       "modeOfTransport" : {
         "generalizedType" : "CAR",
@@ -1281,7 +1281,7 @@
           "houseNumber" : "1"
         }
       },
-      "lengthMeters" : 299,
+      "distanceMeters" : 299,
       "durationSeconds" : 417,
       "modeOfTransport" : {
         "generalizedType" : "CAR",
