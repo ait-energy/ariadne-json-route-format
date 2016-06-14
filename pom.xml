@@ -17,9 +17,9 @@
 	<description>JSON exchange format for intermodal routes developed by the Austrian Institute of Technology and Fluidtime</description>
 
 	<scm>
-		<url>https://github.com/dts-ait/sproute-json-route-format</url>
-		<connection>scm:git:https://github.com/dts-ait/sproute-json-route-format.git</connection>
-		<developerConnection>scm:git:https://github.com/dts-ait/sproute-json-route-format.git</developerConnection>
+		<url>https://github.com/dts-ait/ariadne-json-route-format</url>
+		<connection>scm:git:https://github.com/dts-ait/ariadne-json-route-format.git</connection>
+		<developerConnection>scm:git:https://github.com/dts-ait/ariadne-json-route-format.git</developerConnection>
 		<tag>HEAD</tag>
 	</scm>
 
