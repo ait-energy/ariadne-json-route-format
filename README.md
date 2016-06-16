@@ -6,7 +6,7 @@ Geometries are represented in the [GeoJSON](http://geojson.org) format.
 
 The route format is defined through the Java classes in the package `at.ac.ait.ariadne.routeformat`.
 Reading and writing of a route and exporting the JSON schema with Jackson is demonstrated in `JacksonExample.java`.
-A simple example how to display a route in a browser with Leaflet is shown in `example/ariadne-json-route-format_example_leaflet.html`.
+A simple example how to display a route in a browser with Leaflet is shown in `src/main/resources/ariadne-json-route-format_example_leaflet.html`.
 
 ## Coding Style
 - all member variables are private final with public getters
@@ -27,10 +27,10 @@ As soon as use-cases or more fine-grained data (e.g. GTFS data sets) become avai
 - RoutingRequest: details for mode of transport (not only GeneralizedMOT)
 - RoutingRequest: first/last mot
 - RouteSegment: fix misleading naming of getDepartureTime/ArrivalTime (actually start/end of segment due to boarding/alighting)
-   
+
 
 ## Funding
 Initial development was done within the research project 'sproute', which was funded by the Vienna Business Agency (Call From Science to Products 2013).
- 
+
 ## License
 Everything in this repository is licensed under CC0.
