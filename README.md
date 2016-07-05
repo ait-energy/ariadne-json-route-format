@@ -27,6 +27,8 @@ As soon as use-cases or more fine-grained data (e.g. GTFS data sets) become avai
 - RoutingRequest: details for mode of transport (not only GeneralizedMOT)
 - RoutingRequest: first/last mot
 - RouteSegment: fix misleading naming of getDepartureTime/ArrivalTime (actually start/end of segment due to boarding/alighting)
+- RouteSegment: remove durationSeconds, add travelingSeconds (and add getter for duration which sums boarding + traveling + alighting) 
+- reevaluate handling of waiting times (in transfer segemtns? in pt segments?)
 
 
 ## Funding
