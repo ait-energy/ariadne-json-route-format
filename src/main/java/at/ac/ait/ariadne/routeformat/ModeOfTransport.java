@@ -6,9 +6,9 @@ import java.util.Map;
 import java.util.Optional;
 
 import at.ac.ait.ariadne.routeformat.ModeOfTransport.Builder;
-import at.ac.ait.ariadne.routeformat.Sproute.DetailedModeOfTransportType;
-import at.ac.ait.ariadne.routeformat.Sproute.GeneralizedModeOfTransportType;
-import at.ac.ait.ariadne.routeformat.Sproute.Sharing;
+import at.ac.ait.ariadne.routeformat.Constants.DetailedModeOfTransportType;
+import at.ac.ait.ariadne.routeformat.Constants.GeneralizedModeOfTransportType;
+import at.ac.ait.ariadne.routeformat.Constants.Sharing;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -53,7 +53,7 @@ public class ModeOfTransport {
 	private final Optional<Operator> operator;
 	private final Optional<Boolean> electric;
 	private final Optional<Sharing> sharingType;
-	private final List<Sproute.VehicleAccessibility> accessibility;
+	private final List<Constants.VehicleAccessibility> accessibility;
 	private final Map<String, Object> additionalInfo;
 
 	@JsonProperty(required = true)
@@ -94,7 +94,7 @@ public class ModeOfTransport {
 		return sharingType;
 	}
 
-	public List<Sproute.VehicleAccessibility> getAccessibility() {
+	public List<Constants.VehicleAccessibility> getAccessibility() {
 		return accessibility;
 	}
 
@@ -204,7 +204,7 @@ public class ModeOfTransport {
 		private Optional<Operator> operator = Optional.empty();
 		private Optional<Boolean> electric = Optional.empty();
 		private Optional<Sharing> sharingType = Optional.empty();
-		private List<Sproute.VehicleAccessibility> accessibility = Collections.emptyList();
+		private List<Constants.VehicleAccessibility> accessibility = Collections.emptyList();
 		private Map<String, Object> additionalInfo = Collections.emptyMap();
 
 		public Builder withGeneralizedType(GeneralizedModeOfTransportType generalizedType) {
@@ -249,7 +249,7 @@ public class ModeOfTransport {
 			return this;
 		}
 
-		public Builder withAccessibility(List<Sproute.VehicleAccessibility> accessibility) {
+		public Builder withAccessibility(List<Constants.VehicleAccessibility> accessibility) {
 			this.accessibility = ImmutableList.copyOf(accessibility);
 			return this;
 		}

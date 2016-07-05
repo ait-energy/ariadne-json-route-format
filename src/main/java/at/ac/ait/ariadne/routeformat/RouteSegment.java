@@ -21,13 +21,14 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 import at.ac.ait.ariadne.routeformat.RouteSegment.Builder;
-import at.ac.ait.ariadne.routeformat.Sproute.DetailedModeOfTransportType;
+import at.ac.ait.ariadne.routeformat.Constants.DetailedModeOfTransportType;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeatureCollection;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONLineString;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPolygon;
 import at.ac.ait.ariadne.routeformat.instruction.Instruction;
 import at.ac.ait.ariadne.routeformat.location.Location;
+import at.ac.ait.ariadne.routeformat.util.Utils;
 
 /**
  * A {@link RouteSegment} is a part of a route that is traveled with a single
@@ -83,7 +84,7 @@ public class RouteSegment {
 	private final Optional<GeoJSONFeature<GeoJSONLineString>> geometryGeoJson;
 	private final Optional<GeoJSONFeatureCollection<GeoJSONLineString>> geometryGeoJsonEdges;
 	private final List<Instruction> navigationInstructions;
-	private final List<Sproute.Accessibility> accessibility;
+	private final List<Constants.Accessibility> accessibility;
 	private final Map<String, Object> additionalInfo;
 
 	/** number of the segment in the route (starts with 1) */
@@ -211,7 +212,7 @@ public class RouteSegment {
 	 * @return the ordered list of potential obstacles for mobility impaired
 	 *         persons (e.g. first up the elevator, then up the stairs,..)
 	 */
-	public List<Sproute.Accessibility> getAccessibility() {
+	public List<Constants.Accessibility> getAccessibility() {
 		return accessibility;
 	}
 
@@ -256,20 +257,20 @@ public class RouteSegment {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append(String.format("%d: %s %dm %ds (%s ", nr, modeOfTransport.toString(), distanceMeters,
-				durationSeconds, SprouteUtils.getShortStringDate(departureTime)));
+				durationSeconds, Utils.getShortStringDate(departureTime)));
 		if (boardingSeconds.isPresent() && boardingSeconds.get() > 0) {
 			builder.append(String.format("boarding: %s, departure: %s, ",
-					SprouteUtils.getShortStringTime(departureTime),
-					SprouteUtils.getShortStringTime(departureTime.plus(boardingSeconds.get(), ChronoUnit.SECONDS))));
+					Utils.getShortStringTime(departureTime),
+					Utils.getShortStringTime(departureTime.plus(boardingSeconds.get(), ChronoUnit.SECONDS))));
 		} else {
-			builder.append(String.format("departure: %s, ", SprouteUtils.getShortStringTime(departureTime)));
+			builder.append(String.format("departure: %s, ", Utils.getShortStringTime(departureTime)));
 		}
 		if (alightingSeconds.isPresent() && alightingSeconds.get() > 0) {
 			builder.append(String.format("alighting: %s, arrival: %s",
-					SprouteUtils.getShortStringTime(arrivalTime.minus(alightingSeconds.get(), ChronoUnit.SECONDS)),
-					SprouteUtils.getShortStringTime(arrivalTime)));
+					Utils.getShortStringTime(arrivalTime.minus(alightingSeconds.get(), ChronoUnit.SECONDS)),
+					Utils.getShortStringTime(arrivalTime)));
 		} else {
-			builder.append(String.format("arrival: %s", SprouteUtils.getShortStringTime(arrivalTime)));
+			builder.append(String.format("arrival: %s", Utils.getShortStringTime(arrivalTime)));
 		}
 		builder.append(")");
 		return builder.toString();
@@ -292,7 +293,7 @@ public class RouteSegment {
 		private Optional<GeoJSONFeature<GeoJSONLineString>> geometryGeoJson = Optional.empty();
 		private Optional<GeoJSONFeatureCollection<GeoJSONLineString>> geometryGeoJsonEdges = Optional.empty();
 		private List<Instruction> navigationInstructions = Collections.emptyList();
-		private List<Sproute.Accessibility> accessibility = Collections.emptyList();
+		private List<Constants.Accessibility> accessibility = Collections.emptyList();
 		private Map<String, Object> additionalInfo = Collections.emptyMap();
 
 		public Builder() {
@@ -367,7 +368,7 @@ public class RouteSegment {
 
 		@JsonProperty
 		public Builder withDepartureTime(String departureTime) {
-			this.departureTime = SprouteUtils.parseZonedDateTime(departureTime, "departureTime");
+			this.departureTime = Utils.parseZonedDateTime(departureTime, "departureTime");
 			return this;
 		}
 
@@ -379,7 +380,7 @@ public class RouteSegment {
 
 		@JsonProperty
 		public Builder withArrivalTime(String arrivalTime) {
-			this.arrivalTime = SprouteUtils.parseZonedDateTime(arrivalTime, "arrivalTime");
+			this.arrivalTime = Utils.parseZonedDateTime(arrivalTime, "arrivalTime");
 			return this;
 		}
 
@@ -413,7 +414,7 @@ public class RouteSegment {
 			return this;
 		}
 
-		public Builder withAccessibility(List<Sproute.Accessibility> accessibility) {
+		public Builder withAccessibility(List<Constants.Accessibility> accessibility) {
 			this.accessibility = ImmutableList.copyOf(accessibility);
 			return this;
 		}

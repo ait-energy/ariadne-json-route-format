@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import at.ac.ait.ariadne.routeformat.IntermediateStop.Builder;
 import at.ac.ait.ariadne.routeformat.location.Location;
+import at.ac.ait.ariadne.routeformat.util.Utils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -125,7 +126,7 @@ public class IntermediateStop {
 
 		@JsonProperty
 		public Builder withPlannedArrivalTime(String plannedArrivalTime) {
-			this.plannedArrivalTime = Optional.ofNullable(SprouteUtils.parseZonedDateTime(plannedArrivalTime,
+			this.plannedArrivalTime = Optional.ofNullable(Utils.parseZonedDateTime(plannedArrivalTime,
 					"plannedArrivalTime"));
 			return this;
 		}
@@ -138,7 +139,7 @@ public class IntermediateStop {
 
 		@JsonProperty
 		public Builder withPlannedDepartureTime(String plannedDepartureTime) {
-			this.plannedDepartureTime = Optional.ofNullable(SprouteUtils.parseZonedDateTime(plannedDepartureTime,
+			this.plannedDepartureTime = Optional.ofNullable(Utils.parseZonedDateTime(plannedDepartureTime,
 					"plannedDepartureTime"));
 			return this;
 		}
@@ -151,7 +152,7 @@ public class IntermediateStop {
 
 		@JsonProperty
 		public Builder withEstimatedArrivalTime(String estimatedArrivalTime) {
-			this.estimatedArrivalTime = Optional.ofNullable(SprouteUtils.parseZonedDateTime(estimatedArrivalTime,
+			this.estimatedArrivalTime = Optional.ofNullable(Utils.parseZonedDateTime(estimatedArrivalTime,
 					"estimatedArrivalTime"));
 			return this;
 		}
@@ -164,7 +165,7 @@ public class IntermediateStop {
 
 		@JsonProperty
 		public Builder withEstimatedDepartureTime(String estimatedDepartureTime) {
-			this.estimatedDepartureTime = Optional.ofNullable(SprouteUtils.parseZonedDateTime(estimatedDepartureTime,
+			this.estimatedDepartureTime = Optional.ofNullable(Utils.parseZonedDateTime(estimatedDepartureTime,
 					"estimatedDepartureTime"));
 			return this;
 		}

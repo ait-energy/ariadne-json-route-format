@@ -2,7 +2,7 @@ package at.ac.ait.ariadne.routeformat.instruction;
 
 import java.util.Optional;
 
-import at.ac.ait.ariadne.routeformat.Sproute.FormOfWay;
+import at.ac.ait.ariadne.routeformat.Constants.FormOfWay;
 import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPoint;

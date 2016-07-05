@@ -1,4 +1,4 @@
-package at.ac.ait.ariadne.routeformat;
+package at.ac.ait.ariadne.routeformat.util;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
@@ -17,7 +17,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.common.collect.Lists;
 
-import at.ac.ait.ariadne.routeformat.Sproute.GeneralizedModeOfTransportType;
+import at.ac.ait.ariadne.routeformat.Constants.GeneralizedModeOfTransportType;
+import at.ac.ait.ariadne.routeformat.RouteSegment;
 import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPoint;
@@ -25,12 +26,9 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPolygon;
 import at.ac.ait.ariadne.routeformat.location.Location;
 
 /**
- * TODO move to package util in next release
- * 
  * @author AIT Austrian Institute of Technology GmbH
- *
  */
-public class SprouteUtils {
+public class Utils {
 
 	/**
 	 * @return a ZonedDateTime with seconds accuracy

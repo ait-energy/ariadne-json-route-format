@@ -24,7 +24,7 @@ import com.google.common.collect.TreeRangeSet;
 import at.ac.ait.ariadne.routeformat.ModeOfTransport;
 import at.ac.ait.ariadne.routeformat.RouteSegment;
 import at.ac.ait.ariadne.routeformat.RouteSegment.Builder;
-import at.ac.ait.ariadne.routeformat.Sproute.DetailedModeOfTransportType;
+import at.ac.ait.ariadne.routeformat.Constants.DetailedModeOfTransportType;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONLineString;
 

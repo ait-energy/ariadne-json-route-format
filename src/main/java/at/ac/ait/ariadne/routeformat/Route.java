@@ -20,11 +20,12 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 import at.ac.ait.ariadne.routeformat.Route.Builder;
-import at.ac.ait.ariadne.routeformat.Sproute.RouteType;
+import at.ac.ait.ariadne.routeformat.Constants.RouteType;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONLineString;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPolygon;
 import at.ac.ait.ariadne.routeformat.location.Location;
+import at.ac.ait.ariadne.routeformat.util.Utils;
 
 /**
  * A {@link Route} represents a way from A to B that using only one (unimodal)
@@ -250,7 +251,7 @@ public class Route {
 				withArrivalTime(last.getArrivalTime());
 				withDistanceMeters(segments.stream().mapToInt(s -> s.getDistanceMeters()).sum());
 				withDurationSeconds((int) (Duration.between(departureTime, arrivalTime).toMillis() / 1000));
-				SprouteUtils.getBoundingBoxFromGeometryGeoJson(segments).ifPresent(b -> withBoundingBox(b));
+				Utils.getBoundingBoxFromGeometryGeoJson(segments).ifPresent(b -> withBoundingBox(b));
 			}
 			return this;
 		}
@@ -268,7 +269,7 @@ public class Route {
 
 		@JsonProperty
 		public Builder withDepartureTime(String departureTime) {
-			this.departureTime = SprouteUtils.parseZonedDateTime(departureTime, "departureTime");
+			this.departureTime = Utils.parseZonedDateTime(departureTime, "departureTime");
 			return this;
 		}
 
@@ -280,7 +281,7 @@ public class Route {
 
 		@JsonProperty
 		public Builder withArrivalTime(String arrivalTime) {
-			this.arrivalTime = SprouteUtils.parseZonedDateTime(arrivalTime, "arrivalTime");
+			this.arrivalTime = Utils.parseZonedDateTime(arrivalTime, "arrivalTime");
 			return this;
 		}
 

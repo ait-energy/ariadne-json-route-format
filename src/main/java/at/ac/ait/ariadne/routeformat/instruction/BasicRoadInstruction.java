@@ -2,9 +2,9 @@ package at.ac.ait.ariadne.routeformat.instruction;
 
 import java.util.Optional;
 
-import at.ac.ait.ariadne.routeformat.Sproute.CompassDirection;
-import at.ac.ait.ariadne.routeformat.Sproute.FormOfWay;
-import at.ac.ait.ariadne.routeformat.Sproute.TurnDirection;
+import at.ac.ait.ariadne.routeformat.Constants.CompassDirection;
+import at.ac.ait.ariadne.routeformat.Constants.FormOfWay;
+import at.ac.ait.ariadne.routeformat.Constants.TurnDirection;
 import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPoint;

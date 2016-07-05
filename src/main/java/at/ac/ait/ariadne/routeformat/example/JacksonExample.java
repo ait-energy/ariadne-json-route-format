@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import at.ac.ait.ariadne.routeformat.RouteFormatRoot;
-import at.ac.ait.ariadne.routeformat.Sproute.Status;
+import at.ac.ait.ariadne.routeformat.Constants.Status;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;

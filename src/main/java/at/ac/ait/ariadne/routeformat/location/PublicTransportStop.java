@@ -6,8 +6,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import at.ac.ait.ariadne.routeformat.RouteSegment;
-import at.ac.ait.ariadne.routeformat.Sproute;
-import at.ac.ait.ariadne.routeformat.Sproute.DetailedModeOfTransportType;
+import at.ac.ait.ariadne.routeformat.Constants;
+import at.ac.ait.ariadne.routeformat.Constants.DetailedModeOfTransportType;
 import at.ac.ait.ariadne.routeformat.location.PublicTransportStop.Builder2;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -34,7 +34,7 @@ public class PublicTransportStop extends Location {
 	private final String name;
 	private final Optional<String> platform;
 	private final Map<String, DetailedModeOfTransportType> relatedLines;
-	private final List<Sproute.Accessibility> accessibility;
+	private final List<Constants.Accessibility> accessibility;
 
 	public PublicTransportStop(Builder<?> builder) {
 		super(builder);
@@ -64,7 +64,7 @@ public class PublicTransportStop extends Location {
 		return relatedLines;
 	}
 
-	public List<Sproute.Accessibility> getAccessibility() {
+	public List<Constants.Accessibility> getAccessibility() {
 		return accessibility;
 	}
 
@@ -82,7 +82,7 @@ public class PublicTransportStop extends Location {
 		private String name;
 		private Optional<String> platform = Optional.empty();
 		private Map<String, DetailedModeOfTransportType> relatedLines = Collections.emptyMap();
-		private List<Sproute.Accessibility> accessibility = Collections.emptyList();
+		private List<Constants.Accessibility> accessibility = Collections.emptyList();
 
 		public T withName(String name) {
 			this.name = name;
@@ -99,7 +99,7 @@ public class PublicTransportStop extends Location {
 			return self();
 		}
 
-		public T withAccessibility(List<Sproute.Accessibility> accessibility) {
+		public T withAccessibility(List<Constants.Accessibility> accessibility) {
 			this.accessibility = ImmutableList.copyOf(accessibility);
 			return self();
 		}

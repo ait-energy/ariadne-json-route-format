@@ -6,7 +6,7 @@ import org.junit.Test;
 import com.google.common.collect.ImmutableMap;
 
 import at.ac.ait.ariadne.routeformat.ModeOfTransport.Builder;
-import at.ac.ait.ariadne.routeformat.Sproute.DetailedModeOfTransportType;
+import at.ac.ait.ariadne.routeformat.Constants.DetailedModeOfTransportType;
 
 public class ModeOfTransportTest {
 

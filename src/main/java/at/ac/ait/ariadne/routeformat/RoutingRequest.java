@@ -9,9 +9,10 @@ import java.util.Optional;
 import java.util.Set;
 
 import at.ac.ait.ariadne.routeformat.RoutingRequest.Builder;
-import at.ac.ait.ariadne.routeformat.Sproute.DetailedModeOfTransportType;
-import at.ac.ait.ariadne.routeformat.Sproute.GeneralizedModeOfTransportType;
+import at.ac.ait.ariadne.routeformat.Constants.DetailedModeOfTransportType;
+import at.ac.ait.ariadne.routeformat.Constants.GeneralizedModeOfTransportType;
 import at.ac.ait.ariadne.routeformat.location.Location;
+import at.ac.ait.ariadne.routeformat.util.Utils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -66,7 +67,7 @@ public class RoutingRequest {
 	private final Optional<ZonedDateTime> arrivalTime;
 	private final Optional<Integer> acceptedDelayMinutes;
 	private final Optional<Integer> maximumPublicTransportRoutes;
-	private final Set<Sproute.AccessibilityRestriction> accessibilityRestrictions;
+	private final Set<Constants.AccessibilityRestriction> accessibilityRestrictions;
 	private final Map<GeneralizedModeOfTransportType, List<Location>> privateVehicleLocations;
 	private final Optional<String> language;
 	private final Map<String, Object> additionalInfo;
@@ -211,7 +212,7 @@ public class RoutingRequest {
 		return maximumPublicTransportRoutes;
 	}
 
-	public Set<Sproute.AccessibilityRestriction> getAccessibilityRestrictions() {
+	public Set<Constants.AccessibilityRestriction> getAccessibilityRestrictions() {
 		return accessibilityRestrictions;
 	}
 
@@ -276,7 +277,7 @@ public class RoutingRequest {
 		private Optional<ZonedDateTime> arrivalTime = Optional.empty();
 		private Optional<Integer> acceptedDelayMinutes = Optional.empty();
 		private Optional<Integer> maximumPublicTransportRoutes = Optional.empty();
-		private Set<Sproute.AccessibilityRestriction> accessibilityRestrictions = Collections.emptySet();
+		private Set<Constants.AccessibilityRestriction> accessibilityRestrictions = Collections.emptySet();
 		private Map<GeneralizedModeOfTransportType, List<Location>> privateVehicleLocations = Collections.emptyMap();
 		private Optional<String> language = Optional.empty();
 		private Map<String, Object> additionalInfo = Collections.emptyMap();
@@ -303,7 +304,7 @@ public class RoutingRequest {
 
 		@JsonIgnore
 		public Builder withModesOfTransport(String modesOfTransport) {
-			this.modesOfTransport = SprouteUtils.parseModesOfTransport(modesOfTransport, "modesOfTransport");
+			this.modesOfTransport = Utils.parseModesOfTransport(modesOfTransport, "modesOfTransport");
 			return this;
 		}
 
@@ -341,7 +342,7 @@ public class RoutingRequest {
 			} else if (departureTime.equalsIgnoreCase("NOW")) {
 				this.departureTime = Optional.of(ZonedDateTime.now().truncatedTo(ChronoUnit.SECONDS));
 			} else {
-				this.departureTime = Optional.of(SprouteUtils.parseZonedDateTime(departureTime, "departureTime"));
+				this.departureTime = Optional.of(Utils.parseZonedDateTime(departureTime, "departureTime"));
 			}
 			return this;
 		}
@@ -359,7 +360,7 @@ public class RoutingRequest {
 			} else if (arrivalTime.equalsIgnoreCase("NOW")) {
 				this.arrivalTime = Optional.of(ZonedDateTime.now().truncatedTo(ChronoUnit.SECONDS));
 			} else {
-				this.arrivalTime = Optional.of(SprouteUtils.parseZonedDateTime(arrivalTime, "arrivalTime"));
+				this.arrivalTime = Optional.of(Utils.parseZonedDateTime(arrivalTime, "arrivalTime"));
 			}
 			return this;
 		}
@@ -374,7 +375,7 @@ public class RoutingRequest {
 			return this;
 		}
 
-		public Builder withAccessibilityRestrictions(Set<Sproute.AccessibilityRestriction> accessibilityRestrictions) {
+		public Builder withAccessibilityRestrictions(Set<Constants.AccessibilityRestriction> accessibilityRestrictions) {
 			this.accessibilityRestrictions = ImmutableSet.copyOf(accessibilityRestrictions);
 			return this;
 		}
@@ -408,7 +409,7 @@ public class RoutingRequest {
 					"modesOfTransport is mandatory but missing/empty");
 			Preconditions.checkArgument(modesOfTransport.size() >= 1, ">= 1 modesOfTransport must be used");
 			if (modesOfTransport.size() > 1 && !modesOfTransport.contains(GeneralizedModeOfTransportType.FOOT)) {
-				modesOfTransport = ImmutableSet.<Sproute.GeneralizedModeOfTransportType> builder()
+				modesOfTransport = ImmutableSet.<Constants.GeneralizedModeOfTransportType> builder()
 						.addAll(modesOfTransport).add(GeneralizedModeOfTransportType.FOOT).build();
 			}
 

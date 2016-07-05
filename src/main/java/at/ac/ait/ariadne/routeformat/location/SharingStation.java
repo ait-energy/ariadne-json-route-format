@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import at.ac.ait.ariadne.routeformat.Operator;
-import at.ac.ait.ariadne.routeformat.Sproute.GeneralizedModeOfTransportType;
+import at.ac.ait.ariadne.routeformat.Constants.GeneralizedModeOfTransportType;
 import at.ac.ait.ariadne.routeformat.location.SharingStation.Builder2;
 
 import com.fasterxml.jackson.annotation.JsonInclude;

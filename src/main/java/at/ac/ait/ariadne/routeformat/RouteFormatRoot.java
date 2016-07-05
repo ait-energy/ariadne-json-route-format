@@ -7,7 +7,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import at.ac.ait.ariadne.routeformat.RouteFormatRoot.Builder;
-import at.ac.ait.ariadne.routeformat.Sproute.Status;
+import at.ac.ait.ariadne.routeformat.util.Utils;
+import at.ac.ait.ariadne.routeformat.Constants.Status;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -169,7 +170,7 @@ public class RouteFormatRoot {
 
 		@JsonProperty
 		public Builder withProcessedTime(String processedTime) {
-			this.processedTime = SprouteUtils.parseZonedDateTime(processedTime, "processedTime");
+			this.processedTime = Utils.parseZonedDateTime(processedTime, "processedTime");
 			return this;
 		}
 

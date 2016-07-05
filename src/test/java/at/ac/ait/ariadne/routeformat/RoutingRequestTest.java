@@ -7,8 +7,8 @@ import org.junit.Test;
 
 import com.google.common.collect.ImmutableSet;
 
-import at.ac.ait.ariadne.routeformat.Sproute.DetailedModeOfTransportType;
-import at.ac.ait.ariadne.routeformat.Sproute.GeneralizedModeOfTransportType;
+import at.ac.ait.ariadne.routeformat.Constants.DetailedModeOfTransportType;
+import at.ac.ait.ariadne.routeformat.Constants.GeneralizedModeOfTransportType;
 
 public class RoutingRequestTest {
 

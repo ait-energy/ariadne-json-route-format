@@ -4,12 +4,13 @@ import java.util.Arrays;
 
 import org.junit.Assert;
 
-import at.ac.ait.ariadne.routeformat.Sproute.DetailedModeOfTransportType;
-import at.ac.ait.ariadne.routeformat.Sproute.GeneralizedModeOfTransportType;
+import at.ac.ait.ariadne.routeformat.Constants.DetailedModeOfTransportType;
+import at.ac.ait.ariadne.routeformat.Constants.GeneralizedModeOfTransportType;
 import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONLineString;
 import at.ac.ait.ariadne.routeformat.location.Location;
+import at.ac.ait.ariadne.routeformat.util.Utils;
 
 /**
  * Helper snippets & methods for writing unit tests
@@ -55,19 +56,19 @@ public class TestUtil {
 	/**
 	 * @param expected
 	 *            a String in the same format as from
-	 *            {@link SprouteUtils#getShortStringDateTime(java.time.ZonedDateTime)}
+	 *            {@link Utils#getShortStringDateTime(java.time.ZonedDateTime)}
 	 */
 	public static void checkDeparture(RouteSegment segment, String expected) {
-		Assert.assertEquals(expected, SprouteUtils.getShortStringDateTime(segment.getDepartureTimeAsZonedDateTime()));
+		Assert.assertEquals(expected, Utils.getShortStringDateTime(segment.getDepartureTimeAsZonedDateTime()));
 	}
 
 	/**
 	 * @param expected
 	 *            a String in the same format as from
-	 *            {@link SprouteUtils#getShortStringDateTime(java.time.ZonedDateTime)}
+	 *            {@link Utils#getShortStringDateTime(java.time.ZonedDateTime)}
 	 */
 	public static void checkArrival(RouteSegment segment, String expected) {
-		Assert.assertEquals(expected, SprouteUtils.getShortStringDateTime(segment.getArrivalTimeAsZonedDateTime()));
+		Assert.assertEquals(expected, Utils.getShortStringDateTime(segment.getArrivalTimeAsZonedDateTime()));
 	}
 
 	public static void checkDurationSeconds(RouteSegment segment, int expected) {
