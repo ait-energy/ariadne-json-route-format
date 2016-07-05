@@ -98,14 +98,34 @@ public class Constants {
 
     public enum FormOfWay {
         MOTORWAY,
+
         /** everything below motorways and down to residential roads */
-        ROAD, LIVING_STREET,
-        /** dedicated cyclepath */
+        ROAD,
+
+        /** road crossing for cyclists / pedestrians */
+        ROAD_CROSSING,
+
+        /** */
+        LIVING_STREET,
+
+        /** dedicated cyclepath (no pedestrians or other vehicles allowed) */
         CYCLEPATH,
-        /** dedicated footpath */
-        FOOTPATH,
+
         /** dedicated mixed foot and cyclepath */
-        FOOT_AND_CYCLEPATH, PEDESTRIAN_ZONE, STAIRS,
+        FOOT_AND_CYCLEPATH,
+
+        /** dedicated footpath (no vehicles allowed) */
+        FOOTPATH,
+
+        /** sidewalk that runs along a street, typically only for pedestrians */
+        SIDEWALK,
+
+        /** */
+        PEDESTRIAN_ZONE,
+
+        /** */
+        STAIRS,
+
         /** small path, typically foot-only and/or unpaved */
         PATH
     }
