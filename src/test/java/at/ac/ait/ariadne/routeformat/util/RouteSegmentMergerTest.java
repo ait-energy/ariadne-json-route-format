@@ -60,8 +60,8 @@ public class RouteSegmentMergerTest {
 		RouteSegment merged = mergedSegments.get(0);
 		Assert.assertEquals(1, merged.getNr());
 		Assert.assertEquals("2016-01-01T15:34:10",
-				Utils.getShortStringDateTime(merged.getDepartureTimeAsZonedDateTime()));
-		Assert.assertEquals("2016-01-01T15:45:00", Utils.getShortStringDateTime(merged.getArrivalTimeAsZonedDateTime()));
+				Utils.getShortStringDateTime(merged.getStartTimeAsZonedDateTime()));
+		Assert.assertEquals("2016-01-01T15:45:00", Utils.getShortStringDateTime(merged.getEndTimeAsZonedDateTime()));
 		Assert.assertEquals(10 * 60 + 50, merged.getDurationSeconds());
 		Assert.assertEquals("sum of boarding of all segments + waiting inbetween", 120 + 124,
 				(int) merged.getBoardingSeconds().get());
@@ -85,9 +85,9 @@ public class RouteSegmentMergerTest {
 		RouteSegment first = mergedSegments.get(0);
 		Assert.assertEquals(1, first.getNr());
 		Assert.assertEquals("2016-01-01T15:34:10",
-				Utils.getShortStringDateTime(first.getDepartureTimeAsZonedDateTime()));
+				Utils.getShortStringDateTime(first.getStartTimeAsZonedDateTime()));
 		Assert.assertEquals("one additional minute added", "2016-01-01T15:38:56",
-				Utils.getShortStringDateTime(first.getArrivalTimeAsZonedDateTime()));
+				Utils.getShortStringDateTime(first.getEndTimeAsZonedDateTime()));
 		Assert.assertEquals(4 * 60 + 46, first.getDurationSeconds());
 		Assert.assertEquals(60, (int) first.getBoardingSeconds().get());
 		Assert.assertEquals("one additional minute added", 120, (int) first.getAlightingSeconds().get());
@@ -97,8 +97,8 @@ public class RouteSegmentMergerTest {
 		RouteSegment second = mergedSegments.get(1);
 		Assert.assertEquals(2, second.getNr());
 		Assert.assertEquals("2016-01-01T15:38:56",
-				Utils.getShortStringDateTime(second.getDepartureTimeAsZonedDateTime()));
-		Assert.assertEquals("2016-01-01T15:45:00", Utils.getShortStringDateTime(second.getArrivalTimeAsZonedDateTime()));
+				Utils.getShortStringDateTime(second.getStartTimeAsZonedDateTime()));
+		Assert.assertEquals("2016-01-01T15:45:00", Utils.getShortStringDateTime(second.getEndTimeAsZonedDateTime()));
 		Assert.assertEquals(64 + (180 + 60 * 2), second.getDurationSeconds());
 		Assert.assertEquals(64 + 60, (int) second.getBoardingSeconds().get());
 		Assert.assertEquals(60, (int) second.getAlightingSeconds().get());
@@ -116,12 +116,12 @@ public class RouteSegmentMergerTest {
 
 		RouteSegment first = mergedSegments.get(0);
 		Assert.assertEquals("2016-01-01T15:34:10",
-				Utils.getShortStringDateTime(first.getDepartureTimeAsZonedDateTime()));
-		Assert.assertEquals("2016-01-01T15:37:56", Utils.getShortStringDateTime(first.getArrivalTimeAsZonedDateTime()));
+				Utils.getShortStringDateTime(first.getStartTimeAsZonedDateTime()));
+		Assert.assertEquals("2016-01-01T15:37:56", Utils.getShortStringDateTime(first.getEndTimeAsZonedDateTime()));
 		RouteSegment second = mergedSegments.get(1);
 		Assert.assertEquals("there must be zero gap to the first segment", "2016-01-01T15:37:56",
-				Utils.getShortStringDateTime(second.getDepartureTimeAsZonedDateTime()));
-		Assert.assertEquals("2016-01-01T15:42:56", Utils.getShortStringDateTime(second.getArrivalTimeAsZonedDateTime()));
+				Utils.getShortStringDateTime(second.getStartTimeAsZonedDateTime()));
+		Assert.assertEquals("2016-01-01T15:42:56", Utils.getShortStringDateTime(second.getEndTimeAsZonedDateTime()));
 	}
 
 	private RouteSegment getFirstSegment(ModeOfTransport mot) {
@@ -133,7 +133,7 @@ public class RouteSegmentMergerTest {
 				// 106 seconds ride, 1 minutes unlocking bike, 1 minute parking
 				// & locking bike
 				.withDurationSeconds(106 + 60 * 2).withBoardingSeconds(60 * 1).withAlightingSeconds(60 * 1)
-				.withDepartureTime("2016-01-01T15:34:10+01:00").withArrivalTime("2016-01-01T15:37:56+01:00")
+				.withStartTime("2016-01-01T15:34:10+01:00").withEndTime("2016-01-01T15:37:56+01:00")
 				.withModeOfTransport(mot).withGeometryGeoJson(geometryGeoJson).build();
 		return bicycleFromAdalbertStifterStrasseToTreugasse;
 	}
@@ -146,7 +146,7 @@ public class RouteSegmentMergerTest {
 				// 180 seconds ride, 1 minutes unlocking bike, 1 minute parking
 				// & locking bike = 5 minutes
 				.withDurationSeconds(180 + 60 * 2).withBoardingSeconds(60 * 1).withAlightingSeconds(60 * 1)
-				.withDepartureTime("2016-01-01T15:40:00+01:00").withArrivalTime("2016-01-01T15:45:00+01:00")
+				.withStartTime("2016-01-01T15:40:00+01:00").withEndTime("2016-01-01T15:45:00+01:00")
 				.withModeOfTransport(mot).withGeometryGeoJson(geometryGeoJson).build();
 		return bicycleFromTreugasseToGaussplatz;
 	}

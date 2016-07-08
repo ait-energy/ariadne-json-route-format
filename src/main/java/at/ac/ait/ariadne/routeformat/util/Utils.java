@@ -19,6 +19,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 
 import at.ac.ait.ariadne.routeformat.Constants.GeneralizedModeOfTransportType;
+import at.ac.ait.ariadne.routeformat.ModeOfTransport;
 import at.ac.ait.ariadne.routeformat.RouteSegment;
 import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
@@ -129,6 +130,23 @@ public class Utils {
                     variableName, value);
         }
         return value;
+    }
+
+    public static ModeOfTransport getStandardModeOfTransport(GeneralizedModeOfTransportType type) {
+        switch (type) {
+        case BICYCLE:
+            return ModeOfTransport.STANDARD_BICYCLE;
+        case CAR:
+            return ModeOfTransport.STANDARD_CAR;
+        case FOOT:
+            return ModeOfTransport.STANDARD_FOOT;
+        case MOTORCYCLE:
+            return ModeOfTransport.STANDARD_MOTORCYCLE;
+        case PUBLIC_TRANSPORT:
+            return ModeOfTransport.STANDARD_PUBLIC_TRANSPORT;
+        default:
+            throw new IllegalArgumentException("unsupported type " + type);
+        }
     }
 
 }

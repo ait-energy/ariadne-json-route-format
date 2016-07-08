@@ -266,7 +266,7 @@ public class IntermodalRouteExample {
                 geometryGeoJson);
         walkToBusStopHeinrichVonBuolGasse = RouteSegment.builder().withNr(++segmentNr).withFrom(giefinggasseAit)
                 .withTo(heinrichVonBuolGasseBusStop).withDistanceMeters(200).withDurationSeconds(60)
-                .withDepartureTime("2016-01-01T15:00:00+01:00").withArrivalTime("2016-01-01T15:01:00+01:00")
+                .withStartTime("2016-01-01T15:00:00+01:00").withEndTime("2016-01-01T15:01:00+01:00")
                 .withModeOfTransport(ModeOfTransport.STANDARD_FOOT).withGeometryGeoJson(geometryGeoJson)
                 .withGeometryGeoJsonEdges(geometryGeoJsonEdges).build();
         segments.add(walkToBusStopHeinrichVonBuolGasse);
@@ -276,8 +276,8 @@ public class IntermodalRouteExample {
         transferToBusHeinrichVonBuolGasse = RouteSegment.builder().withNr(++segmentNr)
                 .withFrom(heinrichVonBuolGasseBusStop).withTo(heinrichVonBuolGasseBusStop).withDistanceMeters(0)
                 // 5 minutes waiting (=boarding) time
-                .withDurationSeconds(60 * 5).withBoardingSeconds(60 * 5).withDepartureTime("2016-01-01T15:01:00+01:00")
-                .withArrivalTime("2016-01-01T15:06:00+01:00").withModeOfTransport(ModeOfTransport.STANDARD_TRANSFER)
+                .withDurationSeconds(60 * 5).withBoardingSeconds(60 * 5).withStartTime("2016-01-01T15:01:00+01:00")
+                .withEndTime("2016-01-01T15:06:00+01:00").withModeOfTransport(ModeOfTransport.STANDARD_TRANSFER)
                 .withGeometryGeoJson(geometryGeoJson).build();
         segments.add(transferToBusHeinrichVonBuolGasse);
 
@@ -288,8 +288,8 @@ public class IntermodalRouteExample {
                 new CoordinatePoint("16.40127", "48.25698"));
         busFromHeinrichVonBuolGgasseToFloridsdorf = RouteSegment.builder().withNr(++segmentNr)
                 .withFrom(heinrichVonBuolGasseBusStop).withTo(floridsdorfBusStop).withDistanceMeters(2500)
-                .withDurationSeconds(60 * 10 + 30).withDepartureTime("2016-01-01T15:06:00+01:00")
-                .withArrivalTime("2016-01-01T15:16:30+01:00")
+                .withDurationSeconds(60 * 10 + 30).withStartTime("2016-01-01T15:06:00+01:00")
+                .withEndTime("2016-01-01T15:16:30+01:00")
                 .withModeOfTransport(ModeOfTransport.builder().withDetailedType(DetailedModeOfTransportType.BUS)
                         .withAccessibility(Arrays.asList(VehicleAccessibility.HIGH_FLOOR_VEHICLE))
                         .withService(service28A).withOperator(wienerLinienOperator).build())
@@ -302,8 +302,8 @@ public class IntermodalRouteExample {
         RouteSegment transferFloridsdorfFromBusToSubway = RouteSegment.builder().withNr(++segmentNr)
                 .withFrom(floridsdorfBusStop).withTo(floridsdorfSubwayStop).withDistanceMeters(40)
                 // 1 minute walking time + 3 minutes waiting (=boarding) time
-                .withDurationSeconds(60 * 4).withBoardingSeconds(60 * 3).withDepartureTime("2016-01-01T15:16:30+01:00")
-                .withArrivalTime("2016-01-01T15:20:30+01:00").withModeOfTransport(ModeOfTransport.STANDARD_TRANSFER)
+                .withDurationSeconds(60 * 4).withBoardingSeconds(60 * 3).withStartTime("2016-01-01T15:16:30+01:00")
+                .withEndTime("2016-01-01T15:20:30+01:00").withModeOfTransport(ModeOfTransport.STANDARD_TRANSFER)
                 .withAccessibility(Arrays.asList(Accessibility.STAIRS_DOWN)).withGeometryGeoJson(geometryGeoJson)
                 .build();
         segments.add(transferFloridsdorfFromBusToSubway);
@@ -313,8 +313,8 @@ public class IntermodalRouteExample {
                 new CoordinatePoint("16.39468", "48.24630"));
         RouteSegment subwayFromFloridsdorfToHandelskai = RouteSegment.builder().withNr(++segmentNr)
                 .withFrom(floridsdorfSubwayStop).withTo(handelskaiSubwayStop).withDistanceMeters(2000)
-                .withDurationSeconds(60 * 4).withDepartureTime("2016-01-01T15:20:30+01:00")
-                .withArrivalTime("2016-01-01T15:24:30+01:00")
+                .withDurationSeconds(60 * 4).withStartTime("2016-01-01T15:20:30+01:00")
+                .withEndTime("2016-01-01T15:24:30+01:00")
                 .withIntermediateStops(Arrays.asList(createIntermediateStopNeueDonau()))
                 .withModeOfTransport(ModeOfTransport.builder().withDetailedType(DetailedModeOfTransportType.SUBWAY)
                         .withAccessibility(Arrays.asList(VehicleAccessibility.LOW_FLOOR_VEHICLE)).withService(serviceU6)
@@ -327,8 +327,8 @@ public class IntermodalRouteExample {
         RouteSegment transferHandelskaiFromSubwayToExit = RouteSegment.builder().withNr(++segmentNr)
                 .withFrom(handelskaiSubwayStop).withTo(handelskaiSubwayEntry).withDistanceMeters(40)
                 // 3 minutes walking time
-                .withDurationSeconds(60 * 3).withDepartureTime("2016-01-01T15:24:30+01:00")
-                .withArrivalTime("2016-01-01T15:27:30+01:00").withModeOfTransport(ModeOfTransport.STANDARD_TRANSFER)
+                .withDurationSeconds(60 * 3).withStartTime("2016-01-01T15:24:30+01:00")
+                .withEndTime("2016-01-01T15:27:30+01:00").withModeOfTransport(ModeOfTransport.STANDARD_TRANSFER)
                 .withAccessibility(Arrays.asList(Accessibility.ESCALATOR_DOWN, Accessibility.STAIRS_DOWN))
                 .withGeometryGeoJson(geometryGeoJson).build();
         segments.add(transferHandelskaiFromSubwayToExit);
@@ -338,8 +338,8 @@ public class IntermodalRouteExample {
                 new CoordinatePoint("16.3845846", "48.2418792"));
         RouteSegment walkToCitybikeHandelskai = RouteSegment.builder().withNr(++segmentNr)
                 .withFrom(handelskaiSubwayEntry).withTo(handelskaiCitybike).withDistanceMeters(57)
-                .withDurationSeconds(40).withDepartureTime("2016-01-01T15:27:30+01:00")
-                .withArrivalTime("2016-01-01T15:28:10+01:00")
+                .withDurationSeconds(40).withStartTime("2016-01-01T15:27:30+01:00")
+                .withEndTime("2016-01-01T15:28:10+01:00")
                 .withModeOfTransport(
                         ModeOfTransport.builder().withDetailedType(DetailedModeOfTransportType.FOOT).build())
                 .withGeometryGeoJson(geometryGeoJson).build();
@@ -360,7 +360,7 @@ public class IntermodalRouteExample {
                 // 3 minutes ride, 2 minutes renting the bike, 1 minute
                 // returning the bike
                 .withDurationSeconds(60 * 6).withBoardingSeconds(60 * 2).withAlightingSeconds(60 * 1)
-                .withDepartureTime("2016-01-01T15:28:10+01:00").withArrivalTime("2016-01-01T15:34:10+01:00")
+                .withStartTime("2016-01-01T15:28:10+01:00").withEndTime("2016-01-01T15:34:10+01:00")
                 .withModeOfTransport(citybikeMot).withGeometryGeoJson(geometryGeoJson).build();
         segments.add(citybikeFromHandelskaiToFriedrichEngelsPlatz);
 
@@ -370,7 +370,7 @@ public class IntermodalRouteExample {
                 new CoordinatePoint("16.37763", "48.24369"));
         RouteSegment walkToCar2go = RouteSegment.builder().withNr(++segmentNr).withFrom(friedrichEngelsPlatzCitybike)
                 .withTo(car2goPickup).withDistanceMeters(150).withDurationSeconds(115)
-                .withDepartureTime("2016-01-01T15:34:10+01:00").withArrivalTime("2016-01-01T15:36:05+01:00")
+                .withStartTime("2016-01-01T15:34:10+01:00").withEndTime("2016-01-01T15:36:05+01:00")
                 .withAccessibility(Arrays.asList(Accessibility.STAIRS_UP))
                 .withModeOfTransport(ModeOfTransport.STANDARD_FOOT).withGeometryGeoJson(geometryGeoJson).build();
         segments.add(walkToCar2go);
@@ -383,7 +383,7 @@ public class IntermodalRouteExample {
                 // 4 minutes ride, 2 minutes renting the car, 1 minute parking
                 // the car
                 .withDurationSeconds(60 * 7).withBoardingSeconds(60 * 2).withAlightingSeconds(60 * 1)
-                .withDepartureTime("2016-01-01T15:36:05+01:00").withArrivalTime("2016-01-01T15:43:05+01:00")
+                .withStartTime("2016-01-01T15:36:05+01:00").withEndTime("2016-01-01T15:43:05+01:00")
                 .withModeOfTransport(ModeOfTransport.builder().withDetailedType(DetailedModeOfTransportType.CAR)
                         .withSharingType(Sharing.FREE_FLOATING_VEHICLE_SHARING).withElectric(true)
                         .withOperator(car2goOperator)
@@ -404,7 +404,7 @@ public class IntermodalRouteExample {
                 // 106 seconds ride, 1 minutes unlocking bike, 1 minute parking
                 // & locking bike
                 .withDurationSeconds(106 + 60 * 2).withBoardingSeconds(60 * 1).withAlightingSeconds(60 * 1)
-                .withDepartureTime("2016-01-01T15:43:05+01:00").withArrivalTime("2016-01-01T15:46:51+01:00")
+                .withStartTime("2016-01-01T15:43:05+01:00").withEndTime("2016-01-01T15:46:51+01:00")
                 .withIntermediateStops(Arrays.asList(IntermediateStop.builder().withStop(antonKummererPark).build()))
                 // additional info about vehicles provided in the request can be
                 // added here (such as in project SMILE)
@@ -420,7 +420,7 @@ public class IntermodalRouteExample {
                 // 112 seconds ride, 3 minutes waiting for ride-sharing &
                 // hopping on board
                 .withDurationSeconds(112 + 60 * 3).withBoardingSeconds(60 * 3)
-                .withDepartureTime("2016-01-01T15:46:51+01:00").withArrivalTime("2016-01-01T15:51:43+01:00")
+                .withStartTime("2016-01-01T15:46:51+01:00").withEndTime("2016-01-01T15:51:43+01:00")
                 .withModeOfTransport(ModeOfTransport.builder().withDetailedType(DetailedModeOfTransportType.CAR)
                         .withSharingType(Sharing.RIDE_SHARING).withOperator(flincOperator)
                         // for now specific information goes as additional info
@@ -440,7 +440,7 @@ public class IntermodalRouteExample {
                 // 1 minute unlocking/entering time
                 // 5 minutes searching for a parking space
                 .withDurationSeconds(57 + 60 * 6).withBoardingSeconds(60).withAlightingSeconds(60 * 5)
-                .withDepartureTime("2016-01-01T15:51:43+01:00").withArrivalTime("2016-01-01T15:58:40+01:00")
+                .withStartTime("2016-01-01T15:51:43+01:00").withEndTime("2016-01-01T15:58:40+01:00")
                 .withModeOfTransport(ModeOfTransport.STANDARD_CAR).withGeometryGeoJson(geometryGeoJson).build();
         segments.add(carFromGaussplatzToScholzgasse);
 

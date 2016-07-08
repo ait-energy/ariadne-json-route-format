@@ -50,21 +50,21 @@ public class RouteSegmentMergerPTTest {
 //		10: FOOT-FOOT 144m 178s (2016-04-12 departure: 17:08:00, arrival: 17:10:58)
 		
 		TestUtil.checkMot(mergedSegments.get(1), GeneralizedModeOfTransportType.PUBLIC_TRANSPORT, DetailedModeOfTransportType.TRAM);
-		TestUtil.checkDeparture(mergedSegments.get(1), "2016-04-12T16:31:25");
+		TestUtil.checkStart(mergedSegments.get(1), "2016-04-12T16:31:25");
 		TestUtil.checkBoardingSeconds(mergedSegments.get(1), 155); // waiting time!
 		TestUtil.checkAlightingSeconds(mergedSegments.get(1), 0);
-		TestUtil.checkArrival(mergedSegments.get(1), "2016-04-12T16:36:00");
+		TestUtil.checkEnd(mergedSegments.get(1), "2016-04-12T16:36:00");
 
 		TestUtil.checkAlightingSeconds(mergedSegments.get(4), 66); // waiting time!
 
 		TestUtil.checkMot(mergedSegments.get(5), GeneralizedModeOfTransportType.PUBLIC_TRANSPORT, DetailedModeOfTransportType.SUBWAY);
-		TestUtil.checkDeparture(mergedSegments.get(5), "2016-04-12T16:47:00");
-		TestUtil.checkArrival(mergedSegments.get(5), "2016-04-12T16:57:00");
+		TestUtil.checkStart(mergedSegments.get(5), "2016-04-12T16:47:00");
+		TestUtil.checkEnd(mergedSegments.get(5), "2016-04-12T16:57:00");
 
 		TestUtil.checkMot(mergedSegments.get(7), GeneralizedModeOfTransportType.PUBLIC_TRANSPORT,
 				DetailedModeOfTransportType.RAILWAY);
-		TestUtil.checkDeparture(mergedSegments.get(7), "2016-04-12T17:01:00");
-		TestUtil.checkArrival(mergedSegments.get(7), "2016-04-12T17:07:00");
+		TestUtil.checkStart(mergedSegments.get(7), "2016-04-12T17:01:00");
+		TestUtil.checkEnd(mergedSegments.get(7), "2016-04-12T17:07:00");
 		/* @formatter:on */
 	}
 

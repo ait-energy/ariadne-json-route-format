@@ -2,10 +2,14 @@ package at.ac.ait.ariadne.routeformat.geojson;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+import at.ac.ait.ariadne.routeformat.RouteFormatRoot;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -13,15 +17,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */
-@JsonInclude(Include.ALWAYS)
+@JsonInclude(Include.NON_EMPTY)
 public class GeoJSONFeatureCollection<T extends GeoJSONGeometryObject> {
 
 	@JsonProperty(required = true)
 	public final GeoJSONType type = GeoJSONType.FeatureCollection;
 
-	@JsonProperty(required = false)
-	public CRS crs = CRS.WGS84;
+    /**
+     * In case neither this field nor
+     * {@link RouteFormatRoot#getCoordinateReferenceSystem()} is set, fallback
+     * to {@link CRS#WGS84}
+     */
+    @JsonProperty(required = false)
+    public Optional<CRS> crs = Optional.empty();
 
+    @JsonInclude(Include.ALWAYS)
 	@JsonProperty(required = true)
 	public List<GeoJSONFeature<T>> features = new ArrayList<>();
 

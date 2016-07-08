@@ -220,8 +220,8 @@
             html += mot.sharingType ? ' (' + mot.sharingType + ')' : '';
             html += '</h4>';
             html += 'distance:  ' + getDistanceString(segment.distanceMeters) + '<br>';
-            html += 'departure: ' + getTimeFromDateTimeString(segment.departureTime) + '<br>';
-            html += 'arrival:   ' + getTimeFromDateTimeString(segment.arrivalTime) + '<br>';
+            html += 'start: ' + getTimeFromDateTimeString(segment.startTime) + '<br>';
+            html += 'end:   ' + getTimeFromDateTimeString(segment.endTime) + '<br>';
             html += 'duration:  ' + getDurationString(segment.durationSeconds) + '<br>';
             var clone = JSON.parse(JSON.stringify(segment));
             clone.from = '...';
@@ -373,8 +373,8 @@
                     routeInfoText += ' - ' + route['optimizedFor'];
                 routeInfoText += '</h4>';
                 routeInfoText += 'distance:  ' + getDistanceString(route.distanceMeters) + '<br>';
-                routeInfoText += 'departure: ' + getTimeFromDateTimeString(route.departureTime) + '<br>';
-                routeInfoText += 'arrival:   ' + getTimeFromDateTimeString(route.arrivalTime) + '<br>';
+                routeInfoText += 'start: ' + getTimeFromDateTimeString(route.startTime) + '<br>';
+                routeInfoText += 'end:   ' + getTimeFromDateTimeString(route.endTime) + '<br>';
                 routeInfoText += 'duration:  ' + getDurationString(route.durationSeconds) + '<br>';
                 routeInfoText += '<pre>' + JSON.stringify(clone,null,2) + '</pre>';
                 routeWithInfo.push({'routeLayerGroupSegments': routeLayerGroupSegments, 'routeLayerGroupMarkers' : routeLayerGroupMarkers, 'infoText' : routeInfoText });
@@ -398,7 +398,13 @@
             displayedRoutesChanged();
         }
         
-         //addRoutesToCanvas($.parseJSON(`###JSON###`));
+        //addRoutesToCanvas($.parseJSON(`###JSON###`));
+        // get rid of not-well-formed warning
+        $.ajaxSetup({beforeSend: function(xhr){
+            if (xhr.overrideMimeType) {
+                xhr.overrideMimeType("application/json");
+            }
+        }});
         $.getJSON('ariadne-json-route-format_example.json', addRoutesToCanvas);
     </script>
 </body>

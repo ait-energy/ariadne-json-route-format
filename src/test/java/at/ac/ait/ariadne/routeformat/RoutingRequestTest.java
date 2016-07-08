@@ -17,7 +17,7 @@ public class RoutingRequestTest {
         getBuilder().build();
 
         try {
-            getBuilder().withArrivalTime(TestUtil.ARRIVAL_TIME).build();
+            getBuilder().withArrivalTime(TestUtil.END_TIME).build();
             Assert.fail("expected IllegalArgumentException");
         } catch (IllegalArgumentException e) {
         }
@@ -60,7 +60,7 @@ public class RoutingRequestTest {
         return RoutingRequest.builder().withServiceId(TestUtil.SERVICE_ID).withFrom(TestUtil.FROM).withTo(TestUtil.TO)
                 .withModesOfTransport(Sets.newHashSet(
                         RequestModeOfTransport.builder().withModeOfTransport(ModeOfTransport.STANDARD_BICYCLE).build()))
-                .withDepartureTime(TestUtil.DEPARTURE_TIME);
+                .withDepartureTime(TestUtil.START_TIME);
     }
 
 }

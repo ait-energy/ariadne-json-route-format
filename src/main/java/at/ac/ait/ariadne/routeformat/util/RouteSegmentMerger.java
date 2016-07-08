@@ -126,7 +126,7 @@ public class RouteSegmentMerger {
 				RouteSegment prolongedSegment = RouteSegment.builder(segmentToProlong)
 						.withAlightingSeconds(segmentToProlong.getAlightingSeconds().orElse(0) + alightingSeconds)
 						.withDurationSeconds(segmentToProlong.getDurationSeconds() + alightingSeconds)
-						.withArrivalTime(segmentToProlong.getArrivalTimeAsZonedDateTime().plus(alightingSeconds,
+						.withEndTime(segmentToProlong.getEndTimeAsZonedDateTime().plus(alightingSeconds,
 								ChronoUnit.SECONDS))
 						.build();
 				routes.get(i).addLast(prolongedSegment);
@@ -135,10 +135,10 @@ public class RouteSegmentMerger {
 
 		Map<Integer, Integer> index2waitingSeconds = new HashMap<>();
 		index2waitingSeconds.put(0, 0);
-		ZonedDateTime endOfLastRoute = routes.get(0).getLast().getArrivalTimeAsZonedDateTime();
+		ZonedDateTime endOfLastRoute = routes.get(0).getLast().getEndTimeAsZonedDateTime();
 		for (int i = 1; i < routes.size(); i++) {
 			int waitingSeconds = (int) Duration
-					.between(endOfLastRoute, routes.get(i).getFirst().getDepartureTimeAsZonedDateTime()).getSeconds();
+					.between(endOfLastRoute, routes.get(i).getFirst().getStartTimeAsZonedDateTime()).getSeconds();
 			index2waitingSeconds.put(i, waitingSeconds);
 			int routeSeconds = routes.get(i).stream().mapToInt(s -> s.getDurationSeconds()).sum();
 			endOfLastRoute = endOfLastRoute.plus(routeSeconds + (waitingSeconds > 0 ? waitingSeconds : 0),
@@ -195,16 +195,16 @@ public class RouteSegmentMerger {
 			builder.withBoardingSeconds(old.getBoardingSeconds().orElse(0) + waitingSeconds);
 		}
 		builder.withDurationSeconds(old.getDurationSeconds() + waitingSeconds);
-		builder.withDepartureTime(old.getDepartureTimeAsZonedDateTime().minus(waitingSeconds, ChronoUnit.SECONDS));
+		builder.withStartTime(old.getStartTimeAsZonedDateTime().minus(waitingSeconds, ChronoUnit.SECONDS));
 		modifiedSegments.set(firstMatchingSegmentIndex, builder.build());
 
-		// shift arrival/departure times for segments
+		// shift start/end times for segments
 		// before the modified segment
 		for (int i = 0; i < firstMatchingSegmentIndex; i++) {
 			old = modifiedSegments.get(i);
 			builder = RouteSegment.builder(old);
-			builder.withDepartureTime(old.getDepartureTimeAsZonedDateTime().minus(waitingSeconds, ChronoUnit.SECONDS));
-			builder.withArrivalTime(old.getArrivalTimeAsZonedDateTime().minus(waitingSeconds, ChronoUnit.SECONDS));
+			builder.withStartTime(old.getStartTimeAsZonedDateTime().minus(waitingSeconds, ChronoUnit.SECONDS));
+			builder.withEndTime(old.getEndTimeAsZonedDateTime().minus(waitingSeconds, ChronoUnit.SECONDS));
 			modifiedSegments.set(i, builder.build());
 		}
 
@@ -219,8 +219,8 @@ public class RouteSegmentMerger {
 		List<RouteSegment> modifiedSegments = new ArrayList<>();
 		for (RouteSegment segment : segments) {
 			Builder builder = RouteSegment.builder(segment);
-			builder.withDepartureTime(segment.getDepartureTimeAsZonedDateTime().plus(shiftSeconds, ChronoUnit.SECONDS));
-			builder.withArrivalTime(segment.getArrivalTimeAsZonedDateTime().plus(shiftSeconds, ChronoUnit.SECONDS));
+			builder.withStartTime(segment.getStartTimeAsZonedDateTime().plus(shiftSeconds, ChronoUnit.SECONDS));
+			builder.withEndTime(segment.getEndTimeAsZonedDateTime().plus(shiftSeconds, ChronoUnit.SECONDS));
 			modifiedSegments.add(builder.build());
 			if (!segment.getModeOfTransport().equals(ModeOfTransport.STANDARD_FOOT))
 				LOGGER.warn(shiftSeconds + "s shift for mot " + segment.getModeOfTransport());
@@ -262,7 +262,7 @@ public class RouteSegmentMerger {
 	 *         geometry
 	 */
 	private RouteSegment mergeTwoSegments(RouteSegment a, RouteSegment b) {
-		// mot, start & departure time e.g. from a
+		// mot, start & end time e.g. from a
 		Builder builder = RouteSegment.builder(a);
 
 		// adapt time
@@ -270,7 +270,7 @@ public class RouteSegmentMerger {
 		builder.withBoardingSeconds(a.getBoardingSeconds().orElse(0) + b.getBoardingSeconds().orElse(0));
 		builder.withAlightingSeconds(a.getAlightingSeconds().orElse(0) + b.getAlightingSeconds().orElse(0));
 		builder.withDurationSeconds(totalSeconds);
-		builder.withArrivalTime(a.getDepartureTimeAsZonedDateTime().plus(totalSeconds, ChronoUnit.SECONDS));
+		builder.withEndTime(a.getStartTimeAsZonedDateTime().plus(totalSeconds, ChronoUnit.SECONDS));
 
 		// adapt geometry & length
 		builder.withTo(b.getTo());

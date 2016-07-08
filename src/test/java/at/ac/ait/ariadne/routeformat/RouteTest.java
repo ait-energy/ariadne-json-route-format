@@ -17,15 +17,15 @@ import at.ac.ait.ariadne.routeformat.location.Location;
 public class RouteTest {
 
 	@Test
-	public void enforceDepartureArrivalOrder() {
+	public void enforceStartEndOrder() {
 		LinkedList<RouteSegment> segments = new LinkedList<>();
-		segments.add(TestUtil.buildTestRouteSegment(TestUtil.DEPARTURE_TIME, TestUtil.ARRIVAL_TIME));
+		segments.add(TestUtil.buildTestRouteSegment(TestUtil.START_TIME, TestUtil.END_TIME).build(true));
 		Builder routeBuilder = Route.builder().withSegmentsAndAutomaticallyInferredFields(segments);
 
 		routeBuilder.build();
 
 		try {
-			routeBuilder.withArrivalTime(TestUtil.DEPARTURE_TIME).withDepartureTime(TestUtil.ARRIVAL_TIME).build(true);
+			routeBuilder.withEndTime(TestUtil.START_TIME).withStartTime(TestUtil.END_TIME).build(true);
 			Assert.fail("expected IllegalArgumentException");
 		} catch (IllegalArgumentException e) {
 		}
@@ -44,7 +44,7 @@ public class RouteTest {
 				new CoordinatePoint("16.42824", "48.26719"));
 		RouteSegment walkToHeinrichVonBuolGasse = RouteSegment.builder().withNr(1).withFrom(giefinggasseAit)
 				.withTo(heinrichVonBuolGasseBicycleParking).withDistanceMeters(200).withDurationSeconds(60)
-				.withDepartureTime("2016-01-01T15:00:00+01:00").withArrivalTime("2016-01-01T15:01:00+01:00")
+				.withStartTime("2016-01-01T15:00:00+01:00").withEndTime("2016-01-01T15:01:00+01:00")
 				.withModeOfTransport(ModeOfTransport.STANDARD_FOOT).withGeometryGeoJson(geometryGeoJson).build();
 		geometryGeoJson = GeoJSONFeature.newLineStringFeature(heinrichVonBuolGasseBicycleParking, floridsdorf,
 				new CoordinatePoint("16.42354", "48.26306"), new CoordinatePoint("16.4236", "48.2621"),
@@ -52,7 +52,7 @@ public class RouteTest {
 				new CoordinatePoint("16.40127", "48.25698"));
 		RouteSegment cycleToFloridsdorf = RouteSegment.builder().withNr(2).withFrom(heinrichVonBuolGasseBicycleParking)
 				.withTo(floridsdorf).withDistanceMeters(2500).withDurationSeconds(60 * 9)
-				.withDepartureTime("2016-01-01T15:01:00+01:00").withArrivalTime("2016-01-01T15:10:00+01:00")
+				.withStartTime("2016-01-01T15:01:00+01:00").withEndTime("2016-01-01T15:10:00+01:00")
 				.withModeOfTransport(ModeOfTransport.STANDARD_BICYCLE).withGeometryGeoJson(geometryGeoJson).build();
 
 		Route route = Route.builder().withSegmentsAndAutomaticallyInferredFields(

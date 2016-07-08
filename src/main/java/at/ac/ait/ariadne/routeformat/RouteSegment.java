@@ -45,12 +45,12 @@ import at.ac.ait.ariadne.routeformat.util.Utils;
  * after public transport segments. Such a transfer segment represents the
  * transfer within a (logical) public transport station including waiting times
  * for the next line. It contains the walking distance in the station (
- * {@link #getDistanceMeters()}), the walking time ({@link #getDurationSeconds()}
- * minus alighting time), and the waiting time for the next public transport
- * line ({@link #getAlightingSeconds()}). The public transport segments
- * themselves only contain the ride time (without any boarding or alighting
- * time). When using this variant it is much easier to differentiate between
- * transfer and ride, e.g. regarding accessibility.</li>
+ * {@link #getDistanceMeters()}), the walking time (
+ * {@link #getDurationSeconds()} minus alighting time), and the waiting time for
+ * the next public transport line ({@link #getAlightingSeconds()}). The public
+ * transport segments themselves only contain the ride time (without any
+ * boarding or alighting time). When using this variant it is much easier to
+ * differentiate between transfer and ride, e.g. regarding accessibility.</li>
  * <li><b>PT_CONDENSED:</b> this variant is more compact but less detailed. Due
  * to the missing transfer segments transfer and waiting time must be added to
  * the public transport segment itself. It then contains the waiting time and
@@ -66,463 +66,489 @@ import at.ac.ait.ariadne.routeformat.util.Utils;
 @JsonInclude(Include.NON_EMPTY)
 public class RouteSegment {
 
-	private final static Logger LOGGER = LoggerFactory.getLogger(RouteSegment.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(RouteSegment.class);
 
-	private final int nr;
-	private final Location from;
-	private final Location to;
-	private final int distanceMeters;
-	private final int durationSeconds;
-	private final ModeOfTransport modeOfTransport;
-	private final Optional<Integer> boardingSeconds;
-	private final Optional<Integer> alightingSeconds;
-	private final ZonedDateTime departureTime;
-	private final ZonedDateTime arrivalTime;
-	private final List<IntermediateStop> intermediateStops;
-	private final Optional<GeoJSONFeature<GeoJSONPolygon>> boundingBox;
-	private final Optional<String> geometryEncodedPolyLine;
-	private final Optional<GeoJSONFeature<GeoJSONLineString>> geometryGeoJson;
-	private final Optional<GeoJSONFeatureCollection<GeoJSONLineString>> geometryGeoJsonEdges;
-	private final List<Instruction> navigationInstructions;
-	private final List<Constants.Accessibility> accessibility;
-	private final Map<String, Object> additionalInfo;
+    private final int nr;
+    private final Location from;
+    private final Location to;
+    private final int distanceMeters;
+    private final int durationSeconds;
+    private final ModeOfTransport modeOfTransport;
+    private final Optional<Integer> boardingSeconds;
+    private final Optional<Integer> alightingSeconds;
+    private final ZonedDateTime startTime;
+    private final ZonedDateTime endTime;
+    private final List<IntermediateStop> intermediateStops;
+    private final Optional<GeoJSONFeature<GeoJSONPolygon>> boundingBox;
+    private final Optional<String> geometryEncodedPolyLine;
+    private final Optional<GeoJSONFeature<GeoJSONLineString>> geometryGeoJson;
+    private final Optional<GeoJSONFeatureCollection<GeoJSONLineString>> geometryGeoJsonEdges;
+    private final List<Instruction> navigationInstructions;
+    private final List<Constants.Accessibility> accessibility;
+    private final Map<String, Object> additionalInfo;
 
-	/** number of the segment in the route (starts with 1) */
-	@JsonProperty(required = true)
-	public int getNr() {
-		return nr;
-	}
+    /** number of the segment in the route (starts with 1) */
+    @JsonProperty(required = true)
+    public int getNr() {
+        return nr;
+    }
 
-	@JsonProperty(required = true)
-	public Location getFrom() {
-		return from;
-	}
+    @JsonProperty(required = true)
+    public Location getFrom() {
+        return from;
+    }
 
-	@JsonProperty(required = true)
-	public Location getTo() {
-		return to;
-	}
+    @JsonProperty(required = true)
+    public Location getTo() {
+        return to;
+    }
 
-	@JsonProperty(required = true)
-	public int getDistanceMeters() {
-		return distanceMeters;
-	}
+    @JsonProperty(required = true)
+    public int getDistanceMeters() {
+        return distanceMeters;
+    }
 
-	/**
-	 * @return the total duration for this segment including
-	 *         {@link #getBoardingSeconds()} and {@link #getAlightingSeconds()}
-	 */
-	@JsonProperty(required = true)
-	public int getDurationSeconds() {
-		return durationSeconds;
-	}
+    /**
+     * the total duration for this {@link RouteSegment} including
+     * {@link #getBoardingSeconds()} and {@link #getAlightingSeconds()}
+     */
+    @JsonProperty(required = true)
+    public int getDurationSeconds() {
+        return durationSeconds;
+    }
 
-	@JsonProperty(required = true)
-	public ModeOfTransport getModeOfTransport() {
-		return modeOfTransport;
-	}
+    /**
+     * the pure travel time for this {@link RouteSegment} excluding
+     * {@link #getBoardingSeconds()} and {@link #getAlightingSeconds()}
+     * <p>
+     * Note: not exported to JSON since it can be inferred
+     */
+    @JsonIgnore
+    public int getTravelTimeSeconds() {
+        return durationSeconds - boardingSeconds.orElse(0) - alightingSeconds.orElse(0);
+    }
 
-	/**
-	 * @return the number of seconds it takes to board (or wait for) the mode of
-	 *         transport, e.g. estimated time it takes to walk to your bicycle
-	 *         or car and unlock it, average time to hail a taxi, waiting time
-	 *         in case this is a public transport segment (PT_CONDENSED),..
-	 */
-	public Optional<Integer> getBoardingSeconds() {
-		return boardingSeconds;
-	}
+    @JsonProperty(required = true)
+    public ModeOfTransport getModeOfTransport() {
+        return modeOfTransport;
+    }
 
-	/**
-	 * @return the number of seconds it takes to alight the mode of transport,
-	 *         e.g. estimated time it takes to look for a parking spot for your
-	 *         bicycle or car and lock/park it, average time to pay and leave a
-	 *         taxi, waiting time for the next public transport line in case
-	 *         this is a {@link DetailedModeOfTransportType#TRANSFER} segment
-	 *         (PT_DETAILED), transfer (walking) time in case this is a public
-	 *         transport segment (PT_CONDENSED),..
-	 */
-	public Optional<Integer> getAlightingSeconds() {
-		return alightingSeconds;
-	}
+    /**
+     * the number of seconds it takes to board (or wait for) the mode of
+     * transport, e.g. estimated time it takes to walk to your bicycle or car
+     * and unlock it, average time to hail a taxi, waiting time in case this is
+     * a public transport segment (PT_CONDENSED),..
+     */
+    public Optional<Integer> getBoardingSeconds() {
+        return boardingSeconds;
+    }
 
-	/**
-	 * @return the start time of this {@link RouteSegment}, i.e. when boarding
-	 *         starts
-	 */
-	public String getDepartureTime() {
-		return departureTime.toString();
-	}
+    /**
+     * the number of seconds it takes to alight the mode of transport, e.g.
+     * estimated time it takes to look for a parking spot for your bicycle or
+     * car and lock/park it, average time to pay and leave a taxi, waiting time
+     * for the next public transport line in case this is a
+     * {@link DetailedModeOfTransportType#TRANSFER} segment (PT_DETAILED),
+     * transfer (walking) time in case this is a public transport segment
+     * (PT_CONDENSED),..
+     */
+    public Optional<Integer> getAlightingSeconds() {
+        return alightingSeconds;
+    }
 
-	@JsonIgnore
-	public ZonedDateTime getDepartureTimeAsZonedDateTime() {
-		return departureTime;
-	}
+    /**
+     * the start time of this {@link RouteSegment}, i.e. when boarding starts
+     */
+    public String getStartTime() {
+        return startTime.toString();
+    }
 
-	/**
-	 * @return the end time of this {@link RouteSegment}, i.e. when alighting is
-	 *         finished
-	 */
-	public String getArrivalTime() {
-		return arrivalTime.toString();
-	}
+    @JsonIgnore
+    public ZonedDateTime getStartTimeAsZonedDateTime() {
+        return startTime;
+    }
 
-	@JsonIgnore
-	public ZonedDateTime getArrivalTimeAsZonedDateTime() {
-		return arrivalTime;
-	}
+    /**
+     * the departure time of this {@link RouteSegment}, i.e. after boarding is
+     * finished
+     * <p>
+     * Note: not exported to JSON since it can be inferred
+     */
+    @JsonIgnore
+    public ZonedDateTime getDepartureTimeAsZonedDateTime() {
+        return startTime.plusSeconds(boardingSeconds.orElse(0));
+    }
 
-	/**
-	 * intermediate stops on the way (mostly useful for public transport routes)
-	 */
-	public List<IntermediateStop> getIntermediateStops() {
-		return intermediateStops;
-	}
+    /**
+     * the arrival time of this {@link RouteSegment}, i.e. when alighting starts
+     * <p>
+     * Note: not exported to JSON since it can be inferred
+     */
+    @JsonIgnore
+    public ZonedDateTime getArrivalTimeAsZonedDateTime() {
+        return endTime.minusSeconds(alightingSeconds.orElse(0));
+    }
 
-	public Optional<GeoJSONFeature<GeoJSONPolygon>> getBoundingBox() {
-		return boundingBox;
-	}
+    /**
+     * @return the end time of this {@link RouteSegment}, i.e. when alighting is
+     *         finished
+     */
+    public String getEndTime() {
+        return endTime.toString();
+    }
 
-	/**
-	 * segment geometry in "Encoded Polyline Algorithm Format"
-	 * 
-	 * @see "https://developers.google.com/maps/documentation/utilities/polylinealgorithm"
-	 */
-	public Optional<String> getGeometryEncodedPolyLine() {
-		return geometryEncodedPolyLine;
-	}
+    @JsonIgnore
+    public ZonedDateTime getEndTimeAsZonedDateTime() {
+        return endTime;
+    }
 
-	/** segment geometry as a single LineString-Feature */
-	public Optional<GeoJSONFeature<GeoJSONLineString>> getGeometryGeoJson() {
-		return geometryGeoJson;
-	}
+    /**
+     * intermediate stops on the way (mostly useful for public transport routes)
+     */
+    public List<IntermediateStop> getIntermediateStops() {
+        return intermediateStops;
+    }
 
-	/**
-	 * segment geometry as a collection of LineStrings (one for each edge in the
-	 * routing graph) with debugging information for each edge
-	 */
-	public Optional<GeoJSONFeatureCollection<GeoJSONLineString>> getGeometryGeoJsonEdges() {
-		return geometryGeoJsonEdges;
-	}
+    public Optional<GeoJSONFeature<GeoJSONPolygon>> getBoundingBox() {
+        return boundingBox;
+    }
 
-	public List<Instruction> getNavigationInstructions() {
-		return navigationInstructions;
-	}
+    /**
+     * segment geometry in "Encoded Polyline Algorithm Format"
+     * 
+     * @see "https://developers.google.com/maps/documentation/utilities/polylinealgorithm"
+     */
+    public Optional<String> getGeometryEncodedPolyLine() {
+        return geometryEncodedPolyLine;
+    }
 
-	/**
-	 * @return the ordered list of potential obstacles for mobility impaired
-	 *         persons (e.g. first up the elevator, then up the stairs,..)
-	 */
-	public List<Constants.Accessibility> getAccessibility() {
-		return accessibility;
-	}
+    /** segment geometry as a single LineString-Feature */
+    public Optional<GeoJSONFeature<GeoJSONLineString>> getGeometryGeoJson() {
+        return geometryGeoJson;
+    }
 
-	/**
-	 * @return additional information, e.g. other weights for the segment
-	 *         (energy,..)
-	 */
-	public Map<String, Object> getAdditionalInfo() {
-		return additionalInfo;
-	}
+    /**
+     * segment geometry as a collection of LineStrings (one for each edge in the
+     * routing graph) with debugging information for each edge
+     */
+    public Optional<GeoJSONFeatureCollection<GeoJSONLineString>> getGeometryGeoJsonEdges() {
+        return geometryGeoJsonEdges;
+    }
 
-	private RouteSegment(Builder builder) {
-		this.nr = builder.nr;
-		this.from = builder.from;
-		this.to = builder.to;
-		this.distanceMeters = builder.distanceMeters;
-		this.durationSeconds = builder.durationSeconds;
-		this.modeOfTransport = builder.modeOfTransport;
-		this.boardingSeconds = builder.boardingSeconds;
-		this.alightingSeconds = builder.alightingSeconds;
-		this.departureTime = builder.departureTime;
-		this.arrivalTime = builder.arrivalTime;
-		this.intermediateStops = builder.intermediateStops;
-		this.boundingBox = builder.boundingBox;
-		this.geometryEncodedPolyLine = builder.geometryEncodedPolyLine;
-		this.geometryGeoJson = builder.geometryGeoJson;
-		this.geometryGeoJsonEdges = builder.geometryGeoJsonEdges;
-		this.navigationInstructions = builder.navigationInstructions;
-		this.accessibility = builder.accessibility;
-		this.additionalInfo = builder.additionalInfo;
-	}
+    public List<Instruction> getNavigationInstructions() {
+        return navigationInstructions;
+    }
 
-	public static Builder builder() {
-		return new Builder();
-	}
+    /**
+     * @return the ordered list of potential obstacles for mobility impaired
+     *         persons (e.g. first up the elevator, then up the stairs,..)
+     */
+    public List<Constants.Accessibility> getAccessibility() {
+        return accessibility;
+    }
 
-	public static Builder builder(RouteSegment segment) {
-		return new Builder(segment);
-	}
+    /**
+     * @return additional information, e.g. other weights for the segment
+     *         (energy,..)
+     */
+    public Map<String, Object> getAdditionalInfo() {
+        return additionalInfo;
+    }
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append(String.format("%d: %s %dm %ds (%s ", nr, modeOfTransport.toString(), distanceMeters,
-				durationSeconds, Utils.getShortStringDate(departureTime)));
-		if (boardingSeconds.isPresent() && boardingSeconds.get() > 0) {
-			builder.append(String.format("boarding: %s, departure: %s, ",
-					Utils.getShortStringTime(departureTime),
-					Utils.getShortStringTime(departureTime.plus(boardingSeconds.get(), ChronoUnit.SECONDS))));
-		} else {
-			builder.append(String.format("departure: %s, ", Utils.getShortStringTime(departureTime)));
-		}
-		if (alightingSeconds.isPresent() && alightingSeconds.get() > 0) {
-			builder.append(String.format("alighting: %s, arrival: %s",
-					Utils.getShortStringTime(arrivalTime.minus(alightingSeconds.get(), ChronoUnit.SECONDS)),
-					Utils.getShortStringTime(arrivalTime)));
-		} else {
-			builder.append(String.format("arrival: %s", Utils.getShortStringTime(arrivalTime)));
-		}
-		builder.append(")");
-		return builder.toString();
-	}
+    private RouteSegment(Builder builder) {
+        this.nr = builder.nr;
+        this.from = builder.from;
+        this.to = builder.to;
+        this.distanceMeters = builder.distanceMeters;
+        this.durationSeconds = builder.durationSeconds;
+        this.modeOfTransport = builder.modeOfTransport;
+        this.boardingSeconds = builder.boardingSeconds;
+        this.alightingSeconds = builder.alightingSeconds;
+        this.startTime = builder.startTime;
+        this.endTime = builder.endTime;
+        this.intermediateStops = builder.intermediateStops;
+        this.boundingBox = builder.boundingBox;
+        this.geometryEncodedPolyLine = builder.geometryEncodedPolyLine;
+        this.geometryGeoJson = builder.geometryGeoJson;
+        this.geometryGeoJsonEdges = builder.geometryGeoJsonEdges;
+        this.navigationInstructions = builder.navigationInstructions;
+        this.accessibility = builder.accessibility;
+        this.additionalInfo = builder.additionalInfo;
+    }
 
-	public static class Builder {
-		private Integer nr;
-		private Location from;
-		private Location to;
-		private Integer distanceMeters;
-		private Integer durationSeconds;
-		private ModeOfTransport modeOfTransport;
-		private Optional<Integer> boardingSeconds = Optional.empty();
-		private Optional<Integer> alightingSeconds = Optional.empty();
-		private ZonedDateTime departureTime = null;
-		private ZonedDateTime arrivalTime = null;
-		private List<IntermediateStop> intermediateStops = Collections.emptyList();
-		private Optional<GeoJSONFeature<GeoJSONPolygon>> boundingBox = Optional.empty();
-		private Optional<String> geometryEncodedPolyLine = Optional.empty();
-		private Optional<GeoJSONFeature<GeoJSONLineString>> geometryGeoJson = Optional.empty();
-		private Optional<GeoJSONFeatureCollection<GeoJSONLineString>> geometryGeoJsonEdges = Optional.empty();
-		private List<Instruction> navigationInstructions = Collections.emptyList();
-		private List<Constants.Accessibility> accessibility = Collections.emptyList();
-		private Map<String, Object> additionalInfo = Collections.emptyMap();
+    public static Builder builder() {
+        return new Builder();
+    }
 
-		public Builder() {
-		}
+    public static Builder builder(RouteSegment segment) {
+        return new Builder(segment);
+    }
 
-		public Builder(RouteSegment segment) {
-			this.nr = segment.getNr();
-			this.from = segment.getFrom();
-			this.to = segment.getTo();
-			this.distanceMeters = segment.getDistanceMeters();
-			this.durationSeconds = segment.getDurationSeconds();
-			this.modeOfTransport = segment.getModeOfTransport();
-			this.boardingSeconds = segment.getBoardingSeconds();
-			this.alightingSeconds = segment.getAlightingSeconds();
-			this.departureTime = segment.getDepartureTimeAsZonedDateTime();
-			this.arrivalTime = segment.getArrivalTimeAsZonedDateTime();
-			this.intermediateStops = segment.getIntermediateStops();
-			this.boundingBox = segment.getBoundingBox();
-			this.geometryEncodedPolyLine = segment.getGeometryEncodedPolyLine();
-			this.geometryGeoJson = segment.getGeometryGeoJson();
-			this.geometryGeoJsonEdges = segment.geometryGeoJsonEdges;
-			this.navigationInstructions = segment.getNavigationInstructions();
-			this.accessibility = segment.getAccessibility();
-			this.additionalInfo = segment.getAdditionalInfo();
-		}
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append(String.format("%d: %s %dm %ds (%s ", nr, modeOfTransport.toString(), distanceMeters,
+                durationSeconds, Utils.getShortStringDate(startTime)));
+        if (boardingSeconds.isPresent() && boardingSeconds.get() > 0) {
+            builder.append(String.format("start: %s, departure: %s, ", Utils.getShortStringTime(startTime),
+                    Utils.getShortStringTime(startTime.plus(boardingSeconds.get(), ChronoUnit.SECONDS))));
+        } else {
+            builder.append(String.format("start: %s, ", Utils.getShortStringTime(startTime)));
+        }
+        if (alightingSeconds.isPresent() && alightingSeconds.get() > 0) {
+            builder.append(String.format("alighting: %s, end: %s",
+                    Utils.getShortStringTime(endTime.minus(alightingSeconds.get(), ChronoUnit.SECONDS)),
+                    Utils.getShortStringTime(endTime)));
+        } else {
+            builder.append(String.format("end: %s", Utils.getShortStringTime(endTime)));
+        }
+        builder.append(")");
+        return builder.toString();
+    }
 
-		public Builder withNr(int nr) {
-			this.nr = nr;
-			return this;
-		}
+    public static class Builder {
+        private Integer nr;
+        private Location from;
+        private Location to;
+        private Integer distanceMeters;
+        private Integer durationSeconds;
+        private ModeOfTransport modeOfTransport;
+        private Optional<Integer> boardingSeconds = Optional.empty();
+        private Optional<Integer> alightingSeconds = Optional.empty();
+        private ZonedDateTime startTime = null;
+        private ZonedDateTime endTime = null;
+        private List<IntermediateStop> intermediateStops = Collections.emptyList();
+        private Optional<GeoJSONFeature<GeoJSONPolygon>> boundingBox = Optional.empty();
+        private Optional<String> geometryEncodedPolyLine = Optional.empty();
+        private Optional<GeoJSONFeature<GeoJSONLineString>> geometryGeoJson = Optional.empty();
+        private Optional<GeoJSONFeatureCollection<GeoJSONLineString>> geometryGeoJsonEdges = Optional.empty();
+        private List<Instruction> navigationInstructions = Collections.emptyList();
+        private List<Constants.Accessibility> accessibility = Collections.emptyList();
+        private Map<String, Object> additionalInfo = Collections.emptyMap();
 
-		public Builder withFrom(Location from) {
-			this.from = from;
-			return this;
-		}
+        public Builder() {
+        }
 
-		public Builder withTo(Location to) {
-			this.to = to;
-			return this;
-		}
+        public Builder(RouteSegment segment) {
+            this.nr = segment.getNr();
+            this.from = segment.getFrom();
+            this.to = segment.getTo();
+            this.distanceMeters = segment.getDistanceMeters();
+            this.durationSeconds = segment.getDurationSeconds();
+            this.modeOfTransport = segment.getModeOfTransport();
+            this.boardingSeconds = segment.getBoardingSeconds();
+            this.alightingSeconds = segment.getAlightingSeconds();
+            this.startTime = segment.getStartTimeAsZonedDateTime();
+            this.endTime = segment.getEndTimeAsZonedDateTime();
+            this.intermediateStops = segment.getIntermediateStops();
+            this.boundingBox = segment.getBoundingBox();
+            this.geometryEncodedPolyLine = segment.getGeometryEncodedPolyLine();
+            this.geometryGeoJson = segment.getGeometryGeoJson();
+            this.geometryGeoJsonEdges = segment.geometryGeoJsonEdges;
+            this.navigationInstructions = segment.getNavigationInstructions();
+            this.accessibility = segment.getAccessibility();
+            this.additionalInfo = segment.getAdditionalInfo();
+        }
 
-		public Builder withDistanceMeters(int distanceMeters) {
-			this.distanceMeters = distanceMeters;
-			return this;
-		}
+        public Builder withNr(int nr) {
+            this.nr = nr;
+            return this;
+        }
 
-		public Builder withDurationSeconds(int durationSeconds) {
-			this.durationSeconds = durationSeconds;
-			return this;
-		}
+        public Builder withFrom(Location from) {
+            this.from = from;
+            return this;
+        }
 
-		public Builder withModeOfTransport(ModeOfTransport modeOfTransport) {
-			this.modeOfTransport = modeOfTransport;
-			return this;
-		}
+        public Builder withTo(Location to) {
+            this.to = to;
+            return this;
+        }
 
-		public Builder withBoardingSeconds(Integer boardingSeconds) {
-			this.boardingSeconds = Optional.ofNullable(boardingSeconds);
-			return this;
-		}
+        public Builder withDistanceMeters(int distanceMeters) {
+            this.distanceMeters = distanceMeters;
+            return this;
+        }
 
-		public Builder withAlightingSeconds(Integer alightingSeconds) {
-			this.alightingSeconds = Optional.ofNullable(alightingSeconds);
-			return this;
-		}
+        public Builder withDurationSeconds(int durationSeconds) {
+            this.durationSeconds = durationSeconds;
+            return this;
+        }
 
-		@JsonIgnore
-		public Builder withDepartureTime(ZonedDateTime departureTime) {
-			this.departureTime = departureTime;
-			return this;
-		}
+        public Builder withModeOfTransport(ModeOfTransport modeOfTransport) {
+            this.modeOfTransport = modeOfTransport;
+            return this;
+        }
 
-		@JsonProperty
-		public Builder withDepartureTime(String departureTime) {
-			this.departureTime = Utils.parseZonedDateTime(departureTime, "departureTime");
-			return this;
-		}
+        public Builder withBoardingSeconds(Integer boardingSeconds) {
+            this.boardingSeconds = Optional.ofNullable(boardingSeconds);
+            return this;
+        }
 
-		@JsonIgnore
-		public Builder withArrivalTime(ZonedDateTime arrivalTime) {
-			this.arrivalTime = arrivalTime;
-			return this;
-		}
+        public Builder withAlightingSeconds(Integer alightingSeconds) {
+            this.alightingSeconds = Optional.ofNullable(alightingSeconds);
+            return this;
+        }
 
-		@JsonProperty
-		public Builder withArrivalTime(String arrivalTime) {
-			this.arrivalTime = Utils.parseZonedDateTime(arrivalTime, "arrivalTime");
-			return this;
-		}
+        @JsonIgnore
+        public Builder withStartTime(ZonedDateTime startTime) {
+            this.startTime = startTime;
+            return this;
+        }
 
-		public Builder withIntermediateStops(List<IntermediateStop> intermediateStops) {
-			this.intermediateStops = ImmutableList.copyOf(intermediateStops);
-			return this;
-		}
+        @JsonProperty
+        public Builder withStartTime(String startTime) {
+            this.startTime = Utils.parseZonedDateTime(startTime, "startTime");
+            return this;
+        }
 
-		public Builder withBoundingBox(GeoJSONFeature<GeoJSONPolygon> boundingBox) {
-			this.boundingBox = Optional.ofNullable(boundingBox);
-			return this;
-		}
+        @JsonIgnore
+        public Builder withEndTime(ZonedDateTime endTime) {
+            this.endTime = endTime;
+            return this;
+        }
 
-		public Builder withGeometryEncodedPolyLine(String geometryEncodedPolyLine) {
-			this.geometryEncodedPolyLine = Optional.ofNullable(geometryEncodedPolyLine);
-			return this;
-		}
+        @JsonProperty
+        public Builder withEndTime(String endTime) {
+            this.endTime = Utils.parseZonedDateTime(endTime, "endTime");
+            return this;
+        }
 
-		public Builder withGeometryGeoJson(GeoJSONFeature<GeoJSONLineString> geometryGeoJson) {
-			this.geometryGeoJson = Optional.ofNullable(geometryGeoJson);
-			return this;
-		}
+        public Builder withIntermediateStops(List<IntermediateStop> intermediateStops) {
+            this.intermediateStops = ImmutableList.copyOf(intermediateStops);
+            return this;
+        }
 
-		public Builder withGeometryGeoJsonEdges(GeoJSONFeatureCollection<GeoJSONLineString> geometryGeoJsonEdges) {
-			this.geometryGeoJsonEdges = Optional.ofNullable(geometryGeoJsonEdges);
-			return this;
-		}
+        public Builder withBoundingBox(GeoJSONFeature<GeoJSONPolygon> boundingBox) {
+            this.boundingBox = Optional.ofNullable(boundingBox);
+            return this;
+        }
 
-		public Builder withNavigationInstructions(List<Instruction> navigationInstructions) {
-			this.navigationInstructions = ImmutableList.copyOf(navigationInstructions);
-			return this;
-		}
+        public Builder withGeometryEncodedPolyLine(String geometryEncodedPolyLine) {
+            this.geometryEncodedPolyLine = Optional.ofNullable(geometryEncodedPolyLine);
+            return this;
+        }
 
-		public Builder withAccessibility(List<Constants.Accessibility> accessibility) {
-			this.accessibility = ImmutableList.copyOf(accessibility);
-			return this;
-		}
+        public Builder withGeometryGeoJson(GeoJSONFeature<GeoJSONLineString> geometryGeoJson) {
+            this.geometryGeoJson = Optional.ofNullable(geometryGeoJson);
+            return this;
+        }
 
-		public Builder withAdditionalInfo(Map<String, Object> additionalInfo) {
-			this.additionalInfo = ImmutableMap.copyOf(additionalInfo);
-			return this;
-		}
+        public Builder withGeometryGeoJsonEdges(GeoJSONFeatureCollection<GeoJSONLineString> geometryGeoJsonEdges) {
+            this.geometryGeoJsonEdges = Optional.ofNullable(geometryGeoJsonEdges);
+            return this;
+        }
 
-		/**
-		 * Shifts the segment in time by adjusting departure and arrival time
-		 * (if they are set)
-		 */
-		public Builder shiftInTime(long amountToAdd, ChronoUnit unit) {
-			if (departureTime != null)
-				departureTime = departureTime.plus(amountToAdd, unit);
-			if (arrivalTime != null)
-				arrivalTime = arrivalTime.plus(amountToAdd, unit);
-			return this;
-		}
+        public Builder withNavigationInstructions(List<Instruction> navigationInstructions) {
+            this.navigationInstructions = ImmutableList.copyOf(navigationInstructions);
+            return this;
+        }
 
-		public RouteSegment build() {
-			validate(false);
-			return new RouteSegment(this);
-		}
+        public Builder withAccessibility(List<Constants.Accessibility> accessibility) {
+            this.accessibility = ImmutableList.copyOf(accessibility);
+            return this;
+        }
 
-		/**
-		 * @param strongValidation
-		 *            with strong validation even for minor errors an
-		 *            {@link IllegalArgumentException} is thrown (instead of a
-		 *            logged warning)
-		 */
-		public RouteSegment build(boolean strongValidation) {
-			validate(strongValidation);
-			return new RouteSegment(this);
-		}
+        public Builder withAdditionalInfo(Map<String, Object> additionalInfo) {
+            this.additionalInfo = ImmutableMap.copyOf(additionalInfo);
+            return this;
+        }
 
-		private void validate(boolean strongValidation) {
-			Preconditions.checkArgument(nr != null, "nr is mandatory but missing");
-			Preconditions.checkArgument(from != null, "from is mandatory but missing for segment #" + nr);
-			Preconditions.checkArgument(to != null, "to is mandatory but missing for segment #" + nr);
-			Preconditions.checkArgument(distanceMeters != null,
-					"distanceMeters is mandatory but missing for segment #" + nr);
-			Preconditions.checkArgument(durationSeconds != null,
-					"durationSeconds is mandatory but missing for segment #" + nr);
-			Preconditions.checkArgument(modeOfTransport != null,
-					"modeOfTransport is mandatory but missing for segment #" + nr);
-			Preconditions.checkArgument(departureTime != null,
-					"departureTime is mandatory but missing for segment #" + nr);
-			Preconditions.checkArgument(arrivalTime != null, "arrivalTime is mandatory but missing for segment #" + nr);
+        /**
+         * Shifts the segment in time by adjusting start and end time (if they
+         * are set)
+         */
+        public Builder shiftInTime(long amountToAdd, ChronoUnit unit) {
+            if (startTime != null)
+                startTime = startTime.plus(amountToAdd, unit);
+            if (endTime != null)
+                endTime = endTime.plus(amountToAdd, unit);
+            return this;
+        }
 
-			try {
-				Preconditions.checkArgument(nr > 0, "nr must be > 0, but was %s", nr);
-				Preconditions.checkArgument(distanceMeters >= 0, "distanceMeters must be >= 0, but was %s for segment #%s",
-						distanceMeters, nr);
-				Preconditions.checkArgument(durationSeconds >= 0,
-						"durationSeconds must be >= 0, but was %s for segment #%s", durationSeconds, nr);
+        public RouteSegment build() {
+            validate(false);
+            return new RouteSegment(this);
+        }
 
-				Preconditions.checkArgument(alightingSeconds.orElse(0) + boardingSeconds.orElse(0) <= durationSeconds,
-						"boarding+alighting seconds must be equal to or smaller than the total duration for segment #%s",
-						nr);
+        /**
+         * @param strongValidation
+         *            with strong validation even for minor errors an
+         *            {@link IllegalArgumentException} is thrown (instead of a
+         *            logged warning)
+         */
+        public RouteSegment build(boolean strongValidation) {
+            validate(strongValidation);
+            return new RouteSegment(this);
+        }
 
-				Preconditions.checkArgument(!arrivalTime.isBefore(departureTime),
-						"departureTime must be <= arrivalTime for segment #%s", nr);
+        private void validate(boolean strongValidation) {
+            Preconditions.checkArgument(nr != null, "nr is mandatory but missing");
+            Preconditions.checkArgument(from != null, "from is mandatory but missing for segment #" + nr);
+            Preconditions.checkArgument(to != null, "to is mandatory but missing for segment #" + nr);
+            Preconditions.checkArgument(distanceMeters != null,
+                    "distanceMeters is mandatory but missing for segment #" + nr);
+            Preconditions.checkArgument(durationSeconds != null,
+                    "durationSeconds is mandatory but missing for segment #" + nr);
+            Preconditions.checkArgument(modeOfTransport != null,
+                    "modeOfTransport is mandatory but missing for segment #" + nr);
+            Preconditions.checkArgument(startTime != null, "startTime is mandatory but missing for segment #" + nr);
+            Preconditions.checkArgument(endTime != null, "endTime is mandatory but missing for segment #" + nr);
 
-				long durationBetweenTimestamps = Duration.between(departureTime, arrivalTime).getSeconds();
-				Preconditions.checkArgument(durationSeconds == durationBetweenTimestamps,
-						"durationSeconds does not match seconds between arrival & departure time: %s!=%s for segment #%s",
-						durationSeconds, durationBetweenTimestamps, nr);
+            try {
+                Preconditions.checkArgument(nr > 0, "nr must be > 0, but was %s", nr);
+                Preconditions.checkArgument(distanceMeters >= 0,
+                        "distanceMeters must be >= 0, but was %s for segment #%s", distanceMeters, nr);
+                Preconditions.checkArgument(durationSeconds >= 0,
+                        "durationSeconds must be >= 0, but was %s for segment #%s", durationSeconds, nr);
 
-				String error = "timestamps of intermediate stops must fall in interval between departure & arrival for segment #"
-						+ nr;
-				for (IntermediateStop stop : intermediateStops) {
-					Preconditions.checkArgument(
-							isBetween(departureTime, stop.getPlannedArrivalTimeAsZonedDateTime(), arrivalTime), error);
-					Preconditions.checkArgument(
-							isBetween(departureTime, stop.getPlannedDepartureTimeAsZonedDateTime(), arrivalTime),
-							error);
-					Preconditions.checkArgument(
-							isBetween(departureTime, stop.getEstimatedArrivalTimeAsZonedDateTime(), arrivalTime),
-							error);
-					Preconditions.checkArgument(
-							isBetween(departureTime, stop.getEstimatedDepartureTimeAsZonedDateTime(), arrivalTime),
-							error);
-				}
+                Preconditions.checkArgument(alightingSeconds.orElse(0) + boardingSeconds.orElse(0) <= durationSeconds,
+                        "boarding+alighting seconds must be equal to or smaller than the total duration for segment #%s",
+                        nr);
 
-				boolean geometryPresent = geometryEncodedPolyLine.isPresent() || geometryGeoJson.isPresent()
-						|| geometryGeoJsonEdges.isPresent();
-				Preconditions.checkArgument(geometryPresent, "at least one geometry must be present for segment #%s",
-						nr);
-			} catch (IllegalArgumentException e) {
-				if (strongValidation)
-					throw e;
-				LOGGER.warn(e.getMessage());
-			}
-		}
+                Preconditions.checkArgument(!endTime.isBefore(startTime),
+                        "startTime must be <= endTime for segment #%s", nr);
 
-		/**
-		 * @return <code>true</code> if 'between' is really between (or equal)
-		 *         to start and end
-		 */
-		private boolean isBetween(ZonedDateTime start, Optional<ZonedDateTime> between, ZonedDateTime end) {
-			if (between.isPresent()) {
-				if (start.isAfter(between.get()) || end.isBefore(between.get()))
-					return false;
-			}
-			return true;
-		}
-	}
+                long durationBetweenTimestamps = Duration.between(startTime, endTime).getSeconds();
+                Preconditions.checkArgument(durationSeconds == durationBetweenTimestamps,
+                        "durationSeconds does not match seconds between start & end time: %s!=%s for segment #%s",
+                        durationSeconds, durationBetweenTimestamps, nr);
+
+                String error = "timestamps of intermediate stops must fall in interval between start & end for segment #"
+                        + nr;
+                for (IntermediateStop stop : intermediateStops) {
+                    Preconditions.checkArgument(
+                            isBetween(startTime, stop.getPlannedArrivalTimeAsZonedDateTime(), endTime), error);
+                    Preconditions.checkArgument(
+                            isBetween(startTime, stop.getPlannedDepartureTimeAsZonedDateTime(), endTime), error);
+                    Preconditions.checkArgument(
+                            isBetween(startTime, stop.getEstimatedArrivalTimeAsZonedDateTime(), endTime), error);
+                    Preconditions.checkArgument(
+                            isBetween(startTime, stop.getEstimatedDepartureTimeAsZonedDateTime(), endTime), error);
+                }
+
+                boolean geometryPresent = geometryEncodedPolyLine.isPresent() || geometryGeoJson.isPresent()
+                        || geometryGeoJsonEdges.isPresent();
+                Preconditions.checkArgument(geometryPresent, "at least one geometry must be present for segment #%s",
+                        nr);
+            } catch (IllegalArgumentException e) {
+                if (strongValidation)
+                    throw e;
+                LOGGER.warn(e.getMessage());
+            }
+        }
+
+        /**
+         * @return <code>true</code> if 'between' is really between (or equal)
+         *         to start and end
+         */
+        private boolean isBetween(ZonedDateTime start, Optional<ZonedDateTime> between, ZonedDateTime end) {
+            if (between.isPresent()) {
+                if (start.isAfter(between.get()) || end.isBefore(between.get()))
+                    return false;
+            }
+            return true;
+        }
+    }
 
 }

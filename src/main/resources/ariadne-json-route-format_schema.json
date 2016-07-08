@@ -356,9 +356,6 @@
         "type" : "object",
         "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:Route",
         "properties" : {
-          "departureTime" : {
-            "type" : "string"
-          },
           "distanceMeters" : {
             "type" : "integer",
             "required" : true
@@ -501,9 +498,6 @@
               "type" : "object",
               "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:RouteSegment",
               "properties" : {
-                "departureTime" : {
-                  "type" : "string"
-                },
                 "distanceMeters" : {
                   "type" : "integer",
                   "required" : true
@@ -683,7 +677,20 @@
                     },
                     "crs" : {
                       "type" : "object",
-                      "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS"
+                      "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS",
+                      "properties" : {
+                        "type" : {
+                          "type" : "string",
+                          "required" : true
+                        },
+                        "properties" : {
+                          "type" : "object",
+                          "required" : true,
+                          "additionalProperties" : {
+                            "type" : "any"
+                          }
+                        }
+                      }
                     },
                     "type" : {
                       "type" : "string",
@@ -691,9 +698,6 @@
                       "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon" ]
                     }
                   }
-                },
-                "arrivalTime" : {
-                  "type" : "string"
                 },
                 "additionalInfo" : {
                   "type" : "object",
@@ -706,10 +710,16 @@
                   "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:location:Location",
                   "required" : true
                 },
+                "startTime" : {
+                  "type" : "string"
+                },
                 "to" : {
                   "type" : "object",
                   "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:location:Location",
                   "required" : true
+                },
+                "endTime" : {
+                  "type" : "string"
                 },
                 "intermediateStops" : {
                   "type" : "array",
@@ -779,9 +789,6 @@
               }
             }
           },
-          "arrivalTime" : {
-            "type" : "string"
-          },
           "additionalInfo" : {
             "type" : "object",
             "additionalProperties" : {
@@ -793,12 +800,18 @@
             "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:location:Location",
             "required" : true
           },
+          "startTime" : {
+            "type" : "string"
+          },
           "to" : {
             "type" : "object",
             "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:location:Location",
             "required" : true
           },
           "id" : {
+            "type" : "string"
+          },
+          "endTime" : {
             "type" : "string"
           }
         }

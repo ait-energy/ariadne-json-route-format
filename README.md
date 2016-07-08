@@ -24,8 +24,8 @@ Initial development was done together with [Fluidtime](http://www.fluidtime.com)
 Everything in this repository is licensed under CC0.
 
 ## Possible future features & improvements 
-- RouteSegment: fix misleading naming of getDepartureTime/ArrivalTime (actually start/end of segment due to boarding/alighting)
-- RouteSegment: remove durationSeconds, add travelingSeconds (and add getter for duration which sums boarding + traveling + alighting) 
+- easier bounding box format
+- RouteRequest: forbiddenPolygon per Mode?
 - public transport station details: differentiate between station entries & platforms, add travel time to transfer segments e.g. 5 min walk, 1 min escalators down, 2 min walk, 1 min elevator up;
 - reevaluate handling of waiting times (in transfer segments? in pt segments?)
 - add meaningful toString-methods for all classes

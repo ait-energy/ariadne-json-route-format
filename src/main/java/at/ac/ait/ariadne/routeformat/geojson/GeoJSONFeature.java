@@ -39,6 +39,7 @@ public class GeoJSONFeature<T extends GeoJSONGeometryObject> {
      * Unrestricted possibility to store additional information, e.g. properties
      * to be used in visualizations
      */
+    @JsonInclude(Include.ALWAYS)
     @JsonProperty(required = true)
     public Map<String, Object> properties = new HashMap<>();
 
