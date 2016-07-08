@@ -4,17 +4,17 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 
-import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
-import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPoint;
-import at.ac.ait.ariadne.routeformat.location.Location.Builder2;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSortedMap;
+
+import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
+import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPoint;
+import at.ac.ait.ariadne.routeformat.location.Location.Builder2;
 
 /**
  * A very basic version of a location, in its minimal form it only contains a
@@ -83,7 +83,7 @@ public class Location {
         }
 
         public T withAdditionalInfo(Map<String, String> additionalInfo) {
-            this.additionalInfo = ImmutableMap.copyOf(additionalInfo);
+            this.additionalInfo = ImmutableSortedMap.copyOf(additionalInfo);
             return self();
         }
 

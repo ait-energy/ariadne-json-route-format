@@ -13,9 +13,11 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSortedMap;
 
 import at.ac.ait.ariadne.routeformat.RequestModeOfTransport.Builder2;
+import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
+import at.ac.ait.ariadne.routeformat.geojson.GeoJSONMultiPolygon;
 import at.ac.ait.ariadne.routeformat.location.Location;
 import at.ac.ait.ariadne.routeformat.util.Utils;
 
@@ -34,7 +36,7 @@ import at.ac.ait.ariadne.routeformat.util.Utils;
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({ @JsonSubTypes.Type(value = RequestModeOfTransport.class, name = "RequestModeOfTransport"),
-        @JsonSubTypes.Type(value = RequestPublicTransportModeOfTransport.class, name = "RequestPublicTransportModeOfTransport") })
+        @JsonSubTypes.Type(value = RequestPTModeOfTransport.class, name = "RequestPTModeOfTransport") })
 @JsonDeserialize(builder = Builder2.class)
 @JsonInclude(Include.NON_EMPTY)
 public class RequestModeOfTransport {
@@ -44,6 +46,7 @@ public class RequestModeOfTransport {
     private final Optional<Integer> maximumTravelTimeSeconds;
     private final Optional<String> speed;
     private final List<Location> locations;
+    private final Optional<GeoJSONFeature<GeoJSONMultiPolygon>> forbiddenAreas;
     private final Map<String, Object> additionalInfo;
 
     RequestModeOfTransport(Builder<?> builder) {
@@ -52,6 +55,7 @@ public class RequestModeOfTransport {
         this.maximumTravelTimeSeconds = builder.maximumTravelTimeSeconds;
         this.speed = builder.speed;
         this.locations = builder.locations;
+        this.forbiddenAreas = builder.forbiddenAreas;
         this.additionalInfo = builder.additionalInfo;
     }
 
@@ -97,6 +101,14 @@ public class RequestModeOfTransport {
     }
 
     /**
+     * A multipolygon defining areas the route must not cross
+     */
+    @JsonProperty
+    public Optional<GeoJSONFeature<GeoJSONMultiPolygon>> getForbiddenAreas() {
+        return forbiddenAreas;
+    }
+
+    /**
      * Other attributes exclusive to this {@link ModeOfTransport}.
      */
     @JsonProperty
@@ -114,6 +126,7 @@ public class RequestModeOfTransport {
         private Optional<Integer> maximumTravelTimeSeconds = Optional.empty();
         private Optional<String> speed = Optional.empty();
         private List<Location> locations = Collections.emptyList();
+        private Optional<GeoJSONFeature<GeoJSONMultiPolygon>> forbiddenAreas = Optional.empty();
         private Map<String, Object> additionalInfo = Collections.emptyMap();
 
         protected abstract T self();
@@ -143,8 +156,13 @@ public class RequestModeOfTransport {
             return self();
         }
 
+        public T withForbiddenAreas(GeoJSONFeature<GeoJSONMultiPolygon> forbiddenAreas) {
+            this.forbiddenAreas = Optional.ofNullable(forbiddenAreas);
+            return self();
+        }
+
         public T withAdditionalInfo(Map<String, Object> additionalInfo) {
-            this.additionalInfo = ImmutableMap.copyOf(additionalInfo);
+            this.additionalInfo = ImmutableSortedMap.copyOf(additionalInfo);
             return self();
         }
 

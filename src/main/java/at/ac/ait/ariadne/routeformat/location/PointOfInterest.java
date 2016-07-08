@@ -1,11 +1,11 @@
 package at.ac.ait.ariadne.routeformat.location;
 
-import at.ac.ait.ariadne.routeformat.location.PointOfInterest.Builder2;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Preconditions;
+
+import at.ac.ait.ariadne.routeformat.location.PointOfInterest.Builder2;
 
 /**
  * @author AIT Austrian Institute of Technology GmbH

@@ -4,13 +4,13 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 
-import at.ac.ait.ariadne.routeformat.Service.Builder;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSortedMap;
+
+import at.ac.ait.ariadne.routeformat.Service.Builder;
 
 /**
  * A {@link Service} typically represents a public transport service / line
@@ -140,7 +140,7 @@ public class Service {
 		}
 
 		public Builder withAdditionalInfo(Map<String, Object> additionalInfo) {
-			this.additionalInfo = ImmutableMap.copyOf(additionalInfo);
+			this.additionalInfo = ImmutableSortedMap.copyOf(additionalInfo);
 			return this;
 		}
 

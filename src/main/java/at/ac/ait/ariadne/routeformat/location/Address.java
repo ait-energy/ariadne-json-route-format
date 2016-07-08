@@ -2,11 +2,11 @@ package at.ac.ait.ariadne.routeformat.location;
 
 import java.util.Optional;
 
-import at.ac.ait.ariadne.routeformat.location.Address.Builder;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import at.ac.ait.ariadne.routeformat.location.Address.Builder;
 
 /**
  * @author AIT Austrian Institute of Technology GmbH

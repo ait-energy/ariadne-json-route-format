@@ -7,9 +7,6 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
-import at.ac.ait.ariadne.routeformat.geojson.GeoJSONLineString;
-
 public class GeoJSONLineStringTest {
 
 	private static GeoJSONLineString lineString;

@@ -1,12 +1,11 @@
 package at.ac.ait.ariadne.routeformat;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.stream.Collectors;
 
 import org.junit.Assert;
 import org.junit.Test;
-
-import com.google.common.collect.Sets;
 
 import at.ac.ait.ariadne.routeformat.Constants.GeneralizedModeOfTransportType;
 
@@ -41,7 +40,7 @@ public class RoutingRequestTest {
         Assert.assertEquals("set MOT must be present", GeneralizedModeOfTransportType.BICYCLE,
                 request.getModesOfTransport().iterator().next().getModeOfTransport().getGeneralizedType());
 
-        request = getBuilder().withModesOfTransport(Sets.newHashSet(
+        request = getBuilder().withModesOfTransport(Arrays.asList(
                 RequestModeOfTransport.builder().withModeOfTransport(ModeOfTransport.STANDARD_BICYCLE).build(),
                 RequestModeOfTransport.builder().withModeOfTransport(ModeOfTransport.STANDARD_CAR).build())).build();
         Assert.assertEquals("FOOT must be added for two or more mots", 3, request.getModesOfTransport().size());
@@ -50,7 +49,7 @@ public class RoutingRequestTest {
                         .collect(Collectors.toSet()).contains(GeneralizedModeOfTransportType.FOOT));
 
         try {
-            getBuilder().withModesOfTransport(Collections.emptySet()).build();
+            getBuilder().withModesOfTransport(Collections.emptyList()).build();
             Assert.fail("at least one mot must be set");
         } catch (IllegalArgumentException e) {
         }
@@ -58,7 +57,7 @@ public class RoutingRequestTest {
 
     public RoutingRequest.Builder getBuilder() {
         return RoutingRequest.builder().withServiceId(TestUtil.SERVICE_ID).withFrom(TestUtil.FROM).withTo(TestUtil.TO)
-                .withModesOfTransport(Sets.newHashSet(
+                .withModesOfTransport(Arrays.asList(
                         RequestModeOfTransport.builder().withModeOfTransport(ModeOfTransport.STANDARD_BICYCLE).build()))
                 .withDepartureTime(TestUtil.START_TIME);
     }

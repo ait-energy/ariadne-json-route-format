@@ -4,17 +4,16 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 
 import at.ac.ait.ariadne.routeformat.Constants.Accessibility;
@@ -29,7 +28,7 @@ import at.ac.ait.ariadne.routeformat.IntermediateStop;
 import at.ac.ait.ariadne.routeformat.ModeOfTransport;
 import at.ac.ait.ariadne.routeformat.Operator;
 import at.ac.ait.ariadne.routeformat.RequestModeOfTransport;
-import at.ac.ait.ariadne.routeformat.RequestPublicTransportModeOfTransport;
+import at.ac.ait.ariadne.routeformat.RequestPTModeOfTransport;
 import at.ac.ait.ariadne.routeformat.Route;
 import at.ac.ait.ariadne.routeformat.RouteFormatRoot;
 import at.ac.ait.ariadne.routeformat.RouteSegment;
@@ -39,6 +38,8 @@ import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeatureCollection;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONLineString;
+import at.ac.ait.ariadne.routeformat.geojson.GeoJSONMultiPolygon;
+import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPolygon;
 import at.ac.ait.ariadne.routeformat.location.Address;
 import at.ac.ait.ariadne.routeformat.location.Location;
 import at.ac.ait.ariadne.routeformat.location.PointOfInterest;
@@ -148,7 +149,7 @@ public class IntermodalRouteExample {
         handelskaiCitybike = SharingStation.builder()
                 .withCoordinate(GeoJSONFeature.newPointFeature(new CoordinatePoint("16.3847976", "48.2420356")))
                 .withName("Millennium Tower").withId("2005")
-                .withModesOfTransport(ImmutableSet.of(GeneralizedModeOfTransportType.BICYCLE))
+                .withModesOfTransport(Arrays.asList(GeneralizedModeOfTransportType.BICYCLE))
                 .withOperator(citybikeOperator)
                 .withAdditionalInfo(ImmutableMap.of("capacity", "35", "bikes_available", "10", "boxes_available", "25"))
                 .build();
@@ -156,7 +157,7 @@ public class IntermodalRouteExample {
         friedrichEngelsPlatzCitybike = SharingStation.builder()
                 .withCoordinate(GeoJSONFeature.newPointFeature(new CoordinatePoint("16.3792033", "48.2441354")))
                 .withName("Friedrich Engels Platz").withId("2006")
-                .withModesOfTransport(ImmutableSet.of(GeneralizedModeOfTransportType.BICYCLE))
+                .withModesOfTransport(Arrays.asList(GeneralizedModeOfTransportType.BICYCLE))
                 .withOperator(citybikeOperator)
                 .withAdditionalInfo(ImmutableMap.of("capacity", "27", "bikes_available", "27", "boxes_available", "0"))
                 .build();
@@ -226,9 +227,17 @@ public class IntermodalRouteExample {
         additionalInfoRouteRequest.put("ait:additionalTestList", Lists.newArrayList(1, 2, 3, 4, 5, 6, 7));
         additionalInfoRouteRequest.put("ait:additionalTestString", "hello this is a String");
 
-        Set<RequestModeOfTransport> requestModes = new HashSet<>();
+        GeoJSONFeature<GeoJSONPolygon> forbiddenPolygon = GeoJSONFeature
+                .newPolygonFeatureFromCoordinatePoints(Arrays.asList(Arrays.asList(new CoordinatePoint("16", "48"),
+                        new CoordinatePoint("16.1", "48"), new CoordinatePoint("16.1", "48.1"),
+                        new CoordinatePoint("16.1", "48"), new CoordinatePoint("16", "48"))));
+        GeoJSONFeature<GeoJSONMultiPolygon> forbiddenAreas = GeoJSONFeature
+                .newMultiPolygonFeatureFromPolygons(Arrays.asList(forbiddenPolygon));
+
+        List<RequestModeOfTransport> requestModes = new ArrayList<>();
         requestModes.add(RequestModeOfTransport.builder().withModeOfTransport(ModeOfTransport.STANDARD_FOOT)
-                .withMaximumDistanceMeters(2000).withSpeed(Speed.FAST.name()).build());
+                .withMaximumDistanceMeters(2000).withSpeed(Speed.FAST.name()).withForbiddenAreas(forbiddenAreas)
+                .build());
         requestModes.add(RequestModeOfTransport.builder().withModeOfTransport(ModeOfTransport.STANDARD_BICYCLE)
                 .withMaximumTravelTimeSeconds(45 * 60).withSpeed(Speed.SLOW.name())
                 .withLocations(Arrays.asList(adalbertStifterStrasse15, privateBicycleHopsagasse)).build());
@@ -237,8 +246,8 @@ public class IntermodalRouteExample {
         RequestModeOfTransport carMot = RequestModeOfTransport.builder()
                 .withModeOfTransport(ModeOfTransport.STANDARD_CAR).withLocations(Arrays.asList(treustrasse92)).build();
         requestModes.add(carMot);
-        requestModes.add(RequestPublicTransportModeOfTransport.builder().withModeOfTransport(wienerLinienMot)
-                .withExcludedPublicTransportModes(ImmutableSet.of(DetailedModeOfTransportType.AERIALWAY,
+        requestModes.add(RequestPTModeOfTransport.builder().withModeOfTransport(wienerLinienMot)
+                .withExcludedPublicTransportModes(Arrays.asList(DetailedModeOfTransportType.AERIALWAY,
                         DetailedModeOfTransportType.AIRPLANE, DetailedModeOfTransportType.SHIP))
                 .build());
         requestModes.add(RequestModeOfTransport.builder().withModeOfTransport(citybikeMot).build());
@@ -247,7 +256,7 @@ public class IntermodalRouteExample {
 
         return RoutingRequest.builder().withServiceId("ariadne_webservice_vienna").withFrom(giefinggasseAit)
                 .withTo(scholzgasse1).withDepartureTime("2016-01-01T15:00:00+01:00").withLanguage("DE")
-                .withAccessibilityRestrictions(ImmutableSet.of(AccessibilityRestriction.NO_ELEVATOR))
+                .withAccessibilityRestrictions(Arrays.asList(AccessibilityRestriction.NO_ELEVATOR))
                 .withModesOfTransport(requestModes).withOptimizedFor("traveltime").withMaximumTransfers(10)
                 .withEndModeOfTransport(carMot).withAdditionalInfo(additionalInfoRouteRequest).build();
     }

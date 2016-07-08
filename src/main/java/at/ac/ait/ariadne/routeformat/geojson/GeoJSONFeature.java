@@ -3,10 +3,10 @@ package at.ac.ait.ariadne.routeformat.geojson;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.TreeMap;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -26,7 +26,7 @@ public class GeoJSONFeature<T extends GeoJSONGeometryObject> {
 
     /**
      * In case neither this field nor
-     * {@link RouteFormatRoot#getCoordinateReferenceSystem()} is set, fallback
+     * {@link RouteFormatRoot#getCoordinateReferenceSystem()} is set, fall back
      * to {@link CRS#WGS84}
      */
     @JsonProperty(required = false)
@@ -41,7 +41,7 @@ public class GeoJSONFeature<T extends GeoJSONGeometryObject> {
      */
     @JsonInclude(Include.ALWAYS)
     @JsonProperty(required = true)
-    public Map<String, Object> properties = new HashMap<>();
+    public Map<String, Object> properties = new TreeMap<>();
 
     public String toWKT() {
         return geometry.toWKT();
@@ -110,6 +110,18 @@ public class GeoJSONFeature<T extends GeoJSONGeometryObject> {
         rings.add(outerRing);
         rings.addAll(innerRings);
         feature.geometry.coordinates = rings;
+        return feature;
+    }
+
+    public static GeoJSONFeature<GeoJSONMultiPolygon> newMultiPolygonFeatureFromPolygons(
+            List<GeoJSONFeature<GeoJSONPolygon>> polygons) {
+        GeoJSONFeature<GeoJSONMultiPolygon> feature = new GeoJSONFeature<>();
+        feature.geometry = new GeoJSONMultiPolygon();
+        List<List<List<List<BigDecimal>>>> polygonGeometry = new ArrayList<>();
+        for (GeoJSONFeature<GeoJSONPolygon> polygon : polygons) {
+            polygonGeometry.add(polygon.geometry.coordinates);
+        }
+        feature.geometry.coordinates = polygonGeometry;
         return feature;
     }
 

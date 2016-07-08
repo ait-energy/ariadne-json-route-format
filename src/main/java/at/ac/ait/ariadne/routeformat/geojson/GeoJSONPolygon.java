@@ -14,46 +14,55 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonInclude(Include.ALWAYS)
 public class GeoJSONPolygon implements GeoJSONGeometryObject {
 
-	@JsonProperty(required = true)
-	public final GeoJSONType type = GeoJSONType.Polygon;
+    @JsonProperty(required = true)
+    public final GeoJSONType type = GeoJSONType.Polygon;
 
-	/**
-	 * Coordinates of a polygon are an array of LinearRing coordinate arrays
-	 * (the first and the last coordinate must be the same, thereby closing the
-	 * ring). The first element in the array represents the exterior ring. Any
-	 * subsequent elements represent interior rings (or holes).
-	 * <p>
-	 * The inner list of {@link BigDecimal} is always a pair of coordinates: X
-	 * and Y (=longitude and latitude)
-	 */
-	@JsonProperty(required = true)
-	public List<List<List<BigDecimal>>> coordinates = new ArrayList<>();
+    /**
+     * Coordinates of a polygon are an array of LinearRing coordinate arrays
+     * (the first and the last coordinate must be the same, thereby closing the
+     * ring). The first element in the array represents the exterior ring. Any
+     * subsequent elements represent interior rings (or holes).
+     * <p>
+     * The inner list of {@link BigDecimal} is always a pair of coordinates: X
+     * and Y (=longitude and latitude)
+     */
+    @JsonProperty(required = true)
+    public List<List<List<BigDecimal>>> coordinates = new ArrayList<>();
 
-	public GeoJSONPolygon() {
-	}
+    public GeoJSONPolygon() {
+    }
 
-	public GeoJSONPolygon(List<List<CoordinatePoint>> points) {
-		for (List<CoordinatePoint> linearRing : points) {
-			List<List<BigDecimal>> ring = new ArrayList<>();
-			for (CoordinatePoint point : linearRing)
-				ring.add(point.asNewList());
-			coordinates.add(ring);
-		}
-	}
+    @Override
+    public String toString() {
+        return "GeoJSONPolygon [coordinates=" + coordinates + "]";
+    }
 
-	@Override
-	public String toWKT() {
-		StringBuilder sb = new StringBuilder(type.name().toUpperCase()).append(" ");
-		if (coordinates.isEmpty())
-			return sb.append("EMPTY").toString();
+    /**
+     * Note: no checks if inner rings are actually within the outer ring are
+     * performed
+     * 
+     * @throws IllegalArgumentException
+     *             if invalid LinearRings are contained
+     */
+    public GeoJSONPolygon(List<List<CoordinatePoint>> points) {
+        for (List<CoordinatePoint> linearRing : points) {
 
-		sb.append(WKTUtil.getCoordinateStringPolygon(coordinates));
-		return sb.toString();
-	}
+            List<List<BigDecimal>> ring = new ArrayList<>();
+            for (CoordinatePoint point : linearRing)
+                ring.add(point.asNewList());
+            GeoJSONUtil.assertLinearRing(ring);
+            coordinates.add(ring);
+        }
+    }
 
-	@Override
-	public boolean isEmpty() {
-		return coordinates.isEmpty();
-	}
+    @Override
+    public String toWKT() {
+        return type.name().toUpperCase() + " " + WKTUtil.getCoordinateStringPolygon(coordinates);
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return coordinates.isEmpty();
+    }
 
 }

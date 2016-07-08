@@ -1,7 +1,7 @@
 package at.ac.ait.ariadne.routeformat.geojson;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -16,7 +16,7 @@ public class CRS {
 	public final String type = "name";
 
 	@JsonProperty(required = true)
-	public Map<String, Object> properties = new HashMap<>();
+	public Map<String, Object> properties = new TreeMap<>();
 
 	/**
 	 * creates a new WGS84 {@link CRS}

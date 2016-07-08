@@ -6,7 +6,6 @@ import java.util.Map;
 import org.junit.Test;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Sets;
 
 import at.ac.ait.ariadne.routeformat.Constants.DetailedModeOfTransportType;
 import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
@@ -33,25 +32,25 @@ public class RequestModeOfTransportTest {
         RequestModeOfTransport bicycle = RequestModeOfTransport.builder().withModeOfTransport(bicycleMot)
                 .withLocations(Arrays.asList(location)).withAdditionalInfo(additionalInfo).build();
 
-        RequestPublicTransportModeOfTransport.builder().withModeOfTransport(ModeOfTransport.STANDARD_PUBLIC_TRANSPORT)
-                .withExcludedPublicTransportModes(Sets.newHashSet(DetailedModeOfTransportType.CABLE_CAR)).build();
+        RequestPTModeOfTransport.builder().withModeOfTransport(ModeOfTransport.STANDARD_PUBLIC_TRANSPORT)
+                .withExcludedPublicTransportModes(Arrays.asList(DetailedModeOfTransportType.CABLE_CAR)).build();
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testMandatoryField() {
-        RequestPublicTransportModeOfTransport.builder()
-                .withExcludedPublicTransportModes(Sets.newHashSet(DetailedModeOfTransportType.CABLE_CAR)).build();
+        RequestPTModeOfTransport.builder()
+                .withExcludedPublicTransportModes(Arrays.asList(DetailedModeOfTransportType.CABLE_CAR)).build();
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testNonPublicTransportMot() {
-        RequestPublicTransportModeOfTransport.builder().withModeOfTransport(ModeOfTransport.STANDARD_CAR).build();
+        RequestPTModeOfTransport.builder().withModeOfTransport(ModeOfTransport.STANDARD_CAR).build();
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testNonPublicTransportExclusionMots() {
-        RequestPublicTransportModeOfTransport.builder().withModeOfTransport(ModeOfTransport.STANDARD_PUBLIC_TRANSPORT)
-                .withExcludedPublicTransportModes(Sets.newHashSet(DetailedModeOfTransportType.FOOT)).build();
+        RequestPTModeOfTransport.builder().withModeOfTransport(ModeOfTransport.STANDARD_PUBLIC_TRANSPORT)
+                .withExcludedPublicTransportModes(Arrays.asList(DetailedModeOfTransportType.FOOT)).build();
     }
 
 }

@@ -5,5 +5,5 @@ package at.ac.ait.ariadne.routeformat.geojson;
  * @author AIT Austrian Institute of Technology GmbH
  */
 public enum GeoJSONType {
-	FeatureCollection, Feature, Point, LineString, Polygon
+	FeatureCollection, Feature, Point, LineString, Polygon, MultiPolygon
 }

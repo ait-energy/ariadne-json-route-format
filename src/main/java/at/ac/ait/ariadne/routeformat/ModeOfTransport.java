@@ -5,18 +5,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import at.ac.ait.ariadne.routeformat.ModeOfTransport.Builder;
-import at.ac.ait.ariadne.routeformat.Constants.DetailedModeOfTransportType;
-import at.ac.ait.ariadne.routeformat.Constants.GeneralizedModeOfTransportType;
-import at.ac.ait.ariadne.routeformat.Constants.Sharing;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSortedMap;
+
+import at.ac.ait.ariadne.routeformat.Constants.DetailedModeOfTransportType;
+import at.ac.ait.ariadne.routeformat.Constants.GeneralizedModeOfTransportType;
+import at.ac.ait.ariadne.routeformat.Constants.Sharing;
+import at.ac.ait.ariadne.routeformat.ModeOfTransport.Builder;
 
 /**
  * A {@link ModeOfTransport} at minimum specifies a
@@ -257,7 +257,7 @@ public class ModeOfTransport {
         }
 
         public Builder withAdditionalInfo(Map<String, Object> additionalInfo) {
-            this.additionalInfo = ImmutableMap.copyOf(additionalInfo);
+            this.additionalInfo = ImmutableSortedMap.copyOf(additionalInfo);
             return this;
         }
 

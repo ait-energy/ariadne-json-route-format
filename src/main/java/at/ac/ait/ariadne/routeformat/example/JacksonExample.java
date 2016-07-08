@@ -5,9 +5,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 
-import at.ac.ait.ariadne.routeformat.RouteFormatRoot;
-import at.ac.ait.ariadne.routeformat.Constants.Status;
-
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -17,6 +14,9 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 import com.fasterxml.jackson.module.jsonSchema.factories.SchemaFactoryWrapper;
+
+import at.ac.ait.ariadne.routeformat.Constants.Status;
+import at.ac.ait.ariadne.routeformat.RouteFormatRoot;
 
 /**
  * We use the "Data Binding" method of Jackson (to map POJOs to JSON).

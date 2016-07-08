@@ -1,18 +1,18 @@
 package at.ac.ait.ariadne.routeformat.location;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-
-import at.ac.ait.ariadne.routeformat.Operator;
-import at.ac.ait.ariadne.routeformat.Constants.GeneralizedModeOfTransportType;
-import at.ac.ait.ariadne.routeformat.location.SharingStation.Builder2;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableList;
+
+import at.ac.ait.ariadne.routeformat.Constants.GeneralizedModeOfTransportType;
+import at.ac.ait.ariadne.routeformat.Operator;
+import at.ac.ait.ariadne.routeformat.location.SharingStation.Builder2;
 
 /**
  * @author AIT Austrian Institute of Technology GmbH
@@ -23,7 +23,7 @@ public class SharingStation extends Location {
 
     private final String name;
     private final Optional<String> id;
-    private final Set<GeneralizedModeOfTransportType> modesOfTransport;
+    private final List<GeneralizedModeOfTransportType> modesOfTransport;
     private final Optional<Operator> operator;
 
     public SharingStation(Builder<?> builder) {
@@ -48,7 +48,7 @@ public class SharingStation extends Location {
     /**
      * @return at least (and typically exactly) one mode of transport
      */
-    public Set<GeneralizedModeOfTransportType> getModesOfTransport() {
+    public List<GeneralizedModeOfTransportType> getModesOfTransport() {
         return modesOfTransport;
     }
 
@@ -69,7 +69,7 @@ public class SharingStation extends Location {
     public static abstract class Builder<T extends Builder<T>> extends Location.Builder<T> {
         private String name;
         private Optional<String> id = Optional.empty();
-        private Set<GeneralizedModeOfTransportType> modesOfTransport = Collections.emptySet();
+        private List<GeneralizedModeOfTransportType> modesOfTransport = Collections.emptyList();
         private Optional<Operator> operator = Optional.empty();
 
         public T withName(String name) {
@@ -82,8 +82,8 @@ public class SharingStation extends Location {
             return self();
         }
 
-        public T withModesOfTransport(Set<GeneralizedModeOfTransportType> modesOfTransport) {
-            this.modesOfTransport = ImmutableSet.copyOf(modesOfTransport);
+        public T withModesOfTransport(List<GeneralizedModeOfTransportType> modesOfTransport) {
+            this.modesOfTransport = ImmutableList.copyOf(modesOfTransport);
             return self();
         }
 

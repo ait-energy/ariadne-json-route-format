@@ -1,7 +1,7 @@
 {
   "routeFormatVersion" : "0.13-SNAPSHOT",
   "requestId" : "999",
-  "processedTime" : "2016-07-08T17:55:20.249+02:00[Europe/Vienna]",
+  "processedTime" : "2016-07-08T19:26:16.062+02:00[Europe/Vienna]",
   "status" : "OK",
   "debugMessage" : "Route calculated in 0.002 seconds",
   "coordinateReferenceSystem" : "EPSG:4326",
@@ -44,19 +44,21 @@
       }
     },
     "modesOfTransport" : [ {
-      "type" : "RequestPublicTransportModeOfTransport",
+      "type" : "RequestModeOfTransport",
       "modeOfTransport" : {
-        "generalizedType" : "PUBLIC_TRANSPORT",
-        "operator" : {
-          "name" : "Wiener Linien",
-          "website" : "http://www.wienerlinien.at",
-          "customerServiceEmail" : "post@wienerlinien.at",
-          "additionalInfo" : {
-            "email_ticketshop" : "ticketshop@wienerlinien.at"
-          }
-        }
+        "generalizedType" : "FOOT",
+        "detailedType" : "FOOT"
       },
-      "excludedPublicTransportModes" : [ "AERIALWAY", "AIRPLANE", "SHIP" ]
+      "maximumDistanceMeters" : 2000,
+      "speed" : "FAST",
+      "forbiddenAreas" : {
+        "type" : "Feature",
+        "geometry" : {
+          "type" : "MultiPolygon",
+          "coordinates" : [ [ [ [ 16, 48 ], [ 16.1, 48 ], [ 16.1, 48.1 ], [ 16.1, 48 ], [ 16, 48 ] ] ] ]
+        },
+        "properties" : { }
+      }
     }, {
       "type" : "RequestModeOfTransport",
       "modeOfTransport" : {
@@ -98,6 +100,48 @@
     }, {
       "type" : "RequestModeOfTransport",
       "modeOfTransport" : {
+        "generalizedType" : "MOTORCYCLE",
+        "detailedType" : "MOTORCYCLE"
+      }
+    }, {
+      "type" : "RequestModeOfTransport",
+      "modeOfTransport" : {
+        "generalizedType" : "CAR",
+        "detailedType" : "CAR"
+      },
+      "locations" : [ {
+        "type" : "Location",
+        "coordinate" : {
+          "type" : "Feature",
+          "geometry" : {
+            "type" : "Point",
+            "coordinates" : [ 16.36329, 48.234077 ]
+          },
+          "properties" : { }
+        },
+        "address" : {
+          "postCode" : "1200",
+          "streetName" : "Treustraße",
+          "houseNumber" : "92"
+        }
+      } ]
+    }, {
+      "type" : "RequestPTModeOfTransport",
+      "modeOfTransport" : {
+        "generalizedType" : "PUBLIC_TRANSPORT",
+        "operator" : {
+          "name" : "Wiener Linien",
+          "website" : "http://www.wienerlinien.at",
+          "customerServiceEmail" : "post@wienerlinien.at",
+          "additionalInfo" : {
+            "email_ticketshop" : "ticketshop@wienerlinien.at"
+          }
+        }
+      },
+      "excludedPublicTransportModes" : [ "AERIALWAY", "AIRPLANE", "SHIP" ]
+    }, {
+      "type" : "RequestModeOfTransport",
+      "modeOfTransport" : {
         "generalizedType" : "BICYCLE",
         "detailedType" : "BICYCLE",
         "operator" : {
@@ -131,48 +175,12 @@
       "type" : "RequestModeOfTransport",
       "modeOfTransport" : {
         "generalizedType" : "CAR",
-        "detailedType" : "CAR"
-      },
-      "locations" : [ {
-        "type" : "Location",
-        "coordinate" : {
-          "type" : "Feature",
-          "geometry" : {
-            "type" : "Point",
-            "coordinates" : [ 16.36329, 48.234077 ]
-          },
-          "properties" : { }
-        },
-        "address" : {
-          "postCode" : "1200",
-          "streetName" : "Treustraße",
-          "houseNumber" : "92"
-        }
-      } ]
-    }, {
-      "type" : "RequestModeOfTransport",
-      "modeOfTransport" : {
-        "generalizedType" : "CAR",
         "detailedType" : "CAR",
         "operator" : {
           "name" : "Flinc",
           "website" : "https://flinc.org"
         },
         "sharingType" : "RIDE_SHARING"
-      }
-    }, {
-      "type" : "RequestModeOfTransport",
-      "modeOfTransport" : {
-        "generalizedType" : "FOOT",
-        "detailedType" : "FOOT"
-      },
-      "maximumDistanceMeters" : 2000,
-      "speed" : "FAST"
-    }, {
-      "type" : "RequestModeOfTransport",
-      "modeOfTransport" : {
-        "generalizedType" : "MOTORCYCLE",
-        "detailedType" : "MOTORCYCLE"
       }
     } ],
     "endModeOfTransport" : {
@@ -204,7 +212,6 @@
     "accessibilityRestrictions" : [ "NO_ELEVATOR" ],
     "language" : "DE",
     "additionalInfo" : {
-      "ait:additionalTestString" : "hello this is a String",
       "ait:additionalTestBigDecimal" : 12.34567,
       "ait:additionalTestList" : [ 1, 2, 3, 4, 5, 6, 7 ],
       "ait:additionalTestObject" : {
@@ -214,7 +221,8 @@
         "additionalInfo" : {
           "email_ticketshop" : "ticketshop@wienerlinien.at"
         }
-      }
+      },
+      "ait:additionalTestString" : "hello this is a String"
     }
   },
   "routes" : [ {
@@ -326,9 +334,9 @@
             "coordinates" : [ [ 16.4265263, 48.2686617 ], [ 16.4263, 48.2682 ] ]
           },
           "properties" : {
+            "edgeWeight" : "54.1",
             "frc" : "6",
-            "name" : "Giefinggasse",
-            "edgeWeight" : "54.1"
+            "name" : "Giefinggasse"
           }
         }, {
           "type" : "Feature",
@@ -337,9 +345,9 @@
             "coordinates" : [ [ 16.4263, 48.2682 ], [ 16.42824, 48.26719 ] ]
           },
           "properties" : {
+            "edgeWeight" : "182.5",
             "frc" : "2",
-            "name" : "Siemensstraße",
-            "edgeWeight" : "182.5"
+            "name" : "Siemensstraße"
           }
         }, {
           "type" : "Feature",
@@ -348,9 +356,9 @@
             "coordinates" : [ [ 16.42824, 48.26719 ], [ 16.42791, 48.26680 ] ]
           },
           "properties" : {
+            "edgeWeight" : "49.8",
             "frc" : "3",
-            "name" : "Heinrich-von-Buol-Gasse",
-            "edgeWeight" : "49.8"
+            "name" : "Heinrich-von-Buol-Gasse"
           }
         } ]
       }
@@ -649,9 +657,9 @@
           "properties" : { }
         },
         "additionalInfo" : {
-          "capacity" : "35",
           "bikes_available" : "10",
-          "boxes_available" : "25"
+          "boxes_available" : "25",
+          "capacity" : "35"
         },
         "name" : "Millennium Tower",
         "id" : "2005",
@@ -698,9 +706,9 @@
           "properties" : { }
         },
         "additionalInfo" : {
-          "capacity" : "35",
           "bikes_available" : "10",
-          "boxes_available" : "25"
+          "boxes_available" : "25",
+          "capacity" : "35"
         },
         "name" : "Millennium Tower",
         "id" : "2005",
@@ -729,9 +737,9 @@
           "properties" : { }
         },
         "additionalInfo" : {
-          "capacity" : "27",
           "bikes_available" : "27",
-          "boxes_available" : "0"
+          "boxes_available" : "0",
+          "capacity" : "27"
         },
         "name" : "Friedrich Engels Platz",
         "id" : "2006",
@@ -780,8 +788,8 @@
         },
         "properties" : {
           "color" : "#FFBBCC",
-          "weight" : "7",
-          "opacity" : "0.9"
+          "opacity" : "0.9",
+          "weight" : "7"
         }
       }
     }, {
@@ -797,9 +805,9 @@
           "properties" : { }
         },
         "additionalInfo" : {
-          "capacity" : "27",
           "bikes_available" : "27",
-          "boxes_available" : "0"
+          "boxes_available" : "0",
+          "capacity" : "27"
         },
         "name" : "Friedrich Engels Platz",
         "id" : "2006",
@@ -894,10 +902,10 @@
         "electric" : true,
         "sharingType" : "FREE_FLOATING_VEHICLE_SHARING",
         "additionalInfo" : {
-          "licensePlate" : "W-123456",
+          "exteriorState" : "unacceptable",
           "fuelPercentage" : "80",
           "interiorState" : "good",
-          "exteriorState" : "unacceptable"
+          "licensePlate" : "W-123456"
         }
       },
       "boardingSeconds" : 120,
@@ -1024,8 +1032,8 @@
         },
         "sharingType" : "RIDE_SHARING",
         "additionalInfo" : {
-          "userName" : "herbertWien78",
-          "phoneNumber" : "+43 650 7734343"
+          "phoneNumber" : "+43 650 7734343",
+          "userName" : "herbertWien78"
         }
       },
       "boardingSeconds" : 180,

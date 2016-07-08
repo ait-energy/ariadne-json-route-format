@@ -25,6 +25,46 @@
           "type" : "object",
           "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:RequestModeOfTransport",
           "properties" : {
+            "forbiddenAreas" : {
+              "type" : "object",
+              "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONFeature<at:ac:ait:ariadne:routeformat:geojson:GeoJSONMultiPolygon>",
+              "properties" : {
+                "crs" : {
+                  "type" : "object",
+                  "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS",
+                  "properties" : {
+                    "type" : {
+                      "type" : "string",
+                      "required" : true
+                    },
+                    "properties" : {
+                      "type" : "object",
+                      "required" : true,
+                      "additionalProperties" : {
+                        "type" : "any"
+                      }
+                    }
+                  }
+                },
+                "geometry" : {
+                  "type" : "object",
+                  "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONMultiPolygon",
+                  "required" : true
+                },
+                "type" : {
+                  "type" : "string",
+                  "required" : true,
+                  "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon", "MultiPolygon" ]
+                },
+                "properties" : {
+                  "type" : "object",
+                  "required" : true,
+                  "additionalProperties" : {
+                    "type" : "any"
+                  }
+                }
+              }
+            },
             "additionalInfo" : {
               "type" : "object",
               "additionalProperties" : {
@@ -60,6 +100,69 @@
             "type" : "object",
             "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:RequestModeOfTransport",
             "properties" : {
+              "forbiddenAreas" : {
+                "type" : "object",
+                "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONFeature<at:ac:ait:ariadne:routeformat:geojson:GeoJSONMultiPolygon>",
+                "properties" : {
+                  "crs" : {
+                    "type" : "object",
+                    "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS",
+                    "properties" : {
+                      "type" : {
+                        "type" : "string",
+                        "required" : true
+                      },
+                      "properties" : {
+                        "type" : "object",
+                        "required" : true,
+                        "additionalProperties" : {
+                          "type" : "any"
+                        }
+                      }
+                    }
+                  },
+                  "geometry" : {
+                    "type" : "object",
+                    "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONMultiPolygon",
+                    "required" : true,
+                    "properties" : {
+                      "coordinates" : {
+                        "type" : "array",
+                        "required" : true,
+                        "items" : {
+                          "type" : "array",
+                          "items" : {
+                            "type" : "array",
+                            "items" : {
+                              "type" : "array",
+                              "items" : {
+                                "type" : "number"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "type" : {
+                        "type" : "string",
+                        "required" : true,
+                        "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon", "MultiPolygon" ]
+                      }
+                    }
+                  },
+                  "type" : {
+                    "type" : "string",
+                    "required" : true,
+                    "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon", "MultiPolygon" ]
+                  },
+                  "properties" : {
+                    "type" : "object",
+                    "required" : true,
+                    "additionalProperties" : {
+                      "type" : "any"
+                    }
+                  }
+                }
+              },
               "additionalInfo" : {
                 "type" : "object",
                 "additionalProperties" : {
@@ -200,6 +303,46 @@
           "type" : "object",
           "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:RequestModeOfTransport",
           "properties" : {
+            "forbiddenAreas" : {
+              "type" : "object",
+              "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONFeature<at:ac:ait:ariadne:routeformat:geojson:GeoJSONMultiPolygon>",
+              "properties" : {
+                "crs" : {
+                  "type" : "object",
+                  "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS",
+                  "properties" : {
+                    "type" : {
+                      "type" : "string",
+                      "required" : true
+                    },
+                    "properties" : {
+                      "type" : "object",
+                      "required" : true,
+                      "additionalProperties" : {
+                        "type" : "any"
+                      }
+                    }
+                  }
+                },
+                "geometry" : {
+                  "type" : "object",
+                  "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONMultiPolygon",
+                  "required" : true
+                },
+                "type" : {
+                  "type" : "string",
+                  "required" : true,
+                  "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon", "MultiPolygon" ]
+                },
+                "properties" : {
+                  "type" : "object",
+                  "required" : true,
+                  "additionalProperties" : {
+                    "type" : "any"
+                  }
+                }
+              }
+            },
             "additionalInfo" : {
               "type" : "object",
               "additionalProperties" : {
@@ -291,14 +434,14 @@
                     "type" : {
                       "type" : "string",
                       "required" : true,
-                      "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon" ]
+                      "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon", "MultiPolygon" ]
                     }
                   }
                 },
                 "type" : {
                   "type" : "string",
                   "required" : true,
-                  "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon" ]
+                  "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon", "MultiPolygon" ]
                 },
                 "properties" : {
                   "type" : "object",
@@ -402,14 +545,14 @@
                   "type" : {
                     "type" : "string",
                     "required" : true,
-                    "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon" ]
+                    "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon", "MultiPolygon" ]
                   }
                 }
               },
               "type" : {
                 "type" : "string",
                 "required" : true,
-                "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon" ]
+                "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon", "MultiPolygon" ]
               },
               "properties" : {
                 "type" : "object",
@@ -473,14 +616,14 @@
                   "type" : {
                     "type" : "string",
                     "required" : true,
-                    "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon" ]
+                    "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon", "MultiPolygon" ]
                   }
                 }
               },
               "type" : {
                 "type" : "string",
                 "required" : true,
-                "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon" ]
+                "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon", "MultiPolygon" ]
               },
               "properties" : {
                 "type" : "object",
@@ -531,7 +674,7 @@
                     "type" : {
                       "type" : "string",
                       "required" : true,
-                      "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon" ]
+                      "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon", "MultiPolygon" ]
                     },
                     "properties" : {
                       "type" : "object",
@@ -603,7 +746,7 @@
                           "type" : {
                             "type" : "string",
                             "required" : true,
-                            "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon" ]
+                            "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon", "MultiPolygon" ]
                           },
                           "properties" : {
                             "type" : "object",
@@ -647,7 +790,7 @@
                           "type" : {
                             "type" : "string",
                             "required" : true,
-                            "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon" ]
+                            "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon", "MultiPolygon" ]
                           },
                           "properties" : {
                             "type" : "object",
@@ -695,7 +838,7 @@
                     "type" : {
                       "type" : "string",
                       "required" : true,
-                      "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon" ]
+                      "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon", "MultiPolygon" ]
                     }
                   }
                 },
@@ -775,7 +918,7 @@
                     "type" : {
                       "type" : "string",
                       "required" : true,
-                      "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon" ]
+                      "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon", "MultiPolygon" ]
                     },
                     "properties" : {
                       "type" : "object",

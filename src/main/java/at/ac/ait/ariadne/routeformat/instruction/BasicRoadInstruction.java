@@ -2,6 +2,11 @@ package at.ac.ait.ariadne.routeformat.instruction;
 
 import java.util.Optional;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.google.common.base.Preconditions;
+
 import at.ac.ait.ariadne.routeformat.Constants.CompassDirection;
 import at.ac.ait.ariadne.routeformat.Constants.FormOfWay;
 import at.ac.ait.ariadne.routeformat.Constants.TurnDirection;
@@ -9,11 +14,6 @@ import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPoint;
 import at.ac.ait.ariadne.routeformat.instruction.BasicRoadInstruction.Builder;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.google.common.base.Preconditions;
 
 /**
  * A {@link BasicRoadInstruction} contains episodes with classic-style turn navigations for street-based modes of

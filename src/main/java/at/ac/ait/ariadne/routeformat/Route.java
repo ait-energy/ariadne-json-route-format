@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSortedMap;
 
 import at.ac.ait.ariadne.routeformat.Constants.RouteType;
 import at.ac.ait.ariadne.routeformat.Route.Builder;
@@ -311,7 +311,7 @@ public class Route {
         }
 
         public Builder withAdditionalInfo(Map<String, Object> additionalInfo) {
-            this.additionalInfo = ImmutableMap.copyOf(additionalInfo);
+            this.additionalInfo = ImmutableSortedMap.copyOf(additionalInfo);
             return this;
         }
 

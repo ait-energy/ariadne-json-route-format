@@ -16,8 +16,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSortedMap;
 
 import at.ac.ait.ariadne.routeformat.Constants.GeneralizedModeOfTransportType;
 import at.ac.ait.ariadne.routeformat.RoutingRequest.Builder;
@@ -52,14 +51,14 @@ public class RoutingRequest {
     private final Location from;
     private final List<Location> via;
     private final Location to;
-    private final Set<RequestModeOfTransport> modesOfTransport;
+    private final List<RequestModeOfTransport> modesOfTransport;
     private final Optional<RequestModeOfTransport> startModeOfTransport;
     private final Optional<RequestModeOfTransport> endModeOfTransport;
     private final String optimizedFor;
     private final Optional<Integer> maximumTransfers;
     private final Optional<ZonedDateTime> departureTime;
     private final Optional<ZonedDateTime> arrivalTime;
-    private final Set<Constants.AccessibilityRestriction> accessibilityRestrictions;
+    private final List<Constants.AccessibilityRestriction> accessibilityRestrictions;
     private final Optional<String> language;
     private final Map<String, Object> additionalInfo;
 
@@ -97,7 +96,7 @@ public class RoutingRequest {
      * {@link GeneralizedModeOfTransportType#FOOT}.
      */
     @JsonProperty(required = true)
-    public Set<RequestModeOfTransport> getModesOfTransport() {
+    public List<RequestModeOfTransport> getModesOfTransport() {
         return modesOfTransport;
     }
 
@@ -188,7 +187,7 @@ public class RoutingRequest {
         return arrivalTime;
     }
 
-    public Set<Constants.AccessibilityRestriction> getAccessibilityRestrictions() {
+    public List<Constants.AccessibilityRestriction> getAccessibilityRestrictions() {
         return accessibilityRestrictions;
     }
 
@@ -233,14 +232,14 @@ public class RoutingRequest {
         private Location from;
         private List<Location> via = Collections.emptyList();
         private Location to;
-        private Set<RequestModeOfTransport> modesOfTransport = Collections.emptySet();
+        private List<RequestModeOfTransport> modesOfTransport = Collections.emptyList();
         private Optional<RequestModeOfTransport> startModeOfTransport = Optional.empty();
         private Optional<RequestModeOfTransport> endModeOfTransport = Optional.empty();
         private String optimizedFor;
         private Optional<Integer> maximumTransfers = Optional.empty();
         private Optional<ZonedDateTime> departureTime = Optional.empty();
         private Optional<ZonedDateTime> arrivalTime = Optional.empty();
-        private Set<Constants.AccessibilityRestriction> accessibilityRestrictions = Collections.emptySet();
+        private List<Constants.AccessibilityRestriction> accessibilityRestrictions = Collections.emptyList();
         private Optional<String> language = Optional.empty();
         private Map<String, Object> additionalInfo = Collections.emptyMap();
 
@@ -264,8 +263,8 @@ public class RoutingRequest {
             return this;
         }
 
-        public Builder withModesOfTransport(Set<RequestModeOfTransport> modesOfTransport) {
-            this.modesOfTransport = ImmutableSet.copyOf(modesOfTransport);
+        public Builder withModesOfTransport(List<RequestModeOfTransport> modesOfTransport) {
+            this.modesOfTransport = ImmutableList.copyOf(modesOfTransport);
             return this;
         }
 
@@ -326,8 +325,8 @@ public class RoutingRequest {
         }
 
         public Builder withAccessibilityRestrictions(
-                Set<Constants.AccessibilityRestriction> accessibilityRestrictions) {
-            this.accessibilityRestrictions = ImmutableSet.copyOf(accessibilityRestrictions);
+                List<Constants.AccessibilityRestriction> accessibilityRestrictions) {
+            this.accessibilityRestrictions = ImmutableList.copyOf(accessibilityRestrictions);
             return this;
         }
 
@@ -337,7 +336,7 @@ public class RoutingRequest {
         }
 
         public Builder withAdditionalInfo(Map<String, Object> additionalInfo) {
-            this.additionalInfo = ImmutableMap.copyOf(additionalInfo);
+            this.additionalInfo = ImmutableSortedMap.copyOf(additionalInfo);
             return this;
         }
 
@@ -359,7 +358,7 @@ public class RoutingRequest {
                 if (!types.contains(GeneralizedModeOfTransportType.FOOT)) {
                     RequestModeOfTransport foot = RequestModeOfTransport.builder()
                             .withModeOfTransport(ModeOfTransport.STANDARD_FOOT).build();
-                    modesOfTransport = ImmutableSet.<RequestModeOfTransport> builder().addAll(modesOfTransport)
+                    modesOfTransport = ImmutableList.<RequestModeOfTransport> builder().addAll(modesOfTransport)
                             .add(foot).build();
                 }
             }

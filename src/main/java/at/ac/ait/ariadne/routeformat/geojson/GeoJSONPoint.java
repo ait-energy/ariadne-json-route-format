@@ -15,38 +15,34 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonInclude(Include.ALWAYS)
 public class GeoJSONPoint implements GeoJSONGeometryObject {
 
-	@JsonProperty(required = true)
-	public final GeoJSONType type = GeoJSONType.Point;
+    @JsonProperty(required = true)
+    public final GeoJSONType type = GeoJSONType.Point;
 
-	@JsonProperty(required = true)
-	/** a pair of coordinates: X and Y (=longitude and latitude) */
-	public List<BigDecimal> coordinates = new ArrayList<>();
+    @JsonProperty(required = true)
+    /** a pair of coordinates: X and Y (=longitude and latitude) */
+    public List<BigDecimal> coordinates = new ArrayList<>();
 
-	public GeoJSONPoint() {
-	}
+    public GeoJSONPoint() {
+    }
 
-	public GeoJSONPoint(CoordinatePoint point) {
-		coordinates = point.asNewList();
-	}
+    public GeoJSONPoint(CoordinatePoint point) {
+        coordinates = point.asNewList();
+    }
 
-	@Override
-	public String toString() {
-		return "GeoJSONPoint [coordinates=" + coordinates + "]";
-	}
+    @Override
+    public String toString() {
+        return "GeoJSONPoint [coordinates=" + coordinates + "]";
+    }
 
-	@Override
-	public String toWKT() {
-		StringBuilder sb = new StringBuilder(type.name().toUpperCase()).append(" ");
-		if (coordinates.isEmpty())
-			return sb.append("EMPTY").toString();
+    @Override
+    public String toWKT() {
+        return type.name().toUpperCase() + " "
+                + WKTUtil.getCoordinateStringPointOrLineString(Arrays.asList(coordinates));
+    }
 
-		sb.append(WKTUtil.getCoordinateStringPointOrLineString(Arrays.asList(coordinates)));
-		return sb.toString();
-	}
-
-	@Override
-	public boolean isEmpty() {
-		return coordinates.isEmpty();
-	}
+    @Override
+    public boolean isEmpty() {
+        return coordinates.isEmpty();
+    }
 
 }
