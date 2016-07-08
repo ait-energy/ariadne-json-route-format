@@ -109,7 +109,8 @@ public class PublicTransportStop extends Location {
 			return new PublicTransportStop(this);
 		}
 
-		private void validate() {
+		void validate() {
+		    super.validate();
 			Preconditions.checkNotNull(name, "name is mandatory");
 		}
 

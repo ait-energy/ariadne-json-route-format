@@ -21,33 +21,216 @@
             "enum" : [ "NO_STAIRS", "NO_ESCALATOR", "NO_ELEVATOR", "ONLY_LOW_FLOOR_VEHICLE" ]
           }
         },
-        "maximumPublicTransportRoutes" : {
-          "type" : "integer"
-        },
-        "acceptedDelayMinutes" : {
-          "type" : "integer"
+        "startModeOfTransport" : {
+          "type" : "object",
+          "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:RequestModeOfTransport",
+          "properties" : {
+            "additionalInfo" : {
+              "type" : "object",
+              "additionalProperties" : {
+                "type" : "any"
+              }
+            },
+            "modeOfTransport" : {
+              "type" : "object",
+              "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:ModeOfTransport",
+              "required" : true
+            },
+            "maximumDistanceMeters" : {
+              "type" : "integer"
+            },
+            "maximumTravelTimeSeconds" : {
+              "type" : "integer"
+            },
+            "locations" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:location:Location"
+              }
+            },
+            "speed" : {
+              "type" : "string"
+            }
+          }
         },
         "modesOfTransport" : {
           "type" : "array",
           "required" : true,
           "items" : {
-            "type" : "string",
-            "enum" : [ "FOOT", "BICYCLE", "MOTORCYCLE", "CAR", "PUBLIC_TRANSPORT" ]
+            "type" : "object",
+            "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:RequestModeOfTransport",
+            "properties" : {
+              "additionalInfo" : {
+                "type" : "object",
+                "additionalProperties" : {
+                  "type" : "any"
+                }
+              },
+              "modeOfTransport" : {
+                "type" : "object",
+                "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:ModeOfTransport",
+                "required" : true,
+                "properties" : {
+                  "accessibility" : {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "string",
+                      "enum" : [ "LOW_FLOOR_VEHICLE", "HIGH_FLOOR_VEHICLE" ]
+                    }
+                  },
+                  "service" : {
+                    "type" : "object",
+                    "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:Service",
+                    "properties" : {
+                      "color" : {
+                        "type" : "string"
+                      },
+                      "name" : {
+                        "type" : "string"
+                      },
+                      "additionalInfo" : {
+                        "type" : "object",
+                        "additionalProperties" : {
+                          "type" : "any"
+                        }
+                      },
+                      "towards" : {
+                        "type" : "string"
+                      }
+                    }
+                  },
+                  "electric" : {
+                    "type" : "boolean"
+                  },
+                  "additionalInfo" : {
+                    "type" : "object",
+                    "additionalProperties" : {
+                      "type" : "any"
+                    }
+                  },
+                  "generalizedType" : {
+                    "type" : "string",
+                    "required" : true,
+                    "enum" : [ "FOOT", "BICYCLE", "MOTORCYCLE", "CAR", "PUBLIC_TRANSPORT" ]
+                  },
+                  "detailedType" : {
+                    "type" : "string",
+                    "enum" : [ "RAILWAY", "LONG_DISTANCE_RAILWAY", "SUBURBAN_RAILWAY", "URBAN_RAILWAY", "SUBWAY", "TRAM", "CABLE_CAR", "FUNICULAR", "BUS", "TROLLEYBUS", "AERIALWAY", "SHIP", "AIRPLANE", "BICYCLE", "MOTORCYCLE", "CAR", "TAXI", "FOOT", "TRANSFER" ]
+                  },
+                  "id" : {
+                    "type" : "string"
+                  },
+                  "sharingType" : {
+                    "type" : "string",
+                    "enum" : [ "STATION_BOUND_VEHICLE_SHARING", "FREE_FLOATING_VEHICLE_SHARING", "RIDE_SHARING", "RIDE_SOURCING" ]
+                  },
+                  "operator" : {
+                    "type" : "object",
+                    "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:Operator",
+                    "properties" : {
+                      "website" : {
+                        "type" : "string"
+                      },
+                      "address" : {
+                        "type" : "object",
+                        "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:location:Address",
+                        "properties" : {
+                          "country" : {
+                            "type" : "string"
+                          },
+                          "streetName" : {
+                            "type" : "string"
+                          },
+                          "city" : {
+                            "type" : "string"
+                          },
+                          "houseNumber" : {
+                            "type" : "string"
+                          },
+                          "postCode" : {
+                            "type" : "string"
+                          }
+                        }
+                      },
+                      "customerServicePhone" : {
+                        "type" : "string"
+                      },
+                      "name" : {
+                        "type" : "string",
+                        "required" : true
+                      },
+                      "additionalInfo" : {
+                        "type" : "object",
+                        "additionalProperties" : {
+                          "type" : "any"
+                        }
+                      },
+                      "id" : {
+                        "type" : "string"
+                      },
+                      "customerServiceEmail" : {
+                        "type" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              "maximumDistanceMeters" : {
+                "type" : "integer"
+              },
+              "maximumTravelTimeSeconds" : {
+                "type" : "integer"
+              },
+              "locations" : {
+                "type" : "array",
+                "items" : {
+                  "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:location:Location"
+                }
+              },
+              "speed" : {
+                "type" : "string"
+              }
+            }
           }
         },
         "language" : {
           "type" : "string"
         },
+        "endModeOfTransport" : {
+          "type" : "object",
+          "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:RequestModeOfTransport",
+          "properties" : {
+            "additionalInfo" : {
+              "type" : "object",
+              "additionalProperties" : {
+                "type" : "any"
+              }
+            },
+            "modeOfTransport" : {
+              "type" : "object",
+              "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:ModeOfTransport",
+              "required" : true
+            },
+            "maximumDistanceMeters" : {
+              "type" : "integer"
+            },
+            "maximumTravelTimeSeconds" : {
+              "type" : "integer"
+            },
+            "locations" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:location:Location"
+              }
+            },
+            "speed" : {
+              "type" : "string"
+            }
+          }
+        },
         "optimizedFor" : {
           "type" : "string",
           "required" : true
-        },
-        "excludedPublicTransport" : {
-          "type" : "array",
-          "items" : {
-            "type" : "string",
-            "enum" : [ "RAILWAY", "LONG_DISTANCE_RAILWAY", "SUBURBAN_RAILWAY", "URBAN_RAILWAY", "SUBWAY", "TRAM", "CABLE_CAR", "FUNICULAR", "BUS", "TROLLEYBUS", "AERIALWAY", "SHIP", "AIRPLANE", "BICYCLE", "MOTORCYCLE", "CAR", "TAXI", "FOOT", "TRANSFER" ]
-          }
         },
         "via" : {
           "type" : "array",
@@ -163,15 +346,6 @@
         "serviceId" : {
           "type" : "string",
           "required" : true
-        },
-        "privateVehicleLocations" : {
-          "type" : "object",
-          "additionalProperties" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:location:Location"
-            }
-          }
         }
       }
     },
@@ -195,7 +369,20 @@
             "properties" : {
               "crs" : {
                 "type" : "object",
-                "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS"
+                "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS",
+                "properties" : {
+                  "type" : {
+                    "type" : "string",
+                    "required" : true
+                  },
+                  "properties" : {
+                    "type" : "object",
+                    "required" : true,
+                    "additionalProperties" : {
+                      "type" : "any"
+                    }
+                  }
+                }
               },
               "geometry" : {
                 "type" : "object",
@@ -256,7 +443,20 @@
             "properties" : {
               "crs" : {
                 "type" : "object",
-                "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS"
+                "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS",
+                "properties" : {
+                  "type" : {
+                    "type" : "string",
+                    "required" : true
+                  },
+                  "properties" : {
+                    "type" : "object",
+                    "required" : true,
+                    "additionalProperties" : {
+                      "type" : "any"
+                    }
+                  }
+                }
               },
               "geometry" : {
                 "type" : "object",
@@ -314,7 +514,20 @@
                   "properties" : {
                     "crs" : {
                       "type" : "object",
-                      "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS"
+                      "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS",
+                      "properties" : {
+                        "type" : {
+                          "type" : "string",
+                          "required" : true
+                        },
+                        "properties" : {
+                          "type" : "object",
+                          "required" : true,
+                          "additionalProperties" : {
+                            "type" : "any"
+                          }
+                        }
+                      }
                     },
                     "geometry" : {
                       "type" : "object",
@@ -358,112 +571,8 @@
                 },
                 "modeOfTransport" : {
                   "type" : "object",
-                  "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:ModeOfTransport",
-                  "required" : true,
-                  "properties" : {
-                    "accessibility" : {
-                      "type" : "array",
-                      "items" : {
-                        "type" : "string",
-                        "enum" : [ "LOW_FLOOR_VEHICLE", "HIGH_FLOOR_VEHICLE" ]
-                      }
-                    },
-                    "service" : {
-                      "type" : "object",
-                      "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:Service",
-                      "properties" : {
-                        "color" : {
-                          "type" : "string"
-                        },
-                        "name" : {
-                          "type" : "string"
-                        },
-                        "additionalInfo" : {
-                          "type" : "object",
-                          "additionalProperties" : {
-                            "type" : "any"
-                          }
-                        },
-                        "towards" : {
-                          "type" : "string"
-                        }
-                      }
-                    },
-                    "electric" : {
-                      "type" : "boolean"
-                    },
-                    "additionalInfo" : {
-                      "type" : "object",
-                      "additionalProperties" : {
-                        "type" : "any"
-                      }
-                    },
-                    "generalizedType" : {
-                      "type" : "string",
-                      "required" : true,
-                      "enum" : [ "FOOT", "BICYCLE", "MOTORCYCLE", "CAR", "PUBLIC_TRANSPORT" ]
-                    },
-                    "detailedType" : {
-                      "type" : "string",
-                      "enum" : [ "RAILWAY", "LONG_DISTANCE_RAILWAY", "SUBURBAN_RAILWAY", "URBAN_RAILWAY", "SUBWAY", "TRAM", "CABLE_CAR", "FUNICULAR", "BUS", "TROLLEYBUS", "AERIALWAY", "SHIP", "AIRPLANE", "BICYCLE", "MOTORCYCLE", "CAR", "TAXI", "FOOT", "TRANSFER" ]
-                    },
-                    "id" : {
-                      "type" : "string"
-                    },
-                    "sharingType" : {
-                      "type" : "string",
-                      "enum" : [ "STATION_BOUND_VEHICLE_SHARING", "FREE_FLOATING_VEHICLE_SHARING", "RIDE_SHARING", "RIDE_SOURCING" ]
-                    },
-                    "operator" : {
-                      "type" : "object",
-                      "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:Operator",
-                      "properties" : {
-                        "website" : {
-                          "type" : "string"
-                        },
-                        "address" : {
-                          "type" : "object",
-                          "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:location:Address",
-                          "properties" : {
-                            "country" : {
-                              "type" : "string"
-                            },
-                            "streetName" : {
-                              "type" : "string"
-                            },
-                            "city" : {
-                              "type" : "string"
-                            },
-                            "houseNumber" : {
-                              "type" : "string"
-                            },
-                            "postCode" : {
-                              "type" : "string"
-                            }
-                          }
-                        },
-                        "customerServicePhone" : {
-                          "type" : "string"
-                        },
-                        "name" : {
-                          "type" : "string",
-                          "required" : true
-                        },
-                        "additionalInfo" : {
-                          "type" : "object",
-                          "additionalProperties" : {
-                            "type" : "any"
-                          }
-                        },
-                        "id" : {
-                          "type" : "string"
-                        },
-                        "customerServiceEmail" : {
-                          "type" : "string"
-                        }
-                      }
-                    }
-                  }
+                  "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:ModeOfTransport",
+                  "required" : true
                 },
                 "navigationInstructions" : {
                   "type" : "array",
@@ -477,7 +586,20 @@
                         "properties" : {
                           "crs" : {
                             "type" : "object",
-                            "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS"
+                            "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS",
+                            "properties" : {
+                              "type" : {
+                                "type" : "string",
+                                "required" : true
+                              },
+                              "properties" : {
+                                "type" : "object",
+                                "required" : true,
+                                "additionalProperties" : {
+                                  "type" : "any"
+                                }
+                              }
+                            }
                           },
                           "geometry" : {
                             "type" : "object",
@@ -508,7 +630,20 @@
                         "properties" : {
                           "crs" : {
                             "type" : "object",
-                            "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS"
+                            "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS",
+                            "properties" : {
+                              "type" : {
+                                "type" : "string",
+                                "required" : true
+                              },
+                              "properties" : {
+                                "type" : "object",
+                                "required" : true,
+                                "additionalProperties" : {
+                                  "type" : "any"
+                                }
+                              }
+                            }
                           },
                           "geometry" : {
                             "type" : "object",
@@ -607,7 +742,20 @@
                   "properties" : {
                     "crs" : {
                       "type" : "object",
-                      "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS"
+                      "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS",
+                      "properties" : {
+                        "type" : {
+                          "type" : "string",
+                          "required" : true
+                        },
+                        "properties" : {
+                          "type" : "object",
+                          "required" : true,
+                          "additionalProperties" : {
+                            "type" : "any"
+                          }
+                        }
+                      }
                     },
                     "geometry" : {
                       "type" : "object",

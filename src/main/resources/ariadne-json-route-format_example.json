@@ -1,7 +1,7 @@
 {
   "routeFormatVersion" : "0.13-SNAPSHOT",
   "requestId" : "999",
-  "processedTime" : "2016-07-05T13:04:12.045+02:00[Europe/Vienna]",
+  "processedTime" : "2016-07-08T14:30:22.769+02:00[Europe/Vienna]",
   "status" : "OK",
   "debugMessage" : "Route calculated in 0.002 seconds",
   "coordinateReferenceSystem" : "EPSG:4326",
@@ -11,17 +11,10 @@
       "type" : "PointOfInterest",
       "coordinate" : {
         "type" : "Feature",
-        "crs" : {
-          "type" : "name",
-          "properties" : {
-            "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-          }
-        },
         "geometry" : {
           "type" : "Point",
           "coordinates" : [ 16.4265263, 48.2686617 ]
-        },
-        "properties" : { }
+        }
       },
       "address" : {
         "country" : "Austria",
@@ -37,17 +30,10 @@
       "type" : "Location",
       "coordinate" : {
         "type" : "Feature",
-        "crs" : {
-          "type" : "name",
-          "properties" : {
-            "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-          }
-        },
         "geometry" : {
           "type" : "Point",
           "coordinates" : [ 16.3695, 48.2243 ]
-        },
-        "properties" : { }
+        }
       },
       "address" : {
         "postCode" : "1020",
@@ -55,30 +41,36 @@
         "houseNumber" : "1"
       }
     },
-    "modesOfTransport" : [ "FOOT", "BICYCLE", "MOTORCYCLE", "CAR", "PUBLIC_TRANSPORT" ],
-    "excludedPublicTransport" : [ "AERIALWAY", "AIRPLANE", "SHIP" ],
-    "optimizedFor" : "traveltime",
-    "maximumTransfers" : 10,
-    "departureTime" : "2016-01-01T15:00+01:00",
-    "acceptedDelayMinutes" : 30,
-    "maximumPublicTransportRoutes" : 20,
-    "accessibilityRestrictions" : [ "NO_ELEVATOR" ],
-    "privateVehicleLocations" : {
-      "BICYCLE" : [ {
+    "modesOfTransport" : [ {
+      "type" : "RequestPublicTransportModeOfTransport",
+      "modeOfTransport" : {
+        "generalizedType" : "PUBLIC_TRANSPORT",
+        "operator" : {
+          "name" : "Wiener Linien",
+          "website" : "http://www.wienerlinien.at",
+          "customerServiceEmail" : "post@wienerlinien.at",
+          "additionalInfo" : {
+            "email_ticketshop" : "ticketshop@wienerlinien.at"
+          }
+        }
+      },
+      "excludedPublicTransportModes" : [ "AERIALWAY", "AIRPLANE", "SHIP" ]
+    }, {
+      "type" : "RequestModeOfTransport",
+      "modeOfTransport" : {
+        "generalizedType" : "BICYCLE",
+        "detailedType" : "BICYCLE"
+      },
+      "maximumTravelTimeSeconds" : 2700,
+      "speed" : "SLOW",
+      "locations" : [ {
         "type" : "Location",
         "coordinate" : {
           "type" : "Feature",
-          "crs" : {
-            "type" : "name",
-            "properties" : {
-              "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-            }
-          },
           "geometry" : {
             "type" : "Point",
             "coordinates" : [ 16.3655, 48.23752 ]
-          },
-          "properties" : { }
+          }
         },
         "address" : {
           "streetName" : "Adalbert-Stifter-Straße",
@@ -88,39 +80,110 @@
         "type" : "Location",
         "coordinate" : {
           "type" : "Feature",
-          "crs" : {
-            "type" : "name",
-            "properties" : {
-              "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-            }
-          },
           "geometry" : {
             "type" : "Point",
             "coordinates" : [ 16.3715916, 48.246609 ]
-          },
-          "properties" : { }
+          }
         },
         "address" : {
           "postCode" : "1200",
           "streetName" : "Hopsagasse",
           "houseNumber" : "5"
         }
-      } ],
-      "CAR" : [ {
+      } ]
+    }, {
+      "type" : "RequestModeOfTransport",
+      "modeOfTransport" : {
+        "generalizedType" : "BICYCLE",
+        "detailedType" : "BICYCLE",
+        "operator" : {
+          "name" : "Citybike Wien",
+          "address" : {
+            "city" : "Wien",
+            "postCode" : "1030",
+            "streetName" : "Litfaßstraße",
+            "houseNumber" : "6"
+          },
+          "website" : "http://citybikewien.at",
+          "customerServiceEmail" : "kontakt@citybikewien.at",
+          "customerServicePhone" : "0810 500 500"
+        },
+        "sharingType" : "STATION_BOUND_VEHICLE_SHARING"
+      }
+    }, {
+      "type" : "RequestModeOfTransport",
+      "modeOfTransport" : {
+        "generalizedType" : "CAR",
+        "detailedType" : "CAR",
+        "operator" : {
+          "name" : "Car2Go",
+          "website" : "https://www.car2go.com/de/wien",
+          "customerServiceEmail" : "wien@car2go.com"
+        },
+        "electric" : true,
+        "sharingType" : "FREE_FLOATING_VEHICLE_SHARING"
+      }
+    }, {
+      "type" : "RequestModeOfTransport",
+      "modeOfTransport" : {
+        "generalizedType" : "CAR",
+        "detailedType" : "CAR"
+      },
+      "locations" : [ {
         "type" : "Location",
         "coordinate" : {
           "type" : "Feature",
-          "crs" : {
-            "type" : "name",
-            "properties" : {
-              "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-            }
-          },
           "geometry" : {
             "type" : "Point",
             "coordinates" : [ 16.36329, 48.234077 ]
-          },
-          "properties" : { }
+          }
+        },
+        "address" : {
+          "postCode" : "1200",
+          "streetName" : "Treustraße",
+          "houseNumber" : "92"
+        }
+      } ]
+    }, {
+      "type" : "RequestModeOfTransport",
+      "modeOfTransport" : {
+        "generalizedType" : "CAR",
+        "detailedType" : "CAR",
+        "operator" : {
+          "name" : "Flinc",
+          "website" : "https://flinc.org"
+        },
+        "sharingType" : "RIDE_SHARING"
+      }
+    }, {
+      "type" : "RequestModeOfTransport",
+      "modeOfTransport" : {
+        "generalizedType" : "FOOT",
+        "detailedType" : "FOOT"
+      },
+      "maximumDistanceMeters" : 2000,
+      "speed" : "FAST"
+    }, {
+      "type" : "RequestModeOfTransport",
+      "modeOfTransport" : {
+        "generalizedType" : "MOTORCYCLE",
+        "detailedType" : "MOTORCYCLE"
+      }
+    } ],
+    "endModeOfTransport" : {
+      "type" : "RequestModeOfTransport",
+      "modeOfTransport" : {
+        "generalizedType" : "CAR",
+        "detailedType" : "CAR"
+      },
+      "locations" : [ {
+        "type" : "Location",
+        "coordinate" : {
+          "type" : "Feature",
+          "geometry" : {
+            "type" : "Point",
+            "coordinates" : [ 16.36329, 48.234077 ]
+          }
         },
         "address" : {
           "postCode" : "1200",
@@ -129,11 +192,14 @@
         }
       } ]
     },
+    "optimizedFor" : "traveltime",
+    "maximumTransfers" : 10,
+    "departureTime" : "2016-01-01T15:00+01:00",
+    "accessibilityRestrictions" : [ "NO_ELEVATOR" ],
     "language" : "DE",
     "additionalInfo" : {
       "ait:additionalTestString" : "hello this is a String",
       "ait:additionalTestBigDecimal" : 12.34567,
-      "include_operators" : "flinc;car2go_vienna;citybike_vienna",
       "ait:additionalTestList" : [ 1, 2, 3, 4, 5, 6, 7 ],
       "ait:additionalTestObject" : {
         "name" : "Wiener Linien",
@@ -150,17 +216,10 @@
       "type" : "PointOfInterest",
       "coordinate" : {
         "type" : "Feature",
-        "crs" : {
-          "type" : "name",
-          "properties" : {
-            "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-          }
-        },
         "geometry" : {
           "type" : "Point",
           "coordinates" : [ 16.4265263, 48.2686617 ]
-        },
-        "properties" : { }
+        }
       },
       "address" : {
         "country" : "Austria",
@@ -176,17 +235,10 @@
       "type" : "Location",
       "coordinate" : {
         "type" : "Feature",
-        "crs" : {
-          "type" : "name",
-          "properties" : {
-            "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-          }
-        },
         "geometry" : {
           "type" : "Point",
           "coordinates" : [ 16.3695, 48.2243 ]
-        },
-        "properties" : { }
+        }
       },
       "address" : {
         "postCode" : "1020",
@@ -201,17 +253,10 @@
     "optimizedFor" : "travel time and low costs",
     "boundingBox" : {
       "type" : "Feature",
-      "crs" : {
-        "type" : "name",
-        "properties" : {
-          "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-        }
-      },
       "geometry" : {
         "type" : "Polygon",
         "coordinates" : [ [ [ 16.36288, 48.2243 ], [ 16.36288, 48.2686617 ], [ 16.42824, 48.2686617 ], [ 16.42824, 48.2243 ], [ 16.36288, 48.2243 ] ] ]
-      },
-      "properties" : { }
+      }
     },
     "segments" : [ {
       "nr" : 1,
@@ -219,17 +264,10 @@
         "type" : "PointOfInterest",
         "coordinate" : {
           "type" : "Feature",
-          "crs" : {
-            "type" : "name",
-            "properties" : {
-              "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-            }
-          },
           "geometry" : {
             "type" : "Point",
             "coordinates" : [ 16.4265263, 48.2686617 ]
-          },
-          "properties" : { }
+          }
         },
         "address" : {
           "country" : "Austria",
@@ -245,17 +283,10 @@
         "type" : "PublicTransportStop",
         "coordinate" : {
           "type" : "Feature",
-          "crs" : {
-            "type" : "name",
-            "properties" : {
-              "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-            }
-          },
           "geometry" : {
             "type" : "Point",
             "coordinates" : [ 16.42791, 48.26680 ]
-          },
-          "properties" : { }
+          }
         },
         "name" : "Heinrich-von-Buol-Gasse/Siemensstraße"
       },
@@ -269,17 +300,10 @@
       "arrivalTime" : "2016-01-01T15:01+01:00",
       "geometryGeoJson" : {
         "type" : "Feature",
-        "crs" : {
-          "type" : "name",
-          "properties" : {
-            "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-          }
-        },
         "geometry" : {
           "type" : "LineString",
           "coordinates" : [ [ 16.4265263, 48.2686617 ], [ 16.4263, 48.2682 ], [ 16.42824, 48.26719 ], [ 16.42791, 48.26680 ] ]
-        },
-        "properties" : { }
+        }
       },
       "geometryGeoJsonEdges" : {
         "type" : "FeatureCollection",
@@ -291,12 +315,6 @@
         },
         "features" : [ {
           "type" : "Feature",
-          "crs" : {
-            "type" : "name",
-            "properties" : {
-              "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-            }
-          },
           "geometry" : {
             "type" : "LineString",
             "coordinates" : [ [ 16.4265263, 48.2686617 ], [ 16.4263, 48.2682 ] ]
@@ -308,12 +326,6 @@
           }
         }, {
           "type" : "Feature",
-          "crs" : {
-            "type" : "name",
-            "properties" : {
-              "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-            }
-          },
           "geometry" : {
             "type" : "LineString",
             "coordinates" : [ [ 16.4263, 48.2682 ], [ 16.42824, 48.26719 ] ]
@@ -325,12 +337,6 @@
           }
         }, {
           "type" : "Feature",
-          "crs" : {
-            "type" : "name",
-            "properties" : {
-              "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-            }
-          },
           "geometry" : {
             "type" : "LineString",
             "coordinates" : [ [ 16.42824, 48.26719 ], [ 16.42791, 48.26680 ] ]
@@ -348,17 +354,10 @@
         "type" : "PublicTransportStop",
         "coordinate" : {
           "type" : "Feature",
-          "crs" : {
-            "type" : "name",
-            "properties" : {
-              "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-            }
-          },
           "geometry" : {
             "type" : "Point",
             "coordinates" : [ 16.42791, 48.26680 ]
-          },
-          "properties" : { }
+          }
         },
         "name" : "Heinrich-von-Buol-Gasse/Siemensstraße"
       },
@@ -366,17 +365,10 @@
         "type" : "PublicTransportStop",
         "coordinate" : {
           "type" : "Feature",
-          "crs" : {
-            "type" : "name",
-            "properties" : {
-              "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-            }
-          },
           "geometry" : {
             "type" : "Point",
             "coordinates" : [ 16.42791, 48.26680 ]
-          },
-          "properties" : { }
+          }
         },
         "name" : "Heinrich-von-Buol-Gasse/Siemensstraße"
       },
@@ -391,17 +383,10 @@
       "arrivalTime" : "2016-01-01T15:06+01:00",
       "geometryGeoJson" : {
         "type" : "Feature",
-        "crs" : {
-          "type" : "name",
-          "properties" : {
-            "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-          }
-        },
         "geometry" : {
           "type" : "LineString",
           "coordinates" : [ [ 16.42791, 48.26680 ], [ 16.42791, 48.26680 ] ]
-        },
-        "properties" : { }
+        }
       }
     }, {
       "nr" : 3,
@@ -409,17 +394,10 @@
         "type" : "PublicTransportStop",
         "coordinate" : {
           "type" : "Feature",
-          "crs" : {
-            "type" : "name",
-            "properties" : {
-              "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-            }
-          },
           "geometry" : {
             "type" : "Point",
             "coordinates" : [ 16.42791, 48.26680 ]
-          },
-          "properties" : { }
+          }
         },
         "name" : "Heinrich-von-Buol-Gasse/Siemensstraße"
       },
@@ -427,17 +405,10 @@
         "type" : "PublicTransportStop",
         "coordinate" : {
           "type" : "Feature",
-          "crs" : {
-            "type" : "name",
-            "properties" : {
-              "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-            }
-          },
           "geometry" : {
             "type" : "Point",
             "coordinates" : [ 16.40073, 48.25625 ]
-          },
-          "properties" : { }
+          }
         },
         "name" : "Floridsdorf",
         "platform" : "C"
@@ -465,17 +436,10 @@
       "arrivalTime" : "2016-01-01T15:16:30+01:00",
       "geometryGeoJson" : {
         "type" : "Feature",
-        "crs" : {
-          "type" : "name",
-          "properties" : {
-            "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-          }
-        },
         "geometry" : {
           "type" : "LineString",
           "coordinates" : [ [ 16.42791, 48.26680 ], [ 16.42354, 48.26306 ], [ 16.4236, 48.2621 ], [ 16.4044, 48.2576 ], [ 16.40305, 48.25621 ], [ 16.40127, 48.25698 ], [ 16.40073, 48.25625 ] ]
-        },
-        "properties" : { }
+        }
       }
     }, {
       "nr" : 4,
@@ -483,17 +447,10 @@
         "type" : "PublicTransportStop",
         "coordinate" : {
           "type" : "Feature",
-          "crs" : {
-            "type" : "name",
-            "properties" : {
-              "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-            }
-          },
           "geometry" : {
             "type" : "Point",
             "coordinates" : [ 16.40073, 48.25625 ]
-          },
-          "properties" : { }
+          }
         },
         "name" : "Floridsdorf",
         "platform" : "C"
@@ -502,17 +459,10 @@
         "type" : "PublicTransportStop",
         "coordinate" : {
           "type" : "Feature",
-          "crs" : {
-            "type" : "name",
-            "properties" : {
-              "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-            }
-          },
           "geometry" : {
             "type" : "Point",
             "coordinates" : [ 16.40050, 48.25618 ]
-          },
-          "properties" : { }
+          }
         },
         "name" : "Floridsdorf",
         "platform" : "2 (U-Bahn)"
@@ -528,17 +478,10 @@
       "arrivalTime" : "2016-01-01T15:20:30+01:00",
       "geometryGeoJson" : {
         "type" : "Feature",
-        "crs" : {
-          "type" : "name",
-          "properties" : {
-            "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-          }
-        },
         "geometry" : {
           "type" : "LineString",
           "coordinates" : [ [ 16.40073, 48.25625 ], [ 16.40050, 48.25618 ] ]
-        },
-        "properties" : { }
+        }
       },
       "accessibility" : [ "STAIRS_DOWN" ]
     }, {
@@ -547,17 +490,10 @@
         "type" : "PublicTransportStop",
         "coordinate" : {
           "type" : "Feature",
-          "crs" : {
-            "type" : "name",
-            "properties" : {
-              "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-            }
-          },
           "geometry" : {
             "type" : "Point",
             "coordinates" : [ 16.40050, 48.25618 ]
-          },
-          "properties" : { }
+          }
         },
         "name" : "Floridsdorf",
         "platform" : "2 (U-Bahn)"
@@ -566,17 +502,10 @@
         "type" : "PublicTransportStop",
         "coordinate" : {
           "type" : "Feature",
-          "crs" : {
-            "type" : "name",
-            "properties" : {
-              "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-            }
-          },
           "geometry" : {
             "type" : "Point",
             "coordinates" : [ 16.38541, 48.24173 ]
-          },
-          "properties" : { }
+          }
         },
         "name" : "Handelskai",
         "platform" : "2"
@@ -608,17 +537,10 @@
           "type" : "PublicTransportStop",
           "coordinate" : {
             "type" : "Feature",
-            "crs" : {
-              "type" : "name",
-              "properties" : {
-                "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-              }
-            },
             "geometry" : {
               "type" : "Point",
               "coordinates" : [ 16.39468, 48.24630 ]
-            },
-            "properties" : { }
+            }
           },
           "name" : "Neue Donau",
           "platform" : "2",
@@ -634,17 +556,10 @@
       } ],
       "geometryGeoJson" : {
         "type" : "Feature",
-        "crs" : {
-          "type" : "name",
-          "properties" : {
-            "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-          }
-        },
         "geometry" : {
           "type" : "LineString",
           "coordinates" : [ [ 16.40050, 48.25618 ], [ 16.39468, 48.24630 ], [ 16.38541, 48.24173 ] ]
-        },
-        "properties" : { }
+        }
       }
     }, {
       "nr" : 6,
@@ -652,17 +567,10 @@
         "type" : "PublicTransportStop",
         "coordinate" : {
           "type" : "Feature",
-          "crs" : {
-            "type" : "name",
-            "properties" : {
-              "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-            }
-          },
           "geometry" : {
             "type" : "Point",
             "coordinates" : [ 16.38541, 48.24173 ]
-          },
-          "properties" : { }
+          }
         },
         "name" : "Handelskai",
         "platform" : "2"
@@ -671,17 +579,10 @@
         "type" : "PublicTransportStop",
         "coordinate" : {
           "type" : "Feature",
-          "crs" : {
-            "type" : "name",
-            "properties" : {
-              "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-            }
-          },
           "geometry" : {
             "type" : "Point",
             "coordinates" : [ 16.3848877, 48.2416471 ]
-          },
-          "properties" : { }
+          }
         },
         "name" : "Handelskai (Stationseingang)"
       },
@@ -695,17 +596,10 @@
       "arrivalTime" : "2016-01-01T15:27:30+01:00",
       "geometryGeoJson" : {
         "type" : "Feature",
-        "crs" : {
-          "type" : "name",
-          "properties" : {
-            "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-          }
-        },
         "geometry" : {
           "type" : "LineString",
           "coordinates" : [ [ 16.38541, 48.24173 ], [ 16.3848877, 48.2416471 ] ]
-        },
-        "properties" : { }
+        }
       },
       "accessibility" : [ "ESCALATOR_DOWN", "STAIRS_DOWN" ]
     }, {
@@ -714,17 +608,10 @@
         "type" : "PublicTransportStop",
         "coordinate" : {
           "type" : "Feature",
-          "crs" : {
-            "type" : "name",
-            "properties" : {
-              "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-            }
-          },
           "geometry" : {
             "type" : "Point",
             "coordinates" : [ 16.3848877, 48.2416471 ]
-          },
-          "properties" : { }
+          }
         },
         "name" : "Handelskai (Stationseingang)"
       },
@@ -732,17 +619,10 @@
         "type" : "SharingStation",
         "coordinate" : {
           "type" : "Feature",
-          "crs" : {
-            "type" : "name",
-            "properties" : {
-              "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-            }
-          },
           "geometry" : {
             "type" : "Point",
             "coordinates" : [ 16.3847976, 48.2420356 ]
-          },
-          "properties" : { }
+          }
         },
         "additionalInfo" : {
           "capacity" : "35",
@@ -775,17 +655,10 @@
       "arrivalTime" : "2016-01-01T15:28:10+01:00",
       "geometryGeoJson" : {
         "type" : "Feature",
-        "crs" : {
-          "type" : "name",
-          "properties" : {
-            "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-          }
-        },
         "geometry" : {
           "type" : "LineString",
           "coordinates" : [ [ 16.3848877, 48.2416471 ], [ 16.3845846, 48.2418792 ], [ 16.3847976, 48.2420356 ] ]
-        },
-        "properties" : { }
+        }
       }
     }, {
       "nr" : 8,
@@ -793,17 +666,10 @@
         "type" : "SharingStation",
         "coordinate" : {
           "type" : "Feature",
-          "crs" : {
-            "type" : "name",
-            "properties" : {
-              "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-            }
-          },
           "geometry" : {
             "type" : "Point",
             "coordinates" : [ 16.3847976, 48.2420356 ]
-          },
-          "properties" : { }
+          }
         },
         "additionalInfo" : {
           "capacity" : "35",
@@ -830,17 +696,10 @@
         "type" : "SharingStation",
         "coordinate" : {
           "type" : "Feature",
-          "crs" : {
-            "type" : "name",
-            "properties" : {
-              "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-            }
-          },
           "geometry" : {
             "type" : "Point",
             "coordinates" : [ 16.3792033, 48.2441354 ]
-          },
-          "properties" : { }
+          }
         },
         "additionalInfo" : {
           "capacity" : "27",
@@ -888,12 +747,6 @@
       "arrivalTime" : "2016-01-01T15:34:10+01:00",
       "geometryGeoJson" : {
         "type" : "Feature",
-        "crs" : {
-          "type" : "name",
-          "properties" : {
-            "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-          }
-        },
         "geometry" : {
           "type" : "LineString",
           "coordinates" : [ [ 16.3847976, 48.2420356 ], [ 16.3838145, 48.2413853 ], [ 16.3807639, 48.2442201 ], [ 16.3793906, 48.2438237 ], [ 16.3792033, 48.2441354 ] ]
@@ -910,17 +763,10 @@
         "type" : "SharingStation",
         "coordinate" : {
           "type" : "Feature",
-          "crs" : {
-            "type" : "name",
-            "properties" : {
-              "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-            }
-          },
           "geometry" : {
             "type" : "Point",
             "coordinates" : [ 16.3792033, 48.2441354 ]
-          },
-          "properties" : { }
+          }
         },
         "additionalInfo" : {
           "capacity" : "27",
@@ -947,17 +793,10 @@
         "type" : "Location",
         "coordinate" : {
           "type" : "Feature",
-          "crs" : {
-            "type" : "name",
-            "properties" : {
-              "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-            }
-          },
           "geometry" : {
             "type" : "Point",
             "coordinates" : [ 16.377454, 48.24386 ]
-          },
-          "properties" : { }
+          }
         },
         "address" : {
           "streetName" : "Adalbert-Stifter-Straße",
@@ -974,17 +813,10 @@
       "arrivalTime" : "2016-01-01T15:36:05+01:00",
       "geometryGeoJson" : {
         "type" : "Feature",
-        "crs" : {
-          "type" : "name",
-          "properties" : {
-            "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-          }
-        },
         "geometry" : {
           "type" : "LineString",
           "coordinates" : [ [ 16.3792033, 48.2441354 ], [ 16.37763, 48.24369 ], [ 16.377454, 48.24386 ] ]
-        },
-        "properties" : { }
+        }
       },
       "accessibility" : [ "STAIRS_UP" ]
     }, {
@@ -993,17 +825,10 @@
         "type" : "Location",
         "coordinate" : {
           "type" : "Feature",
-          "crs" : {
-            "type" : "name",
-            "properties" : {
-              "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-            }
-          },
           "geometry" : {
             "type" : "Point",
             "coordinates" : [ 16.377454, 48.24386 ]
-          },
-          "properties" : { }
+          }
         },
         "address" : {
           "streetName" : "Adalbert-Stifter-Straße",
@@ -1014,17 +839,10 @@
         "type" : "Location",
         "coordinate" : {
           "type" : "Feature",
-          "crs" : {
-            "type" : "name",
-            "properties" : {
-              "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-            }
-          },
           "geometry" : {
             "type" : "Point",
             "coordinates" : [ 16.3655, 48.23752 ]
-          },
-          "properties" : { }
+          }
         },
         "address" : {
           "streetName" : "Adalbert-Stifter-Straße",
@@ -1056,17 +874,10 @@
       "arrivalTime" : "2016-01-01T15:43:05+01:00",
       "geometryGeoJson" : {
         "type" : "Feature",
-        "crs" : {
-          "type" : "name",
-          "properties" : {
-            "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-          }
-        },
         "geometry" : {
           "type" : "LineString",
           "coordinates" : [ [ 16.377454, 48.24386 ], [ 16.373601, 48.24218 ], [ 16.3655, 48.23752 ] ]
-        },
-        "properties" : { }
+        }
       }
     }, {
       "nr" : 11,
@@ -1074,17 +885,10 @@
         "type" : "Location",
         "coordinate" : {
           "type" : "Feature",
-          "crs" : {
-            "type" : "name",
-            "properties" : {
-              "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-            }
-          },
           "geometry" : {
             "type" : "Point",
             "coordinates" : [ 16.3655, 48.23752 ]
-          },
-          "properties" : { }
+          }
         },
         "address" : {
           "streetName" : "Adalbert-Stifter-Straße",
@@ -1095,17 +899,10 @@
         "type" : "Location",
         "coordinate" : {
           "type" : "Feature",
-          "crs" : {
-            "type" : "name",
-            "properties" : {
-              "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-            }
-          },
           "geometry" : {
             "type" : "Point",
             "coordinates" : [ 16.36329, 48.234077 ]
-          },
-          "properties" : { }
+          }
         },
         "address" : {
           "postCode" : "1200",
@@ -1128,17 +925,10 @@
           "type" : "PointOfInterest",
           "coordinate" : {
             "type" : "Feature",
-            "crs" : {
-              "type" : "name",
-              "properties" : {
-                "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-              }
-            },
             "geometry" : {
               "type" : "Point",
               "coordinates" : [ 16.364074, 48.2350109 ]
-            },
-            "properties" : { }
+            }
           },
           "poiType" : "park",
           "name" : "Anton-Kummerer-Park"
@@ -1146,17 +936,10 @@
       } ],
       "geometryGeoJson" : {
         "type" : "Feature",
-        "crs" : {
-          "type" : "name",
-          "properties" : {
-            "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-          }
-        },
         "geometry" : {
           "type" : "LineString",
           "coordinates" : [ [ 16.3655, 48.23752 ], [ 16.36515, 48.23729 ], [ 16.3656, 48.23515 ], [ 16.36288, 48.23509 ], [ 16.36329, 48.234077 ] ]
-        },
-        "properties" : { }
+        }
       },
       "additionalInfo" : {
         "name" : "Univega Mountainbike"
@@ -1167,17 +950,10 @@
         "type" : "Location",
         "coordinate" : {
           "type" : "Feature",
-          "crs" : {
-            "type" : "name",
-            "properties" : {
-              "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-            }
-          },
           "geometry" : {
             "type" : "Point",
             "coordinates" : [ 16.36329, 48.234077 ]
-          },
-          "properties" : { }
+          }
         },
         "address" : {
           "postCode" : "1200",
@@ -1189,17 +965,10 @@
         "type" : "Location",
         "coordinate" : {
           "type" : "Feature",
-          "crs" : {
-            "type" : "name",
-            "properties" : {
-              "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-            }
-          },
           "geometry" : {
             "type" : "Point",
             "coordinates" : [ 16.369045, 48.2267 ]
-          },
-          "properties" : { }
+          }
         },
         "address" : {
           "streetName" : "Gaußplatz"
@@ -1225,17 +994,10 @@
       "arrivalTime" : "2016-01-01T15:51:43+01:00",
       "geometryGeoJson" : {
         "type" : "Feature",
-        "crs" : {
-          "type" : "name",
-          "properties" : {
-            "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-          }
-        },
         "geometry" : {
           "type" : "LineString",
           "coordinates" : [ [ 16.36329, 48.234077 ], [ 16.3644, 48.2311 ], [ 16.36638, 48.22886 ], [ 16.369045, 48.2267 ] ]
-        },
-        "properties" : { }
+        }
       }
     }, {
       "nr" : 13,
@@ -1243,17 +1005,10 @@
         "type" : "Location",
         "coordinate" : {
           "type" : "Feature",
-          "crs" : {
-            "type" : "name",
-            "properties" : {
-              "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-            }
-          },
           "geometry" : {
             "type" : "Point",
             "coordinates" : [ 16.369045, 48.2267 ]
-          },
-          "properties" : { }
+          }
         },
         "address" : {
           "streetName" : "Gaußplatz"
@@ -1263,17 +1018,10 @@
         "type" : "Location",
         "coordinate" : {
           "type" : "Feature",
-          "crs" : {
-            "type" : "name",
-            "properties" : {
-              "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-            }
-          },
           "geometry" : {
             "type" : "Point",
             "coordinates" : [ 16.3695, 48.2243 ]
-          },
-          "properties" : { }
+          }
         },
         "address" : {
           "postCode" : "1020",
@@ -1293,17 +1041,10 @@
       "arrivalTime" : "2016-01-01T15:58:40+01:00",
       "geometryGeoJson" : {
         "type" : "Feature",
-        "crs" : {
-          "type" : "name",
-          "properties" : {
-            "name" : "urn:ogc:def:crs:OGC:1.3:CRS84"
-          }
-        },
         "geometry" : {
           "type" : "LineString",
           "coordinates" : [ [ 16.369045, 48.2267 ], [ 16.3688, 48.2263 ], [ 16.3693, 48.2257 ], [ 16.3697, 48.2256 ], [ 16.3695, 48.2243 ] ]
-        },
-        "properties" : { }
+        }
       }
     } ]
   } ]

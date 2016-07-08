@@ -96,6 +96,10 @@ public class Constants {
         RIDE_SHARING, RIDE_SOURCING
     }
 
+    public enum Speed {
+        SLOW, NORMAL, FAST
+    };
+
     public enum FormOfWay {
         MOTORWAY,
 

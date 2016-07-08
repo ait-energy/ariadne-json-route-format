@@ -45,6 +45,8 @@ public class ModeOfTransport {
 			.build();
 	public static final ModeOfTransport STANDARD_TRANSFER = builder()
 			.withDetailedType(DetailedModeOfTransportType.TRANSFER).build();
+	public static final ModeOfTransport STANDARD_PUBLIC_TRANSPORT = builder()
+            .withGeneralizedType(GeneralizedModeOfTransportType.PUBLIC_TRANSPORT).build();
 
 	private final GeneralizedModeOfTransportType generalizedType;
 	private final Optional<DetailedModeOfTransportType> detailedType;

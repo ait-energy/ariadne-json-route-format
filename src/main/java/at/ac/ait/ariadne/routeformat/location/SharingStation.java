@@ -21,94 +21,95 @@ import com.google.common.collect.ImmutableSet;
 @JsonInclude(Include.NON_EMPTY)
 public class SharingStation extends Location {
 
-	private final String name;
-	private final Optional<String> id;
-	private final Set<GeneralizedModeOfTransportType> modesOfTransport;
-	private final Optional<Operator> operator;
+    private final String name;
+    private final Optional<String> id;
+    private final Set<GeneralizedModeOfTransportType> modesOfTransport;
+    private final Optional<Operator> operator;
 
-	public SharingStation(Builder<?> builder) {
-		super(builder);
-		this.name = builder.name;
-		this.id = builder.id;
-		this.modesOfTransport = builder.modesOfTransport;
-		this.operator = builder.operator;
-	}
+    public SharingStation(Builder<?> builder) {
+        super(builder);
+        this.name = builder.name;
+        this.id = builder.id;
+        this.modesOfTransport = builder.modesOfTransport;
+        this.operator = builder.operator;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	/**
-	 * @return an ID that should be visible to / of interest for the user
-	 */
-	public Optional<String> getId() {
-		return id;
-	}
+    /**
+     * @return an ID that should be visible to / of interest for the user
+     */
+    public Optional<String> getId() {
+        return id;
+    }
 
-	/**
-	 * @return at least (and typically exactly) one mode of transport
-	 */
-	public Set<GeneralizedModeOfTransportType> getModesOfTransport() {
-		return modesOfTransport;
-	}
+    /**
+     * @return at least (and typically exactly) one mode of transport
+     */
+    public Set<GeneralizedModeOfTransportType> getModesOfTransport() {
+        return modesOfTransport;
+    }
 
-	public Optional<Operator> getOperator() {
-		return operator;
-	}
+    public Optional<Operator> getOperator() {
+        return operator;
+    }
 
-	public static Builder<?> builder() {
-		return new Builder2();
-	}
+    public static Builder<?> builder() {
+        return new Builder2();
+    }
 
-	@Override
-	public String toString() {
-		return "SharingStation [name=" + name + ", id=" + id + ", modesOfTransport=" + modesOfTransport + ", operator="
-				+ operator + "]";
-	}
+    @Override
+    public String toString() {
+        return "SharingStation [name=" + name + ", id=" + id + ", modesOfTransport=" + modesOfTransport + ", operator="
+                + operator + "]";
+    }
 
-	public static abstract class Builder<T extends Builder<T>> extends Location.Builder<T> {
-		private String name;
-		private Optional<String> id = Optional.empty();
-		private Set<GeneralizedModeOfTransportType> modesOfTransport = Collections.emptySet();
-		private Optional<Operator> operator = Optional.empty();
+    public static abstract class Builder<T extends Builder<T>> extends Location.Builder<T> {
+        private String name;
+        private Optional<String> id = Optional.empty();
+        private Set<GeneralizedModeOfTransportType> modesOfTransport = Collections.emptySet();
+        private Optional<Operator> operator = Optional.empty();
 
-		public T withName(String name) {
-			this.name = name;
-			return self();
-		}
+        public T withName(String name) {
+            this.name = name;
+            return self();
+        }
 
-		public T withId(String id) {
-			this.id = Optional.ofNullable(id);
-			return self();
-		}
+        public T withId(String id) {
+            this.id = Optional.ofNullable(id);
+            return self();
+        }
 
-		public T withModesOfTransport(Set<GeneralizedModeOfTransportType> modesOfTransport) {
-			this.modesOfTransport = ImmutableSet.copyOf(modesOfTransport);
-			return self();
-		}
+        public T withModesOfTransport(Set<GeneralizedModeOfTransportType> modesOfTransport) {
+            this.modesOfTransport = ImmutableSet.copyOf(modesOfTransport);
+            return self();
+        }
 
-		public T withOperator(Operator operator) {
-			this.operator = Optional.ofNullable(operator);
-			return self();
-		}
+        public T withOperator(Operator operator) {
+            this.operator = Optional.ofNullable(operator);
+            return self();
+        }
 
-		public SharingStation build() {
-			validate();
-			return new SharingStation(this);
-		}
+        public SharingStation build() {
+            validate();
+            return new SharingStation(this);
+        }
 
-		private void validate() {
-			Preconditions.checkNotNull(name, "name is mandatory");
-			Preconditions.checkArgument(modesOfTransport.size() >= 1, "at least one mode of transport is required");
-		}
+        void validate() {
+            super.validate();
+            Preconditions.checkNotNull(name, "name is mandatory");
+            Preconditions.checkArgument(modesOfTransport.size() >= 1, "at least one mode of transport is required");
+        }
 
-	}
+    }
 
-	static class Builder2 extends Builder<Builder2> {
-		@Override
-		protected Builder2 self() {
-			return this;
-		}
-	}
+    static class Builder2 extends Builder<Builder2> {
+        @Override
+        protected Builder2 self() {
+            return this;
+        }
+    }
 
 }
