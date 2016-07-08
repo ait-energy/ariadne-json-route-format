@@ -39,10 +39,6 @@ import at.ac.ait.ariadne.routeformat.util.Utils;
 @JsonInclude(Include.NON_EMPTY)
 public class RequestModeOfTransport {
 
-    // - RoutingRequest: maximum distance/travel time for modes of transport
-    // - RoutingRequest: estimated speed (may also vary for different modes of
-    // transport)
-
     private final ModeOfTransport modeOfTransport;
     private final Optional<Integer> maximumDistanceMeters;
     private final Optional<Integer> maximumTravelTimeSeconds;

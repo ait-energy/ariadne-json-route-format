@@ -53,8 +53,7 @@
         var normalWeight = 6;
         var highlightWeight = 8;
         
-        // TODO use map.fitBounds([ [40.712, -74.227], [40.774, -74.125] ]); -> of first route?
-        var map = L.map('map', { 'zoomControl' : false } ).setView([48.245,16.4], 14);
+        var map = L.map('map', { 'zoomControl' : false } );//.setView([48.2083537, 16.3725042], 14);
         
         var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
         var osmAttrib='Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
@@ -359,6 +358,13 @@
                 layerControl.addOverlay(routeLayerGroupSegments, 'Route #' + (routeId+1));
                 if(routeId == 0) {
                     map.addLayer(routeLayerGroupSegments);
+                    if (typeof json.routes[routeId].boundingBox !== 'undefined') {
+                        var bboxPoly = json.routes[routeId].boundingBox.geometry.coordinates;
+                        if(bboxPoly.length == 1 && bboxPoly[0].length > 1) {
+                            var latLonbBboxPoly = L.GeoJSON.coordsToLatLngs(bboxPoly[0]);
+                            map.fitBounds(latLonbBboxPoly);
+                        }
+                    }
                 }
                 
                 var route = json.routes[routeId];
@@ -399,6 +405,7 @@
         }
         
         //addRoutesToCanvas($.parseJSON(`###JSON###`));
+        
         // get rid of not-well-formed warning
         $.ajaxSetup({beforeSend: function(xhr){
             if (xhr.overrideMimeType) {

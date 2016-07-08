@@ -34,15 +34,10 @@ import at.ac.ait.ariadne.routeformat.util.Utils;
  * parameters could e.g. include:
  * 
  * <pre>
- * walking_kph = 7
- * max_walking_meters = 3000
- * max_walking_minutes = 10 
  * only_use_mots_provided_by = ÖBB
  * exclude_public_transport_line = WL_28A;WL_29A
  * exclude_provider = CAT
- * exclude_mot = call_taxi
  * regional_bus = no
- * taxi = yes
  * accepted_delay_minutes = 10
  * </pre>
  * 
@@ -269,14 +264,6 @@ public class RoutingRequest {
             return this;
         }
 
-        // @JsonIgnore FIXME
-        // public Builder withModesOfTransport(String modesOfTransport) {
-        // this.modesOfTransport = Utils.parseModesOfTransport(modesOfTransport,
-        // "modesOfTransport");
-        // return this;
-        // }
-
-        @JsonProperty
         public Builder withModesOfTransport(Set<RequestModeOfTransport> modesOfTransport) {
             this.modesOfTransport = ImmutableSet.copyOf(modesOfTransport);
             return this;
