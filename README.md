@@ -9,12 +9,12 @@ Reading and writing of a route and exporting the JSON schema with Jackson is dem
 A simple example how to display a route in a browser with Leaflet is shown in `src/main/resources/ariadne-json-route-format_example_leaflet.html`.
 
 ## Coding Style
-- all member variables are private final with public getters
+- all members are immutable and private final with public getters
 - documentation for individual fields (if present) is always located at the public getters (not in the builder)
 - java.time.ZonedDateTime is used to represent time stamps
-- builder pattern is used to construct instances
-- builders allow unsetting fields through null values
-- builders check if mandatory arguments are provided and throw an IllegalArgumentException in case of missing / invalid arguments
+- builder pattern is used to construct instances (except GeoJSON)
+  - builders allow unsetting fields through null values
+  - builders check if mandatory arguments are provided and throw an IllegalArgumentException in case of missing / invalid arguments
 - for easy generic extension the map "additionalInfo" is provided for many classes
 
 ## Funding
