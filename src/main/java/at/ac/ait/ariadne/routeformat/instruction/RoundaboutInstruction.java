@@ -220,8 +220,8 @@ public class RoundaboutInstruction extends Instruction {
 		}
 
 		private void validate() {
-			Preconditions.checkNotNull(subType, "subType is mandatory");
-			Preconditions.checkNotNull(position, "position is mandatory");
+			Preconditions.checkArgument(subType != null, "subType is mandatory but missing");
+			Preconditions.checkArgument(position != null, "position is mandatory but missing");
 			if (subType.equals(SubType.ENTER))
 				Preconditions.checkArgument(exitNr.isPresent(), "exit nr is mandatory for enter-instructions");
 		}

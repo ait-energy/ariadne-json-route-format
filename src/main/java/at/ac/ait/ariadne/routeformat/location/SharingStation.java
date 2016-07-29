@@ -99,7 +99,7 @@ public class SharingStation extends Location {
 
         void validate() {
             super.validate();
-            Preconditions.checkNotNull(name, "name is mandatory");
+            Preconditions.checkArgument(name != null, "name is mandatory but missing");
             Preconditions.checkArgument(modesOfTransport.size() >= 1, "at least one mode of transport is required");
         }
 

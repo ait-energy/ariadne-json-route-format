@@ -12,13 +12,14 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSortedMap;
 
+import at.ac.ait.ariadne.routeformat.RoutingRequest;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPoint;
 import at.ac.ait.ariadne.routeformat.location.Location.Builder2;
 
 /**
- * A very basic version of a location, in its minimal form it only contains a
- * coordinate.
+ * A generic {@link Location}, in its minimal form it only contains a coordinate
+ * point.
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */
@@ -31,11 +32,30 @@ import at.ac.ait.ariadne.routeformat.location.Location.Builder2;
 @JsonInclude(Include.NON_EMPTY)
 public class Location {
     private final GeoJSONFeature<GeoJSONPoint> coordinate;
+    private final Optional<GeoJSONFeature<?>> complexGeometry;
     private final Optional<Address> address;
     private final Map<String, String> additionalInfo;
 
+    /**
+     * Get a point representing this {@link Location}. This information is
+     * mandatory and also available for more complex locations, e.g. for a
+     * {@link PointOfInterest} polygon (see {@link #getComplexGeometry()}) of a
+     * building.
+     * <p>
+     * In case this {@link Location} is part of a {@link RoutingRequest}
+     * (from/to/via) this point is used as input for routing.
+     */
     public GeoJSONFeature<GeoJSONPoint> getCoordinate() {
         return coordinate;
+    }
+
+    /**
+     * Get the real / complex geometry (e.g. a line or a polygon) of this
+     * location in case the representation as a simple point provided in
+     * {@link #getCoordinate()} is not detailed enough.
+     */
+    public Optional<GeoJSONFeature<?>> getComplexGeometry() {
+        return complexGeometry;
     }
 
     public Optional<Address> getAddress() {
@@ -48,6 +68,7 @@ public class Location {
 
     Location(Builder<?> builder) {
         this.coordinate = builder.coordinate;
+        this.complexGeometry = builder.complexGeometry;
         this.address = builder.address;
         this.additionalInfo = builder.additionalInfo;
     }
@@ -67,6 +88,7 @@ public class Location {
     public static abstract class Builder<T extends Builder<T>> {
 
         private GeoJSONFeature<GeoJSONPoint> coordinate;
+        private Optional<GeoJSONFeature<?>> complexGeometry = Optional.empty();
         private Optional<Address> address = Optional.empty();
         private Map<String, String> additionalInfo = Collections.emptyMap();
 
@@ -74,6 +96,11 @@ public class Location {
 
         public T withCoordinate(GeoJSONFeature<GeoJSONPoint> coordinate) {
             this.coordinate = coordinate;
+            return self();
+        }
+
+        public T withComplexGeometry(GeoJSONFeature<?> complexGeometry) {
+            this.complexGeometry = Optional.ofNullable(complexGeometry);
             return self();
         }
 

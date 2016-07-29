@@ -276,8 +276,8 @@ public class BasicRoadInstruction extends Instruction {
 		}
 
 		private void validate() {
-			Preconditions.checkNotNull(subType, "subType is mandatory");
-			Preconditions.checkNotNull(position, "position is mandatory");
+			Preconditions.checkArgument(subType != null, "subType is mandatory but missing");
+			Preconditions.checkArgument(position != null, "position is mandatory but missing");
 			Preconditions.checkArgument(ontoStreetName.isPresent() || ontoFormOfWay.isPresent(),
 					"at least one onto-type is required");
 		}

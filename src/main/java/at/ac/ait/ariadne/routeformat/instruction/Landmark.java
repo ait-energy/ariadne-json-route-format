@@ -1,5 +1,7 @@
 package at.ac.ait.ariadne.routeformat.instruction;
 
+import com.google.common.base.Preconditions;
+
 import at.ac.ait.ariadne.routeformat.location.Location;
 
 /**
@@ -56,7 +58,13 @@ public class Landmark {
         }
 
         public Landmark build() {
+            validate();
             return new Landmark(this);
+        }
+
+        void validate() {
+            Preconditions.checkArgument(preposition != null, "preposition is mandatory but missing");
+            Preconditions.checkArgument(location != null, "location is mandatory but missing");
         }
     }
 

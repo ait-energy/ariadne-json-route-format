@@ -61,8 +61,8 @@ public class PointOfInterest extends Location {
 
         void validate() {
             super.validate();
-            Preconditions.checkNotNull(poiType, "poiType is mandatory");
-            Preconditions.checkNotNull(name, "name is mandatory");
+            Preconditions.checkArgument(poiType != null, "poiType is mandatory but missing");
+            Preconditions.checkArgument(name != null, "name is mandatory but missing");
         }
 
     }
