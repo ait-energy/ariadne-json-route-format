@@ -398,6 +398,45 @@
           "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:location:Location",
           "required" : true,
           "properties" : {
+            "complexGeometry" : {
+              "type" : "object",
+              "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONFeature<java:lang:Object>",
+              "properties" : {
+                "crs" : {
+                  "type" : "object",
+                  "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS",
+                  "properties" : {
+                    "type" : {
+                      "type" : "string",
+                      "required" : true
+                    },
+                    "properties" : {
+                      "type" : "object",
+                      "required" : true,
+                      "additionalProperties" : {
+                        "type" : "any"
+                      }
+                    }
+                  }
+                },
+                "geometry" : {
+                  "type" : "any",
+                  "required" : true
+                },
+                "type" : {
+                  "type" : "string",
+                  "required" : true,
+                  "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon", "MultiPolygon" ]
+                },
+                "properties" : {
+                  "type" : "object",
+                  "required" : true,
+                  "additionalProperties" : {
+                    "type" : "any"
+                  }
+                }
+              }
+            },
             "coordinate" : {
               "type" : "object",
               "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONFeature<at:ac:ait:ariadne:routeformat:geojson:GeoJSONPoint>",

@@ -1,10 +1,13 @@
 package at.ac.ait.ariadne.routeformat.location;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.google.common.base.Joiner;
 
 import at.ac.ait.ariadne.routeformat.location.Address.Builder;
 
@@ -56,8 +59,13 @@ public class Address {
 
 	@Override
 	public String toString() {
-		return "Address [country=" + country + ", city=" + city + ", postCode=" + postCode + ", streetName="
-				+ streetName + ", houseNumber=" + houseNumber + "]";
+	    List<String> fields = new ArrayList<>();
+	    country.ifPresent(f -> fields.add(f));
+	    city.ifPresent(f -> fields.add(f));
+	    postCode.ifPresent(f -> fields.add(f));
+	    streetName.ifPresent(f -> fields.add(f));
+	    houseNumber.ifPresent(f -> fields.add(f));
+		return Joiner.on("|").join(fields);
 	}
 
 	public static class Builder {

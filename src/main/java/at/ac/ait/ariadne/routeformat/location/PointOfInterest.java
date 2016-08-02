@@ -37,7 +37,7 @@ public class PointOfInterest extends Location {
 
     @Override
     public String toString() {
-        return "PointOfInterest [poiType=" + poiType + ", name=" + name + "]";
+        return "PointOfInterest [poiType=" + poiType + ", name=" + name + ", address=" + getAddress() + "]";
     }
 
     public static abstract class Builder<T extends Builder<T>> extends Location.Builder<T> {

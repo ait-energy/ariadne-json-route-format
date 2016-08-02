@@ -15,40 +15,41 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPoint;
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({ @JsonSubTypes.Type(value = BasicRoadInstruction.class, name = "BasicRoadInstruction"),
-		@JsonSubTypes.Type(value = RoundaboutInstruction.class, name = "RoundaboutInstruction") })
+        @JsonSubTypes.Type(value = RoundaboutInstruction.class, name = "RoundaboutInstruction") })
 public abstract class Instruction {
 
-	private final GeoJSONFeature<GeoJSONPoint> position;
-	private final Optional<GeoJSONFeature<GeoJSONPoint>> previewTriggerPosition;
-	private final Optional<GeoJSONFeature<GeoJSONPoint>> confirmationTriggerPosition;
+    private final GeoJSONFeature<GeoJSONPoint> position;
+    private final Optional<GeoJSONFeature<GeoJSONPoint>> previewTriggerPosition;
+    private final Optional<GeoJSONFeature<GeoJSONPoint>> confirmationTriggerPosition;
 
-	/**
-	 * @return the position the instruction is defined for
-	 */
-	public GeoJSONFeature<GeoJSONPoint> getPosition() {
-		return position;
-	}
+    /**
+     * @return the position the instruction is defined for
+     */
+    public GeoJSONFeature<GeoJSONPoint> getPosition() {
+        return position;
+    }
 
-	/**
-	 * @return a position where, during on-trip navigation, a first instruction could be presented to the user
-	 */
-	public Optional<GeoJSONFeature<GeoJSONPoint>> getPreviewTriggerPosition() {
-		return previewTriggerPosition;
-	}
+    /**
+     * @return a position where, during on-trip navigation, a first instruction
+     *         could be presented to the user
+     */
+    public Optional<GeoJSONFeature<GeoJSONPoint>> getPreviewTriggerPosition() {
+        return previewTriggerPosition;
+    }
 
-	/**
-	 * @return a position after the maneuver, where, during on-trip navigation, a confirmation message could be
-	 *         presented to the user
-	 */
-	public Optional<GeoJSONFeature<GeoJSONPoint>> getConfirmationTriggerPosition() {
-		return confirmationTriggerPosition;
-	}
+    /**
+     * @return a position after the maneuver, where, during on-trip navigation,
+     *         a confirmation message could be presented to the user
+     */
+    public Optional<GeoJSONFeature<GeoJSONPoint>> getConfirmationTriggerPosition() {
+        return confirmationTriggerPosition;
+    }
 
-	Instruction(GeoJSONFeature<GeoJSONPoint> position, Optional<GeoJSONFeature<GeoJSONPoint>> previewTriggerPosition,
-			Optional<GeoJSONFeature<GeoJSONPoint>> confirmationTriggerPosition) {
-		this.position = position;
-		this.previewTriggerPosition = previewTriggerPosition;
-		this.confirmationTriggerPosition = confirmationTriggerPosition;
-	}
+    Instruction(GeoJSONFeature<GeoJSONPoint> position, Optional<GeoJSONFeature<GeoJSONPoint>> previewTriggerPosition,
+            Optional<GeoJSONFeature<GeoJSONPoint>> confirmationTriggerPosition) {
+        this.position = position;
+        this.previewTriggerPosition = previewTriggerPosition;
+        this.confirmationTriggerPosition = confirmationTriggerPosition;
+    }
 
 }
