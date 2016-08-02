@@ -8,7 +8,6 @@ import java.util.Optional;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSortedMap;
 
@@ -31,7 +30,7 @@ import at.ac.ait.ariadne.routeformat.location.PublicTransportStop.Builder2;
 @JsonInclude(Include.NON_EMPTY)
 public class PublicTransportStop extends Location {
 
-    private final String name;
+    private final Optional<String> name;
     private final Optional<String> platform;
     private final Map<String, DetailedModeOfTransportType> relatedLines;
     private final List<Constants.Accessibility> accessibility;
@@ -44,7 +43,7 @@ public class PublicTransportStop extends Location {
         this.accessibility = builder.accessibility;
     }
 
-    public String getName() {
+    public Optional<String> getName() {
         return name;
     }
 
@@ -79,13 +78,13 @@ public class PublicTransportStop extends Location {
     }
 
     public static abstract class Builder<T extends Builder<T>> extends Location.Builder<T> {
-        private String name;
+        private Optional<String> name = Optional.empty();
         private Optional<String> platform = Optional.empty();
         private Map<String, DetailedModeOfTransportType> relatedLines = Collections.emptyMap();
         private List<Constants.Accessibility> accessibility = Collections.emptyList();
 
         public T withName(String name) {
-            this.name = name;
+            this.name = Optional.ofNullable(name);
             return self();
         }
 
@@ -111,7 +110,6 @@ public class PublicTransportStop extends Location {
 
         void validate() {
             super.validate();
-            Preconditions.checkArgument(name != null, "name is mandatory but missing");
         }
 
     }

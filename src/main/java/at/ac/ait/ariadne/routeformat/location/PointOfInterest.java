@@ -1,5 +1,7 @@
 package at.ac.ait.ariadne.routeformat.location;
 
+import java.util.Optional;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -14,14 +16,14 @@ import at.ac.ait.ariadne.routeformat.location.PointOfInterest.Builder2;
 @JsonInclude(Include.NON_EMPTY)
 public class PointOfInterest extends Location {
 
-    private final String poiType;
-    private final String name;
+    private final Optional<String> poiType;
+    private final Optional<String> name;
 
-    public String getPoiType() {
+    public Optional<String> getPoiType() {
         return poiType;
     }
 
-    public String getName() {
+    public Optional<String> getName() {
         return name;
     }
 
@@ -41,16 +43,16 @@ public class PointOfInterest extends Location {
     }
 
     public static abstract class Builder<T extends Builder<T>> extends Location.Builder<T> {
-        private String poiType;
-        private String name;
+        private Optional<String> poiType = Optional.empty();
+        private Optional<String> name = Optional.empty();
 
         public T withPoiType(String poiType) {
-            this.poiType = poiType;
+            this.poiType = Optional.ofNullable(poiType);
             return self();
         }
 
         public T withName(String name) {
-            this.name = name;
+            this.name = Optional.ofNullable(name);
             return self();
         }
 
@@ -61,8 +63,8 @@ public class PointOfInterest extends Location {
 
         void validate() {
             super.validate();
-            Preconditions.checkArgument(poiType != null, "poiType is mandatory but missing");
-            Preconditions.checkArgument(name != null, "name is mandatory but missing");
+            Preconditions.checkArgument(poiType != null || name != null,
+                    "at least of these attributes must be set: name, poiType");
         }
 
     }

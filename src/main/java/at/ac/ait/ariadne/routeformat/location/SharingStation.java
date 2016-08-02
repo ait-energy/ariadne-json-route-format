@@ -21,7 +21,7 @@ import at.ac.ait.ariadne.routeformat.location.SharingStation.Builder2;
 @JsonInclude(Include.NON_EMPTY)
 public class SharingStation extends Location {
 
-    private final String name;
+    private final Optional<String> name;
     private final Optional<String> id;
     private final List<GeneralizedModeOfTransportType> modesOfTransport;
     private final Optional<Operator> operator;
@@ -34,7 +34,7 @@ public class SharingStation extends Location {
         this.operator = builder.operator;
     }
 
-    public String getName() {
+    public Optional<String> getName() {
         return name;
     }
 
@@ -67,13 +67,13 @@ public class SharingStation extends Location {
     }
 
     public static abstract class Builder<T extends Builder<T>> extends Location.Builder<T> {
-        private String name;
+        private Optional<String> name = Optional.empty();
         private Optional<String> id = Optional.empty();
         private List<GeneralizedModeOfTransportType> modesOfTransport = Collections.emptyList();
         private Optional<Operator> operator = Optional.empty();
 
         public T withName(String name) {
-            this.name = name;
+            this.name = Optional.ofNullable(name);
             return self();
         }
 
@@ -99,7 +99,6 @@ public class SharingStation extends Location {
 
         void validate() {
             super.validate();
-            Preconditions.checkArgument(name != null, "name is mandatory but missing");
             Preconditions.checkArgument(modesOfTransport.size() >= 1, "at least one mode of transport is required");
         }
 
