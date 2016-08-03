@@ -249,7 +249,8 @@ public class BasicRoadInstruction extends Instruction {
         }
 
         /**
-         * Set all attributes useful for an instruction for going straight and turning
+         * Set all attributes useful for an instruction for going straight and
+         * turning
          */
         public Builder forNormalInstruction(CoordinatePoint position, TurnDirection turnDirection, boolean roadChange,
                 Optional<String> ontoStreetName, Optional<FormOfWay> ontoFormOfWay, Optional<Integer> continueMeters,
@@ -271,16 +272,16 @@ public class BasicRoadInstruction extends Instruction {
         /**
          * Set all attributes useful for a {@link SubType#ROUTE_END}
          * 
-         * @param continueLandmark
+         * @param turnLandmark
          *            the landmark where the route ends
          */
         public Builder forRouteEnd(CoordinatePoint position, Optional<String> ontoStreetName,
-                Optional<FormOfWay> ontoFormOfWay, Optional<Landmark> continueLandmark) {
+                Optional<FormOfWay> ontoFormOfWay, Optional<Landmark> turnLandmark) {
             this.subType = SubType.ROUTE_END;
             this.position = GeoJSONFeature.newPointFeature(position);
             this.ontoStreetName = ontoStreetName;
             this.ontoFormOfWay = ontoFormOfWay;
-            this.continueLandmark = continueLandmark;
+            this.turnLandmark = turnLandmark;
             return this;
         }
 
