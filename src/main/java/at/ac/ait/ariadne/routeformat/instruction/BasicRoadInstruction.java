@@ -68,7 +68,7 @@ public class BasicRoadInstruction extends Instruction {
     private final Optional<String> ontoStreetName;
     private final Optional<FormOfWay> ontoFormOfWay;
     private final Optional<Integer> continueMeters, continueSeconds;
-    private final Optional<Landmark> turnLandmark, continueLandmark;
+    private final Optional<Landmark> landmark, continueLandmark;
 
     public SubType getSubType() {
         return subType;
@@ -103,16 +103,17 @@ public class BasicRoadInstruction extends Instruction {
     }
 
     /**
-     * @return the landmark at the turn
+     * @return the landmark at begin of the instruction, i.e. at the turn, or at
+     *         the begin / end of the route
      */
-    public Optional<Landmark> getTurnLandmark() {
-        return turnLandmark;
+    public Optional<Landmark> getLandmark() {
+        return landmark;
     }
 
     /**
-     * @return the landmark at the end of the instruction (after continuing the
-     *         {@link #getContinueMeters()} when the next instruction will
-     *         start)
+     * @return the landmark at the end of the instruction, i.e. after continuing
+     *         the {@link #getContinueMeters()} when the next instruction will
+     *         start (not available for {@value SubType#ROUTE_END})
      */
     public Optional<Landmark> getContinueLandmark() {
         return continueLandmark;
@@ -128,7 +129,7 @@ public class BasicRoadInstruction extends Instruction {
         this.ontoFormOfWay = builder.ontoFormOfWay;
         this.continueMeters = builder.continueMeters;
         this.continueSeconds = builder.continueSeconds;
-        this.turnLandmark = builder.turnLandmark;
+        this.landmark = builder.landmark;
         this.continueLandmark = builder.continueLandmark;
     }
 
@@ -141,7 +142,7 @@ public class BasicRoadInstruction extends Instruction {
         return "BasicRoadInstruction [subType=" + subType + ", turnDirection=" + turnDirection + ", compassDirection="
                 + compassDirection + ", roadChange=" + roadChange + ", ontoStreetName=" + ontoStreetName
                 + ", ontoFormOfWay=" + ontoFormOfWay + ", continueMeters=" + continueMeters + ", continueSeconds="
-                + continueSeconds + ", turnLandmark=" + turnLandmark + ", continueLandmark=" + continueLandmark + "]";
+                + continueSeconds + ", turnLandmark=" + landmark + ", continueLandmark=" + continueLandmark + "]";
     }
 
     public static class Builder {
@@ -155,7 +156,7 @@ public class BasicRoadInstruction extends Instruction {
         private Optional<String> ontoStreetName = Optional.empty();
         private Optional<FormOfWay> ontoFormOfWay = Optional.empty();
         private Optional<Integer> continueMeters = Optional.empty(), continueSeconds = Optional.empty();;
-        private Optional<Landmark> turnLandmark = Optional.empty(), continueLandmark = Optional.empty();
+        private Optional<Landmark> landmark = Optional.empty(), continueLandmark = Optional.empty();
 
         public Builder withSubType(SubType subType) {
             this.subType = subType;
@@ -212,8 +213,8 @@ public class BasicRoadInstruction extends Instruction {
             return this;
         }
 
-        public Builder withTurnLandmark(Landmark turnLandmark) {
-            this.turnLandmark = Optional.of(turnLandmark);
+        public Builder withLandmark(Landmark landmark) {
+            this.landmark = Optional.of(landmark);
             return this;
         }
 
@@ -227,15 +228,14 @@ public class BasicRoadInstruction extends Instruction {
          * 
          * @param compassDirection
          *            the direction in which the route is starting
-         * @param turnLandmark
+         * @param landmark
          *            the landmark we are starting at
          * @param continueLandmark
          *            the landmark we are heading towards
          */
         public Builder forRouteStart(CoordinatePoint position, CompassDirection compassDirection,
                 Optional<String> ontoStreetName, Optional<FormOfWay> ontoFormOfWay, Optional<Integer> continueMeters,
-                Optional<Integer> continueSeconds, Optional<Landmark> turnLandmark,
-                Optional<Landmark> continueLandmark) {
+                Optional<Integer> continueSeconds, Optional<Landmark> landmark, Optional<Landmark> continueLandmark) {
             this.subType = SubType.ROUTE_START;
             this.position = GeoJSONFeature.newPointFeature(position);
             this.compassDirection = Optional.of(compassDirection);
@@ -243,7 +243,7 @@ public class BasicRoadInstruction extends Instruction {
             this.ontoFormOfWay = ontoFormOfWay;
             this.continueMeters = continueMeters;
             this.continueSeconds = continueSeconds;
-            this.turnLandmark = turnLandmark;
+            this.landmark = landmark;
             this.continueLandmark = continueLandmark;
             return this;
         }
@@ -254,8 +254,7 @@ public class BasicRoadInstruction extends Instruction {
          */
         public Builder forNormalInstruction(CoordinatePoint position, TurnDirection turnDirection, boolean roadChange,
                 Optional<String> ontoStreetName, Optional<FormOfWay> ontoFormOfWay, Optional<Integer> continueMeters,
-                Optional<Integer> continueSeconds, Optional<Landmark> turnLandmark,
-                Optional<Landmark> continueLandmark) {
+                Optional<Integer> continueSeconds, Optional<Landmark> landmark, Optional<Landmark> continueLandmark) {
             this.subType = getSubType(turnDirection);
             this.position = GeoJSONFeature.newPointFeature(position);
             this.turnDirection = Optional.of(turnDirection);
@@ -264,7 +263,7 @@ public class BasicRoadInstruction extends Instruction {
             this.ontoFormOfWay = ontoFormOfWay;
             this.continueMeters = continueMeters;
             this.continueSeconds = continueSeconds;
-            this.turnLandmark = turnLandmark;
+            this.landmark = landmark;
             this.continueLandmark = continueLandmark;
             return this;
         }
@@ -272,16 +271,16 @@ public class BasicRoadInstruction extends Instruction {
         /**
          * Set all attributes useful for a {@link SubType#ROUTE_END}
          * 
-         * @param turnLandmark
+         * @param landmark
          *            the landmark where the route ends
          */
         public Builder forRouteEnd(CoordinatePoint position, Optional<String> ontoStreetName,
-                Optional<FormOfWay> ontoFormOfWay, Optional<Landmark> turnLandmark) {
+                Optional<FormOfWay> ontoFormOfWay, Optional<Landmark> landmark) {
             this.subType = SubType.ROUTE_END;
             this.position = GeoJSONFeature.newPointFeature(position);
             this.ontoStreetName = ontoStreetName;
             this.ontoFormOfWay = ontoFormOfWay;
-            this.turnLandmark = turnLandmark;
+            this.landmark = landmark;
             return this;
         }
 
