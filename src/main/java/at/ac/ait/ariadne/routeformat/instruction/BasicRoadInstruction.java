@@ -63,7 +63,6 @@ public class BasicRoadInstruction extends Instruction {
     private final SubType subType;
     private final Optional<TurnDirection> turnDirection;
     private final Optional<CompassDirection> compassDirection;
-    /** road name or type has changed */
     private final Optional<Boolean> roadChange;
     private final Optional<String> ontoStreetName;
     private final Optional<FormOfWay> ontoFormOfWay;
@@ -82,6 +81,7 @@ public class BasicRoadInstruction extends Instruction {
         return compassDirection;
     }
 
+    /** @return <code>true</code> if the road name or type has changed */
     public Optional<Boolean> getRoadChange() {
         return roadChange;
     }
@@ -113,7 +113,7 @@ public class BasicRoadInstruction extends Instruction {
     /**
      * @return the landmark at the end of the instruction, i.e. after continuing
      *         the {@link #getContinueMeters()} when the next instruction will
-     *         start (not available for {@value SubType#ROUTE_END})
+     *         start (not available for {@link SubType#ROUTE_END})
      */
     public Optional<Landmark> getContinueLandmark() {
         return continueLandmark;
@@ -142,7 +142,7 @@ public class BasicRoadInstruction extends Instruction {
         return "BasicRoadInstruction [subType=" + subType + ", turnDirection=" + turnDirection + ", compassDirection="
                 + compassDirection + ", roadChange=" + roadChange + ", ontoStreetName=" + ontoStreetName
                 + ", ontoFormOfWay=" + ontoFormOfWay + ", continueMeters=" + continueMeters + ", continueSeconds="
-                + continueSeconds + ", turnLandmark=" + landmark + ", continueLandmark=" + continueLandmark + "]";
+                + continueSeconds + ", landmark=" + landmark + ", continueLandmark=" + continueLandmark + "]";
     }
 
     public static class Builder {
