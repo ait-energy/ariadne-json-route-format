@@ -142,6 +142,14 @@ public class Constants {
         STRAIGHT, SLIGHT_LEFT, SLIGHT_RIGHT, LEFT, RIGHT, SHARP_LEFT, SHARP_RIGHT, U_TURN;
     }
 
+    public enum RelativeDirection {
+        FRONT, FRONT_LEFT, FRONT_RIGHT, LEFT, RIGHT, BACK_LEFT, BACK_RIGHT, BACK;
+    }
+
+    public enum Preposition {
+        BEFORE, AT, AFTER
+    }
+
     public enum Status {
         /**
          * Everything OK, route(s) are available.
