@@ -20,6 +20,8 @@ import at.ac.ait.ariadne.routeformat.instruction.RoundaboutInstruction.Builder;
  * Exemplary EBNF of how this instruction can be transformed into human-readable
  * text and what's mandatory / optional. Elements ending with STRING are
  * terminal (not defined any further).
+ * <p>
+ * CONTINUE_LANDMARK_STRING must be retrieved from the next {@link Instruction}
  * 
  * <pre>
  * {@code
@@ -30,10 +32,10 @@ import at.ac.ait.ariadne.routeformat.instruction.RoundaboutInstruction.Builder;
  * 
  * EXIT_NUMBER = "first", "second",...;
  * NAME_OR_TYPE = STREET_NAME_STRING | FORM_OF_WAY_STRING;
- * CONTINUE = "and follow it", ["for", UNIT], ["until", LANDMARK_PART]; (* at least one of the two *)
+ * CONTINUE = "and follow it", ["for", UNIT], ["until", CONTINUE_LANDMARK_PART]; (* at least one of the two *)
  * UNIT = [DISTANCE_STRING], [TIME_STRING]; (* at least one of the two *)
  * 
- * LANDMARK_PART = PREPOSITION, LANDMARK_STRING;
+ * CONTINUE_LANDMARK_PART = PREPOSITION, CONTINUE_LANDMARK_STRING;
  * PREPOSITION = "before" | "at" | "after";
  * }
  * </pre>
@@ -54,7 +56,6 @@ public class RoundaboutInstruction extends Instruction {
     private final Optional<FormOfWay> ontoFormOfWay;
     private final Optional<Integer> exitNr;
     private final Optional<Integer> continueMeters, continueSeconds;
-    private final Optional<Landmark> continueLandmark;
 
     public SubType getSubType() {
         return subType;
@@ -87,14 +88,6 @@ public class RoundaboutInstruction extends Instruction {
         return continueSeconds;
     }
 
-    /**
-     * @return the landmark at the end of the instruction in case of
-     *         {@link SubType#EXIT}
-     */
-    public Optional<Landmark> getContinueLandmark() {
-        return continueLandmark;
-    }
-
     private RoundaboutInstruction(Builder builder) {
         super(builder.position, builder.previewTriggerPosition, builder.confirmationTriggerPosition);
         this.subType = builder.subType;
@@ -104,7 +97,6 @@ public class RoundaboutInstruction extends Instruction {
         this.exitNr = builder.exitNr;
         this.continueMeters = builder.continueMeters;
         this.continueSeconds = builder.continueSeconds;
-        this.continueLandmark = builder.continueLandmark;
     }
 
     public static Builder builder() {
@@ -123,8 +115,7 @@ public class RoundaboutInstruction extends Instruction {
     public String toString() {
         return "RoundaboutInstruction [subType=" + subType + ", roundaboutStreetName=" + roundaboutStreetName
                 + ", ontoStreetName=" + ontoStreetName + ", ontoFormOfWay=" + ontoFormOfWay + ", exitNr=" + exitNr
-                + ", continueMeters=" + continueMeters + ", continueSeconds=" + continueSeconds + ", continueLandmark="
-                + continueLandmark + "]";
+                + ", continueMeters=" + continueMeters + ", continueSeconds=" + continueSeconds + "]";
     }
 
     public static class Builder {
@@ -138,7 +129,6 @@ public class RoundaboutInstruction extends Instruction {
         private Optional<FormOfWay> ontoFormOfWay = Optional.empty();
         private Optional<Integer> exitNr = Optional.empty();
         private Optional<Integer> continueMeters = Optional.empty(), continueSeconds = Optional.empty();
-        private Optional<Landmark> continueLandmark = Optional.empty();
 
         public Builder withSubType(SubType subType) {
             this.subType = subType;
@@ -190,11 +180,6 @@ public class RoundaboutInstruction extends Instruction {
             return this;
         }
 
-        public Builder withContinueLandmark(Landmark continueLandmark) {
-            this.continueLandmark = Optional.of(continueLandmark);
-            return this;
-        }
-
         /**
          * Set all attributes useful for a {@link SubType#ENTER}
          */
@@ -213,15 +198,14 @@ public class RoundaboutInstruction extends Instruction {
          * Set all attributes useful for a {@link SubType#EXIT}
          */
         public Builder forExitingRoundabout(CoordinatePoint position, Optional<String> ontoStreetName,
-                Optional<FormOfWay> ontoFormOfWay, Optional<Integer> continueMeters, Optional<Integer> continueSeconds,
-                Optional<Landmark> continueLandmark) {
+                Optional<FormOfWay> ontoFormOfWay, Optional<Integer> continueMeters,
+                Optional<Integer> continueSeconds) {
             this.subType = SubType.EXIT;
             this.position = GeoJSONFeature.newPointFeature(position);
             this.ontoStreetName = ontoStreetName;
             this.ontoFormOfWay = ontoFormOfWay;
             this.continueMeters = continueMeters;
             this.continueSeconds = continueSeconds;
-            this.continueLandmark = continueLandmark;
             return this;
         }
 
