@@ -28,3 +28,8 @@ Everything in this repository is licensed under CC0.
 - public transport station details: differentiate between station entries & platforms, add travel time to transfer segments e.g. 5 min walk, 1 min escalators down, 2 min walk, 1 min elevator up;
 - reevaluate handling of waiting times (in transfer segments? in pt segments?)
 - add meaningful toString-methods for all classes
+- remove builders?: make classes mutable with with/set-methods returning this, create methods (no constructor), a validate method
+  -> careful: can jackson handle such setter methods? what about the validation via jackson?
+  -> this reduces LOC, allows for easier changes, allows for flexible changing the state
+     (now you can't peek into a builder and the final object is immutable, which is
+      getting burdensome when creating routes)

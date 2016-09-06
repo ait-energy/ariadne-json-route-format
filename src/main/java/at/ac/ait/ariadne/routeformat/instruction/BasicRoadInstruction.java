@@ -51,6 +51,8 @@ import at.ac.ait.ariadne.routeformat.instruction.BasicRoadInstruction.Builder;
  * CONTINUE_LANDMARK_PART = PREPOSITION, CONTINUE_LANDMARK_STRING;
  * PREPOSITION = "before" | "at" | "after";
  * 
+ * CROSSING_PART = 
+ * 
  * DIRECTION = "left" | "right";
  * }
  * </pre>
