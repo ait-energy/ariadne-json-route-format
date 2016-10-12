@@ -48,11 +48,11 @@ import at.ac.ait.ariadne.routeformat.instruction.BasicRoadInstruction.Builder;
  * UNIT = [DISTANCE_STRING], [TIME_STRING]; (* at least one of the two *)
  * 
  * LANDMARK_PART = PREPOSITION, LANDMARK_STRING;
- * CONFIRMATION_LANDMARK_PART = CONFIRMATION_PREPOSITION, CONFIRMATION_LANDMARK_STRING
+ * CONFIRMATION_LANDMARK_PART = CONFIRMATION_PREPOSITION, CONFIRMATION_LANDMARK_STRING;
  * CONTINUE_LANDMARK_PART = PREPOSITION, CONTINUE_LANDMARK_STRING;
  * 
- * PREPOSITION = "before" | "at" | "after"
- * CONFIRMATION_PREPOSITION = "towards" | "through" | "along"
+ * PREPOSITION = "before" | "at" | "after";
+ * CONFIRMATION_PREPOSITION = "towards" | "through" | "along" | "past";
  * 
  * DIRECTION = "left" | "right";
  * }
@@ -186,57 +186,57 @@ public class BasicRoadInstruction extends Instruction {
         }
 
         public Builder withPreviewTriggerPosition(GeoJSONFeature<GeoJSONPoint> previewTriggerPosition) {
-            this.previewTriggerPosition = Optional.of(previewTriggerPosition);
+            this.previewTriggerPosition = Optional.ofNullable(previewTriggerPosition);
             return this;
         }
 
         public Builder withConfirmationTriggerPosition(GeoJSONFeature<GeoJSONPoint> confirmationTriggerPosition) {
-            this.confirmationTriggerPosition = Optional.of(confirmationTriggerPosition);
+            this.confirmationTriggerPosition = Optional.ofNullable(confirmationTriggerPosition);
             return this;
         }
 
         public Builder withTurnDirection(TurnDirection turnDirection) {
-            this.turnDirection = Optional.of(turnDirection);
+            this.turnDirection = Optional.ofNullable(turnDirection);
             return this;
         }
 
         public Builder withCompassDirection(CompassDirection compassDirection) {
-            this.compassDirection = Optional.of(compassDirection);
+            this.compassDirection = Optional.ofNullable(compassDirection);
             return this;
         }
 
-        public Builder withRoadChange(boolean roadChange) {
-            this.roadChange = Optional.of(roadChange);
+        public Builder withRoadChange(Boolean roadChange) {
+            this.roadChange = Optional.ofNullable(roadChange);
             return this;
         }
 
         public Builder withOntoStreetName(String ontoStreetName) {
-            this.ontoStreetName = Optional.of(ontoStreetName);
+            this.ontoStreetName = Optional.ofNullable(ontoStreetName);
             return this;
         }
 
         public Builder withOntoFormOfWay(FormOfWay ontoFormOfWay) {
-            this.ontoFormOfWay = Optional.of(ontoFormOfWay);
+            this.ontoFormOfWay = Optional.ofNullable(ontoFormOfWay);
             return this;
         }
 
-        public Builder withContinueMeters(int continueMeters) {
-            this.continueMeters = Optional.of(continueMeters);
+        public Builder withContinueMeters(Integer continueMeters) {
+            this.continueMeters = Optional.ofNullable(continueMeters);
             return this;
         }
 
-        public Builder withContinueSeconds(int continueSeconds) {
-            this.continueSeconds = Optional.of(continueSeconds);
+        public Builder withContinueSeconds(Integer continueSeconds) {
+            this.continueSeconds = Optional.ofNullable(continueSeconds);
             return this;
         }
 
         public Builder withLandmark(Landmark landmark) {
-            this.landmark = Optional.of(landmark);
+            this.landmark = Optional.ofNullable(landmark);
             return this;
         }
         
-        public Builder withConfirmationLandmark(Landmark landmark) {
-            this.confirmationLandmark = Optional.of(landmark);
+        public Builder withConfirmationLandmark(Landmark confirmationLandmark) {
+            this.confirmationLandmark = Optional.ofNullable(confirmationLandmark);
             return this;
         }
 
