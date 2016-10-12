@@ -147,7 +147,7 @@ public class Constants {
     }
 
     public enum Preposition {
-        BEFORE, AT, AFTER
+        BEFORE, AT, AFTER, TOWARDS, THROUGH, ALONG
     }
 
     public enum Status {
