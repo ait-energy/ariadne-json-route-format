@@ -1,5 +1,6 @@
 package at.ac.ait.ariadne.routeformat.instruction;
 
+import java.util.Map;
 import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
@@ -21,6 +22,8 @@ public abstract class Instruction {
     private final GeoJSONFeature<GeoJSONPoint> position;
     private final Optional<GeoJSONFeature<GeoJSONPoint>> previewTriggerPosition;
     private final Optional<GeoJSONFeature<GeoJSONPoint>> confirmationTriggerPosition;
+    private final Map<String, String> text;
+    private final Map<String, Object> additionalInfo;
 
     /**
      * @return the position the instruction is defined for
@@ -45,11 +48,26 @@ public abstract class Instruction {
         return confirmationTriggerPosition;
     }
 
+    /**
+     * @return text versions of the instruction, the key of the map is the
+     *         language (RFC 1766), e.g. 'en' or 'de'.
+     */
+    public Map<String, String> getText() {
+        return text;
+    }
+
+    public Map<String, Object> getAdditionalInfo() {
+        return additionalInfo;
+    }
+
     Instruction(GeoJSONFeature<GeoJSONPoint> position, Optional<GeoJSONFeature<GeoJSONPoint>> previewTriggerPosition,
-            Optional<GeoJSONFeature<GeoJSONPoint>> confirmationTriggerPosition) {
+            Optional<GeoJSONFeature<GeoJSONPoint>> confirmationTriggerPosition, Map<String, String> text,
+            Map<String, Object> additionalInfo) {
         this.position = position;
         this.previewTriggerPosition = previewTriggerPosition;
         this.confirmationTriggerPosition = confirmationTriggerPosition;
+        this.text = text;
+        this.additionalInfo = additionalInfo;
     }
 
 }

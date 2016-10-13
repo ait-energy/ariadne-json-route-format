@@ -1,11 +1,14 @@
 package at.ac.ait.ariadne.routeformat.instruction;
 
+import java.util.Collections;
+import java.util.Map;
 import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableSortedMap;
 
 import at.ac.ait.ariadne.routeformat.Constants.FormOfWay;
 import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
@@ -90,13 +93,14 @@ public class RoundaboutInstruction extends Instruction {
     public Optional<Integer> getContinueSeconds() {
         return continueSeconds;
     }
-    
+
     public Optional<Landmark> getConfirmationLandmark() {
         return confirmationLandmark;
     }
 
     private RoundaboutInstruction(Builder builder) {
-        super(builder.position, builder.previewTriggerPosition, builder.confirmationTriggerPosition);
+        super(builder.position, builder.previewTriggerPosition, builder.confirmationTriggerPosition, builder.text,
+                builder.additionalInfo);
         this.subType = builder.subType;
         this.roundaboutStreetName = builder.roundaboutStreetName;
         this.ontoStreetName = builder.ontoStreetName;
@@ -133,6 +137,8 @@ public class RoundaboutInstruction extends Instruction {
         private GeoJSONFeature<GeoJSONPoint> position;
         private Optional<GeoJSONFeature<GeoJSONPoint>> previewTriggerPosition;
         private Optional<GeoJSONFeature<GeoJSONPoint>> confirmationTriggerPosition;
+        private Map<String, String> text = Collections.emptyMap();
+        private Map<String, Object> additionalInfo = Collections.emptyMap();
         private Optional<String> roundaboutStreetName = Optional.empty();
         private Optional<String> ontoStreetName = Optional.empty();
         private Optional<FormOfWay> ontoFormOfWay = Optional.empty();
@@ -157,6 +163,16 @@ public class RoundaboutInstruction extends Instruction {
 
         public Builder withConfirmationTriggerPosition(GeoJSONFeature<GeoJSONPoint> confirmationTriggerPosition) {
             this.confirmationTriggerPosition = Optional.ofNullable(confirmationTriggerPosition);
+            return this;
+        }
+
+        public Builder withText(Map<String, String> text) {
+            this.text = ImmutableSortedMap.copyOf(text);
+            return this;
+        }
+
+        public Builder withAdditionalInfo(Map<String, Object> additionalInfo) {
+            this.additionalInfo = ImmutableSortedMap.copyOf(additionalInfo);
             return this;
         }
 
@@ -189,7 +205,7 @@ public class RoundaboutInstruction extends Instruction {
             this.continueSeconds = Optional.ofNullable(continueSeconds);
             return this;
         }
-        
+
         public Builder withConfirmationLandmark(Landmark confirmationLandmark) {
             this.confirmationLandmark = Optional.ofNullable(confirmationLandmark);
             return this;
@@ -216,8 +232,8 @@ public class RoundaboutInstruction extends Instruction {
          * Set all attributes useful for a {@link SubType#EXIT}
          */
         public Builder forExitingRoundabout(CoordinatePoint position, Optional<String> ontoStreetName,
-                Optional<FormOfWay> ontoFormOfWay, Optional<Integer> continueMeters,
-                Optional<Integer> continueSeconds, Optional<Landmark> confirmationLandmark) {
+                Optional<FormOfWay> ontoFormOfWay, Optional<Integer> continueMeters, Optional<Integer> continueSeconds,
+                Optional<Landmark> confirmationLandmark) {
             this.subType = SubType.EXIT;
             this.position = GeoJSONFeature.newPointFeature(position);
             this.ontoStreetName = ontoStreetName;

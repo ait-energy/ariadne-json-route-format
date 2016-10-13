@@ -1,11 +1,14 @@
 package at.ac.ait.ariadne.routeformat.instruction;
 
+import java.util.Collections;
+import java.util.Map;
 import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableSortedMap;
 
 import at.ac.ait.ariadne.routeformat.Constants.CompassDirection;
 import at.ac.ait.ariadne.routeformat.Constants.FormOfWay;
@@ -126,7 +129,7 @@ public class BasicRoadInstruction extends Instruction {
     public Optional<Landmark> getLandmark() {
         return landmark;
     }
-    
+
     /**
      * @return a landmark between this and the next instruction (or a global
      *         landmark in the general direction after this instruction) that
@@ -137,7 +140,8 @@ public class BasicRoadInstruction extends Instruction {
     }
 
     private BasicRoadInstruction(Builder builder) {
-        super(builder.position, builder.previewTriggerPosition, builder.confirmationTriggerPosition);
+        super(builder.position, builder.previewTriggerPosition, builder.confirmationTriggerPosition, builder.text,
+                builder.additionalInfo);
         this.subType = builder.subType;
         this.turnDirection = builder.turnDirection;
         this.compassDirection = builder.compassDirection;
@@ -167,6 +171,8 @@ public class BasicRoadInstruction extends Instruction {
         private GeoJSONFeature<GeoJSONPoint> position;
         private Optional<GeoJSONFeature<GeoJSONPoint>> previewTriggerPosition;
         private Optional<GeoJSONFeature<GeoJSONPoint>> confirmationTriggerPosition;
+        private Map<String, String> text = Collections.emptyMap();
+        private Map<String, Object> additionalInfo = Collections.emptyMap();
         private Optional<TurnDirection> turnDirection = Optional.empty();
         private Optional<CompassDirection> compassDirection = Optional.empty();
         private Optional<Boolean> roadChange = Optional.empty();
@@ -192,6 +198,16 @@ public class BasicRoadInstruction extends Instruction {
 
         public Builder withConfirmationTriggerPosition(GeoJSONFeature<GeoJSONPoint> confirmationTriggerPosition) {
             this.confirmationTriggerPosition = Optional.ofNullable(confirmationTriggerPosition);
+            return this;
+        }
+
+        public Builder withText(Map<String, String> text) {
+            this.text = ImmutableSortedMap.copyOf(text);
+            return this;
+        }
+
+        public Builder withAdditionalInfo(Map<String, Object> additionalInfo) {
+            this.additionalInfo = ImmutableSortedMap.copyOf(additionalInfo);
             return this;
         }
 
@@ -234,7 +250,7 @@ public class BasicRoadInstruction extends Instruction {
             this.landmark = Optional.ofNullable(landmark);
             return this;
         }
-        
+
         public Builder withConfirmationLandmark(Landmark confirmationLandmark) {
             this.confirmationLandmark = Optional.ofNullable(confirmationLandmark);
             return this;
@@ -250,7 +266,8 @@ public class BasicRoadInstruction extends Instruction {
          */
         public Builder forRouteStart(CoordinatePoint position, CompassDirection compassDirection,
                 Optional<String> ontoStreetName, Optional<FormOfWay> ontoFormOfWay, Optional<Integer> continueMeters,
-                Optional<Integer> continueSeconds, Optional<Landmark> landmark, Optional<Landmark> confirmationLandmark) {
+                Optional<Integer> continueSeconds, Optional<Landmark> landmark,
+                Optional<Landmark> confirmationLandmark) {
             this.subType = SubType.ROUTE_START;
             this.position = GeoJSONFeature.newPointFeature(position);
             this.compassDirection = Optional.of(compassDirection);
@@ -269,7 +286,8 @@ public class BasicRoadInstruction extends Instruction {
          */
         public Builder forNormalInstruction(CoordinatePoint position, TurnDirection turnDirection, boolean roadChange,
                 Optional<String> ontoStreetName, Optional<FormOfWay> ontoFormOfWay, Optional<Integer> continueMeters,
-                Optional<Integer> continueSeconds, Optional<Landmark> landmark, Optional<Landmark> confirmationLandmark) {
+                Optional<Integer> continueSeconds, Optional<Landmark> landmark,
+                Optional<Landmark> confirmationLandmark) {
             this.subType = getSubType(turnDirection);
             this.position = GeoJSONFeature.newPointFeature(position);
             this.turnDirection = Optional.of(turnDirection);

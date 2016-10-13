@@ -1,11 +1,14 @@
 package at.ac.ait.ariadne.routeformat.instruction;
 
+import java.util.Collections;
+import java.util.Map;
 import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableSortedMap;
 
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPoint;
@@ -56,7 +59,8 @@ public class RoadCrossingInstruction extends Instruction {
     }
 
     private RoadCrossingInstruction(Builder builder) {
-        super(builder.position, builder.previewTriggerPosition, builder.confirmationTriggerPosition);
+        super(builder.position, builder.previewTriggerPosition, builder.confirmationTriggerPosition, builder.text,
+                builder.additionalInfo);
         this.crossingInfrastructure = builder.crossingInfrastructure;
         this.continueDirection = builder.continueDirection;
     }
@@ -76,6 +80,8 @@ public class RoadCrossingInstruction extends Instruction {
         private GeoJSONFeature<GeoJSONPoint> position;
         private Optional<GeoJSONFeature<GeoJSONPoint>> previewTriggerPosition;
         private Optional<GeoJSONFeature<GeoJSONPoint>> confirmationTriggerPosition;
+        private Map<String, String> text = Collections.emptyMap();
+        private Map<String, Object> additionalInfo = Collections.emptyMap();
         private Optional<String> crossingInfrastructure = Optional.empty();
         private Optional<ContinueDirection> continueDirection = Optional.empty();
 
@@ -91,6 +97,16 @@ public class RoadCrossingInstruction extends Instruction {
 
         public Builder withConfirmationTriggerPosition(GeoJSONFeature<GeoJSONPoint> confirmationTriggerPosition) {
             this.confirmationTriggerPosition = Optional.ofNullable(confirmationTriggerPosition);
+            return this;
+        }
+
+        public Builder withText(Map<String, String> text) {
+            this.text = ImmutableSortedMap.copyOf(text);
+            return this;
+        }
+
+        public Builder withAdditionalInfo(Map<String, Object> additionalInfo) {
+            this.additionalInfo = ImmutableSortedMap.copyOf(additionalInfo);
             return this;
         }
 
