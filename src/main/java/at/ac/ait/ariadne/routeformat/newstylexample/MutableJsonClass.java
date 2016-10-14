@@ -1,23 +1,31 @@
 package at.ac.ait.ariadne.routeformat.newstylexample;
 
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 
-@JsonInclude(Include.NON_EMPTY)
-public class MutableJsonClass {
+import at.ac.ait.ariadne.routeformat.Validatable;
 
-	public enum ContinueDirection {
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonSubTypes({ @JsonSubTypes.Type(value = MutableJsonClass.class, name = "MutableJsonClass"),
+		@JsonSubTypes.Type(value = DetailedMutableJsonClass.class, name = "DetailedMutableJsonClass") })
+@JsonInclude(Include.NON_EMPTY)
+public class MutableJsonClass implements Validatable {
+
+	public enum SomeEnum {
 		SAME, OPPOSITE
 	}
 
 	private int myInteger;
 	private Optional<String> myOptionalString = Optional.empty();
-	private Map<String, ContinueDirection> myMap = Collections.emptyMap();
+	private Map<String, SomeEnum> myMap = new HashMap<>();
 
 	public static MutableJsonClass createDefault(int myInteger, String myOptionalString) {
 		MutableJsonClass x = new MutableJsonClass();
@@ -31,7 +39,7 @@ public class MutableJsonClass {
 	}
 
 	public MutableJsonClass setMyInteger(int myInteger) {
-		this.myInteger = myInteger + 66;
+		this.myInteger = myInteger;
 		return this;
 	}
 
@@ -40,15 +48,15 @@ public class MutableJsonClass {
 	}
 
 	public MutableJsonClass setMyOptionalString(String myOptionalString) {
-		this.myOptionalString = Optional.ofNullable("setterwasused_" + myOptionalString);
+		this.myOptionalString = Optional.ofNullable(myOptionalString);
 		return this;
 	}
 
-	public Map<String, ContinueDirection> getMyMap() {
+	public Map<String, SomeEnum> getMyMap() {
 		return myMap;
 	}
 
-	public MutableJsonClass setMyMap(Map<String, ContinueDirection> myMap) {
+	public MutableJsonClass setMyMap(Map<String, SomeEnum> myMap) {
 		this.myMap = ImmutableMap.copyOf(myMap);
 		return this;
 	}
@@ -57,6 +65,11 @@ public class MutableJsonClass {
 	public String toString() {
 		return "MinimizedMutableClass [myInteger=" + myInteger + ", myOptionalString=" + myOptionalString + ", myMap="
 				+ myMap + "]";
+	}
+
+	@Override
+	public void validate() {
+		Preconditions.checkArgument(myInteger > 0);
 	}
 
 }

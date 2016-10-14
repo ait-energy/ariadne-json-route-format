@@ -1,20 +1,13 @@
 package at.ac.ait.ariadne.routeformat.instruction;
 
-import java.util.Collections;
-import java.util.Map;
 import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableSortedMap;
 
 import at.ac.ait.ariadne.routeformat.Constants.FormOfWay;
 import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
-import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
-import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPoint;
-import at.ac.ait.ariadne.routeformat.instruction.RoundaboutInstruction.Builder;
 
 /**
  * Instructions for navigating a roundabout. The {@link #exitNr} is mandatory
@@ -47,214 +40,161 @@ import at.ac.ait.ariadne.routeformat.instruction.RoundaboutInstruction.Builder;
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */
-@JsonDeserialize(builder = Builder.class)
 @JsonInclude(Include.NON_EMPTY)
-public class RoundaboutInstruction extends Instruction {
+public class RoundaboutInstruction extends Instruction<RoundaboutInstruction> {
 
-    public enum SubType {
-        ENTER, EXIT
-    }
+	public enum SubType {
+		ENTER, EXIT
+	}
 
-    private final SubType subType;
-    private final Optional<String> roundaboutStreetName;
-    private final Optional<String> ontoStreetName;
-    private final Optional<FormOfWay> ontoFormOfWay;
-    private final Optional<Integer> exitNr;
-    private final Optional<Integer> continueMeters, continueSeconds;
-    private final Optional<Landmark> confirmationLandmark;
+	private SubType subType;
+	private Optional<String> roundaboutStreetName = Optional.empty();
+	private Optional<String> ontoStreetName = Optional.empty();
+	private Optional<FormOfWay> ontoFormOfWay = Optional.empty();
+	private Optional<Integer> exitNr = Optional.empty();
+	private Optional<Integer> continueMeters = Optional.empty(), continueSeconds = Optional.empty();
+	private Optional<Landmark> confirmationLandmark = Optional.empty();
 
-    public SubType getSubType() {
-        return subType;
-    }
+	// -- getters
 
-    /** street name of the roundabout itself */
-    public Optional<String> getRoundaboutStreetName() {
-        return roundaboutStreetName;
-    }
+	public SubType getSubType() {
+		return subType;
+	}
 
-    /** street name of the street the roundabout exits to */
-    public Optional<String> getOntoStreetName() {
-        return ontoStreetName;
-    }
+	/** street name of the roundabout itself */
+	public Optional<String> getRoundaboutStreetName() {
+		return roundaboutStreetName;
+	}
 
-    /** form of way of the street the roundabout exits to */
-    public Optional<FormOfWay> getOntoFormOfWay() {
-        return ontoFormOfWay;
-    }
+	/** street name of the street the roundabout exits to */
+	public Optional<String> getOntoStreetName() {
+		return ontoStreetName;
+	}
 
-    public Optional<Integer> getExitNr() {
-        return exitNr;
-    }
+	/** form of way of the street the roundabout exits to */
+	public Optional<FormOfWay> getOntoFormOfWay() {
+		return ontoFormOfWay;
+	}
 
-    public Optional<Integer> getContinueMeters() {
-        return continueMeters;
-    }
+	public Optional<Integer> getExitNr() {
+		return exitNr;
+	}
 
-    public Optional<Integer> getContinueSeconds() {
-        return continueSeconds;
-    }
+	public Optional<Integer> getContinueMeters() {
+		return continueMeters;
+	}
 
-    public Optional<Landmark> getConfirmationLandmark() {
-        return confirmationLandmark;
-    }
+	public Optional<Integer> getContinueSeconds() {
+		return continueSeconds;
+	}
 
-    private RoundaboutInstruction(Builder builder) {
-        super(builder.position, builder.previewTriggerPosition, builder.confirmationTriggerPosition, builder.text,
-                builder.additionalInfo);
-        this.subType = builder.subType;
-        this.roundaboutStreetName = builder.roundaboutStreetName;
-        this.ontoStreetName = builder.ontoStreetName;
-        this.ontoFormOfWay = builder.ontoFormOfWay;
-        this.exitNr = builder.exitNr;
-        this.continueMeters = builder.continueMeters;
-        this.continueSeconds = builder.continueSeconds;
-        this.confirmationLandmark = builder.confirmationLandmark;
-    }
+	public Optional<Landmark> getConfirmationLandmark() {
+		return confirmationLandmark;
+	}
 
-    public static Builder builder() {
-        return new Builder();
-    }
+	// -- setters
 
-    public static Builder enterBuilder(CoordinatePoint point) {
-        return new Builder().withSubType(SubType.ENTER).withPosition(GeoJSONFeature.newPointFeature(point));
-    }
+	public RoundaboutInstruction setSubType(SubType subType) {
+		this.subType = subType;
+		return this;
+	}
 
-    public static Builder exitBuilder(CoordinatePoint point) {
-        return new Builder().withSubType(SubType.EXIT).withPosition(GeoJSONFeature.newPointFeature(point));
-    }
+	public RoundaboutInstruction setRoundaboutStreetName(String roundaboutStreetName) {
+		this.roundaboutStreetName = Optional.ofNullable(roundaboutStreetName);
+		return this;
+	}
 
-    @Override
-    public String toString() {
-        return "RoundaboutInstruction [subType=" + subType + ", roundaboutStreetName=" + roundaboutStreetName
-                + ", ontoStreetName=" + ontoStreetName + ", ontoFormOfWay=" + ontoFormOfWay + ", exitNr=" + exitNr
-                + ", continueMeters=" + continueMeters + ", continueSeconds=" + continueSeconds
-                + ", confirmationLandmark=" + confirmationLandmark + "]";
-    }
+	public RoundaboutInstruction setOntoStreetName(String ontoStreetName) {
+		this.ontoStreetName = Optional.ofNullable(ontoStreetName);
+		return this;
+	}
 
-    public static class Builder {
+	public RoundaboutInstruction setOntoFormOfWay(FormOfWay ontoFormOfWay) {
+		this.ontoFormOfWay = Optional.ofNullable(ontoFormOfWay);
+		return this;
+	}
 
-        private SubType subType;
-        private GeoJSONFeature<GeoJSONPoint> position;
-        private Optional<GeoJSONFeature<GeoJSONPoint>> previewTriggerPosition;
-        private Optional<GeoJSONFeature<GeoJSONPoint>> confirmationTriggerPosition;
-        private Map<String, String> text = Collections.emptyMap();
-        private Map<String, Object> additionalInfo = Collections.emptyMap();
-        private Optional<String> roundaboutStreetName = Optional.empty();
-        private Optional<String> ontoStreetName = Optional.empty();
-        private Optional<FormOfWay> ontoFormOfWay = Optional.empty();
-        private Optional<Integer> exitNr = Optional.empty();
-        private Optional<Integer> continueMeters = Optional.empty(), continueSeconds = Optional.empty();
-        private Optional<Landmark> confirmationLandmark = Optional.empty();
+	public RoundaboutInstruction setExitNr(Integer exitNr) {
+		this.exitNr = Optional.ofNullable(exitNr);
+		return this;
+	}
 
-        public Builder withSubType(SubType subType) {
-            this.subType = subType;
-            return this;
-        }
+	public RoundaboutInstruction setContinueMeters(Integer continueMeters) {
+		this.continueMeters = Optional.ofNullable(continueMeters);
+		return this;
+	}
 
-        public Builder withPosition(GeoJSONFeature<GeoJSONPoint> position) {
-            this.position = position;
-            return this;
-        }
+	public RoundaboutInstruction setContinueSeconds(Integer continueSeconds) {
+		this.continueSeconds = Optional.ofNullable(continueSeconds);
+		return this;
+	}
 
-        public Builder withPreviewTriggerPosition(GeoJSONFeature<GeoJSONPoint> previewTriggerPosition) {
-            this.previewTriggerPosition = Optional.ofNullable(previewTriggerPosition);
-            return this;
-        }
+	public RoundaboutInstruction setConfirmationLandmark(Landmark confirmationLandmark) {
+		this.confirmationLandmark = Optional.ofNullable(confirmationLandmark);
+		return this;
+	}
 
-        public Builder withConfirmationTriggerPosition(GeoJSONFeature<GeoJSONPoint> confirmationTriggerPosition) {
-            this.confirmationTriggerPosition = Optional.ofNullable(confirmationTriggerPosition);
-            return this;
-        }
+	// --
 
-        public Builder withText(Map<String, String> text) {
-            this.text = ImmutableSortedMap.copyOf(text);
-            return this;
-        }
+	public static RoundaboutInstruction createMinimumEnter(CoordinatePoint position, int exitNr) {
+		return new RoundaboutInstruction().setPosition(position).setSubType(SubType.ENTER).setExitNr(exitNr);
+	}
 
-        public Builder withAdditionalInfo(Map<String, Object> additionalInfo) {
-            this.additionalInfo = ImmutableSortedMap.copyOf(additionalInfo);
-            return this;
-        }
+	public static RoundaboutInstruction createMinimumExit(CoordinatePoint position) {
+		return new RoundaboutInstruction().setPosition(position).setSubType(SubType.EXIT);
+	}
 
-        public Builder withRoundaboutStreetName(String roundaboutStreetName) {
-            this.roundaboutStreetName = Optional.ofNullable(roundaboutStreetName);
-            return this;
-        }
+	// /**
+	// * Set all attributes useful for a {@link SubType#ENTER}
+	// *
+	// * @param exitNr
+	// * mandatory
+	// */
+	// public Builder createMinimalEnterInstruction(CoordinatePoint position,
+	// Optional<String> roundaboutStreetName,
+	// Optional<String> ontoStreetName, Optional<FormOfWay> ontoFormOfWay, int
+	// exitNr) {
+	// this.subType = SubType.ENTER;
+	// this.position = GeoJSONFeature.newPointFeature(position);
+	// this.roundaboutStreetName = roundaboutStreetName;
+	// this.ontoStreetName = ontoStreetName;
+	// this.ontoFormOfWay = ontoFormOfWay;
+	// this.exitNr = Optional.of(exitNr);
+	// return this;
+	// }
+	//
+	// /**
+	// * Set all attributes useful for a {@link SubType#EXIT}
+	// */
+	// public Builder forExitingRoundabout(CoordinatePoint position,
+	// Optional<String> ontoStreetName,
+	// Optional<FormOfWay> ontoFormOfWay, Optional<Integer> continueMeters,
+	// Optional<Integer> continueSeconds,
+	// Optional<Landmark> confirmationLandmark) {
+	// this.subType = SubType.EXIT;
+	// this.position = GeoJSONFeature.newPointFeature(position);
+	// this.ontoStreetName = ontoStreetName;
+	// this.ontoFormOfWay = ontoFormOfWay;
+	// this.continueMeters = continueMeters;
+	// this.continueSeconds = continueSeconds;
+	// this.confirmationLandmark = confirmationLandmark;
+	// return this;
+	// }
 
-        public Builder withOntoStreetName(String ontoStreetName) {
-            this.ontoStreetName = Optional.ofNullable(ontoStreetName);
-            return this;
-        }
+	@Override
+	public void validate() {
+		super.validate();
+		Preconditions.checkArgument(subType != null, "subType is mandatory but missing");
+		if (subType.equals(SubType.ENTER))
+			Preconditions.checkArgument(exitNr.isPresent(), "exit nr is mandatory for enter-instructions");
+	}
 
-        public Builder withOntoFormOfWay(FormOfWay ontoFormOfWay) {
-            this.ontoFormOfWay = Optional.ofNullable(ontoFormOfWay);
-            return this;
-        }
-
-        public Builder withExitNr(Integer exitNr) {
-            this.exitNr = Optional.ofNullable(exitNr);
-            return this;
-        }
-
-        public Builder withContinueMeters(Integer continueMeters) {
-            this.continueMeters = Optional.ofNullable(continueMeters);
-            return this;
-        }
-
-        public Builder withContinueSeconds(Integer continueSeconds) {
-            this.continueSeconds = Optional.ofNullable(continueSeconds);
-            return this;
-        }
-
-        public Builder withConfirmationLandmark(Landmark confirmationLandmark) {
-            this.confirmationLandmark = Optional.ofNullable(confirmationLandmark);
-            return this;
-        }
-
-        /**
-         * Set all attributes useful for a {@link SubType#ENTER}
-         * 
-         * @param exitNr
-         *            mandatory
-         */
-        public Builder forEnteringRoundabout(CoordinatePoint position, Optional<String> roundaboutStreetName,
-                Optional<String> ontoStreetName, Optional<FormOfWay> ontoFormOfWay, int exitNr) {
-            this.subType = SubType.ENTER;
-            this.position = GeoJSONFeature.newPointFeature(position);
-            this.roundaboutStreetName = roundaboutStreetName;
-            this.ontoStreetName = ontoStreetName;
-            this.ontoFormOfWay = ontoFormOfWay;
-            this.exitNr = Optional.of(exitNr);
-            return this;
-        }
-
-        /**
-         * Set all attributes useful for a {@link SubType#EXIT}
-         */
-        public Builder forExitingRoundabout(CoordinatePoint position, Optional<String> ontoStreetName,
-                Optional<FormOfWay> ontoFormOfWay, Optional<Integer> continueMeters, Optional<Integer> continueSeconds,
-                Optional<Landmark> confirmationLandmark) {
-            this.subType = SubType.EXIT;
-            this.position = GeoJSONFeature.newPointFeature(position);
-            this.ontoStreetName = ontoStreetName;
-            this.ontoFormOfWay = ontoFormOfWay;
-            this.continueMeters = continueMeters;
-            this.continueSeconds = continueSeconds;
-            this.confirmationLandmark = confirmationLandmark;
-            return this;
-        }
-
-        public RoundaboutInstruction build() {
-            validate();
-            return new RoundaboutInstruction(this);
-        }
-
-        private void validate() {
-            Preconditions.checkArgument(subType != null, "subType is mandatory but missing");
-            Preconditions.checkArgument(position != null, "position is mandatory but missing");
-            if (subType.equals(SubType.ENTER))
-                Preconditions.checkArgument(exitNr.isPresent(), "exit nr is mandatory for enter-instructions");
-        }
-    }
+	@Override
+	public String toString() {
+		return super.toString() + " -> RoundaboutInstruction [subType=" + subType + ", roundaboutStreetName="
+				+ roundaboutStreetName + ", ontoStreetName=" + ontoStreetName + ", ontoFormOfWay=" + ontoFormOfWay
+				+ ", exitNr=" + exitNr + ", continueMeters=" + continueMeters + ", continueSeconds=" + continueSeconds
+				+ ", confirmationLandmark=" + confirmationLandmark + "]";
+	}
 
 }

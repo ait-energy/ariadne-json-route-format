@@ -10,10 +10,14 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-import com.google.common.collect.ImmutableMap;
 import com.kjetland.jackson.jsonSchema.JsonSchemaGenerator;
 
+import at.ac.ait.ariadne.routeformat.Constants.FormOfWay;
+import at.ac.ait.ariadne.routeformat.Constants.Preposition;
+import at.ac.ait.ariadne.routeformat.Constants.TurnDirection;
+import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
+import at.ac.ait.ariadne.routeformat.instruction.BasicRoadInstruction;
+import at.ac.ait.ariadne.routeformat.instruction.Landmark;
 import scala.Option;
 
 /**
@@ -27,51 +31,46 @@ public class MutableJacksonExample {
 	public static final String exampleFile = "src/main/resources/all-new-example.json";
 	public static final String exampleSerFile = "src/main/resources/all-new-example.ser";
 
+	private ObjectMapper mapper;
+
+	public MutableJacksonExample() {
+		mapper = new ObjectMapper();
+		mapper.findAndRegisterModules();
+		mapper.enable(SerializationFeature.INDENT_OUTPUT);
+	}
+	
 	public static void main(String[] args) throws JsonGenerationException, JsonMappingException, IOException {
 		MutableJacksonExample main = new MutableJacksonExample();
-		main.writeExampleJsonAndSer();
+		main.writeExampleJson();
 		main.readExampleJson();
-		main.writeSchemav4();
+//		main.writeSchemav4();
 	}
 
-	public void writeExampleJsonAndSer() throws JsonGenerationException, JsonMappingException, IOException {
-		MutableJsonClass example = MutableJsonClass.createDefault(3, "servus");
+	public void writeExampleJson() throws JsonGenerationException, JsonMappingException, IOException {
+//		MutableJsonClass example = MutableJsonClass.createDefault(3, "servus");
 //		MinimizedMutableClass example = new MinimizedMutableClass();
 //		example.setMyInteger(100);
 //		example.setMyOptionalString("");
 //		example.setMyMap(ImmutableMap.of("a", ContinueDirection.OPPOSITE));
-
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.findAndRegisterModules();
-		mapper.enable(SerializationFeature.INDENT_OUTPUT);
-
+//		RoundaboutInstruction example = RoundaboutInstruction.createMinimalEnterInstruction(new CoordinatePoint(16, 48), 2);
+//		MutableJsonClass example = new DetailedMutableJsonClass().setAnotherDetail("yo").setMyInteger(1);
+		Landmark landmark = Landmark.createMinimumLandmark(Preposition.AFTER, null);
+		BasicRoadInstruction example = BasicRoadInstruction.createMinimumOnRoute(new CoordinatePoint(48, 16),
+				TurnDirection.LEFT, Optional.of("Ringstraße"), Optional.of(FormOfWay.ROAD));
+		example.setContinueSeconds(50).setLandmark(landmark);
+		
 		System.out.println(mapper.writeValueAsString(example));
 		System.out.println("##########");
 		mapper.writeValue(new File(exampleFile), example);
-		
-//		try (FileOutputStream fileOut = new FileOutputStream(exampleSerFile);
-//				ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
-//			out.writeObject(example);
-//		} catch (IOException i) {
-//			i.printStackTrace();
-//		}
 	}
 
 	public void readExampleJson() throws JsonParseException, JsonMappingException, IOException {
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.registerModule(new Jdk8Module());
-
-		// variant 1 - data binding
-		MutableJsonClass example = mapper.readValue(new File(exampleFile), MutableJsonClass.class);
+		BasicRoadInstruction example = mapper.readValue(new File(exampleFile), BasicRoadInstruction.class);
 		System.out.println("read from json file: " + example);
 		System.out.println("##########");
 	}
 
 	public void writeSchemav4() throws JsonGenerationException, IOException {
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.findAndRegisterModules();
-		mapper.enable(SerializationFeature.INDENT_OUTPUT);
-
 		JsonSchemaGenerator jsonSchemaGenerator = new JsonSchemaGenerator(mapper);
 		Option<String> emtpyOption = Option.empty();
 		JsonNode jsonSchema = jsonSchemaGenerator.generateJsonSchema(MutableJsonClass.class, emtpyOption,

@@ -11,13 +11,14 @@ A simple example how to display a route in a browser with Leaflet is shown in `s
 ## Coding Style
 - implicit public constructor without arguments (used by jackson for deserialization)
 - static createXY methods as shortcuts for building typical instances
-- all members are private and mutable (and initialized where they are defined)
+- all members are private and mutable
+  - initialization of complex types when they are defined and so that they are mutable (i.e. new HashMap<>() instead of Collections.emptyMap())
 - getter methods for all members (used by jackson for serialization)
 - setter methods for all members (used by jackson for deserialization)
-  - create defensive copies of complex data structures
+  - create defensive mutable copies of **external** complex data structures (e.g. the additionalInfo Map, but not of objects belonging to the route format, such as the GeoJSON classes)
   - return the object itself (so calls to setter methods can be chained similar to the builder pattern)
 - for easy generic extension the map "additionalInfo" is provided for many classes
-- validate() method for checking if the state of the class is legal (use exceptions? or just return a boolean - in that case you don't know what's wrong!) **TODO** 
+- validate() method for checking if the state of the instance is legal, which throw an IllegalArgumentException including a description of what's invalid (in-depth-checking: classes should call validate on all instances they contain, e.g. a navigation instruction calls validate() of the landmarks it contains)
 - optional members
   - use java.util.Optional<T> as member (not Java serializable, but we don't need that)
   - just use T in the setter method, create with Optional.ofNullable(t), so that unsetting of a member is possible
@@ -35,7 +36,6 @@ Everything in this repository is licensed under CC0.
 - display forbidden areas in leaflet-example
 - public transport station details: differentiate between station entries & platforms, add travel time to transfer segments e.g. 5 min walk, 1 min escalators down, 2 min walk, 1 min elevator up;
 - reevaluate handling of waiting times (in transfer segments? in pt segments?)
-- add meaningful toString-methods for all classes
 
 ### This branch works on:
 - remove builders?: make classes mutable with with/set-methods returning this, create methods (no constructor), a validate method
@@ -43,3 +43,5 @@ Everything in this repository is licensed under CC0.
   -> this reduces LOC, allows for easier changes, allows for flexible changing the state
      (now you can't peek into a builder and the final object is immutable, which is
       getting burdensome when creating routes)
+- v4 schema generation
+- add meaningful toString-methods for all classes

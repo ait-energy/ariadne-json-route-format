@@ -1,18 +1,11 @@
 package at.ac.ait.ariadne.routeformat.instruction;
 
-import java.util.Collections;
-import java.util.Map;
 import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableSortedMap;
 
-import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
-import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPoint;
-import at.ac.ait.ariadne.routeformat.instruction.RoadCrossingInstruction.Builder;
+import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
 
 /**
  * Instructions for crossing a road <b>away from a junction</b>, e.g. a
@@ -39,95 +32,53 @@ import at.ac.ait.ariadne.routeformat.instruction.RoadCrossingInstruction.Builder
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */
-@JsonDeserialize(builder = Builder.class)
 @JsonInclude(Include.NON_EMPTY)
-public class RoadCrossingInstruction extends Instruction {
+public class RoadCrossingInstruction extends Instruction<RoadCrossingInstruction> {
 
-    public enum ContinueDirection {
-        SAME, OPPOSITE
-    }
+	public enum ContinueDirection {
+		SAME, OPPOSITE
+	}
 
-    private final Optional<String> crossingInfrastructure;
-    private final Optional<ContinueDirection> continueDirection;
+	private Optional<String> crossingInfrastructure = Optional.empty();
+	private Optional<ContinueDirection> continueDirection = Optional.empty();
 
-    public Optional<String> getCrossingInfrastructure() {
-        return crossingInfrastructure;
-    }
+	// -- getters
 
-    public Optional<ContinueDirection> getContinueDirection() {
-        return continueDirection;
-    }
+	public Optional<String> getCrossingInfrastructure() {
+		return crossingInfrastructure;
+	}
 
-    private RoadCrossingInstruction(Builder builder) {
-        super(builder.position, builder.previewTriggerPosition, builder.confirmationTriggerPosition, builder.text,
-                builder.additionalInfo);
-        this.crossingInfrastructure = builder.crossingInfrastructure;
-        this.continueDirection = builder.continueDirection;
-    }
+	public Optional<ContinueDirection> getContinueDirection() {
+		return continueDirection;
+	}
 
-    public static Builder builder() {
-        return new Builder();
-    }
+	// -- setters
 
-    @Override
-    public String toString() {
-        return "RoadCrossingInstruction [crossingInfrastructure=" + crossingInfrastructure + ", continueDirection="
-                + continueDirection + "]";
-    }
+	public RoadCrossingInstruction setCrossingInfrastructure(String crossingInfrastructure) {
+		this.crossingInfrastructure = Optional.ofNullable(crossingInfrastructure);
+		return this;
+	}
 
-    public static class Builder {
+	public RoadCrossingInstruction setContinueDirection(ContinueDirection continueDirection) {
+		this.continueDirection = Optional.ofNullable(continueDirection);
+		return this;
+	}
 
-        private GeoJSONFeature<GeoJSONPoint> position;
-        private Optional<GeoJSONFeature<GeoJSONPoint>> previewTriggerPosition;
-        private Optional<GeoJSONFeature<GeoJSONPoint>> confirmationTriggerPosition;
-        private Map<String, String> text = Collections.emptyMap();
-        private Map<String, Object> additionalInfo = Collections.emptyMap();
-        private Optional<String> crossingInfrastructure = Optional.empty();
-        private Optional<ContinueDirection> continueDirection = Optional.empty();
+	// --
 
-        public Builder withPosition(GeoJSONFeature<GeoJSONPoint> position) {
-            this.position = position;
-            return this;
-        }
+	public static RoadCrossingInstruction createMinimum(CoordinatePoint position) {
+		return new RoadCrossingInstruction().setPosition(position);
+	}
 
-        public Builder withPreviewTriggerPosition(GeoJSONFeature<GeoJSONPoint> previewTriggerPosition) {
-            this.previewTriggerPosition = Optional.ofNullable(previewTriggerPosition);
-            return this;
-        }
+	@Override
+	public void validate() {
+		super.validate();
+	}
 
-        public Builder withConfirmationTriggerPosition(GeoJSONFeature<GeoJSONPoint> confirmationTriggerPosition) {
-            this.confirmationTriggerPosition = Optional.ofNullable(confirmationTriggerPosition);
-            return this;
-        }
-
-        public Builder withText(Map<String, String> text) {
-            this.text = ImmutableSortedMap.copyOf(text);
-            return this;
-        }
-
-        public Builder withAdditionalInfo(Map<String, Object> additionalInfo) {
-            this.additionalInfo = ImmutableSortedMap.copyOf(additionalInfo);
-            return this;
-        }
-
-        public Builder withCrossingInfrastructure(String crossingInfrastructure) {
-            this.crossingInfrastructure = Optional.ofNullable(crossingInfrastructure);
-            return this;
-        }
-
-        public Builder withContinueDirection(ContinueDirection continueDirection) {
-            this.continueDirection = Optional.ofNullable(continueDirection);
-            return this;
-        }
-
-        public RoadCrossingInstruction build() {
-            validate();
-            return new RoadCrossingInstruction(this);
-        }
-
-        private void validate() {
-            Preconditions.checkArgument(position != null, "position is mandatory but missing");
-        }
-    }
+	@Override
+	public String toString() {
+		return super.toString() + " -> RoadCrossingInstruction [crossingInfrastructure=" + crossingInfrastructure
+				+ ", continueDirection=" + continueDirection + "]";
+	}
 
 }
