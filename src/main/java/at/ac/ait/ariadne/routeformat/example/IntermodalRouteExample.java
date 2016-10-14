@@ -211,7 +211,7 @@ public class IntermodalRouteExample {
     }
 
     private RouteFormatRoot createRouteFormatRoot() throws JsonGenerationException, JsonMappingException, IOException {
-        return RouteFormatRoot.builder().withRouteFormatVersion("0.14-SNAPSHOT").withRequestId("999")
+        return RouteFormatRoot.builder().withRouteFormatVersion("X.Y-UNKNOWN").withRequestId("999")
                 .withProcessedTimeNow().withStatus(Status.OK).withDebugMessage("Route calculated in 0.002 seconds")
                 .withCoordinateReferenceSystem("EPSG:4326").withRequest(createRoutingRequest())
                 .withRoutes(

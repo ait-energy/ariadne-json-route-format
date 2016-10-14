@@ -11,39 +11,47 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 import com.fasterxml.jackson.module.jsonSchema.factories.SchemaFactoryWrapper;
+import com.kjetland.jackson.jsonSchema.JsonSchemaGenerator;
 
 import at.ac.ait.ariadne.routeformat.Constants.Status;
 import at.ac.ait.ariadne.routeformat.RouteFormatRoot;
+import scala.Option;
 
 /**
  * We use the "Data Binding" method of Jackson (to map POJOs to JSON).
  * <p>
- * <b>Note:</b> unfortunately the Jackson Schema generator does not export "defaultValue=*" and does not allow
- * specification of minItems, maxItems,.. Let's omit this information for now.
+ * <b>Note:</b> unfortunately the Jackson v3 Schema generator did not export
+ * "defaultValue=*" and does not allow specification of minItems, maxItems,.. so
+ * we did not add this information. Maybe let's do that in the future.
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */
 public class JacksonExample {
 
-	public static final String schemaFile = "src/main/resources/ariadne-json-route-format_schema.json";
+	public static final String schema3File = "src/main/resources/ariadne-json-route-format_schema_v3.json";
+	public static final String schema4File = "src/main/resources/ariadne-json-route-format_schema_v4.json";
 	public static final String exampleFile = "src/main/resources/ariadne-json-route-format_example.json";
+
+	private ObjectMapper mapper;
+
+	public JacksonExample() {
+		mapper = new ObjectMapper();
+		mapper.findAndRegisterModules();
+		mapper.enable(SerializationFeature.INDENT_OUTPUT);
+	}
 
 	public static void main(String[] args) throws JsonGenerationException, JsonMappingException, IOException {
 		JacksonExample main = new JacksonExample();
 		main.writeExampleJson();
 		main.readExampleJson();
-		main.writeSchema();
+		main.writeSchemav3();
+		// main.writeSchemav4();
 	}
 
 	public void writeExampleJson() throws JsonGenerationException, JsonMappingException, IOException {
 		RouteFormatRoot root = new IntermodalRouteExample().getRouteFormatRoot();
-
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.findAndRegisterModules();
-		mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
 		System.out.println(mapper.writeValueAsString(root));
 		System.out.println("##########");
@@ -51,9 +59,6 @@ public class JacksonExample {
 	}
 
 	public void readExampleJson() throws JsonParseException, JsonMappingException, IOException {
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.registerModule(new Jdk8Module());
-
 		// variant 1 - data binding
 		RouteFormatRoot root = mapper.readValue(new File(exampleFile), RouteFormatRoot.class);
 		Status status = root.getStatus();
@@ -73,19 +78,25 @@ public class JacksonExample {
 		System.out.println("##########");
 	}
 
-	public void writeSchema() throws JsonGenerationException, IOException {
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.findAndRegisterModules();
-		mapper.enable(SerializationFeature.INDENT_OUTPUT);
-
+	public void writeSchemav3() throws JsonGenerationException, IOException {
 		SchemaFactoryWrapper visitor = new SchemaFactoryWrapper();
 		mapper.acceptJsonFormatVisitor(mapper.constructType(RouteFormatRoot.class), visitor);
 		JsonSchema jsonSchema = visitor.finalSchema();
-		jsonSchema.set$schema("http://json-schema.org/draft-04/schema#");
+		// jsonSchema.set$schema("http://json-schema.org/draft-04/schema#");
 
 		System.out.println(mapper.writeValueAsString(jsonSchema));
 		System.out.println("##########");
-		mapper.writeValue(new File(schemaFile), jsonSchema);
+		mapper.writeValue(new File(schema3File), jsonSchema);
+	}
+
+	public void writeSchemav4() throws JsonGenerationException, IOException {
+		JsonSchemaGenerator jsonSchemaGenerator = new JsonSchemaGenerator(mapper);
+		Option<String> emtpyOption = Option.empty();
+		JsonNode jsonSchema = jsonSchemaGenerator.generateJsonSchema(RouteFormatRoot.class, emtpyOption, emtpyOption);
+
+		System.out.println(mapper.writeValueAsString(jsonSchema));
+		System.out.println("##########");
+		mapper.writeValue(new File(schema4File), jsonSchema);
 	}
 
 }
