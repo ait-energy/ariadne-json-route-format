@@ -5,6 +5,8 @@ import java.util.Optional;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import at.ac.ait.ariadne.routeformat.Constants.ContinueDirection;
+import at.ac.ait.ariadne.routeformat.Constants.CrossingInfrastructure;
 import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
 
 /**
@@ -35,50 +37,46 @@ import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
 @JsonInclude(Include.NON_EMPTY)
 public class RoadCrossingInstruction extends Instruction<RoadCrossingInstruction> {
 
-	public enum ContinueDirection {
-		SAME, OPPOSITE
-	}
+    private Optional<CrossingInfrastructure> crossingInfrastructure = Optional.empty();
+    private Optional<ContinueDirection> continueDirection = Optional.empty();
 
-	private Optional<String> crossingInfrastructure = Optional.empty();
-	private Optional<ContinueDirection> continueDirection = Optional.empty();
+    // -- getters
 
-	// -- getters
+    public Optional<CrossingInfrastructure> getCrossingInfrastructure() {
+        return crossingInfrastructure;
+    }
 
-	public Optional<String> getCrossingInfrastructure() {
-		return crossingInfrastructure;
-	}
+    public Optional<ContinueDirection> getContinueDirection() {
+        return continueDirection;
+    }
 
-	public Optional<ContinueDirection> getContinueDirection() {
-		return continueDirection;
-	}
+    // -- setters
 
-	// -- setters
+    public RoadCrossingInstruction setCrossingInfrastructure(CrossingInfrastructure crossingInfrastructure) {
+        this.crossingInfrastructure = Optional.ofNullable(crossingInfrastructure);
+        return this;
+    }
 
-	public RoadCrossingInstruction setCrossingInfrastructure(String crossingInfrastructure) {
-		this.crossingInfrastructure = Optional.ofNullable(crossingInfrastructure);
-		return this;
-	}
+    public RoadCrossingInstruction setContinueDirection(ContinueDirection continueDirection) {
+        this.continueDirection = Optional.ofNullable(continueDirection);
+        return this;
+    }
 
-	public RoadCrossingInstruction setContinueDirection(ContinueDirection continueDirection) {
-		this.continueDirection = Optional.ofNullable(continueDirection);
-		return this;
-	}
+    // --
 
-	// --
+    public static RoadCrossingInstruction createMinimum(CoordinatePoint position) {
+        return new RoadCrossingInstruction().setPosition(position);
+    }
 
-	public static RoadCrossingInstruction createMinimum(CoordinatePoint position) {
-		return new RoadCrossingInstruction().setPosition(position);
-	}
+    @Override
+    public void validate() {
+        super.validate();
+    }
 
-	@Override
-	public void validate() {
-		super.validate();
-	}
-
-	@Override
-	public String toString() {
-		return super.toString() + " -> RoadCrossingInstruction [crossingInfrastructure=" + crossingInfrastructure
-				+ ", continueDirection=" + continueDirection + "]";
-	}
+    @Override
+    public String toString() {
+        return super.toString() + " -> RoadCrossingInstruction [crossingInfrastructure=" + crossingInfrastructure
+                + ", continueDirection=" + continueDirection + "]";
+    }
 
 }

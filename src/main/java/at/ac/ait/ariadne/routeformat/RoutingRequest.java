@@ -192,8 +192,8 @@ public class RoutingRequest {
     }
 
     /**
-     * @return the preferred language of the user. E.g. street or POI names can
-     *         be provided in this language if available
+     * @return the preferred language of the user. E.g. navigation instructions,
+     *         street or POI names are provided in this language if available
      */
     public Optional<String> getLanguage() {
         return language;

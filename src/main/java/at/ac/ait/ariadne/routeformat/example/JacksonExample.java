@@ -17,6 +17,7 @@ import com.kjetland.jackson.jsonSchema.JsonSchemaGenerator;
 
 import at.ac.ait.ariadne.routeformat.Constants.Status;
 import at.ac.ait.ariadne.routeformat.RouteFormatRoot;
+import at.ac.ait.ariadne.routeformat.instruction.Instruction;
 import scala.Option;
 
 /**
@@ -47,7 +48,7 @@ public class JacksonExample {
 		main.writeExampleJson();
 		main.readExampleJson();
 		main.writeSchemav3();
-		// main.writeSchemav4();
+		 main.writeSchemav4();
 	}
 
 	public void writeExampleJson() throws JsonGenerationException, JsonMappingException, IOException {
@@ -90,9 +91,10 @@ public class JacksonExample {
 	}
 
 	public void writeSchemav4() throws JsonGenerationException, IOException {
+		// FIXME not working yet, StackOverFlowError
 		JsonSchemaGenerator jsonSchemaGenerator = new JsonSchemaGenerator(mapper);
 		Option<String> emtpyOption = Option.empty();
-		JsonNode jsonSchema = jsonSchemaGenerator.generateJsonSchema(RouteFormatRoot.class, emtpyOption, emtpyOption);
+		JsonNode jsonSchema = jsonSchemaGenerator.generateJsonSchema(Instruction.class, emtpyOption, emtpyOption);
 
 		System.out.println(mapper.writeValueAsString(jsonSchema));
 		System.out.println("##########");

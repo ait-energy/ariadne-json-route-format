@@ -212,7 +212,7 @@ public class BasicRoadInstruction extends Instruction<BasicRoadInstruction> {
 	}
 
 	/**
-	 * either street name or form of way must be present
+	 * either street name or form of way (of the destination) must be present
 	 */
 	public static BasicRoadInstruction createMinimumRouteEnd(CoordinatePoint position, Optional<String> ontoStreetName,
 			Optional<FormOfWay> ontoFormOfWay) {
