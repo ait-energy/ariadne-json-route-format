@@ -48,7 +48,7 @@ public class JacksonExample {
 		main.writeExampleJson();
 		main.readExampleJson();
 		main.writeSchemav3();
-		 main.writeSchemav4();
+		// main.writeSchemav4();
 	}
 
 	public void writeExampleJson() throws JsonGenerationException, JsonMappingException, IOException {
@@ -91,7 +91,7 @@ public class JacksonExample {
 	}
 
 	public void writeSchemav4() throws JsonGenerationException, IOException {
-		// FIXME not working yet, StackOverFlowError
+		// FIXME not working yet, Wrong class error
 		JsonSchemaGenerator jsonSchemaGenerator = new JsonSchemaGenerator(mapper);
 		Option<String> emtpyOption = Option.empty();
 		JsonNode jsonSchema = jsonSchemaGenerator.generateJsonSchema(Instruction.class, emtpyOption, emtpyOption);
