@@ -23,7 +23,6 @@ import at.ac.ait.ariadne.routeformat.ModeOfTransport;
 import at.ac.ait.ariadne.routeformat.RouteSegment;
 import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
-import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPoint;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPolygon;
 import at.ac.ait.ariadne.routeformat.location.Location;
 
@@ -78,9 +77,8 @@ public class Utils {
         return motSet;
     }
 
-    public static Location createLocation(double latitude, double longitude) {
-        GeoJSONFeature<GeoJSONPoint> point = GeoJSONFeature.newPointFeature(new CoordinatePoint(longitude, latitude));
-        return Location.builder().withCoordinate(point).build();
+    public static Location<?> createLocation(double latitude, double longitude) {
+        return Location.createMinimum(new CoordinatePoint(longitude, latitude));
     }
 
     public static String getJsonString(Object object) throws JsonProcessingException {

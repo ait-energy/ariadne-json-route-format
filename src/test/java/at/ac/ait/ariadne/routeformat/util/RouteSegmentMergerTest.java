@@ -18,30 +18,21 @@ import at.ac.ait.ariadne.routeformat.location.Location;
 
 public class RouteSegmentMergerTest {
 
-	private static Location adalbertStifterStrasse15, treustrasse92, treustrasse84, gaussplatz;
+	private static Location<?> adalbertStifterStrasse15, treustrasse92, treustrasse84, gaussplatz;
 
 	@BeforeClass
 	public static void initialise() {
-		adalbertStifterStrasse15 = Location.builder()
-				.withCoordinate(GeoJSONFeature.newPointFeature(new CoordinatePoint(16.3655, 48.23752)))
-				.withAddress(Address.builder().withStreetName("Adalbert-Stifter-Straße").withHouseNumber("15").build())
-				.build();
+		adalbertStifterStrasse15 = Location.createMinimum(new CoordinatePoint(16.3655, 48.23752))
+				.setAddress(new Address().setStreetName("Adalbert-Stifter-Straße").setHouseNumber("15"));
 
-		treustrasse92 = Location.builder()
-				.withCoordinate(GeoJSONFeature.newPointFeature(new CoordinatePoint(16.36329, 48.234077)))
-				.withAddress(Address.builder().withStreetName("Treustraße").withHouseNumber("92").withPostCode("1200")
-						.build())
-				.build();
+		treustrasse92 = Location.createMinimum(new CoordinatePoint(16.36329, 48.234077))
+				.setAddress(new Address().setStreetName("Treustraße").setHouseNumber("92").setPostCode("1200"));
 
-		treustrasse84 = Location.builder()
-				.withCoordinate(GeoJSONFeature.newPointFeature(new CoordinatePoint(16.36369, 48.23348)))
-				.withAddress(Address.builder().withStreetName("Treustraße").withHouseNumber("84").withPostCode("1200")
-						.build())
-				.build();
+		treustrasse84 = Location.createMinimum(new CoordinatePoint(16.36369, 48.23348))
+				.setAddress(new Address().setStreetName("Treustraße").setHouseNumber("84").setPostCode("1200"));
 
-		gaussplatz = Location.builder()
-				.withCoordinate(GeoJSONFeature.newPointFeature(new CoordinatePoint(16.369045, 48.2267)))
-				.withAddress(Address.builder().withStreetName("Gaußplatz").build()).build();
+		gaussplatz = Location.createMinimum(new CoordinatePoint(16.369045, 48.2267))
+				.setAddress(new Address().setStreetName("Gaußplatz"));
 	}
 
 	@Test
@@ -59,8 +50,7 @@ public class RouteSegmentMergerTest {
 		Assert.assertEquals(1, mergedSegments.size());
 		RouteSegment merged = mergedSegments.get(0);
 		Assert.assertEquals(1, merged.getNr());
-		Assert.assertEquals("2016-01-01T15:34:10",
-				Utils.getShortStringDateTime(merged.getStartTimeAsZonedDateTime()));
+		Assert.assertEquals("2016-01-01T15:34:10", Utils.getShortStringDateTime(merged.getStartTimeAsZonedDateTime()));
 		Assert.assertEquals("2016-01-01T15:45:00", Utils.getShortStringDateTime(merged.getEndTimeAsZonedDateTime()));
 		Assert.assertEquals(10 * 60 + 50, merged.getDurationSeconds());
 		Assert.assertEquals("sum of boarding of all segments + waiting inbetween", 120 + 124,
@@ -84,8 +74,7 @@ public class RouteSegmentMergerTest {
 		// first segment must be prolonged
 		RouteSegment first = mergedSegments.get(0);
 		Assert.assertEquals(1, first.getNr());
-		Assert.assertEquals("2016-01-01T15:34:10",
-				Utils.getShortStringDateTime(first.getStartTimeAsZonedDateTime()));
+		Assert.assertEquals("2016-01-01T15:34:10", Utils.getShortStringDateTime(first.getStartTimeAsZonedDateTime()));
 		Assert.assertEquals("one additional minute added", "2016-01-01T15:38:56",
 				Utils.getShortStringDateTime(first.getEndTimeAsZonedDateTime()));
 		Assert.assertEquals(4 * 60 + 46, first.getDurationSeconds());
@@ -96,8 +85,7 @@ public class RouteSegmentMergerTest {
 		// left after prolonging the first segment
 		RouteSegment second = mergedSegments.get(1);
 		Assert.assertEquals(2, second.getNr());
-		Assert.assertEquals("2016-01-01T15:38:56",
-				Utils.getShortStringDateTime(second.getStartTimeAsZonedDateTime()));
+		Assert.assertEquals("2016-01-01T15:38:56", Utils.getShortStringDateTime(second.getStartTimeAsZonedDateTime()));
 		Assert.assertEquals("2016-01-01T15:45:00", Utils.getShortStringDateTime(second.getEndTimeAsZonedDateTime()));
 		Assert.assertEquals(64 + (180 + 60 * 2), second.getDurationSeconds());
 		Assert.assertEquals(64 + 60, (int) second.getBoardingSeconds().get());
@@ -115,8 +103,7 @@ public class RouteSegmentMergerTest {
 		List<RouteSegment> mergedSegments = merger.createMergedSegments();
 
 		RouteSegment first = mergedSegments.get(0);
-		Assert.assertEquals("2016-01-01T15:34:10",
-				Utils.getShortStringDateTime(first.getStartTimeAsZonedDateTime()));
+		Assert.assertEquals("2016-01-01T15:34:10", Utils.getShortStringDateTime(first.getStartTimeAsZonedDateTime()));
 		Assert.assertEquals("2016-01-01T15:37:56", Utils.getShortStringDateTime(first.getEndTimeAsZonedDateTime()));
 		RouteSegment second = mergedSegments.get(1);
 		Assert.assertEquals("there must be zero gap to the first segment", "2016-01-01T15:37:56",

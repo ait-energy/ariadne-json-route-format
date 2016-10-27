@@ -4,76 +4,55 @@ import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.google.common.base.Preconditions;
 
-import at.ac.ait.ariadne.routeformat.location.PointOfInterest.Builder2;
+import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
 
 /**
  * @author AIT Austrian Institute of Technology GmbH
  */
-@JsonDeserialize(builder = Builder2.class)
 @JsonInclude(Include.NON_EMPTY)
-public class PointOfInterest extends Location {
+public class PointOfInterest extends Location<PointOfInterest> {
 
-    private final Optional<String> poiType;
-    private final Optional<String> name;
+	private Optional<String> poiType = Optional.empty();
+	private Optional<String> name = Optional.empty();
 
-    public Optional<String> getPoiType() {
-        return poiType;
-    }
+	// -- getters
 
-    public Optional<String> getName() {
-        return name;
-    }
+	public Optional<String> getPoiType() {
+		return poiType;
+	}
 
-    public PointOfInterest(Builder<?> builder) {
-        super(builder);
-        this.poiType = builder.poiType;
-        this.name = builder.name;
-    }
+	public Optional<String> getName() {
+		return name;
+	}
 
-    public static Builder<?> builder() {
-        return new Builder2();
-    }
+	// -- setters
 
-    @Override
-    public String toString() {
-        return "PointOfInterest [poiType=" + poiType + ", name=" + name + ", address=" + getAddress() + "]";
-    }
+	public PointOfInterest setPoiType(String poiType) {
+		this.poiType = Optional.ofNullable(poiType);
+		return this;
+	}
 
-    public static abstract class Builder<T extends Builder<T>> extends Location.Builder<T> {
-        private Optional<String> poiType = Optional.empty();
-        private Optional<String> name = Optional.empty();
+	public PointOfInterest setName(String name) {
+		this.name = Optional.ofNullable(name);
+		return this;
+	}
 
-        public T withPoiType(String poiType) {
-            this.poiType = Optional.ofNullable(poiType);
-            return self();
-        }
+	// --
 
-        public T withName(String name) {
-            this.name = Optional.ofNullable(name);
-            return self();
-        }
+	public static PointOfInterest createMinimum(CoordinatePoint position) {
+		return new PointOfInterest().setCoordinate(position);
+	}
 
-        public PointOfInterest build() {
-            validate();
-            return new PointOfInterest(this);
-        }
+	@Override
+	public void validate() {
+		super.validate();
+		// no other requirements
+	}
 
-        void validate() {
-            super.validate();
-            Preconditions.checkArgument(poiType != null || name != null,
-                    "at least of these attributes must be set: name, poiType");
-        }
-
-    }
-
-    static class Builder2 extends Builder<Builder2> {
-        @Override
-        protected Builder2 self() {
-            return this;
-        }
-    }
+	@Override
+	public String toString() {
+		return "PointOfInterest [poiType=" + poiType + ", name=" + name + ", address=" + getAddress() + "]";
+	}
 
 }

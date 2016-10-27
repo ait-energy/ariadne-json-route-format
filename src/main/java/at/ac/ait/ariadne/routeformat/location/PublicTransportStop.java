@@ -1,20 +1,20 @@
 package at.ac.ait.ariadne.routeformat.location;
 
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.TreeMap;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSortedMap;
+import com.google.common.collect.Lists;
 
 import at.ac.ait.ariadne.routeformat.Constants;
 import at.ac.ait.ariadne.routeformat.Constants.DetailedModeOfTransportType;
 import at.ac.ait.ariadne.routeformat.RouteSegment;
-import at.ac.ait.ariadne.routeformat.location.PublicTransportStop.Builder2;
+import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
 
 /**
  * A {@link PublicTransportStop} is used in two contexts: as from or to position
@@ -26,99 +26,78 @@ import at.ac.ait.ariadne.routeformat.location.PublicTransportStop.Builder2;
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */
-@JsonDeserialize(builder = Builder2.class)
 @JsonInclude(Include.NON_EMPTY)
-public class PublicTransportStop extends Location {
+public class PublicTransportStop extends Location<PublicTransportStop> {
 
-    private final Optional<String> name;
-    private final Optional<String> platform;
-    private final Map<String, DetailedModeOfTransportType> relatedLines;
-    private final List<Constants.Accessibility> accessibility;
+	private Optional<String> name = Optional.empty();
+	private Optional<String> platform = Optional.empty();
+	private Map<String, DetailedModeOfTransportType> relatedLines = new HashMap<>();
+	private List<Constants.Accessibility> accessibility = new ArrayList<>();
 
-    public PublicTransportStop(Builder<?> builder) {
-        super(builder);
-        this.name = builder.name;
-        this.platform = builder.platform;
-        this.relatedLines = builder.relatedLines;
-        this.accessibility = builder.accessibility;
-    }
+	// -- getters
 
-    public Optional<String> getName() {
-        return name;
-    }
+	public Optional<String> getName() {
+		return name;
+	}
 
-    /**
-     * @return name of the platform the user is arriving to / departing from
-     */
-    public Optional<String> getPlatform() {
-        return platform;
-    }
+	/**
+	 * @return name of the platform the user is arriving to / departing from
+	 */
+	public Optional<String> getPlatform() {
+		return platform;
+	}
 
-    /**
-     * @return public transport lines the user can change to at this stop
-     *         (detailed public transport type and name, which may be an empty
-     *         string)
-     */
-    public Map<String, DetailedModeOfTransportType> getRelatedLines() {
-        return relatedLines;
-    }
+	/**
+	 * @return public transport lines the user can change to at this stop
+	 *         (detailed public transport type and name, which may be an empty
+	 *         string)
+	 */
+	public Map<String, DetailedModeOfTransportType> getRelatedLines() {
+		return relatedLines;
+	}
 
-    public List<Constants.Accessibility> getAccessibility() {
-        return accessibility;
-    }
+	public List<Constants.Accessibility> getAccessibility() {
+		return accessibility;
+	}
 
-    public static Builder<?> builder() {
-        return new Builder2();
-    }
+	// -- setters
 
-    @Override
-    public String toString() {
-        return "PublicTransportStop [name=" + name + ", platform=" + platform + ", relatedLines=" + relatedLines
-                + ", accessibility=" + accessibility + "]";
-    }
+	public PublicTransportStop setName(String name) {
+		this.name = Optional.ofNullable(name);
+		return this;
+	}
 
-    public static abstract class Builder<T extends Builder<T>> extends Location.Builder<T> {
-        private Optional<String> name = Optional.empty();
-        private Optional<String> platform = Optional.empty();
-        private Map<String, DetailedModeOfTransportType> relatedLines = Collections.emptyMap();
-        private List<Constants.Accessibility> accessibility = Collections.emptyList();
+	public PublicTransportStop setPlatform(String platform) {
+		this.platform = Optional.ofNullable(platform);
+		return this;
+	}
 
-        public T withName(String name) {
-            this.name = Optional.ofNullable(name);
-            return self();
-        }
+	public PublicTransportStop setRelatedLines(Map<String, DetailedModeOfTransportType> relatedLines) {
+		this.relatedLines = new TreeMap<>(relatedLines);
+		return this;
+	}
 
-        public T withPlatform(String platform) {
-            this.platform = Optional.ofNullable(platform);
-            return self();
-        }
+	public PublicTransportStop setAccessibility(List<Constants.Accessibility> accessibility) {
+		this.accessibility = Lists.newArrayList(accessibility);
+		return this;
+	}
 
-        public T withRelatedLines(Map<String, DetailedModeOfTransportType> relatedLines) {
-            this.relatedLines = ImmutableSortedMap.copyOf(relatedLines);
-            return self();
-        }
+	// --
 
-        public T withAccessibility(List<Constants.Accessibility> accessibility) {
-            this.accessibility = ImmutableList.copyOf(accessibility);
-            return self();
-        }
+	public static PublicTransportStop createMinimum(CoordinatePoint position) {
+		return new PublicTransportStop().setCoordinate(position);
+	}
 
-        public PublicTransportStop build() {
-            validate();
-            return new PublicTransportStop(this);
-        }
+	@Override
+	public void validate() {
+		super.validate();
+		// no other requirements
+	}
 
-        void validate() {
-            super.validate();
-        }
-
-    }
-
-    static class Builder2 extends Builder<Builder2> {
-        @Override
-        protected Builder2 self() {
-            return this;
-        }
-    }
+	@Override
+	public String toString() {
+		return "PublicTransportStop [name=" + name + ", platform=" + platform + ", relatedLines=" + relatedLines
+				+ ", accessibility=" + accessibility + "]";
+	}
 
 }

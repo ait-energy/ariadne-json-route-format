@@ -10,7 +10,7 @@ A simple example how to display a route in a browser with Leaflet is shown in `s
 
 ## Coding Style
 - implicit public constructor without arguments (used by jackson for deserialization)
-- static createXY methods as shortcuts for building typical instances
+- static `createXY()` methods as shortcuts for building minimum (or typically used) instances
 - all members are private and mutable
     - initialization of complex types when they are defined and so that they are mutable (i.e. `new HashMap<>()` instead of `Collections.emptyMap()`)
 - getter methods for all members (used by jackson for serialization)
@@ -38,6 +38,6 @@ Everything in this repository is licensed under CC0.
 - reevaluate handling of waiting times (in transfer segments? in pt segments?)
 
 ### Currently we are working on
-- consistent mutability & "light builders" (missing for everything except navigation instructions)
+- consistent mutability & "light builders"
 - meaningful toString-methods for all classes
 - v4 schema generation

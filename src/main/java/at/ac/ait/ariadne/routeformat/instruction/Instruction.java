@@ -4,7 +4,6 @@ import java.util.Map;
 import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -38,7 +37,6 @@ public abstract class Instruction<T extends Instruction<T>> implements Validatab
 	/**
 	 * @return the position the instruction is defined for
 	 */
-	@JsonProperty
 	public GeoJSONFeature<GeoJSONPoint> getPosition() {
 		return position;
 	}
@@ -47,7 +45,6 @@ public abstract class Instruction<T extends Instruction<T>> implements Validatab
 	 * @return a position where, during on-trip navigation, a first instruction
 	 *         could be presented to the user
 	 */
-	@JsonProperty
 	public Optional<GeoJSONFeature<GeoJSONPoint>> getPreviewTriggerPosition() {
 		return previewTriggerPosition;
 	}
@@ -56,7 +53,6 @@ public abstract class Instruction<T extends Instruction<T>> implements Validatab
 	 * @return a position after the maneuver, where, during on-trip navigation,
 	 *         a confirmation message could be presented to the user
 	 */
-	@JsonProperty
 	public Optional<GeoJSONFeature<GeoJSONPoint>> getConfirmationTriggerPosition() {
 		return confirmationTriggerPosition;
 	}
