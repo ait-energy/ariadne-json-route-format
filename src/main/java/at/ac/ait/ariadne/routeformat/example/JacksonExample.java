@@ -23,9 +23,13 @@ import scala.Option;
 /**
  * We use the "Data Binding" method of Jackson (to map POJOs to JSON).
  * <p>
- * <b>Note:</b> unfortunately the Jackson v3 Schema generator did not export
+ * <b>Note:</b>
+ * <ul>
+ * <li>unfortunately the Jackson v3 Schema generator did not export
  * "defaultValue=*" and does not allow specification of minItems, maxItems,.. so
- * we did not add this information. Maybe let's do that in the future.
+ * we did not add this information. Maybe let's do that in the future.</li>
+ * <li>The v4 schema export is not working yet</li>
+ * </ul>
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */

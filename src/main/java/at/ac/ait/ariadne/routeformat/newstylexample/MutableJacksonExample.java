@@ -25,7 +25,7 @@ import scala.Option;
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */
-public class MutableJacksonExample {
+class MutableJacksonExample {
 
 	public static final String schema4File = "src/main/resources/ariadne-json-route-format_schema_v4.json";
 	public static final String exampleFile = "src/main/resources/all-new-example.json";

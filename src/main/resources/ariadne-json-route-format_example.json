@@ -1,7 +1,7 @@
 {
-  "routeFormatVersion" : "0.14-SNAPSHOT",
+  "routeFormatVersion" : "X.Y-UNKNOWN",
   "requestId" : "999",
-  "processedTime" : "2016-10-12T14:32:42.705+02:00[Europe/Vienna]",
+  "processedTime" : "2016-10-27T14:38:32.543+02:00[Europe/Vienna]",
   "status" : "OK",
   "debugMessage" : "Route calculated in 0.002 seconds",
   "coordinateReferenceSystem" : "EPSG:4326",

@@ -1,6 +1,6 @@
 package at.ac.ait.ariadne.routeformat.newstylexample;
 
-public class DetailedMutableJsonClass extends MutableJsonClass {
+class DetailedMutableJsonClass extends MutableJsonClass {
 
 	private String anotherDetail;
 

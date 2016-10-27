@@ -17,7 +17,7 @@ import at.ac.ait.ariadne.routeformat.Validatable;
 @JsonSubTypes({ @JsonSubTypes.Type(value = MutableJsonClass.class, name = "MutableJsonClass"),
 		@JsonSubTypes.Type(value = DetailedMutableJsonClass.class, name = "DetailedMutableJsonClass") })
 @JsonInclude(Include.NON_EMPTY)
-public class MutableJsonClass implements Validatable {
+class MutableJsonClass implements Validatable {
 
 	public enum SomeEnum {
 		SAME, OPPOSITE
