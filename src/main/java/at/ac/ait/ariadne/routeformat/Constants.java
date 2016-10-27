@@ -149,6 +149,14 @@ public class Constants {
     public enum Preposition {
         BEFORE, AT, AFTER, TOWARDS, THROUGH, ALONG, PAST
     }
+    
+    public enum ContinueDirection {
+        SAME, OPPOSITE
+    }
+    
+    public enum CrossingInfrastructure {
+    	TRAFFIC_LIGHT, ZEBRA_CROSSING, BICYCLE_CROSSING
+    }
 
     public enum Status {
         /**
