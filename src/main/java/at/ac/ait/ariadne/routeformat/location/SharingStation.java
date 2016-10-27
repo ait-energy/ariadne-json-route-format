@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 
 import at.ac.ait.ariadne.routeformat.Constants.GeneralizedModeOfTransportType;
 import at.ac.ait.ariadne.routeformat.Operator;
@@ -60,7 +60,7 @@ public class SharingStation extends Location<SharingStation> {
 	}
 
 	public SharingStation setModesOfTransport(List<GeneralizedModeOfTransportType> modesOfTransport) {
-		this.modesOfTransport = ImmutableList.copyOf(modesOfTransport);
+		this.modesOfTransport = Lists.newArrayList(modesOfTransport);
 		return this;
 	}
 

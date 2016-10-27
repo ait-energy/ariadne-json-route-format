@@ -2,13 +2,13 @@ package at.ac.ait.ariadne.routeformat.instruction;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.TreeMap;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Maps;
 
 import at.ac.ait.ariadne.routeformat.Validatable;
 import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
@@ -29,8 +29,8 @@ public abstract class Instruction<T extends Instruction<T>> implements Validatab
 	private GeoJSONFeature<GeoJSONPoint> position;
 	private Optional<GeoJSONFeature<GeoJSONPoint>> previewTriggerPosition = Optional.empty();
 	private Optional<GeoJSONFeature<GeoJSONPoint>> confirmationTriggerPosition = Optional.empty();
-	private Map<String, String> text = Maps.newHashMap();
-	private Map<String, Object> additionalInfo = Maps.newHashMap();
+	private Map<String, String> text = new TreeMap<>();
+	private Map<String, Object> additionalInfo = new TreeMap<>();
 
 	// -- getters
 
@@ -116,13 +116,13 @@ public abstract class Instruction<T extends Instruction<T>> implements Validatab
 
 	@SuppressWarnings("unchecked")
 	public T setText(Map<String, String> text) {
-		this.text = Maps.newHashMap(text);
+		this.text = new TreeMap<>(text);
 		return (T) this;
 	}
 
 	@SuppressWarnings("unchecked")
 	public T setAdditionalInfo(Map<String, Object> additionalInfo) {
-		this.additionalInfo = Maps.newHashMap(additionalInfo);
+		this.additionalInfo = new TreeMap<>(additionalInfo);
 		return (T) this;
 	}
 

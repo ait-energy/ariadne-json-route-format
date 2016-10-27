@@ -25,8 +25,8 @@ public class RequestModeOfTransportTest {
 				.withModeOfTransport(ModeOfTransport.STANDARD_FOOT).withAdditionalInfo(additionalInfo).build();
 
 		additionalInfo = ImmutableMap.of("preferParks", true);
-		ModeOfTransport bicycleMot = ModeOfTransport.builder().withDetailedType(DetailedModeOfTransportType.BICYCLE)
-				.withElectric(true).withId("My fast Rotwild bicycle").build();
+		ModeOfTransport bicycleMot = ModeOfTransport.createMinimal(DetailedModeOfTransportType.BICYCLE)
+				.setElectric(true).setId("My fast Rotwild bicycle");
 		RequestModeOfTransport bicycle = RequestModeOfTransport.builder().withModeOfTransport(bicycleMot)
 				.withLocations(Arrays.asList(location)).withAdditionalInfo(additionalInfo).build();
 

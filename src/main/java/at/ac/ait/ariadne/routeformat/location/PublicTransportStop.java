@@ -1,7 +1,6 @@
 package at.ac.ait.ariadne.routeformat.location;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -31,7 +30,7 @@ public class PublicTransportStop extends Location<PublicTransportStop> {
 
 	private Optional<String> name = Optional.empty();
 	private Optional<String> platform = Optional.empty();
-	private Map<String, DetailedModeOfTransportType> relatedLines = new HashMap<>();
+	private Map<String, DetailedModeOfTransportType> relatedLines = new TreeMap<>();
 	private List<Constants.Accessibility> accessibility = new ArrayList<>();
 
 	// -- getters

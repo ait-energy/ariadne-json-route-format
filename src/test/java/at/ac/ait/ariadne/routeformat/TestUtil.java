@@ -25,8 +25,7 @@ public class TestUtil {
 	public static final String END_TIME = "2007-12-03T10:16:30+01:00";
 	public static final Location<?> FROM = Location.createMinimum(new CoordinatePoint(16, 48));
 	public static final Location<?> TO = Location.createMinimum(new CoordinatePoint(16.01, 48.01));
-	public static final ModeOfTransport MODE_OF_TRANSPORT = ModeOfTransport.builder()
-			.withGeneralizedType(GeneralizedModeOfTransportType.BICYCLE).build();
+	public static final ModeOfTransport MODE_OF_TRANSPORT = ModeOfTransport.STANDARD_BICYCLE;
 	public static final GeoJSONFeature<GeoJSONLineString> GEOMETRY_GEOJSON = GeoJSONFeature
 			.newLineStringFeature(Arrays.asList(CoordinatePoint.fromGeoJSONPointFeature(FROM.getCoordinate()),
 					CoordinatePoint.fromGeoJSONPointFeature(TO.getCoordinate())));

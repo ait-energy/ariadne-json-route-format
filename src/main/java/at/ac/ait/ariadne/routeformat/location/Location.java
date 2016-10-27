@@ -1,8 +1,8 @@
 package at.ac.ait.ariadne.routeformat.location;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.TreeMap;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -11,7 +11,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableSortedMap;
 
 import at.ac.ait.ariadne.routeformat.RoutingRequest;
 import at.ac.ait.ariadne.routeformat.Validatable;
@@ -35,7 +34,7 @@ public class Location<T extends Location<T>> implements Validatable {
 	private GeoJSONFeature<GeoJSONPoint> coordinate;
 	private Optional<GeoJSONFeature<?>> complexGeometry = Optional.empty();
 	private Optional<Address> address = Optional.empty();
-	private Map<String, String> additionalInfo = new HashMap<>();
+	private Map<String, String> additionalInfo = new TreeMap<>();
 
 	// -- getters
 
@@ -99,7 +98,7 @@ public class Location<T extends Location<T>> implements Validatable {
 
 	@SuppressWarnings("unchecked")
 	public T setAdditionalInfo(Map<String, String> additionalInfo) {
-		this.additionalInfo = ImmutableSortedMap.copyOf(additionalInfo);
+		this.additionalInfo = new TreeMap<>(additionalInfo);
 		return (T) this;
 	}
 

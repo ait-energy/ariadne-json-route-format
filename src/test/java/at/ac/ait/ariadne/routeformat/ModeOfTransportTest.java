@@ -6,7 +6,6 @@ import org.junit.Test;
 import com.google.common.collect.ImmutableMap;
 
 import at.ac.ait.ariadne.routeformat.Constants.DetailedModeOfTransportType;
-import at.ac.ait.ariadne.routeformat.ModeOfTransport.Builder;
 
 public class ModeOfTransportTest {
 
@@ -14,24 +13,20 @@ public class ModeOfTransportTest {
 	public void equalsTest() {
 		Assert.assertTrue(ModeOfTransport.STANDARD_FOOT.equals(ModeOfTransport.STANDARD_FOOT));
 
-		Builder builder = ModeOfTransport.builder().withDetailedType(DetailedModeOfTransportType.FOOT);
-		Assert.assertTrue(ModeOfTransport.STANDARD_FOOT.equals(builder.build()));
+		ModeOfTransport mot = ModeOfTransport.createMinimal(DetailedModeOfTransportType.FOOT);
+		Assert.assertTrue(ModeOfTransport.STANDARD_FOOT.equals(mot));
 
-		builder.withAdditionalInfo(ImmutableMap.of("key", "value"));
-		Assert.assertFalse(ModeOfTransport.STANDARD_FOOT.equals(builder.build()));
-
-		ModeOfTransport a = builder.withAdditionalInfo(ImmutableMap.of("key", "value")).build();
-		ModeOfTransport b = builder.withAdditionalInfo(ImmutableMap.of("key", "value")).build();
-		Assert.assertTrue("equal contents of additionalInfo", a.equals(b));
+		mot.setAdditionalInfo(ImmutableMap.of("key", "value"));
+		Assert.assertFalse(ModeOfTransport.STANDARD_FOOT.equals(mot));
+		Assert.assertEquals("value", mot.getAdditionalInfo().get("key"));
 	}
 
 	@Test
 	public void equalsTestComplex() {
-		Builder builder = ModeOfTransport.builder().withDetailedType(DetailedModeOfTransportType.BUS);
-
-		ModeOfTransport a = builder.withOperator(createOperator()).withService(createService()).build();
-		ModeOfTransport b = builder.withOperator(createOperator()).withService(createService()).build();
-
+		ModeOfTransport a = ModeOfTransport.createMinimal(DetailedModeOfTransportType.BUS).setOperator(createOperator())
+				.setService(createService());
+		ModeOfTransport b = ModeOfTransport.createMinimal(DetailedModeOfTransportType.BUS).setOperator(createOperator())
+				.setService(createService());
 		Assert.assertTrue(a.equals(b));
 	}
 

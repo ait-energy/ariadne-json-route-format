@@ -15,6 +15,7 @@ import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import at.ac.ait.ariadne.routeformat.Constants.Accessibility;
 import at.ac.ait.ariadne.routeformat.Constants.AccessibilityRestriction;
@@ -98,18 +99,17 @@ public class IntermodalRouteExample {
 	}
 
 	private void initializeComplexModesOfTransport() {
-		wienerLinienMot = ModeOfTransport.builder().withGeneralizedType(GeneralizedModeOfTransportType.PUBLIC_TRANSPORT)
-				.withOperator(wienerLinienOperator).build();
+		wienerLinienMot = ModeOfTransport.createMinimal(GeneralizedModeOfTransportType.PUBLIC_TRANSPORT)
+				.setOperator(wienerLinienOperator);
 
-		citybikeMot = ModeOfTransport.builder().withDetailedType(DetailedModeOfTransportType.BICYCLE)
-				.withSharingType(Sharing.STATION_BOUND_VEHICLE_SHARING).withOperator(citybikeOperator).build();
+		citybikeMot = ModeOfTransport.createMinimal(DetailedModeOfTransportType.BICYCLE)
+				.setSharingType(Sharing.STATION_BOUND_VEHICLE_SHARING).setOperator(citybikeOperator);
 
-		car2goMot = ModeOfTransport.builder().withDetailedType(DetailedModeOfTransportType.CAR)
-				.withSharingType(Sharing.FREE_FLOATING_VEHICLE_SHARING).withElectric(true).withOperator(car2goOperator)
-				.build();
+		car2goMot = ModeOfTransport.createMinimal(DetailedModeOfTransportType.CAR)
+				.setSharingType(Sharing.FREE_FLOATING_VEHICLE_SHARING).setElectric(true).setOperator(car2goOperator);
 
-		flincMot = ModeOfTransport.builder().withDetailedType(DetailedModeOfTransportType.CAR)
-				.withSharingType(Sharing.RIDE_SHARING).withOperator(flincOperator).build();
+		flincMot = ModeOfTransport.createMinimal(DetailedModeOfTransportType.CAR).setSharingType(Sharing.RIDE_SHARING)
+				.setOperator(flincOperator);
 	}
 
 	private void initializeLocations() {
@@ -273,9 +273,9 @@ public class IntermodalRouteExample {
 				.withFrom(heinrichVonBuolGasseBusStop).withTo(floridsdorfBusStop).withDistanceMeters(2500)
 				.withDurationSeconds(60 * 10 + 30).withStartTime("2016-01-01T15:06:00+01:00")
 				.withEndTime("2016-01-01T15:16:30+01:00")
-				.withModeOfTransport(ModeOfTransport.builder().withDetailedType(DetailedModeOfTransportType.BUS)
-						.withAccessibility(Arrays.asList(VehicleAccessibility.HIGH_FLOOR_VEHICLE))
-						.withService(service28A).withOperator(wienerLinienOperator).build())
+				.withModeOfTransport(ModeOfTransport.createMinimal(DetailedModeOfTransportType.BUS)
+						.setAccessibility(Sets.newHashSet(VehicleAccessibility.HIGH_FLOOR_VEHICLE))
+						.setService(service28A).setOperator(wienerLinienOperator))
 				.withGeometryGeoJson(geometryGeoJson).build();
 		segments.add(busFromHeinrichVonBuolGgasseToFloridsdorf);
 
@@ -299,9 +299,9 @@ public class IntermodalRouteExample {
 				.withDurationSeconds(60 * 4).withStartTime("2016-01-01T15:20:30+01:00")
 				.withEndTime("2016-01-01T15:24:30+01:00")
 				.withIntermediateStops(Arrays.asList(createIntermediateStopNeueDonau()))
-				.withModeOfTransport(ModeOfTransport.builder().withDetailedType(DetailedModeOfTransportType.SUBWAY)
-						.withAccessibility(Arrays.asList(VehicleAccessibility.LOW_FLOOR_VEHICLE)).withService(serviceU6)
-						.withOperator(wienerLinienOperator).build())
+				.withModeOfTransport(ModeOfTransport.createMinimal(DetailedModeOfTransportType.SUBWAY)
+						.setAccessibility(Sets.newHashSet(VehicleAccessibility.LOW_FLOOR_VEHICLE)).setService(serviceU6)
+						.setOperator(wienerLinienOperator))
 				.withGeometryGeoJson(geometryGeoJson).build();
 		segments.add(subwayFromFloridsdorfToHandelskai);
 
@@ -322,9 +322,7 @@ public class IntermodalRouteExample {
 		RouteSegment walkToCitybikeHandelskai = RouteSegment.builder().withNr(++segmentNr)
 				.withFrom(handelskaiSubwayEntry).withTo(handelskaiCitybike).withDistanceMeters(57)
 				.withDurationSeconds(40).withStartTime("2016-01-01T15:27:30+01:00")
-				.withEndTime("2016-01-01T15:28:10+01:00")
-				.withModeOfTransport(
-						ModeOfTransport.builder().withDetailedType(DetailedModeOfTransportType.FOOT).build())
+				.withEndTime("2016-01-01T15:28:10+01:00").withModeOfTransport(ModeOfTransport.STANDARD_FOOT)
 				.withGeometryGeoJson(geometryGeoJson).build();
 		segments.add(walkToCitybikeHandelskai);
 
@@ -367,13 +365,12 @@ public class IntermodalRouteExample {
 				// the car
 				.withDurationSeconds(60 * 7).withBoardingSeconds(60 * 2).withAlightingSeconds(60 * 1)
 				.withStartTime("2016-01-01T15:36:05+01:00").withEndTime("2016-01-01T15:43:05+01:00")
-				.withModeOfTransport(ModeOfTransport.builder().withDetailedType(DetailedModeOfTransportType.CAR)
-						.withSharingType(Sharing.FREE_FLOATING_VEHICLE_SHARING).withElectric(true)
-						.withOperator(car2goOperator)
+				.withModeOfTransport(ModeOfTransport.createMinimal(DetailedModeOfTransportType.CAR)
+						.setSharingType(Sharing.FREE_FLOATING_VEHICLE_SHARING).setElectric(true)
+						.setOperator(car2goOperator)
 						// for now specific information goes as additional info
-						.withAdditionalInfo(ImmutableMap.of("licensePlate", "W-123456", "fuelPercentage", "80",
-								"interiorState", "good", "exteriorState", "unacceptable"))
-						.build())
+						.setAdditionalInfo(ImmutableMap.of("licensePlate", "W-123456", "fuelPercentage", "80",
+								"interiorState", "good", "exteriorState", "unacceptable")))
 				.withGeometryGeoJson(geometryGeoJson).build();
 		segments.add(car2goAlongAdalbertStifterStrasse);
 
@@ -404,12 +401,11 @@ public class IntermodalRouteExample {
 				// hopping on board
 				.withDurationSeconds(112 + 60 * 3).withBoardingSeconds(60 * 3)
 				.withStartTime("2016-01-01T15:46:51+01:00").withEndTime("2016-01-01T15:51:43+01:00")
-				.withModeOfTransport(ModeOfTransport.builder().withDetailedType(DetailedModeOfTransportType.CAR)
-						.withSharingType(Sharing.RIDE_SHARING).withOperator(flincOperator)
+				.withModeOfTransport(ModeOfTransport.createMinimal(DetailedModeOfTransportType.CAR)
+						.setSharingType(Sharing.RIDE_SHARING).setOperator(flincOperator)
 						// for now specific information goes as additional info
-						.withAdditionalInfo(
-								ImmutableMap.of("userName", "herbertWien78", "phoneNumber", "+43 650 7734343"))
-						.build())
+						.setAdditionalInfo(
+								ImmutableMap.of("userName", "herbertWien78", "phoneNumber", "+43 650 7734343")))
 				.withGeometryGeoJson(geometryGeoJson).build();
 		segments.add(rideSharingFromTreugasseToGaussplatz);
 

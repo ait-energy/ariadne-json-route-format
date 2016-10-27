@@ -2,6 +2,7 @@ package at.ac.ait.ariadne.routeformat.instruction;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.TreeMap;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
@@ -16,9 +17,9 @@ import at.ac.ait.ariadne.routeformat.location.Location;
  */
 public class Landmark implements Validatable {
 	private Preposition preposition;
-	private Location location;
+	private Location<?> location;
 	private Optional<RelativeDirection> direction = Optional.empty();
-	private Map<String, Object> additionalInfo = Maps.newHashMap();
+	private Map<String, Object> additionalInfo = new TreeMap<>();
 
 	// -- getters
 
@@ -31,7 +32,7 @@ public class Landmark implements Validatable {
 		return preposition;
 	}
 
-	public Location getLocation() {
+	public Location<?> getLocation() {
 		return location;
 	}
 
@@ -55,7 +56,7 @@ public class Landmark implements Validatable {
 		return this;
 	}
 
-	public Landmark setLocation(Location location) {
+	public Landmark setLocation(Location<?> location) {
 		this.location = location;
 		return this;
 	}
@@ -66,13 +67,13 @@ public class Landmark implements Validatable {
 	}
 
 	public Landmark setAdditionalInfo(Map<String, Object> additionalInfo) {
-		this.additionalInfo = Maps.newHashMap(additionalInfo);
+		this.additionalInfo = new TreeMap<>(additionalInfo);
 		return this;
 	}
 
 	// --
 
-	public static Landmark createMinimumLandmark(Preposition preposition, Location location) {
+	public static Landmark createMinimumLandmark(Preposition preposition, Location<?> location) {
 		return new Landmark().setPreposition(preposition).setLocation(location);
 	}
 
