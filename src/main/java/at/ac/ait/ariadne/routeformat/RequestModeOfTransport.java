@@ -166,6 +166,67 @@ public class RequestModeOfTransport<T extends RequestModeOfTransport<T>> impleme
 	}
 
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((additionalInfo == null) ? 0 : additionalInfo.hashCode());
+		result = prime * result + ((forbiddenAreas == null) ? 0 : forbiddenAreas.hashCode());
+		result = prime * result + ((locations == null) ? 0 : locations.hashCode());
+		result = prime * result + ((maximumDistanceMeters == null) ? 0 : maximumDistanceMeters.hashCode());
+		result = prime * result + ((maximumTravelTimeSeconds == null) ? 0 : maximumTravelTimeSeconds.hashCode());
+		result = prime * result + ((modeOfTransport == null) ? 0 : modeOfTransport.hashCode());
+		result = prime * result + ((speed == null) ? 0 : speed.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		RequestModeOfTransport<?> other = (RequestModeOfTransport<?>) obj;
+		if (additionalInfo == null) {
+			if (other.additionalInfo != null)
+				return false;
+		} else if (!additionalInfo.equals(other.additionalInfo))
+			return false;
+		if (forbiddenAreas == null) {
+			if (other.forbiddenAreas != null)
+				return false;
+		} else if (!forbiddenAreas.equals(other.forbiddenAreas))
+			return false;
+		if (locations == null) {
+			if (other.locations != null)
+				return false;
+		} else if (!locations.equals(other.locations))
+			return false;
+		if (maximumDistanceMeters == null) {
+			if (other.maximumDistanceMeters != null)
+				return false;
+		} else if (!maximumDistanceMeters.equals(other.maximumDistanceMeters))
+			return false;
+		if (maximumTravelTimeSeconds == null) {
+			if (other.maximumTravelTimeSeconds != null)
+				return false;
+		} else if (!maximumTravelTimeSeconds.equals(other.maximumTravelTimeSeconds))
+			return false;
+		if (modeOfTransport == null) {
+			if (other.modeOfTransport != null)
+				return false;
+		} else if (!modeOfTransport.equals(other.modeOfTransport))
+			return false;
+		if (speed == null) {
+			if (other.speed != null)
+				return false;
+		} else if (!speed.equals(other.speed))
+			return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		return "RequestModeOfTransport [modeOfTransport=" + modeOfTransport + ", maximumDistanceMeters="
 				+ maximumDistanceMeters + ", maximumTravelTimeSeconds=" + maximumTravelTimeSeconds + ", speed=" + speed

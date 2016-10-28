@@ -75,4 +75,27 @@ public class RoutingRequestTest {
 		}
 	}
 
+	@Test
+	public void startEndMotsTest() {
+		RequestModeOfTransport<?> bicycle = RequestModeOfTransport.createMinimal(ModeOfTransport.STANDARD_BICYCLE);
+		RequestModeOfTransport<?> car = RequestModeOfTransport.createMinimal(ModeOfTransport.STANDARD_CAR);
+		RequestModeOfTransport<?> pt = RequestModeOfTransport.createMinimal(ModeOfTransport.STANDARD_PUBLIC_TRANSPORT);
+		request.setModesOfTransport(Arrays.asList(bicycle, car));
+		request.validate();
+
+		try {
+			request.setStartModeOfTransport(pt);
+			request.validate();
+			Assert.fail("unknown start mot pt");
+		} catch (IllegalArgumentException e) {
+		}
+
+		request.setStartModeOfTransport(bicycle);
+		request.validate();
+
+		// same MOT must be accepted
+		request.setStartModeOfTransport(RequestModeOfTransport.createMinimal(ModeOfTransport.STANDARD_BICYCLE));
+		request.validate();
+	}
+
 }

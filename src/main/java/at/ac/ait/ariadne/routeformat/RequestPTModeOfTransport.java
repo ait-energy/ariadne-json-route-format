@@ -63,6 +63,32 @@ public class RequestPTModeOfTransport extends RequestModeOfTransport<RequestPTMo
 	}
 
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result
+				+ ((excludedPublicTransportModes == null) ? 0 : excludedPublicTransportModes.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		RequestPTModeOfTransport other = (RequestPTModeOfTransport) obj;
+		if (excludedPublicTransportModes == null) {
+			if (other.excludedPublicTransportModes != null)
+				return false;
+		} else if (!excludedPublicTransportModes.equals(other.excludedPublicTransportModes))
+			return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		return super.toString() + " -> RequestPTModeOfTransport [excludedPublicTransportModes="
 				+ excludedPublicTransportModes + "]";
