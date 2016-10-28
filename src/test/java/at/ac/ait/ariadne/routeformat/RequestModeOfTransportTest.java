@@ -6,6 +6,7 @@ import java.util.Map;
 import org.junit.Test;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 
 import at.ac.ait.ariadne.routeformat.Constants.DetailedModeOfTransportType;
 import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
@@ -15,40 +16,44 @@ public class RequestModeOfTransportTest {
 
 	private static Location<?> location = Location.createMinimal(new CoordinatePoint("16.40073", "48.25625"));
 
-	@SuppressWarnings("unused")
 	@Test
 	public void testRequestBuilding() {
-		Map<String, Object> additionalInfo;
+		Map<String, Object> additionalInfo = ImmutableMap.of("preferParks", true);
 
-		additionalInfo = ImmutableMap.of("preferParks", true);
-		RequestModeOfTransport foot = RequestModeOfTransport.builder()
-				.withModeOfTransport(ModeOfTransport.STANDARD_FOOT).withAdditionalInfo(additionalInfo).build();
+		RequestModeOfTransport<?> foot = RequestModeOfTransport.createMinimal(ModeOfTransport.STANDARD_FOOT)
+				.setAdditionalInfo(additionalInfo);
+		foot.validate();
 
-		additionalInfo = ImmutableMap.of("preferParks", true);
 		ModeOfTransport bicycleMot = ModeOfTransport.createMinimal(DetailedModeOfTransportType.BICYCLE)
 				.setElectric(true).setId("My fast Rotwild bicycle");
-		RequestModeOfTransport bicycle = RequestModeOfTransport.builder().withModeOfTransport(bicycleMot)
-				.withLocations(Arrays.asList(location)).withAdditionalInfo(additionalInfo).build();
+		RequestModeOfTransport<?> bicycle = RequestModeOfTransport.createMinimal(bicycleMot)
+				.setLocations(Arrays.asList(location)).setAdditionalInfo(additionalInfo);
+		bicycle.validate();
 
-		RequestPTModeOfTransport.builder().withModeOfTransport(ModeOfTransport.STANDARD_PUBLIC_TRANSPORT)
-				.withExcludedPublicTransportModes(Arrays.asList(DetailedModeOfTransportType.CABLE_CAR)).build();
+		RequestPTModeOfTransport pt = RequestPTModeOfTransport.createMinimal(ModeOfTransport.STANDARD_PUBLIC_TRANSPORT)
+				.setExcludedPublicTransportModes(ImmutableSet.of(DetailedModeOfTransportType.CABLE_CAR));
+		pt.validate();
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testMandatoryField() {
-		RequestPTModeOfTransport.builder()
-				.withExcludedPublicTransportModes(Arrays.asList(DetailedModeOfTransportType.CABLE_CAR)).build();
+		RequestPTModeOfTransport ptWithoutMandatoryField = new RequestPTModeOfTransport()
+				.setExcludedPublicTransportModes(ImmutableSet.of(DetailedModeOfTransportType.CABLE_CAR));
+		ptWithoutMandatoryField.validate();
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testNonPublicTransportMot() {
-		RequestPTModeOfTransport.builder().withModeOfTransport(ModeOfTransport.STANDARD_CAR).build();
+		RequestPTModeOfTransport nonPt = RequestPTModeOfTransport.createMinimal(ModeOfTransport.STANDARD_CAR);
+		nonPt.validate();
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testNonPublicTransportExclusionMots() {
-		RequestPTModeOfTransport.builder().withModeOfTransport(ModeOfTransport.STANDARD_PUBLIC_TRANSPORT)
-				.withExcludedPublicTransportModes(Arrays.asList(DetailedModeOfTransportType.FOOT)).build();
+		RequestPTModeOfTransport nonPt = RequestPTModeOfTransport
+				.createMinimal(ModeOfTransport.STANDARD_PUBLIC_TRANSPORT)
+				.setExcludedPublicTransportModes(ImmutableSet.of(DetailedModeOfTransportType.BICYCLE));
+		nonPt.validate();
 	}
 
 }

@@ -2,64 +2,77 @@ package at.ac.ait.ariadne.routeformat;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+
+import com.google.common.collect.ImmutableList;
 
 import at.ac.ait.ariadne.routeformat.Constants.GeneralizedModeOfTransportType;
 
 public class RoutingRequestTest {
 
-    @Test
-    public void testMutexDepartureAndArrivalTime() {
-        getBuilder().build();
+	private RoutingRequest request;
 
-        try {
-            getBuilder().withArrivalTime(TestUtil.END_TIME).build();
-            Assert.fail("expected IllegalArgumentException");
-        } catch (IllegalArgumentException e) {
-        }
-    }
+	@Before
+	public void createMinimalRequest() {
+		List<RequestModeOfTransport<?>> modesOfTransport = ImmutableList
+				.of(RequestModeOfTransport.createMinimal(ModeOfTransport.STANDARD_BICYCLE));
+		request = RoutingRequest.createMinimal(TestUtil.SERVICE_ID, TestUtil.FROM, TestUtil.TO, modesOfTransport);
+	}
 
-    @Test
-    public void testMaximumTransfers() {
-        Assert.assertFalse(getBuilder().build().getMaximumTransfers().isPresent());
-        Assert.assertEquals(10, (int) getBuilder().withMaximumTransfers(10).build().getMaximumTransfers().get());
-        try {
-            getBuilder().withMaximumTransfers(-1).build();
-            Assert.fail("expected IllegalArgumentException");
-        } catch (IllegalArgumentException e) {
-        }
-    }
+	@Test
+	public void testDefaultAndMutexDepartureAndArrivalTime() {
+		request.validate();
+		Assert.assertTrue(request.getDepartureTime().isPresent());
+		Assert.assertFalse(request.getArrivalTime().isPresent());
 
-    @Test
-    public void motsTest() {
-        RoutingRequest request = getBuilder().build();
-        Assert.assertEquals("set MOT must be present", 1, request.getModesOfTransport().size());
-        Assert.assertEquals("set MOT must be present", GeneralizedModeOfTransportType.BICYCLE,
-                request.getModesOfTransport().iterator().next().getModeOfTransport().getGeneralizedType());
+		request.setArrivalTime(RoutingRequest.NOW);
+		request.validate();
+		Assert.assertFalse(request.getDepartureTime().isPresent());
+		Assert.assertTrue(request.getArrivalTime().isPresent());
+	}
 
-        request = getBuilder().withModesOfTransport(Arrays.asList(
-                RequestModeOfTransport.builder().withModeOfTransport(ModeOfTransport.STANDARD_BICYCLE).build(),
-                RequestModeOfTransport.builder().withModeOfTransport(ModeOfTransport.STANDARD_CAR).build())).build();
-        Assert.assertEquals("FOOT must be added for two or more mots", 3, request.getModesOfTransport().size());
-        Assert.assertTrue("FOOT must be added for two or more mots",
-                request.getModesOfTransport().stream().map(s -> s.getModeOfTransport().getGeneralizedType())
-                        .collect(Collectors.toSet()).contains(GeneralizedModeOfTransportType.FOOT));
+	@Test
+	public void testMaximumTransfers() {
+		Assert.assertFalse(request.getMaximumTransfers().isPresent());
 
-        try {
-            getBuilder().withModesOfTransport(Collections.emptyList()).build();
-            Assert.fail("at least one mot must be set");
-        } catch (IllegalArgumentException e) {
-        }
-    }
+		request.setMaximumTransfers(10);
+		Assert.assertEquals(10, (int) request.getMaximumTransfers().get());
+		request.validate();
 
-    public RoutingRequest.Builder getBuilder() {
-        return RoutingRequest.builder().withServiceId(TestUtil.SERVICE_ID).withFrom(TestUtil.FROM).withTo(TestUtil.TO)
-                .withModesOfTransport(Arrays.asList(
-                        RequestModeOfTransport.builder().withModeOfTransport(ModeOfTransport.STANDARD_BICYCLE).build()))
-                .withDepartureTime(TestUtil.START_TIME);
-    }
+		try {
+			request.setMaximumTransfers(-1);
+			request.validate();
+			Assert.fail("expected IllegalArgumentException");
+		} catch (IllegalArgumentException e) {
+		}
+	}
+
+	@Test
+	public void motsTest() {
+		Assert.assertEquals("set MOT must be present", 1, request.getModesOfTransport().size());
+		Assert.assertEquals("set MOT must be present", GeneralizedModeOfTransportType.BICYCLE,
+				request.getModesOfTransport().iterator().next().getModeOfTransport().getGeneralizedType());
+
+		request.setModesOfTransport(
+				Arrays.asList(RequestModeOfTransport.createMinimal(ModeOfTransport.STANDARD_BICYCLE),
+						RequestModeOfTransport.createMinimal(ModeOfTransport.STANDARD_CAR)));
+		request.validate();
+		Assert.assertEquals("FOOT must be added for two or more mots", 3, request.getModesOfTransport().size());
+		Assert.assertTrue("FOOT must be added for two or more mots",
+				request.getModesOfTransport().stream().map(s -> s.getModeOfTransport().getGeneralizedType())
+						.collect(Collectors.toSet()).contains(GeneralizedModeOfTransportType.FOOT));
+
+		try {
+			request.setModesOfTransport(Collections.emptyList());
+			request.validate();
+			Assert.fail("at least one mot must be set");
+		} catch (IllegalArgumentException e) {
+		}
+	}
 
 }

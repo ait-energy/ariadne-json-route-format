@@ -88,8 +88,8 @@ public class SharingStation extends Location<SharingStation> {
 
 	@Override
 	public String toString() {
-		return "SharingStation [name=" + name + ", id=" + id + ", modesOfTransport=" + modesOfTransport + ", operator="
-				+ operator + "]";
+		return super.toString() + " -> SharingStation [name=" + name + ", id=" + id + ", modesOfTransport="
+				+ modesOfTransport + ", operator=" + operator + "]";
 	}
 
 }

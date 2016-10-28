@@ -1,21 +1,18 @@
 package at.ac.ait.ariadne.routeformat;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.TreeMap;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSortedMap;
 
-import at.ac.ait.ariadne.routeformat.RequestModeOfTransport.Builder2;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONMultiPolygon;
 import at.ac.ait.ariadne.routeformat.location.Location;
@@ -24,6 +21,8 @@ import at.ac.ait.ariadne.routeformat.util.Utils;
 /**
  * Encapsulates a {@link ModeOfTransport} and attributes exclusive to this mode
  * of transport.
+ * <p>
+ * In its minimal form it only consists of a {@link ModeOfTransport}.
  * <p>
  * For simple cases use the static standard modes such as
  * {@link ModeOfTransport#STANDARD_BICYCLE} to build a
@@ -36,153 +35,142 @@ import at.ac.ait.ariadne.routeformat.util.Utils;
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({ @JsonSubTypes.Type(value = RequestModeOfTransport.class, name = "RequestModeOfTransport"),
-        @JsonSubTypes.Type(value = RequestPTModeOfTransport.class, name = "RequestPTModeOfTransport") })
-@JsonDeserialize(builder = Builder2.class)
+		@JsonSubTypes.Type(value = RequestPTModeOfTransport.class, name = "RequestPTModeOfTransport") })
 @JsonInclude(Include.NON_EMPTY)
-public class RequestModeOfTransport {
+public class RequestModeOfTransport<T extends RequestModeOfTransport<T>> implements Validatable {
 
-    private final ModeOfTransport modeOfTransport;
-    private final Optional<Integer> maximumDistanceMeters;
-    private final Optional<Integer> maximumTravelTimeSeconds;
-    private final Optional<String> speed;
-    private final List<Location> locations;
-    private final Optional<GeoJSONFeature<GeoJSONMultiPolygon>> forbiddenAreas;
-    private final Map<String, Object> additionalInfo;
+	ModeOfTransport modeOfTransport;
+	private Optional<Integer> maximumDistanceMeters = Optional.empty();
+	private Optional<Integer> maximumTravelTimeSeconds = Optional.empty();
+	private Optional<String> speed = Optional.empty();
+	private List<Location<?>> locations = new ArrayList<>();
+	private Optional<GeoJSONFeature<GeoJSONMultiPolygon>> forbiddenAreas = Optional.empty();
+	private Map<String, Object> additionalInfo = new TreeMap<>();
 
-    RequestModeOfTransport(Builder<?> builder) {
-        this.modeOfTransport = builder.modeOfTransport;
-        this.maximumDistanceMeters = builder.maximumDistanceMeters;
-        this.maximumTravelTimeSeconds = builder.maximumTravelTimeSeconds;
-        this.speed = builder.speed;
-        this.locations = builder.locations;
-        this.forbiddenAreas = builder.forbiddenAreas;
-        this.additionalInfo = builder.additionalInfo;
-    }
+	// -- getters
 
-    @JsonProperty(required = true)
-    public ModeOfTransport getModeOfTransport() {
-        return modeOfTransport;
-    }
+	@JsonProperty(required = true)
+	public ModeOfTransport getModeOfTransport() {
+		return modeOfTransport;
+	}
 
-    /**
-     * maximum distance to be covered with this mode of transport in one
-     * {@link RouteSegment}
-     */
-    public Optional<Integer> getMaximumDistanceMeters() {
-        return maximumDistanceMeters;
-    }
+	/**
+	 * maximum distance to be covered with this mode of transport in one
+	 * {@link RouteSegment}
+	 */
+	public Optional<Integer> getMaximumDistanceMeters() {
+		return maximumDistanceMeters;
+	}
 
-    /**
-     * maximum travel time with this mode of transport in one
-     * {@link RouteSegment}
-     */
-    public Optional<Integer> getMaximumTravelTimeSeconds() {
-        return maximumTravelTimeSeconds;
-    }
+	/**
+	 * maximum travel time with this mode of transport in one
+	 * {@link RouteSegment}
+	 */
+	public Optional<Integer> getMaximumTravelTimeSeconds() {
+		return maximumTravelTimeSeconds;
+	}
 
-    /**
-     * speed for this mode of transport - either one of {@link Constants.Speed}
-     * or a number in kph
-     */
-    public Optional<String> getSpeed() {
-        return speed;
-    }
+	/**
+	 * speed for this mode of transport - either one of {@link Constants.Speed}
+	 * or a number in kph
+	 */
+	public Optional<String> getSpeed() {
+		return speed;
+	}
 
-    /**
-     * Locations where this mode of transport is available. E.g. the location of
-     * private vehicles (typically a bicycle, car and/or motorcycle) that can be
-     * used when calculating the route. If not set vehicles can be assumed at
-     * their default location, e.g. private vehicles are available at the
-     * starting point of the route.
-     */
-    @JsonProperty
-    public List<Location> getLocations() {
-        return locations;
-    }
+	/**
+	 * Locations where this mode of transport is available. E.g. the location of
+	 * private vehicles (typically a bicycle, car and/or motorcycle) that can be
+	 * used when calculating the route. If not set vehicles can be assumed at
+	 * their default location, e.g. private vehicles are available at the
+	 * starting point of the route.
+	 */
+	@JsonProperty
+	public List<Location<?>> getLocations() {
+		return locations;
+	}
 
-    /**
-     * A multipolygon defining areas the route must not cross
-     */
-    @JsonProperty
-    public Optional<GeoJSONFeature<GeoJSONMultiPolygon>> getForbiddenAreas() {
-        return forbiddenAreas;
-    }
+	/**
+	 * A multipolygon defining areas the route must not cross
+	 */
+	@JsonProperty
+	public Optional<GeoJSONFeature<GeoJSONMultiPolygon>> getForbiddenAreas() {
+		return forbiddenAreas;
+	}
 
-    /**
-     * Other attributes exclusive to this {@link ModeOfTransport}.
-     */
-    @JsonProperty
-    public Map<String, Object> getAdditionalInfo() {
-        return additionalInfo;
-    }
+	/**
+	 * Other attributes exclusive to this {@link ModeOfTransport}.
+	 */
+	@JsonProperty
+	public Map<String, Object> getAdditionalInfo() {
+		return additionalInfo;
+	}
 
-    public static Builder<?> builder() {
-        return new Builder2();
-    }
+	// -- setters
 
-    public static abstract class Builder<T extends Builder<T>> {
-        ModeOfTransport modeOfTransport;
-        private Optional<Integer> maximumDistanceMeters = Optional.empty();
-        private Optional<Integer> maximumTravelTimeSeconds = Optional.empty();
-        private Optional<String> speed = Optional.empty();
-        private List<Location> locations = Collections.emptyList();
-        private Optional<GeoJSONFeature<GeoJSONMultiPolygon>> forbiddenAreas = Optional.empty();
-        private Map<String, Object> additionalInfo = Collections.emptyMap();
+	@SuppressWarnings("unchecked")
+	public T setModeOfTransport(ModeOfTransport modeOfTransport) {
+		this.modeOfTransport = modeOfTransport;
+		return (T) this;
+	}
 
-        protected abstract T self();
+	@SuppressWarnings("unchecked")
+	public T setMaximumDistanceMeters(Integer maximumDistanceMeters) {
+		this.maximumDistanceMeters = Optional.ofNullable(maximumDistanceMeters);
+		return (T) this;
+	}
 
-        public T withModeOfTransport(ModeOfTransport modeOfTransport) {
-            this.modeOfTransport = modeOfTransport;
-            return self();
-        }
+	@SuppressWarnings("unchecked")
+	public T setMaximumTravelTimeSeconds(Integer maximumTravelTimeSeconds) {
+		this.maximumTravelTimeSeconds = Optional.ofNullable(maximumTravelTimeSeconds);
+		return (T) this;
+	}
 
-        public T withMaximumDistanceMeters(Integer maximumDistanceMeters) {
-            this.maximumDistanceMeters = Optional.ofNullable(maximumDistanceMeters);
-            return self();
-        }
+	@SuppressWarnings("unchecked")
+	public T setSpeed(String speed) {
+		this.speed = Optional.ofNullable(speed);
+		return (T) this;
+	}
 
-        public T withMaximumTravelTimeSeconds(Integer maximumTravelTimeSeconds) {
-            this.maximumTravelTimeSeconds = Optional.ofNullable(maximumTravelTimeSeconds);
-            return self();
-        }
+	@SuppressWarnings("unchecked")
+	public T setLocations(List<Location<?>> locations) {
+		this.locations = new ArrayList<>(locations);
+		return (T) this;
+	}
 
-        public T withSpeed(String speed) {
-            this.speed = Optional.ofNullable(speed);
-            return self();
-        }
+	@SuppressWarnings("unchecked")
+	public T setForbiddenAreas(GeoJSONFeature<GeoJSONMultiPolygon> forbiddenAreas) {
+		this.forbiddenAreas = Optional.ofNullable(forbiddenAreas);
+		return (T) this;
+	}
 
-        public T withLocations(List<Location> locations) {
-            this.locations = ImmutableList.copyOf(locations);
-            return self();
-        }
+	@SuppressWarnings("unchecked")
+	public T setAdditionalInfo(Map<String, Object> additionalInfo) {
+		this.additionalInfo = new TreeMap<>(additionalInfo);
+		return (T) this;
+	}
 
-        public T withForbiddenAreas(GeoJSONFeature<GeoJSONMultiPolygon> forbiddenAreas) {
-            this.forbiddenAreas = Optional.ofNullable(forbiddenAreas);
-            return self();
-        }
+	// --
 
-        public T withAdditionalInfo(Map<String, Object> additionalInfo) {
-            this.additionalInfo = ImmutableSortedMap.copyOf(additionalInfo);
-            return self();
-        }
+	public static RequestModeOfTransport<?> createMinimal(ModeOfTransport modeOfTransport) {
+		return new RequestModeOfTransport<>().setModeOfTransport(modeOfTransport);
+	}
 
-        public RequestModeOfTransport build() {
-            validate();
-            return new RequestModeOfTransport(this);
-        }
+	@Override
+	public void validate() {
+		Preconditions.checkArgument(modeOfTransport != null, "modeOfTransport is mandatory but missing");
+		modeOfTransport.validate();
+		locations.forEach(l -> l.validate());
+		Utils.checkPositiveIntegerOrEmpty(maximumDistanceMeters, "maximumDistanceMeters");
+		Utils.checkPositiveIntegerOrEmpty(maximumTravelTimeSeconds, "maximumTravelTimeSeconds");
+	}
 
-        void validate() {
-            Preconditions.checkArgument(modeOfTransport != null, "modeOfTransport is mandatory but missing");
-            Utils.enforcePositiveInteger(maximumDistanceMeters, "maximumDistanceMeters");
-            Utils.enforcePositiveInteger(maximumTravelTimeSeconds, "maximumTravelTimeSeconds");
-        }
-    }
-
-    static class Builder2 extends Builder<Builder2> {
-        @Override
-        protected Builder2 self() {
-            return this;
-        }
-    }
+	@Override
+	public String toString() {
+		return "RequestModeOfTransport [modeOfTransport=" + modeOfTransport + ", maximumDistanceMeters="
+				+ maximumDistanceMeters + ", maximumTravelTimeSeconds=" + maximumTravelTimeSeconds + ", speed=" + speed
+				+ ", locations=" + locations + ", forbiddenAreas=" + forbiddenAreas + ", additionalInfo="
+				+ additionalInfo + "]";
+	}
 
 }

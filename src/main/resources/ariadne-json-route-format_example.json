@@ -1,7 +1,7 @@
 {
   "routeFormatVersion" : "X.Y-UNKNOWN",
   "requestId" : "999",
-  "processedTime" : "2016-10-28T10:41:12.724+02:00[Europe/Vienna]",
+  "processedTime" : "2016-10-28T13:47:29.749+02:00[Europe/Vienna]",
   "status" : "OK",
   "debugMessage" : "Route calculated in 0.002 seconds",
   "coordinateReferenceSystem" : "EPSG:4326",
@@ -142,7 +142,7 @@
           }
         }
       },
-      "excludedPublicTransportModes" : [ "AERIALWAY", "AIRPLANE", "SHIP" ]
+      "excludedPublicTransportModes" : [ "AERIALWAY", "SHIP", "AIRPLANE" ]
     }, {
       "type" : "RequestModeOfTransport",
       "modeOfTransport" : {
@@ -210,7 +210,7 @@
         }
       } ]
     },
-    "optimizedFor" : "traveltime",
+    "optimizedFor" : "ENERGY",
     "maximumTransfers" : 10,
     "departureTime" : "2016-01-01T15:00+01:00",
     "accessibilityRestrictions" : [ "NO_ELEVATOR" ],

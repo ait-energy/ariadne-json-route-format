@@ -14,6 +14,7 @@ import java.util.Map;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
@@ -208,31 +209,31 @@ public class IntermodalRouteExample {
 		GeoJSONFeature<GeoJSONMultiPolygon> forbiddenAreas = GeoJSONFeature
 				.newMultiPolygonFeatureFromPolygons(Arrays.asList(forbiddenPolygon));
 
-		List<RequestModeOfTransport> requestModes = new ArrayList<>();
-		requestModes.add(RequestModeOfTransport.builder().withModeOfTransport(ModeOfTransport.STANDARD_FOOT)
-				.withMaximumDistanceMeters(2000).withSpeed(Speed.FAST.name()).withForbiddenAreas(forbiddenAreas)
-				.build());
-		requestModes.add(RequestModeOfTransport.builder().withModeOfTransport(ModeOfTransport.STANDARD_BICYCLE)
-				.withMaximumTravelTimeSeconds(45 * 60).withSpeed(Speed.SLOW.name())
-				.withLocations(Arrays.asList(adalbertStifterStrasse15, privateBicycleHopsagasse)).build());
-		requestModes
-				.add(RequestModeOfTransport.builder().withModeOfTransport(ModeOfTransport.STANDARD_MOTORCYCLE).build());
-		RequestModeOfTransport carMot = RequestModeOfTransport.builder()
-				.withModeOfTransport(ModeOfTransport.STANDARD_CAR).withLocations(Arrays.asList(treustrasse92)).build();
+		List<RequestModeOfTransport<?>> requestModes = new ArrayList<>();
+		requestModes.add(RequestModeOfTransport.createMinimal(ModeOfTransport.STANDARD_FOOT)
+				.setMaximumDistanceMeters(2000).setSpeed(Speed.FAST.name()).setForbiddenAreas(forbiddenAreas));
+		requestModes.add(RequestModeOfTransport.createMinimal(ModeOfTransport.STANDARD_BICYCLE)
+				.setMaximumTravelTimeSeconds(45 * 60).setSpeed(Speed.SLOW.name())
+				.setLocations(Arrays.asList(adalbertStifterStrasse15, privateBicycleHopsagasse)));
+		requestModes.add(RequestModeOfTransport.createMinimal(ModeOfTransport.STANDARD_MOTORCYCLE));
+		RequestModeOfTransport<?> carMot = RequestModeOfTransport.createMinimal(ModeOfTransport.STANDARD_CAR)
+				.setLocations(Arrays.asList(treustrasse92));
 		requestModes.add(carMot);
-		requestModes.add(RequestPTModeOfTransport.builder().withModeOfTransport(wienerLinienMot)
-				.withExcludedPublicTransportModes(Arrays.asList(DetailedModeOfTransportType.AERIALWAY,
-						DetailedModeOfTransportType.AIRPLANE, DetailedModeOfTransportType.SHIP))
-				.build());
-		requestModes.add(RequestModeOfTransport.builder().withModeOfTransport(citybikeMot).build());
-		requestModes.add(RequestModeOfTransport.builder().withModeOfTransport(car2goMot).build());
-		requestModes.add(RequestModeOfTransport.builder().withModeOfTransport(flincMot).build());
+		requestModes.add(RequestPTModeOfTransport.createMinimal(wienerLinienMot)
+				.setExcludedPublicTransportModes(ImmutableSet.of(DetailedModeOfTransportType.AERIALWAY,
+						DetailedModeOfTransportType.AIRPLANE, DetailedModeOfTransportType.SHIP)));
+		requestModes.add(RequestModeOfTransport.createMinimal(citybikeMot));
+		requestModes.add(RequestModeOfTransport.createMinimal(car2goMot));
+		requestModes.add(RequestModeOfTransport.createMinimal(flincMot));
 
-		return RoutingRequest.builder().withServiceId("ariadne_webservice_vienna").withFrom(giefinggasseAit)
-				.withTo(scholzgasse1).withDepartureTime("2016-01-01T15:00:00+01:00").withLanguage("DE")
-				.withAccessibilityRestrictions(Arrays.asList(AccessibilityRestriction.NO_ELEVATOR))
-				.withModesOfTransport(requestModes).withOptimizedFor("traveltime").withMaximumTransfers(10)
-				.withEndModeOfTransport(carMot).withAdditionalInfo(additionalInfoRouteRequest).build();
+		String serviceId = "ariadne_webservice_vienna";
+		Location<?> from = giefinggasseAit;
+		Location<?> to = scholzgasse1;
+		return RoutingRequest.createMinimal(serviceId, from, to, requestModes)
+				.setDepartureTime("2016-01-01T15:00:00+01:00").setLanguage("DE")
+				.setAccessibilityRestrictions(ImmutableSet.of(AccessibilityRestriction.NO_ELEVATOR))
+				.setOptimizedFor("ENERGY").setMaximumTransfers(10).setEndModeOfTransport(carMot)
+				.setAdditionalInfo(additionalInfoRouteRequest);
 	}
 
 	private LinkedList<RouteSegment> createRouteSegments() {

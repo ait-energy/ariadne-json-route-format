@@ -57,7 +57,8 @@ public class PointOfInterest extends Location<PointOfInterest> {
 
 	@Override
 	public String toString() {
-		return "PointOfInterest [poiType=" + poiType + ", name=" + name + ", address=" + getAddress() + "]";
+		return super.toString() + " -> PointOfInterest [poiType=" + poiType + ", name=" + name + ", address="
+				+ getAddress() + "]";
 	}
 
 }

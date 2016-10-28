@@ -98,8 +98,8 @@ public class PublicTransportStop extends Location<PublicTransportStop> {
 
 	@Override
 	public String toString() {
-		return "PublicTransportStop [name=" + name + ", platform=" + platform + ", relatedLines=" + relatedLines
-				+ ", accessibility=" + accessibility + "]";
+		return super.toString() + " -> PublicTransportStop [name=" + name + ", platform=" + platform + ", relatedLines="
+				+ relatedLines + ", accessibility=" + accessibility + "]";
 	}
 
 }
