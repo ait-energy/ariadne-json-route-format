@@ -78,7 +78,7 @@ public class Utils {
     }
 
     public static Location<?> createLocation(double latitude, double longitude) {
-        return Location.createMinimum(new CoordinatePoint(longitude, latitude));
+        return Location.createMinimal(new CoordinatePoint(longitude, latitude));
     }
 
     public static String getJsonString(Object object) throws JsonProcessingException {

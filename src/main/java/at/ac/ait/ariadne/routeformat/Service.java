@@ -1,32 +1,31 @@
 package at.ac.ait.ariadne.routeformat;
 
-import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
+import java.util.TreeMap;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableSortedMap;
-
-import at.ac.ait.ariadne.routeformat.Service.Builder;
 
 /**
  * A {@link Service} typically represents a public transport service / line
  * <p>
- * {@link #equals(Object)} returns <code>true</code> for instances with the same
+ * In its minimal form it consists of a name.
+ * <p>
+ * {@link #equals(Object)} returns <code>true</code> for instances set the same
  * content.
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */
-@JsonDeserialize(builder = Builder.class)
 @JsonInclude(Include.NON_EMPTY)
-public class Service {
-	private final String name;
-	private final Optional<String> towards;
-	private final Optional<String> color;
-	private final Map<String, Object> additionalInfo;
+public class Service implements Validatable {
+	private String name;
+	private Optional<String> towards = Optional.empty();
+	private Optional<String> color = Optional.empty();
+	private Map<String, Object> additionalInfo = new TreeMap<>();
+
+	// -- getters
 
 	/**
 	 * @return the official name of the service such as the line name (e.g. U3
@@ -57,22 +56,48 @@ public class Service {
 		return additionalInfo;
 	}
 
-	public Service(Builder builder) {
-		this.name = builder.name;
-		this.towards = builder.towards;
-		this.color = builder.color;
-		this.additionalInfo = builder.additionalInfo;
+	// -- setters
+
+	public Service setName(String name) {
+		this.name = name;
+		return this;
 	}
 
-	public static Builder builder() {
-		return new Builder();
+	public Service setTowards(String towards) {
+		this.towards = Optional.ofNullable(towards);
+		return this;
+	}
+
+	public Service setColor(String color) {
+		this.color = Optional.ofNullable(color);
+		return this;
+	}
+
+	public Service setAdditionalInfo(Map<String, Object> additionalInfo) {
+		this.additionalInfo = new TreeMap<>(additionalInfo);
+		return this;
+	}
+
+	// --
+
+	public static Service createMinimal(String name) {
+		return new Service().setName(name);
 	}
 
 	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder(name);
-		towards.ifPresent(t -> builder.append(" -> " + t));
-		return builder.toString();
+	public void validate() {
+		Preconditions.checkArgument(name != null, "name is mandatory but missing");
+		if (color.isPresent()) {
+			String colorStr = color.get();
+			String error = "color must be represented as hash-prepended six-digit hexadecimal String but was %s";
+			Preconditions.checkArgument(colorStr.startsWith("#"), error, colorStr);
+			Preconditions.checkArgument(colorStr.length() == 7, error, colorStr);
+			try {
+				Long.parseLong(colorStr.substring(1, 7), 16);
+			} catch (NumberFormatException e) {
+				Preconditions.checkArgument(false, error, colorStr);
+			}
+		}
 	}
 
 	@Override
@@ -118,51 +143,11 @@ public class Service {
 		return true;
 	}
 
-	public static class Builder {
-		private String name;
-		private Optional<String> towards = Optional.empty();
-		private Optional<String> color = Optional.empty();
-		private Map<String, Object> additionalInfo = Collections.emptyMap();
-
-		public Builder withName(String name) {
-			this.name = name;
-			return this;
-		}
-
-		public Builder withTowards(String towards) {
-			this.towards = Optional.ofNullable(towards);
-			return this;
-		}
-
-		public Builder withColor(String color) {
-			this.color = Optional.ofNullable(color);
-			return this;
-		}
-
-		public Builder withAdditionalInfo(Map<String, Object> additionalInfo) {
-			this.additionalInfo = ImmutableSortedMap.copyOf(additionalInfo);
-			return this;
-		}
-
-		public Service build() {
-			validate();
-			return new Service(this);
-		}
-
-		private void validate() {
-			Preconditions.checkArgument(name != null, "name is mandatory but missing");
-			if (color.isPresent()) {
-				String colorStr = color.get();
-				String error = "color must be represented as hash-prepended six-digit hexadecimal String but was %s";
-				Preconditions.checkArgument(colorStr.startsWith("#"), error, colorStr);
-				Preconditions.checkArgument(colorStr.length() == 7, error, colorStr);
-				try {
-					Long.parseLong(colorStr.substring(1, 7), 16);
-				} catch (NumberFormatException e) {
-					Preconditions.checkArgument(false, error, colorStr);
-				}
-			}
-		}
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder(name);
+		towards.ifPresent(t -> builder.append(" -> " + t));
+		return builder.toString();
 	}
 
 }

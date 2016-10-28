@@ -13,7 +13,7 @@ import at.ac.ait.ariadne.routeformat.location.Location;
 
 public class RequestModeOfTransportTest {
 
-	private static Location<?> location = Location.createMinimum(new CoordinatePoint("16.40073", "48.25625"));
+	private static Location<?> location = Location.createMinimal(new CoordinatePoint("16.40073", "48.25625"));
 
 	@SuppressWarnings("unused")
 	@Test

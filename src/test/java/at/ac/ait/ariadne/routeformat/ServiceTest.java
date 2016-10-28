@@ -7,16 +7,19 @@ public class ServiceTest {
 
 	@Test
 	public void testColor() {
-		Service.builder().withName("28A").withColor("#112233").build();
+		Service service = Service.createMinimal("28A").setColor("#112233");
+		service.validate();
 
 		try {
-			Service.builder().withName("28A").withColor("#112").build();
+			service.setColor("#112");
+			service.validate();
 			Assert.fail("must throw IllegalArgumentException");
 		} catch (IllegalArgumentException e) {
 		}
 
 		try {
-			Service.builder().withName("28A").withColor("#ABCDEG").build();
+			service.setColor("#ABCDEG");
+			service.validate();
 			Assert.fail("must throw IllegalArgumentException");
 		} catch (IllegalArgumentException e) {
 		}

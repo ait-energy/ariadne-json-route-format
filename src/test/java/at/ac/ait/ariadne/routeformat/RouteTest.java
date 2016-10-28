@@ -33,10 +33,10 @@ public class RouteTest {
 
 	@Test
 	public void boundingBoxExtractionTest() {
-		Location<?> giefinggasseAit = Location.createMinimum(new CoordinatePoint("16.4265", "48.2686"));
+		Location<?> giefinggasseAit = Location.createMinimal(new CoordinatePoint("16.4265", "48.2686"));
 		Location<?> heinrichVonBuolGasseBicycleParking = Location
-				.createMinimum(new CoordinatePoint("16.4279", "48.2668"));
-		Location<?> floridsdorf = Location.createMinimum(new CoordinatePoint("16.4007", "48.2562"));
+				.createMinimal(new CoordinatePoint("16.4279", "48.2668"));
+		Location<?> floridsdorf = Location.createMinimal(new CoordinatePoint("16.4007", "48.2562"));
 		GeoJSONFeature<GeoJSONLineString> geometryGeoJson = GeoJSONFeature.newLineStringFeature(giefinggasseAit,
 				heinrichVonBuolGasseBicycleParking, new CoordinatePoint("16.4263", "48.2682"),
 				new CoordinatePoint("16.42824", "48.26719"));

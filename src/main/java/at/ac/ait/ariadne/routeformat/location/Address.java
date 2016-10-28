@@ -2,7 +2,9 @@ package at.ac.ait.ariadne.routeformat.location;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.TreeMap;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -11,6 +13,7 @@ import com.google.common.base.Joiner;
 import at.ac.ait.ariadne.routeformat.Validatable;
 
 /**
+ * 
  * @author AIT Austrian Institute of Technology GmbH
  */
 @JsonInclude(Include.NON_EMPTY)
@@ -21,6 +24,7 @@ public class Address implements Validatable {
 	private Optional<String> postCode = Optional.empty();
 	private Optional<String> streetName = Optional.empty();
 	private Optional<String> houseNumber = Optional.empty();
+	private Map<String, String> additionalInfo = new TreeMap<>();
 
 	// -- getters
 
@@ -42,6 +46,10 @@ public class Address implements Validatable {
 
 	public Optional<String> getHouseNumber() {
 		return houseNumber;
+	}
+
+	public Map<String, String> getAdditionalInfo() {
+		return additionalInfo;
 	}
 
 	// -- setters
@@ -68,6 +76,11 @@ public class Address implements Validatable {
 
 	public Address setHouseNumber(String houseNumber) {
 		this.houseNumber = Optional.ofNullable(houseNumber);
+		return this;
+	}
+
+	public Address setAdditionalInfo(Map<String, String> additionalInfo) {
+		this.additionalInfo = new TreeMap<>(additionalInfo);
 		return this;
 	}
 

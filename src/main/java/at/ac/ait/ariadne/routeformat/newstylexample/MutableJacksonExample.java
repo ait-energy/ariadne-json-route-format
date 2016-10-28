@@ -54,8 +54,8 @@ class MutableJacksonExample {
 //		example.setMyMap(ImmutableMap.of("a", ContinueDirection.OPPOSITE));
 //		RoundaboutInstruction example = RoundaboutInstruction.createMinimalEnterInstruction(new CoordinatePoint(16, 48), 2);
 //		MutableJsonClass example = new DetailedMutableJsonClass().setAnotherDetail("yo").setMyInteger(1);
-		Landmark landmark = Landmark.createMinimumLandmark(Preposition.AFTER, null);
-		BasicRoadInstruction example = BasicRoadInstruction.createMinimumOnRoute(new CoordinatePoint(48, 16),
+		Landmark landmark = Landmark.createMinimalLandmark(Preposition.AFTER, null);
+		BasicRoadInstruction example = BasicRoadInstruction.createMinimalOnRoute(new CoordinatePoint(48, 16),
 				TurnDirection.LEFT, Optional.of("Ringstraße"), Optional.of(FormOfWay.ROAD));
 		example.setContinueSeconds(50).setLandmark(landmark);
 		

@@ -15,7 +15,7 @@ public class LocationTest {
 
 	@Test
 	public void simpleLocationTest() {
-		Location<?> l = Location.createMinimum(coordinate);
+		Location<?> l = Location.createMinimal(coordinate);
 		l.validate();
 		Assert.assertEquals(coordinate.x, l.getCoordinate().geometry.coordinates.get(0));
 		Assert.assertEquals(coordinate.y, l.getCoordinate().geometry.coordinates.get(1));
@@ -30,7 +30,7 @@ public class LocationTest {
 	@Test
 	public void poiTest() {
 		String museumName = "Naturhistorisches Museum";
-		PointOfInterest poi = PointOfInterest.createMinimum(coordinate).setPoiType("museum").setName(museumName);
+		PointOfInterest poi = PointOfInterest.createMinimal(coordinate).setPoiType("museum").setName(museumName);
 		poi.validate();
 		Assert.assertEquals(museumName, poi.getName().get());
 	}

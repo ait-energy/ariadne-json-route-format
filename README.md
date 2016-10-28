@@ -10,7 +10,7 @@ A simple example how to display a route in a browser with Leaflet is shown in `s
 
 ## Coding Style
 - implicit public constructor without arguments (used by jackson for deserialization)
-- static `createXY()` methods as shortcuts for building minimum (or typically used) instances
+- static `createMinimal()` methods as shortcuts for building minimal (or typically used) instances
 - all members are private and mutable
     - initialization of complex types when they are defined and so that they are mutable (i.e. `new HashMap<>()` instead of `Collections.emptyMap()`)
 - getter methods for all members (used by jackson for serialization)

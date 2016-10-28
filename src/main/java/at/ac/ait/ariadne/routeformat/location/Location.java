@@ -19,8 +19,9 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPoint;
 
 /**
- * A generic {@link Location}, in its minimal form it only contains a coordinate
- * point.
+ * A generic {@link Location}.
+ * <p>
+ * In its minimal form it only contains a coordinate point.
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */
@@ -104,7 +105,7 @@ public class Location<T extends Location<T>> implements Validatable {
 
 	// --
 
-	public static Location<?> createMinimum(CoordinatePoint position) {
+	public static Location<?> createMinimal(CoordinatePoint position) {
 		return new Location<>().setCoordinate(position);
 	}
 

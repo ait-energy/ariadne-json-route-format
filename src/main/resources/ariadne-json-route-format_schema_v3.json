@@ -150,6 +150,12 @@
                 },
                 "houseNumber" : {
                   "type" : "string"
+                },
+                "additionalInfo" : {
+                  "type" : "object",
+                  "additionalProperties" : {
+                    "type" : "string"
+                  }
                 }
               }
             },
@@ -247,6 +253,12 @@
                           },
                           "houseNumber" : {
                             "type" : "string"
+                          },
+                          "additionalInfo" : {
+                            "type" : "object",
+                            "additionalProperties" : {
+                              "type" : "string"
+                            }
                           }
                         }
                       },
@@ -625,7 +637,85 @@
                     "properties" : {
                       "stop" : {
                         "type" : "object",
-                        "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:location:Location"
+                        "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:location:Location<java:lang:Object>",
+                        "properties" : {
+                          "coordinate" : {
+                            "type" : "object",
+                            "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONFeature<at:ac:ait:ariadne:routeformat:geojson:GeoJSONPoint>"
+                          },
+                          "complexGeometry" : {
+                            "type" : "object",
+                            "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONFeature<java:lang:Object>",
+                            "properties" : {
+                              "type" : {
+                                "type" : "string",
+                                "required" : true,
+                                "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon", "MultiPolygon" ]
+                              },
+                              "crs" : {
+                                "type" : "object",
+                                "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS",
+                                "properties" : {
+                                  "type" : {
+                                    "type" : "string",
+                                    "required" : true
+                                  },
+                                  "properties" : {
+                                    "type" : "object",
+                                    "required" : true,
+                                    "additionalProperties" : {
+                                      "type" : "any"
+                                    }
+                                  }
+                                }
+                              },
+                              "geometry" : {
+                                "type" : "any",
+                                "required" : true
+                              },
+                              "properties" : {
+                                "type" : "object",
+                                "required" : true,
+                                "additionalProperties" : {
+                                  "type" : "any"
+                                }
+                              }
+                            }
+                          },
+                          "address" : {
+                            "type" : "object",
+                            "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:location:Address",
+                            "properties" : {
+                              "country" : {
+                                "type" : "string"
+                              },
+                              "city" : {
+                                "type" : "string"
+                              },
+                              "postCode" : {
+                                "type" : "string"
+                              },
+                              "streetName" : {
+                                "type" : "string"
+                              },
+                              "houseNumber" : {
+                                "type" : "string"
+                              },
+                              "additionalInfo" : {
+                                "type" : "object",
+                                "additionalProperties" : {
+                                  "type" : "string"
+                                }
+                              }
+                            }
+                          },
+                          "additionalInfo" : {
+                            "type" : "object",
+                            "additionalProperties" : {
+                              "type" : "string"
+                            }
+                          }
+                        }
                       },
                       "plannedArrivalTime" : {
                         "type" : "string"
@@ -638,6 +728,12 @@
                       },
                       "estimatedDepartureTime" : {
                         "type" : "string"
+                      },
+                      "additionalInfo" : {
+                        "type" : "object",
+                        "additionalProperties" : {
+                          "type" : "any"
+                        }
                       }
                     }
                   }

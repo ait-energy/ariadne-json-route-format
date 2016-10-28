@@ -22,16 +22,16 @@ public class RouteSegmentMergerTest {
 
 	@BeforeClass
 	public static void initialise() {
-		adalbertStifterStrasse15 = Location.createMinimum(new CoordinatePoint(16.3655, 48.23752))
+		adalbertStifterStrasse15 = Location.createMinimal(new CoordinatePoint(16.3655, 48.23752))
 				.setAddress(new Address().setStreetName("Adalbert-Stifter-Straße").setHouseNumber("15"));
 
-		treustrasse92 = Location.createMinimum(new CoordinatePoint(16.36329, 48.234077))
+		treustrasse92 = Location.createMinimal(new CoordinatePoint(16.36329, 48.234077))
 				.setAddress(new Address().setStreetName("Treustraße").setHouseNumber("92").setPostCode("1200"));
 
-		treustrasse84 = Location.createMinimum(new CoordinatePoint(16.36369, 48.23348))
+		treustrasse84 = Location.createMinimal(new CoordinatePoint(16.36369, 48.23348))
 				.setAddress(new Address().setStreetName("Treustraße").setHouseNumber("84").setPostCode("1200"));
 
-		gaussplatz = Location.createMinimum(new CoordinatePoint(16.369045, 48.2267))
+		gaussplatz = Location.createMinimal(new CoordinatePoint(16.369045, 48.2267))
 				.setAddress(new Address().setStreetName("Gaußplatz"));
 	}
 

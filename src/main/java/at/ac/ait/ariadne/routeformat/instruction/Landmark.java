@@ -5,7 +5,6 @@ import java.util.Optional;
 import java.util.TreeMap;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Maps;
 
 import at.ac.ait.ariadne.routeformat.Constants.Preposition;
 import at.ac.ait.ariadne.routeformat.Constants.RelativeDirection;
@@ -13,6 +12,12 @@ import at.ac.ait.ariadne.routeformat.Validatable;
 import at.ac.ait.ariadne.routeformat.location.Location;
 
 /**
+ * A landmark, i.e. a salient object in the real world, that is used in
+ * navigation instructions.
+ * <p>
+ * In its minimal form it consists of a preposition and a {@link Location}, e.g.
+ * "before the public transport stop".
+ * 
  * @author AIT Austrian Institute of Technology GmbH
  */
 public class Landmark implements Validatable {
@@ -73,7 +78,7 @@ public class Landmark implements Validatable {
 
 	// --
 
-	public static Landmark createMinimumLandmark(Preposition preposition, Location<?> location) {
+	public static Landmark createMinimalLandmark(Preposition preposition, Location<?> location) {
 		return new Landmark().setPreposition(preposition).setLocation(location);
 	}
 

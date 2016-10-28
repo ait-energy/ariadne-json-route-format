@@ -8,6 +8,11 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
 
 /**
+ * A point of interest.
+ * <p>
+ * In its minimal form it does not contain any additional attributes, but just
+ * the information that this {@link Location} is a point of interest.
+ * 
  * @author AIT Austrian Institute of Technology GmbH
  */
 @JsonInclude(Include.NON_EMPTY)
@@ -40,7 +45,7 @@ public class PointOfInterest extends Location<PointOfInterest> {
 
 	// --
 
-	public static PointOfInterest createMinimum(CoordinatePoint position) {
+	public static PointOfInterest createMinimal(CoordinatePoint position) {
 		return new PointOfInterest().setCoordinate(position);
 	}
 

@@ -16,7 +16,9 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPoint;
 
 /**
- * Common base class for all turn-by-turn navigation instructions
+ * Common base class for all types of turn-by-turn navigation instructions.
+ * <p>
+ * In its minimal form it consists of a position.
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */
@@ -125,6 +127,8 @@ public abstract class Instruction<T extends Instruction<T>> implements Validatab
 		this.additionalInfo = new TreeMap<>(additionalInfo);
 		return (T) this;
 	}
+
+	// --
 
 	@Override
 	public void validate() {

@@ -31,11 +31,11 @@ public class ModeOfTransportTest {
 	}
 
 	private Service createService() {
-		return Service.builder().withName("29A").withTowards("Floridsdorf").build();
+		return Service.createMinimal("29A").setTowards("Floridsdorf");
 	}
 
 	private Operator createOperator() {
-		return Operator.builder().withId("WL").withName("Wiener Linien").build();
+		return Operator.createMinimal("Wiener Linien").setId("WL");
 	}
 
 }

@@ -82,20 +82,19 @@ public class IntermodalRouteExample {
 	}
 
 	private void initializeOperators() {
-		wienerLinienOperator = Operator.builder().withName("Wiener Linien").withWebsite("http://www.wienerlinien.at")
-				.withCustomerServiceEmail("post@wienerlinien.at")
-				.withAdditionalInfo(ImmutableMap.of("email_ticketshop", "ticketshop@wienerlinien.at")).build();
+		wienerLinienOperator = Operator.createMinimal("Wiener Linien").setWebsite("http://www.wienerlinien.at")
+				.setCustomerServiceEmail("post@wienerlinien.at")
+				.setAdditionalInfo(ImmutableMap.of("email_ticketshop", "ticketshop@wienerlinien.at"));
 
-		citybikeOperator = Operator.builder().withName("Citybike Wien").withWebsite("http://citybikewien.at")
-				.withCustomerServiceEmail("kontakt@citybikewien.at").withCustomerServicePhone("0810 500 500")
-				.withAddress(new Address().setStreetName("Litfaßstraße").setHouseNumber("6").setPostCode("1030")
-						.setCity("Wien"))
-				.build();
+		citybikeOperator = Operator.createMinimal("Citybike Wien").setWebsite("http://citybikewien.at")
+				.setCustomerServiceEmail("kontakt@citybikewien.at").setCustomerServicePhone("0810 500 500")
+				.setAddress(new Address().setStreetName("Litfaßstraße").setHouseNumber("6").setPostCode("1030")
+						.setCity("Wien"));
 
-		car2goOperator = Operator.builder().withName("Car2Go").withWebsite("https://www.car2go.com/de/wien")
-				.withCustomerServiceEmail("wien@car2go.com").build();
+		car2goOperator = Operator.createMinimal("Car2Go").setWebsite("https://www.car2go.com/de/wien")
+				.setCustomerServiceEmail("wien@car2go.com");
 
-		flincOperator = Operator.builder().withName("Flinc").withWebsite("https://flinc.org").build();
+		flincOperator = Operator.createMinimal("Flinc").setWebsite("https://flinc.org");
 	}
 
 	private void initializeComplexModesOfTransport() {
@@ -114,67 +113,68 @@ public class IntermodalRouteExample {
 
 	private void initializeLocations() {
 		Address giefinggasse = new Address().setCountry("Austria").setCity("Wien").setPostCode("1210")
-				.setStreetName("Giefinggasse").setHouseNumber("2b");
+				.setStreetName("Giefinggasse").setHouseNumber("2b")
+				.setAdditionalInfo(ImmutableMap.of("floor", "3", "room", "S313"));
 
-		giefinggasseAit = PointOfInterest.createMinimum(new CoordinatePoint("16.4265263", "48.2686617"))
+		giefinggasseAit = PointOfInterest.createMinimal(new CoordinatePoint("16.4265263", "48.2686617"))
 				.setAddress(giefinggasse).setName("AIT").setPoiType("company");
 
-		heinrichVonBuolGasseBusStop = PublicTransportStop.createMinimum(new CoordinatePoint("16.42791", "48.26680"))
+		heinrichVonBuolGasseBusStop = PublicTransportStop.createMinimal(new CoordinatePoint("16.42791", "48.26680"))
 				.setName("Heinrich-von-Buol-Gasse/Siemensstraße");
 
-		floridsdorfBusStop = PublicTransportStop.createMinimum(new CoordinatePoint("16.40073", "48.25625"))
+		floridsdorfBusStop = PublicTransportStop.createMinimal(new CoordinatePoint("16.40073", "48.25625"))
 				.setName("Floridsdorf").setPlatform("C");
 
-		floridsdorfSubwayStop = PublicTransportStop.createMinimum(new CoordinatePoint("16.40050", "48.25618"))
+		floridsdorfSubwayStop = PublicTransportStop.createMinimal(new CoordinatePoint("16.40050", "48.25618"))
 				.setName("Floridsdorf").setPlatform("2 (U-Bahn)");
 
-		neueDonauSubwayStop = PublicTransportStop.createMinimum(new CoordinatePoint("16.39468", "48.24630"))
+		neueDonauSubwayStop = PublicTransportStop.createMinimal(new CoordinatePoint("16.39468", "48.24630"))
 				.setName("Neue Donau").setPlatform("2").setRelatedLines(ImmutableMap.of("20A",
 						DetailedModeOfTransportType.BUS, "20B", DetailedModeOfTransportType.BUS));
 
-		handelskaiSubwayStop = PublicTransportStop.createMinimum(new CoordinatePoint("16.38541", "48.24173"))
+		handelskaiSubwayStop = PublicTransportStop.createMinimal(new CoordinatePoint("16.38541", "48.24173"))
 				.setName("Handelskai").setPlatform("2");
 
-		handelskaiSubwayEntry = PublicTransportStop.createMinimum(new CoordinatePoint("16.3848877", "48.2416471"))
+		handelskaiSubwayEntry = PublicTransportStop.createMinimal(new CoordinatePoint("16.3848877", "48.2416471"))
 				.setName("Handelskai (Stationseingang)");
 
-		handelskaiCitybike = SharingStation.createMinimum(new CoordinatePoint("16.3847976", "48.2420356"))
+		handelskaiCitybike = SharingStation.createMinimal(new CoordinatePoint("16.3847976", "48.2420356"))
 				.setName("Millennium Tower").setId("2005")
 				.setModesOfTransport(Arrays.asList(GeneralizedModeOfTransportType.BICYCLE))
 				.setOperator(citybikeOperator)
 				.setAdditionalInfo(ImmutableMap.of("capacity", "35", "bikes_available", "10", "boxes_available", "25"));
 
-		friedrichEngelsPlatzCitybike = SharingStation.createMinimum(new CoordinatePoint("16.3792033", "48.2441354"))
+		friedrichEngelsPlatzCitybike = SharingStation.createMinimal(new CoordinatePoint("16.3792033", "48.2441354"))
 				.setName("Friedrich Engels Platz").setId("2006")
 				.setModesOfTransport(Arrays.asList(GeneralizedModeOfTransportType.BICYCLE))
 				.setOperator(citybikeOperator)
 				.setAdditionalInfo(ImmutableMap.of("capacity", "27", "bikes_available", "27", "boxes_available", "0"));
 
-		car2goPickup = Location.createMinimum(new CoordinatePoint("16.377454", "48.24386"))
+		car2goPickup = Location.createMinimal(new CoordinatePoint("16.377454", "48.24386"))
 				.setAddress(new Address().setStreetName("Adalbert-Stifter-Straße").setHouseNumber("71"));
 
-		adalbertStifterStrasse15 = Location.createMinimum(new CoordinatePoint("16.3655", "48.23752"))
+		adalbertStifterStrasse15 = Location.createMinimal(new CoordinatePoint("16.3655", "48.23752"))
 				.setAddress(new Address().setStreetName("Adalbert-Stifter-Straße").setHouseNumber("15"));
 
-		privateBicycleHopsagasse = Location.createMinimum(new CoordinatePoint("16.3715916", "48.246609"))
+		privateBicycleHopsagasse = Location.createMinimal(new CoordinatePoint("16.3715916", "48.246609"))
 				.setAddress(new Address().setStreetName("Hopsagasse").setHouseNumber("5").setPostCode("1200"));
 
-		antonKummererPark = PointOfInterest.createMinimum(new CoordinatePoint("16.364074", "48.2350109"))
+		antonKummererPark = PointOfInterest.createMinimal(new CoordinatePoint("16.364074", "48.2350109"))
 				.setPoiType("park").setName("Anton-Kummerer-Park");
 
-		treustrasse92 = Location.createMinimum(new CoordinatePoint("16.36329", "48.234077"))
+		treustrasse92 = Location.createMinimal(new CoordinatePoint("16.36329", "48.234077"))
 				.setAddress(new Address().setStreetName("Treustraße").setHouseNumber("92").setPostCode("1200"));
 
-		gaussplatz = Location.createMinimum(new CoordinatePoint("16.369045", "48.2267"))
+		gaussplatz = Location.createMinimal(new CoordinatePoint("16.369045", "48.2267"))
 				.setAddress(new Address().setStreetName("Gaußplatz"));
 
-		scholzgasse1 = Location.createMinimum(new CoordinatePoint("16.3695", "48.2243"))
+		scholzgasse1 = Location.createMinimal(new CoordinatePoint("16.3695", "48.2243"))
 				.setAddress(new Address().setStreetName("Scholzgasse").setHouseNumber("1").setPostCode("1020"));
 	}
 
 	private void initializePublicTransportServices() {
-		service28A = Service.builder().withName("28A").withTowards("Floridsdorf").build();
-		serviceU6 = Service.builder().withName("U6").withTowards("Siebenhirten").withColor("#bf7700").build();
+		service28A = Service.createMinimal("28A").setTowards("Floridsdorf");
+		serviceU6 = Service.createMinimal("U6").setTowards("Siebenhirten").setColor("#bf7700");
 	}
 
 	/**
@@ -385,7 +385,7 @@ public class IntermodalRouteExample {
 				// & locking bike
 				.withDurationSeconds(106 + 60 * 2).withBoardingSeconds(60 * 1).withAlightingSeconds(60 * 1)
 				.withStartTime("2016-01-01T15:43:05+01:00").withEndTime("2016-01-01T15:46:51+01:00")
-				.withIntermediateStops(Arrays.asList(IntermediateStop.builder().withStop(antonKummererPark).build()))
+				.withIntermediateStops(Arrays.asList(IntermediateStop.createMinimal(antonKummererPark)))
 				// additional info about vehicles provided in the request can be
 				// added here (such as in project SMILE)
 				.withAdditionalInfo(ImmutableMap.of("name", "Univega Mountainbike"))
@@ -455,9 +455,9 @@ public class IntermodalRouteExample {
 	private IntermediateStop createIntermediateStopNeueDonau() {
 		ZonedDateTime arrivalTime = ZonedDateTime.parse("2016-01-01T15:22:30+01:00");
 		ZonedDateTime departureTime = arrivalTime.plus(60, ChronoUnit.SECONDS);
-		return IntermediateStop.builder().withStop(neueDonauSubwayStop).withPlannedArrivalTime(arrivalTime)
-				.withPlannedDepartureTime(departureTime).withEstimatedArrivalTime(arrivalTime)
-				.withEstimatedDepartureTime(departureTime).build();
+		return IntermediateStop.createMinimal(neueDonauSubwayStop).setPlannedArrivalTime(arrivalTime)
+				.setPlannedDepartureTime(departureTime).setEstimatedArrivalTime(arrivalTime)
+				.setEstimatedDepartureTime(departureTime);
 	}
 
 	public RouteSegment getFootSegment() {

@@ -26,7 +26,7 @@ public class InstructionTest {
 	@Test
 	public void testProperDeSerialization() throws IOException {
 		mapper.disable(SerializationFeature.INDENT_OUTPUT);
-		BasicRoadInstruction instruction = BasicRoadInstruction.createMinimumRouteStart(
+		BasicRoadInstruction instruction = BasicRoadInstruction.createMinimalRouteStart(
 				new CoordinatePoint("48.123", "16"), Optional.of("Testweg"), Optional.of(FormOfWay.ROAD));
 		instruction.validate();
 

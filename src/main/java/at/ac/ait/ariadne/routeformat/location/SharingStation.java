@@ -13,6 +13,11 @@ import at.ac.ait.ariadne.routeformat.Operator;
 import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
 
 /**
+ * A sharing station, e.g. bike- or car-sharing.
+ * <p>
+ * In its minimal form it does not contain any additional attributes, but just
+ * the information that this {@link Location} is a sharing station.
+ * 
  * @author AIT Austrian Institute of Technology GmbH
  */
 @JsonInclude(Include.NON_EMPTY)
@@ -71,7 +76,7 @@ public class SharingStation extends Location<SharingStation> {
 
 	// --
 
-	public static SharingStation createMinimum(CoordinatePoint position) {
+	public static SharingStation createMinimal(CoordinatePoint position) {
 		return new SharingStation().setCoordinate(position);
 	}
 

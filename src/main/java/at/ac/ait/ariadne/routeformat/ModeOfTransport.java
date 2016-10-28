@@ -14,14 +14,17 @@ import com.google.common.base.Preconditions;
 import at.ac.ait.ariadne.routeformat.Constants.DetailedModeOfTransportType;
 import at.ac.ait.ariadne.routeformat.Constants.GeneralizedModeOfTransportType;
 import at.ac.ait.ariadne.routeformat.Constants.Sharing;
+import at.ac.ait.ariadne.routeformat.Constants.VehicleAccessibility;
 
 /**
- * A {@link ModeOfTransport} at minimum specifies a
- * {@link GeneralizedModeOfTransportType}, but can also contain detailed
- * information about vehicles (e.g. buses, shared cars,..).
+ * Contains information about the mode of transport up to the detail level of
+ * information about the operator (e.g. of a taxi), the details about a public
+ * transport line or the type of vehicle (e.g. electric or not).
+ * <p>
+ * In its minimal form it consists of a {@link GeneralizedModeOfTransportType}.
  * <p>
  * Some standard modes of transport where additional information is seldom
- * required are provided, e.g. STANDARD_FOOT.
+ * required are provided, e.g. STANDARD_FOOT
  * <p>
  * {@link #equals(Object)} returns <code>true</code> for instances with the same
  * content.
@@ -46,7 +49,7 @@ public class ModeOfTransport implements Validatable {
 	private Optional<Operator> operator = Optional.empty();
 	private Optional<Boolean> electric = Optional.empty();
 	private Optional<Sharing> sharingType = Optional.empty();
-	private Set<Constants.VehicleAccessibility> accessibility = new TreeSet<>();
+	private Set<VehicleAccessibility> accessibility = new TreeSet<>();
 	private Map<String, Object> additionalInfo = new TreeMap<>();
 
 	// -- getters
@@ -89,7 +92,7 @@ public class ModeOfTransport implements Validatable {
 		return sharingType;
 	}
 
-	public Set<Constants.VehicleAccessibility> getAccessibility() {
+	public Set<VehicleAccessibility> getAccessibility() {
 		return accessibility;
 	}
 
@@ -142,7 +145,7 @@ public class ModeOfTransport implements Validatable {
 		return this;
 	}
 
-	public ModeOfTransport setAccessibility(Set<Constants.VehicleAccessibility> accessibility) {
+	public ModeOfTransport setAccessibility(Set<VehicleAccessibility> accessibility) {
 		this.accessibility = new TreeSet<>(accessibility);
 		return this;
 	}
@@ -165,9 +168,10 @@ public class ModeOfTransport implements Validatable {
 	@Override
 	public void validate() {
 		Preconditions.checkArgument(generalizedType != null, "generalizedType is mandatory but missing");
-		if (detailedType.isPresent())
-			Preconditions.checkArgument(detailedType.get().getGeneralizedType() == generalizedType,
-					"mode of transpor types do not match");
+		detailedType.ifPresent(d -> Preconditions.checkArgument(d.getGeneralizedType() == generalizedType,
+				"mode of transpor types do not match"));
+		service.ifPresent(s -> s.validate());
+		operator.ifPresent(o -> o.validate());
 	}
 
 	@Override

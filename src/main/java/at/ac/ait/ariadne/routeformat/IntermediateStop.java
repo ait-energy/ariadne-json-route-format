@@ -1,16 +1,16 @@
 package at.ac.ait.ariadne.routeformat;
 
 import java.time.ZonedDateTime;
+import java.util.Map;
 import java.util.Optional;
+import java.util.TreeMap;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Preconditions;
 
-import at.ac.ait.ariadne.routeformat.IntermediateStop.Builder;
 import at.ac.ait.ariadne.routeformat.location.Location;
 import at.ac.ait.ariadne.routeformat.util.Utils;
 
@@ -19,165 +19,171 @@ import at.ac.ait.ariadne.routeformat.util.Utils;
  * interest to the user, e.g. a public transport stop where the public transport
  * line the user is traveling with stops or a point of interest along a cycle
  * route.
+ * <p>
+ * In its minimal form it consists of a {@link Location}.
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */
-@JsonDeserialize(builder = Builder.class)
 @JsonInclude(Include.NON_EMPTY)
-public class IntermediateStop {
-    private final Location stop;
-    private final Optional<ZonedDateTime> plannedArrivalTime;
-    private final Optional<ZonedDateTime> plannedDepartureTime;
-    private final Optional<ZonedDateTime> estimatedArrivalTime;
-    private final Optional<ZonedDateTime> estimatedDepartureTime;
+public class IntermediateStop implements Validatable {
+	private Location<?> stop;
+	private Optional<ZonedDateTime> plannedArrivalTime = Optional.empty();
+	private Optional<ZonedDateTime> plannedDepartureTime = Optional.empty();
+	private Optional<ZonedDateTime> estimatedArrivalTime = Optional.empty();
+	private Optional<ZonedDateTime> estimatedDepartureTime = Optional.empty();
+	private Map<String, Object> additionalInfo = new TreeMap<>();
 
-    public Location getStop() {
-        return stop;
-    }
+	// -- getters
 
-    /**
-     * @return static time according to a time table
-     */
-    public Optional<String> getPlannedArrivalTime() {
-        return plannedArrivalTime.map(time -> time.toString());
-    }
+	public Location<?> getStop() {
+		return stop;
+	}
 
-    /**
-     * @return static time according to a time table
-     */
-    @JsonIgnore
-    public Optional<ZonedDateTime> getPlannedArrivalTimeAsZonedDateTime() {
-        return plannedArrivalTime;
-    }
+	/**
+	 * @return static time according to a time table
+	 */
+	public Optional<String> getPlannedArrivalTime() {
+		return plannedArrivalTime.map(time -> time.toString());
+	}
 
-    /**
-     * @return static time according to a time table
-     */
-    public Optional<String> getPlannedDepartureTime() {
-        return plannedDepartureTime.map(time -> time.toString());
-    }
+	/**
+	 * @return static time according to a time table
+	 */
+	@JsonIgnore
+	public Optional<ZonedDateTime> getPlannedArrivalTimeAsZonedDateTime() {
+		return plannedArrivalTime;
+	}
 
-    /**
-     * @return static time according to a time table
-     */
-    @JsonIgnore
-    public Optional<ZonedDateTime> getPlannedDepartureTimeAsZonedDateTime() {
-        return plannedDepartureTime;
-    }
+	/**
+	 * @return static time according to a time table
+	 */
+	public Optional<String> getPlannedDepartureTime() {
+		return plannedDepartureTime.map(time -> time.toString());
+	}
 
-    /**
-     * @return time estimated via real-time data
-     */
-    public Optional<String> getEstimatedArrivalTime() {
-        return estimatedArrivalTime.map(time -> time.toString());
-    }
+	/**
+	 * @return static time according to a time table
+	 */
+	@JsonIgnore
+	public Optional<ZonedDateTime> getPlannedDepartureTimeAsZonedDateTime() {
+		return plannedDepartureTime;
+	}
 
-    /**
-     * @return time estimated via real-time data
-     */
-    @JsonIgnore
-    public Optional<ZonedDateTime> getEstimatedArrivalTimeAsZonedDateTime() {
-        return estimatedArrivalTime;
-    }
+	/**
+	 * @return time estimated via real-time data
+	 */
+	public Optional<String> getEstimatedArrivalTime() {
+		return estimatedArrivalTime.map(time -> time.toString());
+	}
 
-    /**
-     * @return time estimated via real-time data
-     */
-    public Optional<String> getEstimatedDepartureTime() {
-        return estimatedDepartureTime.map(time -> time.toString());
-    }
+	/**
+	 * @return time estimated via real-time data
+	 */
+	@JsonIgnore
+	public Optional<ZonedDateTime> getEstimatedArrivalTimeAsZonedDateTime() {
+		return estimatedArrivalTime;
+	}
 
-    /**
-     * @return time estimated via real-time data
-     */
-    @JsonIgnore
-    public Optional<ZonedDateTime> getEstimatedDepartureTimeAsZonedDateTime() {
-        return estimatedDepartureTime;
-    }
+	/**
+	 * @return time estimated via real-time data
+	 */
+	public Optional<String> getEstimatedDepartureTime() {
+		return estimatedDepartureTime.map(time -> time.toString());
+	}
 
-    public IntermediateStop(Builder builder) {
-        this.stop = builder.stop;
-        this.plannedArrivalTime = builder.plannedArrivalTime;
-        this.plannedDepartureTime = builder.plannedDepartureTime;
-        this.estimatedArrivalTime = builder.estimatedArrivalTime;
-        this.estimatedDepartureTime = builder.estimatedDepartureTime;
-    }
+	/**
+	 * @return time estimated via real-time data
+	 */
+	@JsonIgnore
+	public Optional<ZonedDateTime> getEstimatedDepartureTimeAsZonedDateTime() {
+		return estimatedDepartureTime;
+	}
 
-    public static Builder builder() {
-        return new Builder();
-    }
+	public Map<String, Object> getAdditionalInfo() {
+		return additionalInfo;
+	}
 
-    public static class Builder {
-        private Location stop;
-        private Optional<ZonedDateTime> plannedArrivalTime = Optional.empty();
-        private Optional<ZonedDateTime> plannedDepartureTime = Optional.empty();
-        private Optional<ZonedDateTime> estimatedArrivalTime = Optional.empty();
-        private Optional<ZonedDateTime> estimatedDepartureTime = Optional.empty();
+	// -- setters
 
-        public Builder withStop(Location stop) {
-            this.stop = stop;
-            return this;
-        }
+	public IntermediateStop setStop(Location<?> stop) {
+		this.stop = stop;
+		return this;
+	}
 
-        @JsonIgnore
-        public Builder withPlannedArrivalTime(ZonedDateTime plannedArrivalTime) {
-            this.plannedArrivalTime = Optional.ofNullable(plannedArrivalTime);
-            return this;
-        }
+	@JsonIgnore
+	public IntermediateStop setPlannedArrivalTime(ZonedDateTime plannedArrivalTime) {
+		this.plannedArrivalTime = Optional.ofNullable(plannedArrivalTime);
+		return this;
+	}
 
-        @JsonProperty
-        public Builder withPlannedArrivalTime(String plannedArrivalTime) {
-            this.plannedArrivalTime = Optional
-                    .ofNullable(Utils.parseZonedDateTime(plannedArrivalTime, "plannedArrivalTime"));
-            return this;
-        }
+	@JsonProperty
+	public IntermediateStop setPlannedArrivalTime(String plannedArrivalTime) {
+		this.plannedArrivalTime = Optional
+				.ofNullable(Utils.parseZonedDateTime(plannedArrivalTime, "plannedArrivalTime"));
+		return this;
+	}
 
-        @JsonIgnore
-        public Builder withPlannedDepartureTime(ZonedDateTime plannedDepartureTime) {
-            this.plannedDepartureTime = Optional.ofNullable(plannedDepartureTime);
-            return this;
-        }
+	@JsonIgnore
+	public IntermediateStop setPlannedDepartureTime(ZonedDateTime plannedDepartureTime) {
+		this.plannedDepartureTime = Optional.ofNullable(plannedDepartureTime);
+		return this;
+	}
 
-        @JsonProperty
-        public Builder withPlannedDepartureTime(String plannedDepartureTime) {
-            this.plannedDepartureTime = Optional
-                    .ofNullable(Utils.parseZonedDateTime(plannedDepartureTime, "plannedDepartureTime"));
-            return this;
-        }
+	@JsonProperty
+	public IntermediateStop setPlannedDepartureTime(String plannedDepartureTime) {
+		this.plannedDepartureTime = Optional
+				.ofNullable(Utils.parseZonedDateTime(plannedDepartureTime, "plannedDepartureTime"));
+		return this;
+	}
 
-        @JsonIgnore
-        public Builder withEstimatedArrivalTime(ZonedDateTime estimatedArrivalTime) {
-            this.estimatedArrivalTime = Optional.ofNullable(estimatedArrivalTime);
-            return this;
-        }
+	@JsonIgnore
+	public IntermediateStop setEstimatedArrivalTime(ZonedDateTime estimatedArrivalTime) {
+		this.estimatedArrivalTime = Optional.ofNullable(estimatedArrivalTime);
+		return this;
+	}
 
-        @JsonProperty
-        public Builder withEstimatedArrivalTime(String estimatedArrivalTime) {
-            this.estimatedArrivalTime = Optional
-                    .ofNullable(Utils.parseZonedDateTime(estimatedArrivalTime, "estimatedArrivalTime"));
-            return this;
-        }
+	@JsonProperty
+	public IntermediateStop setEstimatedArrivalTime(String estimatedArrivalTime) {
+		this.estimatedArrivalTime = Optional
+				.ofNullable(Utils.parseZonedDateTime(estimatedArrivalTime, "estimatedArrivalTime"));
+		return this;
+	}
 
-        @JsonIgnore
-        public Builder withEstimatedDepartureTime(ZonedDateTime estimatedDepartureTime) {
-            this.estimatedDepartureTime = Optional.ofNullable(estimatedDepartureTime);
-            return this;
-        }
+	@JsonIgnore
+	public IntermediateStop setEstimatedDepartureTime(ZonedDateTime estimatedDepartureTime) {
+		this.estimatedDepartureTime = Optional.ofNullable(estimatedDepartureTime);
+		return this;
+	}
 
-        @JsonProperty
-        public Builder withEstimatedDepartureTime(String estimatedDepartureTime) {
-            this.estimatedDepartureTime = Optional
-                    .ofNullable(Utils.parseZonedDateTime(estimatedDepartureTime, "estimatedDepartureTime"));
-            return this;
-        }
+	@JsonProperty
+	public IntermediateStop setEstimatedDepartureTime(String estimatedDepartureTime) {
+		this.estimatedDepartureTime = Optional
+				.ofNullable(Utils.parseZonedDateTime(estimatedDepartureTime, "estimatedDepartureTime"));
+		return this;
+	}
 
-        public IntermediateStop build() {
-            validate();
-            return new IntermediateStop(this);
-        }
+	public IntermediateStop setAdditionalInfo(Map<String, Object> additionalInfo) {
+		this.additionalInfo = new TreeMap<>(additionalInfo);
+		return this;
+	}
 
-        private void validate() {
-            Preconditions.checkArgument(stop != null, "stop is mandatory but missing");
-        }
-    }
+	// --
+
+	public static IntermediateStop createMinimal(Location<?> stop) {
+		return new IntermediateStop().setStop(stop);
+	}
+
+	@Override
+	public void validate() {
+		Preconditions.checkArgument(stop != null, "stop is mandatory but missing");
+		stop.validate();
+	}
+
+	@Override
+	public String toString() {
+		return "IntermediateStop [stop=" + stop + ", plannedArrivalTime=" + plannedArrivalTime
+				+ ", plannedDepartureTime=" + plannedDepartureTime + ", estimatedArrivalTime=" + estimatedArrivalTime
+				+ ", estimatedDepartureTime=" + estimatedDepartureTime + ", additionalInfo=" + additionalInfo + "]";
+	}
+
 }

@@ -14,9 +14,10 @@ import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
 /**
  * A {@link BasicRoadInstruction} contains episodes with classic-style turn
  * navigations for street-based modes of transport such as walking, cycling and
- * driving (keep straight, turn left/right, make a u-turn). Most fields are
- * optional, but at least one of {@link #ontoStreetName} and
- * {@link #ontoFormOfWay} is guaranteed to be available.
+ * driving (keep straight, turn left/right, make a u-turn).
+ * <p>
+ * In its minimal form it consists of a position, a {@link #getSubType()} and at
+ * least one of {@link #getOntoStreetName()} and {@link #getOntoFormOfWay()}.
  * <p>
  * Exemplary EBNF of how this instruction can be transformed into human-readable
  * text and what's mandatory / optional. Elements ending with STRING are
@@ -194,7 +195,7 @@ public class BasicRoadInstruction extends Instruction<BasicRoadInstruction> {
 	/**
 	 * either street name or form of way must be present
 	 */
-	public static BasicRoadInstruction createMinimumRouteStart(CoordinatePoint position,
+	public static BasicRoadInstruction createMinimalRouteStart(CoordinatePoint position,
 			Optional<String> ontoStreetName, Optional<FormOfWay> ontoFormOfWay) {
 		return new BasicRoadInstruction().setPosition(position).setSubType(SubType.ROUTE_START)
 				.setOntoStreetName(ontoStreetName.orElse(null)).setOntoFormOfWay(ontoFormOfWay.orElse(null));
@@ -204,7 +205,7 @@ public class BasicRoadInstruction extends Instruction<BasicRoadInstruction> {
 	 * either street name or form of way must be present
 	 */
 
-	public static BasicRoadInstruction createMinimumOnRoute(CoordinatePoint position, TurnDirection turnDirection,
+	public static BasicRoadInstruction createMinimalOnRoute(CoordinatePoint position, TurnDirection turnDirection,
 			Optional<String> ontoStreetName, Optional<FormOfWay> ontoFormOfWay) {
 		return new BasicRoadInstruction().setPosition(position).setSubType(getSubType(turnDirection))
 				.setTurnDirection(turnDirection).setOntoStreetName(ontoStreetName.orElse(null))
@@ -214,7 +215,7 @@ public class BasicRoadInstruction extends Instruction<BasicRoadInstruction> {
 	/**
 	 * either street name or form of way (of the destination) must be present
 	 */
-	public static BasicRoadInstruction createMinimumRouteEnd(CoordinatePoint position, Optional<String> ontoStreetName,
+	public static BasicRoadInstruction createMinimalRouteEnd(CoordinatePoint position, Optional<String> ontoStreetName,
 			Optional<FormOfWay> ontoFormOfWay) {
 		return new BasicRoadInstruction().setPosition(position).setSubType(SubType.ROUTE_END)
 				.setOntoStreetName(ontoStreetName.orElse(null)).setOntoFormOfWay(ontoFormOfWay.orElse(null));

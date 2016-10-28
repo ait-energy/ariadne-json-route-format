@@ -10,8 +10,11 @@ import at.ac.ait.ariadne.routeformat.Constants.FormOfWay;
 import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
 
 /**
- * Instructions for navigating a roundabout. The {@link #exitNr} is mandatory
- * for {@link SubType#ENTER}.
+ * Instructions for navigating a roundabout.
+ * <p>
+ * In its minimal form it consists of a position and a {@link #getSubType()}. In
+ * case of {@link SubType#ENTER} the {@link #getExitNr()} is mandatory as well.
+ * 
  * <p>
  * Exemplary EBNF of how this instruction can be transformed into human-readable
  * text and what's mandatory / optional. Elements ending with STRING are
@@ -136,11 +139,11 @@ public class RoundaboutInstruction extends Instruction<RoundaboutInstruction> {
 
 	// --
 
-	public static RoundaboutInstruction createMinimumEnter(CoordinatePoint position, int exitNr) {
+	public static RoundaboutInstruction createMinimalEnter(CoordinatePoint position, int exitNr) {
 		return new RoundaboutInstruction().setPosition(position).setSubType(SubType.ENTER).setExitNr(exitNr);
 	}
 
-	public static RoundaboutInstruction createMinimumExit(CoordinatePoint position) {
+	public static RoundaboutInstruction createMinimalExit(CoordinatePoint position) {
 		return new RoundaboutInstruction().setPosition(position).setSubType(SubType.EXIT);
 	}
 

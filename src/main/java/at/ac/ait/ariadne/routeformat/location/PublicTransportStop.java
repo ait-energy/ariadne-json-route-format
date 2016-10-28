@@ -22,6 +22,9 @@ import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
  * accessibility information is relevant for the the way along the route and not
  * necessarily valid for the whole station. In the latter case (as an
  * intermediate stop) the information can be interpreted more generally.
+ * <p>
+ * In its minimal form it does not contain any additional attributes, but just
+ * the information that this {@link Location} is a public transport stop.
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */
@@ -83,7 +86,7 @@ public class PublicTransportStop extends Location<PublicTransportStop> {
 
 	// --
 
-	public static PublicTransportStop createMinimum(CoordinatePoint position) {
+	public static PublicTransportStop createMinimal(CoordinatePoint position) {
 		return new PublicTransportStop().setCoordinate(position);
 	}
 
