@@ -8,31 +8,32 @@ public class RouteSegmentTest {
 	@Test
 	public void enforceStartEndOrder() {
 		try {
-			TestUtil.buildTestRouteSegment(TestUtil.END_TIME, TestUtil.START_TIME).build(true);
+			TestUtil.createTestRouteSegment(TestUtil.END_TIME, TestUtil.START_TIME).validate(true);
 			Assert.fail("expected IllegalArgumentException");
 		} catch (IllegalArgumentException e) {
 		}
 
-		TestUtil.buildTestRouteSegment(TestUtil.START_TIME, TestUtil.END_TIME).build(true);
+		TestUtil.createTestRouteSegment(TestUtil.START_TIME, TestUtil.END_TIME).validate(true);
 	}
 
 	@Test
 	public void enforceCorrectDurationTest() {
 		try {
-			TestUtil.buildTestRouteSegment(TestUtil.START_TIME, "2007-12-03T10:16:31+01:00").build(true);
+			TestUtil.createTestRouteSegment(TestUtil.START_TIME, "2007-12-03T10:16:31+01:00").validate(true);
 			Assert.fail("expected IllegalArgumentException");
 		} catch (IllegalArgumentException e) {
 		}
 
-		TestUtil.buildTestRouteSegment(TestUtil.START_TIME, TestUtil.END_TIME).build(true);
+		TestUtil.createTestRouteSegment(TestUtil.START_TIME, TestUtil.END_TIME).validate(true);
 	}
 
 	@Test
 	public void timeTest() {
 		int boarding = 3;
 		int alighting = 10;
-		RouteSegment segment = TestUtil.buildTestRouteSegment(TestUtil.START_TIME, TestUtil.END_TIME)
-				.withBoardingSeconds(boarding).withAlightingSeconds(alighting).build(true);
+		RouteSegment segment = TestUtil.createTestRouteSegment(TestUtil.START_TIME, TestUtil.END_TIME)
+				.setBoardingSeconds(boarding).setAlightingSeconds(alighting);
+		segment.validate(true);
 		TestUtil.checkBoardingSeconds(segment, boarding);
 		TestUtil.checkAlightingSeconds(segment, alighting);
 		Assert.assertEquals(60, segment.getDurationSeconds());
@@ -55,14 +56,14 @@ public class RouteSegmentTest {
 				.setPlannedArrivalTime("2007-12-03T10:17:00+01:00");
 
 		try {
-			TestUtil.buildTestRouteSegment(TestUtil.START_TIME, TestUtil.END_TIME, afterEnd).build(true);
+			TestUtil.createTestRouteSegment(TestUtil.START_TIME, TestUtil.END_TIME, afterEnd).validate(true);
 			Assert.fail("expected IllegalArgumentException");
 		} catch (IllegalArgumentException e) {
 		}
 
-		TestUtil.buildTestRouteSegment(TestUtil.START_TIME, TestUtil.END_TIME, start).build(true);
-		TestUtil.buildTestRouteSegment(TestUtil.START_TIME, TestUtil.END_TIME, middle).build(true);
-		TestUtil.buildTestRouteSegment(TestUtil.START_TIME, TestUtil.END_TIME, end).build(true);
+		TestUtil.createTestRouteSegment(TestUtil.START_TIME, TestUtil.END_TIME, start).validate(true);
+		TestUtil.createTestRouteSegment(TestUtil.START_TIME, TestUtil.END_TIME, middle).validate(true);
+		TestUtil.createTestRouteSegment(TestUtil.START_TIME, TestUtil.END_TIME, end).validate(true);
 	}
 
 }

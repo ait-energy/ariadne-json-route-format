@@ -1,6 +1,7 @@
 package at.ac.ait.ariadne.routeformat;
 
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -8,7 +9,6 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-import at.ac.ait.ariadne.routeformat.Route.Builder;
 import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONLineString;
@@ -17,15 +17,23 @@ import at.ac.ait.ariadne.routeformat.location.Location;
 public class RouteTest {
 
 	@Test
+	public void minimalRoute() {
+		Route pointRoute = Route.createFromLocation(TestUtil.FROM, ZonedDateTime.parse(TestUtil.START_TIME));
+		pointRoute.validate(true);
+	}
+
+	@Test
 	public void enforceStartEndOrder() {
 		LinkedList<RouteSegment> segments = new LinkedList<>();
-		segments.add(TestUtil.buildTestRouteSegment(TestUtil.START_TIME, TestUtil.END_TIME).build(true));
-		Builder routeBuilder = Route.builder().withSegmentsAndAutomaticallyInferredFields(segments);
+		segments.add(TestUtil.createTestRouteSegment(TestUtil.START_TIME, TestUtil.END_TIME));
+		segments.forEach(s -> s.validate(true));
 
-		routeBuilder.build();
+		Route route = Route.createFromSegments(segments);
+		route.validate();
 
 		try {
-			routeBuilder.withEndTime(TestUtil.START_TIME).withStartTime(TestUtil.END_TIME).build(true);
+			route.setEndTime(TestUtil.START_TIME).setStartTime(TestUtil.END_TIME);
+			route.validate(true);
 			Assert.fail("expected IllegalArgumentException");
 		} catch (IllegalArgumentException e) {
 		}
@@ -40,21 +48,20 @@ public class RouteTest {
 		GeoJSONFeature<GeoJSONLineString> geometryGeoJson = GeoJSONFeature.newLineStringFeature(giefinggasseAit,
 				heinrichVonBuolGasseBicycleParking, new CoordinatePoint("16.4263", "48.2682"),
 				new CoordinatePoint("16.42824", "48.26719"));
-		RouteSegment walkToHeinrichVonBuolGasse = RouteSegment.builder().withNr(1).withFrom(giefinggasseAit)
-				.withTo(heinrichVonBuolGasseBicycleParking).withDistanceMeters(200).withDurationSeconds(60)
-				.withStartTime("2016-01-01T15:00:00+01:00").withEndTime("2016-01-01T15:01:00+01:00")
-				.withModeOfTransport(ModeOfTransport.STANDARD_FOOT).withGeometryGeoJson(geometryGeoJson).build();
+		RouteSegment walkToHeinrichVonBuolGasse = new RouteSegment().setNr(1).setFrom(giefinggasseAit)
+				.setTo(heinrichVonBuolGasseBicycleParking).setDistanceMeters(200).setDurationSeconds(60)
+				.setStartTime("2016-01-01T15:00:00+01:00").setEndTime("2016-01-01T15:01:00+01:00")
+				.setModeOfTransport(ModeOfTransport.STANDARD_FOOT).setGeometryGeoJson(geometryGeoJson);
 		geometryGeoJson = GeoJSONFeature.newLineStringFeature(heinrichVonBuolGasseBicycleParking, floridsdorf,
 				new CoordinatePoint("16.42354", "48.26306"), new CoordinatePoint("16.4236", "48.2621"),
 				new CoordinatePoint("16.4044", "48.2576"), new CoordinatePoint("16.40305", "48.25621"),
 				new CoordinatePoint("16.40127", "48.25698"));
-		RouteSegment cycleToFloridsdorf = RouteSegment.builder().withNr(2).withFrom(heinrichVonBuolGasseBicycleParking)
-				.withTo(floridsdorf).withDistanceMeters(2500).withDurationSeconds(60 * 9)
-				.withStartTime("2016-01-01T15:01:00+01:00").withEndTime("2016-01-01T15:10:00+01:00")
-				.withModeOfTransport(ModeOfTransport.STANDARD_BICYCLE).withGeometryGeoJson(geometryGeoJson).build();
+		RouteSegment cycleToFloridsdorf = new RouteSegment().setNr(2).setFrom(heinrichVonBuolGasseBicycleParking)
+				.setTo(floridsdorf).setDistanceMeters(2500).setDurationSeconds(60 * 9)
+				.setStartTime("2016-01-01T15:01:00+01:00").setEndTime("2016-01-01T15:10:00+01:00")
+				.setModeOfTransport(ModeOfTransport.STANDARD_BICYCLE).setGeometryGeoJson(geometryGeoJson);
 
-		Route route = Route.builder().withSegmentsAndAutomaticallyInferredFields(
-				Arrays.asList(walkToHeinrichVonBuolGasse, cycleToFloridsdorf)).build();
+		Route route = Route.createFromSegments(Arrays.asList(walkToHeinrichVonBuolGasse, cycleToFloridsdorf));
 
 		Assert.assertTrue(route.getBoundingBox().isPresent());
 		List<List<List<BigDecimal>>> allCoordinates = route.getBoundingBox().get().geometry.coordinates;

@@ -95,7 +95,7 @@ public class RouteSegmentMergerTest {
 	@Test
 	public void testMergingWithOverlap() {
 		RouteSegment secondSegment = getSecondSegment(ModeOfTransport.STANDARD_BICYCLE);
-		secondSegment = RouteSegment.builder(secondSegment).shiftInTime(-5, ChronoUnit.MINUTES).build();
+		secondSegment = RouteSegment.createShallowCopy(secondSegment).shiftInTime(-5, ChronoUnit.MINUTES);
 
 		List<List<RouteSegment>> listOfSegmentList = Arrays
 				.asList(Arrays.asList(getFirstSegment(ModeOfTransport.STANDARD_FOOT)), Arrays.asList(secondSegment));
@@ -115,26 +115,26 @@ public class RouteSegmentMergerTest {
 		GeoJSONFeature<GeoJSONLineString> geometryGeoJson = GeoJSONFeature.newLineStringFeature(
 				adalbertStifterStrasse15, treustrasse92, new CoordinatePoint(16.36515, 48.23729),
 				new CoordinatePoint(16.3656, 48.23515), new CoordinatePoint(16.36288, 48.23509));
-		RouteSegment bicycleFromAdalbertStifterStrasseToTreugasse = RouteSegment.builder().withNr(1)
-				.withFrom(adalbertStifterStrasse15).withTo(treustrasse92).withDistanceMeters(597)
+		RouteSegment bicycleFromAdalbertStifterStrasseToTreugasse = new RouteSegment().setNr(1)
+				.setFrom(adalbertStifterStrasse15).setTo(treustrasse92).setDistanceMeters(597)
 				// 106 seconds ride, 1 minutes unlocking bike, 1 minute parking
 				// & locking bike
-				.withDurationSeconds(106 + 60 * 2).withBoardingSeconds(60 * 1).withAlightingSeconds(60 * 1)
-				.withStartTime("2016-01-01T15:34:10+01:00").withEndTime("2016-01-01T15:37:56+01:00")
-				.withModeOfTransport(mot).withGeometryGeoJson(geometryGeoJson).build();
+				.setDurationSeconds(106 + 60 * 2).setBoardingSeconds(60 * 1).setAlightingSeconds(60 * 1)
+				.setStartTime("2016-01-01T15:34:10+01:00").setEndTime("2016-01-01T15:37:56+01:00")
+				.setModeOfTransport(mot).setGeometryGeoJson(geometryGeoJson);
 		return bicycleFromAdalbertStifterStrasseToTreugasse;
 	}
 
 	private RouteSegment getSecondSegment(ModeOfTransport mot) {
 		GeoJSONFeature<GeoJSONLineString> geometryGeoJson = GeoJSONFeature.newLineStringFeature(treustrasse84,
 				gaussplatz, new CoordinatePoint(16.3644, 48.2311), new CoordinatePoint(16.36638, 48.22886));
-		RouteSegment bicycleFromTreugasseToGaussplatz = RouteSegment.builder().withNr(2).withFrom(treustrasse84)
-				.withTo(gaussplatz).withDistanceMeters(941)
+		RouteSegment bicycleFromTreugasseToGaussplatz = new RouteSegment().setNr(2).setFrom(treustrasse84)
+				.setTo(gaussplatz).setDistanceMeters(941)
 				// 180 seconds ride, 1 minutes unlocking bike, 1 minute parking
 				// & locking bike = 5 minutes
-				.withDurationSeconds(180 + 60 * 2).withBoardingSeconds(60 * 1).withAlightingSeconds(60 * 1)
-				.withStartTime("2016-01-01T15:40:00+01:00").withEndTime("2016-01-01T15:45:00+01:00")
-				.withModeOfTransport(mot).withGeometryGeoJson(geometryGeoJson).build();
+				.setDurationSeconds(180 + 60 * 2).setBoardingSeconds(60 * 1).setAlightingSeconds(60 * 1)
+				.setStartTime("2016-01-01T15:40:00+01:00").setEndTime("2016-01-01T15:45:00+01:00")
+				.setModeOfTransport(mot).setGeometryGeoJson(geometryGeoJson);
 		return bicycleFromTreugasseToGaussplatz;
 	}
 }

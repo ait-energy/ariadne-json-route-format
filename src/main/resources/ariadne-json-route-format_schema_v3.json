@@ -435,90 +435,12 @@
         "properties" : {
           "from" : {
             "type" : "object",
-            "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:location:Location",
-            "required" : true,
-            "properties" : {
-              "coordinate" : {
-                "type" : "object",
-                "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONFeature<at:ac:ait:ariadne:routeformat:geojson:GeoJSONPoint>"
-              },
-              "complexGeometry" : {
-                "type" : "object",
-                "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONFeature<java:lang:Object>",
-                "properties" : {
-                  "type" : {
-                    "type" : "string",
-                    "required" : true,
-                    "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon", "MultiPolygon" ]
-                  },
-                  "crs" : {
-                    "type" : "object",
-                    "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS",
-                    "properties" : {
-                      "type" : {
-                        "type" : "string",
-                        "required" : true
-                      },
-                      "properties" : {
-                        "type" : "object",
-                        "required" : true,
-                        "additionalProperties" : {
-                          "type" : "any"
-                        }
-                      }
-                    }
-                  },
-                  "geometry" : {
-                    "type" : "any",
-                    "required" : true
-                  },
-                  "properties" : {
-                    "type" : "object",
-                    "required" : true,
-                    "additionalProperties" : {
-                      "type" : "any"
-                    }
-                  }
-                }
-              },
-              "address" : {
-                "type" : "object",
-                "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:location:Address",
-                "properties" : {
-                  "country" : {
-                    "type" : "string"
-                  },
-                  "city" : {
-                    "type" : "string"
-                  },
-                  "postCode" : {
-                    "type" : "string"
-                  },
-                  "streetName" : {
-                    "type" : "string"
-                  },
-                  "houseNumber" : {
-                    "type" : "string"
-                  },
-                  "additionalInfo" : {
-                    "type" : "object",
-                    "additionalProperties" : {
-                      "type" : "string"
-                    }
-                  }
-                }
-              },
-              "additionalInfo" : {
-                "type" : "object",
-                "additionalProperties" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:location:Location<java:lang:Object>",
+            "required" : true
           },
           "to" : {
             "type" : "object",
-            "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:location:Location",
+            "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:location:Location<java:lang:Object>",
             "required" : true
           },
           "distanceMeters" : {
@@ -528,138 +450,6 @@
           "durationSeconds" : {
             "type" : "integer",
             "required" : true
-          },
-          "id" : {
-            "type" : "string"
-          },
-          "startTime" : {
-            "type" : "string"
-          },
-          "endTime" : {
-            "type" : "string"
-          },
-          "optimizedFor" : {
-            "type" : "string"
-          },
-          "boundingBox" : {
-            "type" : "object",
-            "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONFeature<at:ac:ait:ariadne:routeformat:geojson:GeoJSONPolygon>",
-            "properties" : {
-              "type" : {
-                "type" : "string",
-                "required" : true,
-                "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon", "MultiPolygon" ]
-              },
-              "crs" : {
-                "type" : "object",
-                "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS",
-                "properties" : {
-                  "type" : {
-                    "type" : "string",
-                    "required" : true
-                  },
-                  "properties" : {
-                    "type" : "object",
-                    "required" : true,
-                    "additionalProperties" : {
-                      "type" : "any"
-                    }
-                  }
-                }
-              },
-              "geometry" : {
-                "type" : "object",
-                "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONPolygon",
-                "required" : true,
-                "properties" : {
-                  "type" : {
-                    "type" : "string",
-                    "required" : true,
-                    "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon", "MultiPolygon" ]
-                  },
-                  "coordinates" : {
-                    "type" : "array",
-                    "required" : true,
-                    "items" : {
-                      "type" : "array",
-                      "items" : {
-                        "type" : "array",
-                        "items" : {
-                          "type" : "number"
-                        }
-                      }
-                    }
-                  }
-                }
-              },
-              "properties" : {
-                "type" : "object",
-                "required" : true,
-                "additionalProperties" : {
-                  "type" : "any"
-                }
-              }
-            }
-          },
-          "simplifiedGeometryEncodedPolyLine" : {
-            "type" : "string"
-          },
-          "simplifiedGeometryGeoJson" : {
-            "type" : "object",
-            "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONFeature<at:ac:ait:ariadne:routeformat:geojson:GeoJSONLineString>",
-            "properties" : {
-              "type" : {
-                "type" : "string",
-                "required" : true,
-                "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon", "MultiPolygon" ]
-              },
-              "crs" : {
-                "type" : "object",
-                "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS",
-                "properties" : {
-                  "type" : {
-                    "type" : "string",
-                    "required" : true
-                  },
-                  "properties" : {
-                    "type" : "object",
-                    "required" : true,
-                    "additionalProperties" : {
-                      "type" : "any"
-                    }
-                  }
-                }
-              },
-              "geometry" : {
-                "type" : "object",
-                "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONLineString",
-                "required" : true,
-                "properties" : {
-                  "type" : {
-                    "type" : "string",
-                    "required" : true,
-                    "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon", "MultiPolygon" ]
-                  },
-                  "coordinates" : {
-                    "type" : "array",
-                    "required" : true,
-                    "items" : {
-                      "type" : "array",
-                      "items" : {
-                        "type" : "number"
-                      }
-                    }
-                  }
-                }
-              },
-              "properties" : {
-                "type" : "object",
-                "required" : true,
-                "additionalProperties" : {
-                  "type" : "any"
-                }
-              }
-            }
           },
           "segments" : {
             "type" : "array",
@@ -674,12 +464,12 @@
                 },
                 "from" : {
                   "type" : "object",
-                  "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:location:Location",
+                  "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:location:Location<java:lang:Object>",
                   "required" : true
                 },
                 "to" : {
                   "type" : "object",
-                  "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:location:Location",
+                  "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:location:Location<java:lang:Object>",
                   "required" : true
                 },
                 "distanceMeters" : {
@@ -766,8 +556,28 @@
                     },
                     "geometry" : {
                       "type" : "object",
-                      "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONPolygon",
-                      "required" : true
+                      "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONPolygon",
+                      "required" : true,
+                      "properties" : {
+                        "type" : {
+                          "type" : "string",
+                          "required" : true,
+                          "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon", "MultiPolygon" ]
+                        },
+                        "coordinates" : {
+                          "type" : "array",
+                          "required" : true,
+                          "items" : {
+                            "type" : "array",
+                            "items" : {
+                              "type" : "array",
+                              "items" : {
+                                "type" : "number"
+                              }
+                            }
+                          }
+                        }
+                      }
                     },
                     "properties" : {
                       "type" : "object",
@@ -809,8 +619,25 @@
                     },
                     "geometry" : {
                       "type" : "object",
-                      "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONLineString",
-                      "required" : true
+                      "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONLineString",
+                      "required" : true,
+                      "properties" : {
+                        "type" : {
+                          "type" : "string",
+                          "required" : true,
+                          "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon", "MultiPolygon" ]
+                        },
+                        "coordinates" : {
+                          "type" : "array",
+                          "required" : true,
+                          "items" : {
+                            "type" : "array",
+                            "items" : {
+                              "type" : "number"
+                            }
+                          }
+                        }
+                      }
                     },
                     "properties" : {
                       "type" : "object",
@@ -861,7 +688,7 @@
                   "type" : "array",
                   "items" : {
                     "type" : "object",
-                    "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:instruction:Instruction",
+                    "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:instruction:Instruction<java:lang:Object>",
                     "properties" : {
                       "position" : {
                         "type" : "object",
@@ -978,9 +805,100 @@
               }
             }
           },
-          "type" : {
-            "type" : "string",
-            "enum" : [ "FOOT", "BICYCLE", "MOTORCYCLE", "CAR", "PUBLIC_TRANSPORT", "TAXI", "TAXI_SHARED", "CAR_SHARED", "BICYCLE_SHARED", "CAR_AND_PUBLIC_TRANSPORT", "BICYCLE_AND_PUBLIC_TRANSPORT", "SHARED_CAR_AND_PUBLIC_TRANSPORT", "SHARED_BICYCLE_AND_PUBLIC_TRANSPORT", "TAXI_AND_PUBLIC_TRANSPORT", "SHARED_TAXI_AND_PUBLIC_TRANSPORT", "SHARED_CAR_AND_SHARED_BICYCLE", "INTERMODAL_OTHER" ]
+          "id" : {
+            "type" : "string"
+          },
+          "startTime" : {
+            "type" : "string"
+          },
+          "endTime" : {
+            "type" : "string"
+          },
+          "optimizedFor" : {
+            "type" : "string"
+          },
+          "boundingBox" : {
+            "type" : "object",
+            "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONFeature<at:ac:ait:ariadne:routeformat:geojson:GeoJSONPolygon>",
+            "properties" : {
+              "type" : {
+                "type" : "string",
+                "required" : true,
+                "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon", "MultiPolygon" ]
+              },
+              "crs" : {
+                "type" : "object",
+                "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS",
+                "properties" : {
+                  "type" : {
+                    "type" : "string",
+                    "required" : true
+                  },
+                  "properties" : {
+                    "type" : "object",
+                    "required" : true,
+                    "additionalProperties" : {
+                      "type" : "any"
+                    }
+                  }
+                }
+              },
+              "geometry" : {
+                "type" : "object",
+                "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONPolygon",
+                "required" : true
+              },
+              "properties" : {
+                "type" : "object",
+                "required" : true,
+                "additionalProperties" : {
+                  "type" : "any"
+                }
+              }
+            }
+          },
+          "simplifiedGeometryEncodedPolyLine" : {
+            "type" : "string"
+          },
+          "simplifiedGeometryGeoJson" : {
+            "type" : "object",
+            "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONFeature<at:ac:ait:ariadne:routeformat:geojson:GeoJSONLineString>",
+            "properties" : {
+              "type" : {
+                "type" : "string",
+                "required" : true,
+                "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon", "MultiPolygon" ]
+              },
+              "crs" : {
+                "type" : "object",
+                "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS",
+                "properties" : {
+                  "type" : {
+                    "type" : "string",
+                    "required" : true
+                  },
+                  "properties" : {
+                    "type" : "object",
+                    "required" : true,
+                    "additionalProperties" : {
+                      "type" : "any"
+                    }
+                  }
+                }
+              },
+              "geometry" : {
+                "type" : "object",
+                "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONLineString",
+                "required" : true
+              },
+              "properties" : {
+                "type" : "object",
+                "required" : true,
+                "additionalProperties" : {
+                  "type" : "any"
+                }
+              }
+            }
           },
           "additionalInfo" : {
             "type" : "object",

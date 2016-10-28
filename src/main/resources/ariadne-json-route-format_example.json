@@ -1,7 +1,7 @@
 {
   "routeFormatVersion" : "X.Y-UNKNOWN",
   "requestId" : "999",
-  "processedTime" : "2016-10-28T14:40:17.243+02:00[Europe/Vienna]",
+  "processedTime" : "2016-10-28T16:43:50.439+02:00[Europe/Vienna]",
   "status" : "OK",
   "debugMessage" : "Route calculated in 0.002 seconds",
   "coordinateReferenceSystem" : "EPSG:4326",
@@ -272,17 +272,6 @@
     },
     "distanceMeters" : 8208,
     "durationSeconds" : 3520,
-    "startTime" : "2016-01-01T15:00+01:00",
-    "endTime" : "2016-01-01T15:58:40+01:00",
-    "optimizedFor" : "travel time and low costs",
-    "boundingBox" : {
-      "type" : "Feature",
-      "geometry" : {
-        "type" : "Polygon",
-        "coordinates" : [ [ [ 16.36288, 48.2243 ], [ 16.36288, 48.2686617 ], [ 16.42824, 48.2686617 ], [ 16.42824, 48.2243 ], [ 16.36288, 48.2243 ] ] ]
-      },
-      "properties" : { }
-    },
     "segments" : [ {
       "nr" : 1,
       "from" : {
@@ -1109,6 +1098,17 @@
         },
         "properties" : { }
       }
-    } ]
+    } ],
+    "startTime" : "2016-01-01T15:00+01:00",
+    "endTime" : "2016-01-01T15:58:40+01:00",
+    "optimizedFor" : "travel time and low costs",
+    "boundingBox" : {
+      "type" : "Feature",
+      "geometry" : {
+        "type" : "Polygon",
+        "coordinates" : [ [ [ 16.36288, 48.2243 ], [ 16.36288, 48.2686617 ], [ 16.42824, 48.2686617 ], [ 16.42824, 48.2243 ], [ 16.36288, 48.2243 ] ] ]
+      },
+      "properties" : { }
+    }
   } ]
 }

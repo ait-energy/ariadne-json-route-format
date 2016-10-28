@@ -1,234 +1,191 @@
 package at.ac.ait.ariadne.routeformat;
 
 import java.time.ZonedDateTime;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.TreeMap;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSortedMap;
 
 import at.ac.ait.ariadne.routeformat.Constants.Status;
-import at.ac.ait.ariadne.routeformat.RouteFormatRoot.Builder;
 import at.ac.ait.ariadne.routeformat.util.Utils;
 
 /**
+ * {@link RouteFormatRoot} is, as the name suggests, the top-level container
+ * class of the ariadne-json-route-format. Typically this will be returned by
+ * routing services. It contains, amongst others, an optional
+ * {@link RoutingRequest} and one or several {@link Route}(s).
+ * <p>
+ * Since most attributes are mandatory no <code>createMinimal</code> method is
+ * offered.
+ * 
  * @author AIT Austrian Institute of Technology GmbH
  */
-@JsonDeserialize(builder = Builder.class)
 @JsonInclude(Include.NON_EMPTY)
-public class RouteFormatRoot {
+public class RouteFormatRoot implements Validatable {
 
-    private final String routeFormatVersion;
-    private final String requestId;
-    private final ZonedDateTime processedTime;
-    private final Status status;
-    private final Optional<String> debugMessage;
-    private final String coordinateReferenceSystem;
-    private final Optional<RoutingRequest> request;
-    private final List<Route> routes;
-    private final Map<String, Object> additionalInfo;
+	private String routeFormatVersion;
+	private String requestId;
+	private ZonedDateTime processedTime;
+	private Status status;
+	private Optional<String> debugMessage = Optional.empty();
+	private String coordinateReferenceSystem;
+	private Optional<RoutingRequest> request = Optional.empty();
+	private List<Route> routes = new ArrayList<>();
+	private Map<String, Object> additionalInfo = new TreeMap<>();
 
-    @JsonProperty(required = true)
-    public String getRouteFormatVersion() {
-        return routeFormatVersion;
-    }
+	// -- getters
 
-    @JsonProperty(required = true)
-    public String getRequestId() {
-        return requestId;
-    }
+	@JsonProperty(required = true)
+	public String getRouteFormatVersion() {
+		return routeFormatVersion;
+	}
 
-    /**
-     * Time when request / calculations were finished or deemed not possible in
-     * case of an error.
-     */
-    @JsonProperty(required = true)
-    public String getProcessedTime() {
-        return processedTime.toString();
-    }
+	@JsonProperty(required = true)
+	public String getRequestId() {
+		return requestId;
+	}
 
-    @JsonIgnore
-    public ZonedDateTime getProcessedTimeAsZonedDateTime() {
-        return processedTime;
-    }
+	/**
+	 * Time when request / calculations were finished or deemed not possible in
+	 * case of an error.
+	 */
+	@JsonProperty(required = true)
+	public String getProcessedTime() {
+		return processedTime.toString();
+	}
 
-    @JsonProperty(required = true)
-    public Status getStatus() {
-        return status;
-    }
+	@JsonIgnore
+	public ZonedDateTime getProcessedTimeAsZonedDateTime() {
+		return processedTime;
+	}
 
-    /** debug message explaining errors */
-    public Optional<String> getDebugMessage() {
-        return debugMessage;
-    }
+	@JsonProperty(required = true)
+	public Status getStatus() {
+		return status;
+	}
 
-    /** in the form of EPSG:*, e.g. EPSG:4326 */
-    @JsonProperty(required = true)
-    public String getCoordinateReferenceSystem() {
-        return coordinateReferenceSystem;
-    }
+	/** debug message explaining errors */
+	public Optional<String> getDebugMessage() {
+		return debugMessage;
+	}
 
-    /**
-     * @return The original request used to calculate the route(s). It is
-     *         guaranteed that if at least one route is returned there is also a
-     *         request here. The request will only be omitted if the request
-     *         itself could not be created due to invalid request parameters.
-     */
-    public Optional<RoutingRequest> getRequest() {
-        return request;
-    }
+	/** in the form of EPSG:*, e.g. EPSG:4326 */
+	@JsonProperty(required = true)
+	public String getCoordinateReferenceSystem() {
+		return coordinateReferenceSystem;
+	}
 
-    public Map<String, Object> getAdditionalInfo() {
-        return additionalInfo;
-    }
+	/**
+	 * @return The original request used to calculate the route(s). It is
+	 *         guaranteed that if at least one route is returned there is also a
+	 *         request here. The request will only be omitted if the request
+	 *         itself could not be created due to invalid request parameters.
+	 */
+	public Optional<RoutingRequest> getRequest() {
+		return request;
+	}
 
-    @JsonProperty(required = true)
-    public List<Route> getRoutes() {
-        return routes;
-    }
+	public Map<String, Object> getAdditionalInfo() {
+		return additionalInfo;
+	}
 
-    private RouteFormatRoot(Builder builder) {
-        this.routeFormatVersion = builder.routeFormatVersion;
-        this.requestId = builder.requestId;
-        this.processedTime = builder.processedTime;
-        this.status = builder.status;
-        this.debugMessage = builder.debugMessage;
-        this.coordinateReferenceSystem = builder.coordinateReferenceSystem;
-        this.request = builder.request;
-        this.routes = builder.routes;
-        this.additionalInfo = builder.additionalInfo;
-    }
+	@JsonProperty(required = true)
+	public List<Route> getRoutes() {
+		return routes;
+	}
 
-    public static Builder builder() {
-        return new Builder();
-    }
+	// -- setters
 
-    public static Builder builder(RouteFormatRoot root) {
-        return new Builder(root);
-    }
+	public RouteFormatRoot setRouteFormatVersion(String routeFormatVersion) {
+		this.routeFormatVersion = routeFormatVersion;
+		return this;
+	}
 
-    @Override
-    public String toString() {
-        return "RouteFormatRoot [requestId=" + requestId + ", processedTime=" + processedTime + ", status=" + status
-                + ", routes=" + routes.size() + "]";
-    }
+	public RouteFormatRoot setRequestId(String requestId) {
+		this.requestId = requestId;
+		return this;
+	}
 
-    public static class Builder {
-        private String routeFormatVersion;
-        private String requestId;
-        private ZonedDateTime processedTime;
-        private Status status;
-        private Optional<String> debugMessage = Optional.empty();
-        private String coordinateReferenceSystem;
-        private Optional<RoutingRequest> request = Optional.empty();
-        private List<Route> routes = Collections.emptyList();
-        private Map<String, Object> additionalInfo = Collections.emptyMap();
+	public RouteFormatRoot setProcessedTimeNow() {
+		this.processedTime = ZonedDateTime.now();
+		return this;
+	}
 
-        public Builder() {
-        }
+	@JsonIgnore
+	public RouteFormatRoot setProcessedTime(ZonedDateTime processedTime) {
+		this.processedTime = processedTime;
+		return this;
+	}
 
-        public Builder(RouteFormatRoot root) {
-            this.routeFormatVersion = root.getRouteFormatVersion();
-            this.requestId = root.getRequestId();
-            this.processedTime = root.getProcessedTimeAsZonedDateTime();
-            this.status = root.getStatus();
-            this.debugMessage = root.getDebugMessage();
-            this.coordinateReferenceSystem = root.getCoordinateReferenceSystem();
-            this.request = root.getRequest();
-            this.routes = root.getRoutes();
-            this.additionalInfo = root.getAdditionalInfo();
-        }
+	@JsonProperty
+	public RouteFormatRoot setProcessedTime(String processedTime) {
+		this.processedTime = Utils.parseZonedDateTime(processedTime, "processedTime");
+		return this;
+	}
 
-        public Builder withRouteFormatVersion(String routeFormatVersion) {
-            this.routeFormatVersion = routeFormatVersion;
-            return this;
-        }
+	public RouteFormatRoot setStatus(Status status) {
+		this.status = status;
+		return this;
+	}
 
-        public Builder withRequestId(String requestId) {
-            this.requestId = requestId;
-            return this;
-        }
+	public RouteFormatRoot setDebugMessage(String debugMessage) {
+		this.debugMessage = Optional.ofNullable(debugMessage);
+		return this;
+	}
 
-        public Builder withProcessedTimeNow() {
-            this.processedTime = ZonedDateTime.now();
-            return this;
-        }
+	public RouteFormatRoot setCoordinateReferenceSystem(String coordinateReferenceSystem) {
+		this.coordinateReferenceSystem = coordinateReferenceSystem;
+		return this;
+	}
 
-        @JsonIgnore
-        public Builder withProcessedTime(ZonedDateTime processedTime) {
-            this.processedTime = processedTime;
-            return this;
-        }
+	public RouteFormatRoot setDefaultCoordinateReferenceSystem() {
+		this.coordinateReferenceSystem = "EPSG:4326";
+		return this;
+	}
 
-        @JsonProperty
-        public Builder withProcessedTime(String processedTime) {
-            this.processedTime = Utils.parseZonedDateTime(processedTime, "processedTime");
-            return this;
-        }
+	public RouteFormatRoot setRequest(RoutingRequest request) {
+		this.request = Optional.ofNullable(request);
+		return this;
+	}
 
-        public Builder withStatus(Status status) {
-            this.status = status;
-            return this;
-        }
+	public RouteFormatRoot setRoutes(List<Route> routes) {
+		this.routes = new ArrayList<>(routes);
+		return this;
+	}
 
-        public Builder withDebugMessage(String debugMessage) {
-            this.debugMessage = Optional.ofNullable(debugMessage);
-            return this;
-        }
+	public RouteFormatRoot setAdditionalInfo(Map<String, Object> additionalInfo) {
+		this.additionalInfo = new TreeMap<>(additionalInfo);
+		return this;
+	}
 
-        public Builder withCoordinateReferenceSystem(String coordinateReferenceSystem) {
-            this.coordinateReferenceSystem = coordinateReferenceSystem;
-            return this;
-        }
+	// --
 
-        public Builder withDefaultCoordinateReferenceSystem() {
-            this.coordinateReferenceSystem = "EPSG:4326";
-            return this;
-        }
+	// no createMinimal! see javadoc for explanation.
 
-        public Builder withRequest(RoutingRequest request) {
-            this.request = Optional.ofNullable(request);
-            return this;
-        }
+	@Override
+	public void validate() {
+		Preconditions.checkArgument(routeFormatVersion != null, "routeFormatVersion is mandatory but missing");
+		Preconditions.checkArgument(requestId != null, "requestId is mandatory but missing");
+		Preconditions.checkArgument(processedTime != null, "processedTime is mandatory but missing");
+		Preconditions.checkArgument(status != null, "status is mandatory but missing");
+		Preconditions.checkArgument(coordinateReferenceSystem != null,
+				"coordinateReferenceSystem is mandatory but missing");
+		Preconditions.checkArgument(coordinateReferenceSystem.startsWith("EPSG:"),
+				"coordinateReferenceSystem must start with EPSG:");
+		request.ifPresent(r -> r.validate());
+		routes.forEach(r -> r.validate());
+	}
 
-        public Builder withRoutes(List<Route> routes) {
-            this.routes = ImmutableList.copyOf(routes);
-            return this;
-        }
-
-        public Builder withAdditionalInfo(Map<String, Object> additionalInfo) {
-            this.additionalInfo = ImmutableSortedMap.copyOf(additionalInfo);
-            return this;
-        }
-
-        public RouteFormatRoot build() {
-            validate();
-            return new RouteFormatRoot(this);
-        }
-
-        private void validate() {
-            Preconditions.checkArgument(routeFormatVersion != null, "routeFormatVersion is mandatory but missing");
-            Preconditions.checkArgument(requestId != null, "requestId is mandatory but missing");
-            Preconditions.checkArgument(processedTime != null, "processedTime is mandatory but missing");
-            Preconditions.checkArgument(status != null, "status is mandatory but missing");
-            Preconditions.checkArgument(coordinateReferenceSystem != null,
-                    "coordinateReferenceSystem is mandatory but missing");
-            Preconditions.checkArgument(coordinateReferenceSystem.startsWith("EPSG:"),
-                    "coordinateReferenceSystem must start with EPSG:");
-
-            if (!request.isPresent() && routes.size() > 0) {
-                throw new IllegalArgumentException(
-                        "request is mandatory but missing (if at least one route is present)");
-            }
-        }
-    }
-
+	@Override
+	public String toString() {
+		return "RouteFormatRoot [requestId=" + requestId + ", processedTime=" + processedTime + ", status=" + status
+				+ ", routes=" + routes.size() + "]";
+	}
 }

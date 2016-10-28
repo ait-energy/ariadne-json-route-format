@@ -30,11 +30,11 @@ public class TestUtil {
 			.newLineStringFeature(Arrays.asList(CoordinatePoint.fromGeoJSONPointFeature(FROM.getCoordinate()),
 					CoordinatePoint.fromGeoJSONPointFeature(TO.getCoordinate())));
 
-	public static RouteSegment.Builder buildTestRouteSegment(String startTime, String endTime,
+	public static RouteSegment createTestRouteSegment(String startTime, String endTime,
 			IntermediateStop... intermediateStops) {
-		return RouteSegment.builder().withNr(1).withFrom(FROM).withTo(TO).withModeOfTransport(MODE_OF_TRANSPORT)
-				.withStartTime(startTime).withEndTime(endTime).withDurationSeconds(60).withDistanceMeters(100)
-				.withIntermediateStops(Arrays.asList(intermediateStops)).withGeometryGeoJson(GEOMETRY_GEOJSON);
+		return new RouteSegment().setNr(1).setFrom(FROM).setTo(TO).setModeOfTransport(MODE_OF_TRANSPORT)
+				.setStartTime(startTime).setEndTime(endTime).setDurationSeconds(60).setDistanceMeters(100)
+				.setIntermediateStops(Arrays.asList(intermediateStops)).setGeometryGeoJson(GEOMETRY_GEOJSON);
 	}
 
 	public static void checkMot(RouteSegment segment, GeneralizedModeOfTransportType expectedGeneralMot,
