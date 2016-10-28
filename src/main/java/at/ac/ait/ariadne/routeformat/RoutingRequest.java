@@ -26,7 +26,7 @@ import at.ac.ait.ariadne.routeformat.util.Utils;
  * A {@link RoutingRequest} encapsulates typically required request parameters
  * for an intermodal routing service.
  * <p>
- * In its minimal form it consists of a service id, from & to locations, at
+ * In its minimal form it consists of a service id, from and to locations, at
  * least one mode of transport, {@link #getOptimizedFor()}, and either a
  * departure or arrival time. The default constructor already sets
  * {@link RoutingRequest#DEFAULT_DEPARTURE_TIME} and
@@ -369,7 +369,7 @@ public class RoutingRequest implements Validatable {
 	// --
 
 	/**
-	 * Creates a {@link RoutingRequest} with default departure time & default
+	 * Creates a {@link RoutingRequest} with default departure time and default
 	 * optimized for.
 	 */
 	public static RoutingRequest createMinimal(String serviceId, Location<?> from, Location<?> to,
