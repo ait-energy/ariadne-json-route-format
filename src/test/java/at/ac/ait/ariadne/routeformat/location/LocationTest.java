@@ -1,13 +1,9 @@
 package at.ac.ait.ariadne.routeformat.location;
 
-import java.util.Collections;
-
 import org.junit.Assert;
 import org.junit.Test;
 
 import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
-import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
-import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPoint;
 
 public class LocationTest {
 
