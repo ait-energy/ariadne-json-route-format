@@ -52,14 +52,14 @@ public class GeoJSONFeature<T extends GeoJSONGeometryObject> {
 		return "GeoJSONFeature [type=" + type + ", geometry=" + geometry + ", properties=" + properties + "]";
 	}
 
-	public static GeoJSONFeature<GeoJSONPoint> newPointFeature(CoordinatePoint point) {
-		GeoJSONFeature<GeoJSONPoint> feature = new GeoJSONFeature<>();
-		feature.geometry = new GeoJSONPoint(point);
+	public static GeoJSONFeature<Point> newPointFeature(CoordinatePoint point) {
+		GeoJSONFeature<Point> feature = new GeoJSONFeature<>();
+		feature.geometry = new Point(point);
 		return feature;
 	}
 
-	public static GeoJSONFeature<GeoJSONPoint> newPointFeature(GeoJSONPoint point) {
-		GeoJSONFeature<GeoJSONPoint> feature = new GeoJSONFeature<>();
+	public static GeoJSONFeature<Point> newPointFeature(Point point) {
+		GeoJSONFeature<Point> feature = new GeoJSONFeature<>();
 		feature.geometry = point;
 		return feature;
 	}

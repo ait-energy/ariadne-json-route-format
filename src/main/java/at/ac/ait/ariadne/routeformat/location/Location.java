@@ -16,7 +16,7 @@ import at.ac.ait.ariadne.routeformat.RoutingRequest;
 import at.ac.ait.ariadne.routeformat.Validatable;
 import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
-import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPoint;
+import at.ac.ait.ariadne.routeformat.geojson.Point;
 
 /**
  * A generic {@link Location}.
@@ -32,7 +32,7 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPoint;
 		@JsonSubTypes.Type(value = SharingStation.class, name = "SharingStation") })
 @JsonInclude(Include.NON_EMPTY)
 public class Location<T extends Location<T>> implements Validatable {
-	private GeoJSONFeature<GeoJSONPoint> coordinate;
+	private GeoJSONFeature<Point> coordinate;
 	private Optional<GeoJSONFeature<?>> complexGeometry = Optional.empty();
 	private Optional<Address> address = Optional.empty();
 	private Map<String, String> additionalInfo = new TreeMap<>();
@@ -48,7 +48,7 @@ public class Location<T extends Location<T>> implements Validatable {
 	 * In case this {@link Location} is part of a {@link RoutingRequest}
 	 * (from/to/via) this point is used as input for routing.
 	 */
-	public GeoJSONFeature<GeoJSONPoint> getCoordinate() {
+	public GeoJSONFeature<Point> getCoordinate() {
 		return coordinate;
 	}
 
@@ -73,7 +73,7 @@ public class Location<T extends Location<T>> implements Validatable {
 
 	@SuppressWarnings("unchecked")
 	@JsonProperty
-	public T setCoordinate(GeoJSONFeature<GeoJSONPoint> coordinate) {
+	public T setCoordinate(GeoJSONFeature<Point> coordinate) {
 		this.coordinate = coordinate;
 		return (T) this;
 	}

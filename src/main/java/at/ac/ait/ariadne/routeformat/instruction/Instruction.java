@@ -13,7 +13,7 @@ import com.google.common.base.Preconditions;
 import at.ac.ait.ariadne.routeformat.Validatable;
 import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
-import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPoint;
+import at.ac.ait.ariadne.routeformat.geojson.Point;
 
 /**
  * Common base class for all types of turn-by-turn navigation instructions.
@@ -28,9 +28,9 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPoint;
 		@JsonSubTypes.Type(value = RoundaboutInstruction.class, name = "RoundaboutInstruction") })
 public abstract class Instruction<T extends Instruction<T>> implements Validatable {
 
-	private GeoJSONFeature<GeoJSONPoint> position;
-	private Optional<GeoJSONFeature<GeoJSONPoint>> previewTriggerPosition = Optional.empty();
-	private Optional<GeoJSONFeature<GeoJSONPoint>> confirmationTriggerPosition = Optional.empty();
+	private GeoJSONFeature<Point> position;
+	private Optional<GeoJSONFeature<Point>> previewTriggerPosition = Optional.empty();
+	private Optional<GeoJSONFeature<Point>> confirmationTriggerPosition = Optional.empty();
 	private Map<String, String> text = new TreeMap<>();
 	private Map<String, Object> additionalInfo = new TreeMap<>();
 
@@ -39,7 +39,7 @@ public abstract class Instruction<T extends Instruction<T>> implements Validatab
 	/**
 	 * @return the position the instruction is defined for
 	 */
-	public GeoJSONFeature<GeoJSONPoint> getPosition() {
+	public GeoJSONFeature<Point> getPosition() {
 		return position;
 	}
 
@@ -47,7 +47,7 @@ public abstract class Instruction<T extends Instruction<T>> implements Validatab
 	 * @return a position where, during on-trip navigation, a first instruction
 	 *         could be presented to the user
 	 */
-	public Optional<GeoJSONFeature<GeoJSONPoint>> getPreviewTriggerPosition() {
+	public Optional<GeoJSONFeature<Point>> getPreviewTriggerPosition() {
 		return previewTriggerPosition;
 	}
 
@@ -55,7 +55,7 @@ public abstract class Instruction<T extends Instruction<T>> implements Validatab
 	 * @return a position after the maneuver, where, during on-trip navigation,
 	 *         a confirmation message could be presented to the user
 	 */
-	public Optional<GeoJSONFeature<GeoJSONPoint>> getConfirmationTriggerPosition() {
+	public Optional<GeoJSONFeature<Point>> getConfirmationTriggerPosition() {
 		return confirmationTriggerPosition;
 	}
 
@@ -75,7 +75,7 @@ public abstract class Instruction<T extends Instruction<T>> implements Validatab
 
 	@JsonProperty
 	@SuppressWarnings("unchecked")
-	public T setPosition(GeoJSONFeature<GeoJSONPoint> position) {
+	public T setPosition(GeoJSONFeature<Point> position) {
 		this.position = position;
 		return (T) this;
 	}
@@ -89,7 +89,7 @@ public abstract class Instruction<T extends Instruction<T>> implements Validatab
 
 	@JsonProperty
 	@SuppressWarnings("unchecked")
-	public T setPreviewTriggerPosition(GeoJSONFeature<GeoJSONPoint> previewTriggerPosition) {
+	public T setPreviewTriggerPosition(GeoJSONFeature<Point> previewTriggerPosition) {
 		this.previewTriggerPosition = Optional.ofNullable(previewTriggerPosition);
 		return (T) this;
 	}
@@ -103,7 +103,7 @@ public abstract class Instruction<T extends Instruction<T>> implements Validatab
 
 	@JsonProperty
 	@SuppressWarnings("unchecked")
-	public T setConfirmationTriggerPosition(GeoJSONFeature<GeoJSONPoint> confirmationTriggerPosition) {
+	public T setConfirmationTriggerPosition(GeoJSONFeature<Point> confirmationTriggerPosition) {
 		this.confirmationTriggerPosition = Optional.ofNullable(confirmationTriggerPosition);
 		return (T) this;
 	}
