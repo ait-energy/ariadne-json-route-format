@@ -9,22 +9,22 @@ Reading and writing of a route and exporting the JSON schema with Jackson is dem
 A simple example how to display a route in a browser with Leaflet is shown in `src/main/resources/ariadne-json-route-format_example_leaflet.html`.
 
 ## Coding Style
-- implicit public constructor without arguments (used by jackson for deserialization)
-- static `createMinimal()` methods as shortcuts for building minimal (or typically used) instances
-- all members are private and mutable
+- member variables are private and mutable
     - initialization of complex types when they are defined and so that they are mutable (i.e. `new HashMap<>()` instead of `Collections.emptyMap()`)
-- getter methods for all members (used by jackson for serialization)
-- setter methods for all members (used by jackson for deserialization)
+- getter methods for all member variables (used by jackson for serialization)
+- setter methods for all member variables (used by jackson for deserialization)
     - create defensive mutable copies of **external** complex data structures (e.g. the additionalInfo Map, but not of objects belonging to the route format, such as the GeoJSON classes)
     - return the object itself (so calls to setter methods can be chained similar to the builder pattern)
+- (mostly implicit) public constructor without arguments (used by jackson for deserialization)
+- static `createMinimal()` methods as shortcuts for building minimal (or typically used) instances where it makes sense, i.e. not for classes where nearly all attributes are mandatory.
 - for easy generic extension the map "additionalInfo" is provided for many classes
 - `validate()` method for checking if the state of the instance is legal, which throws an `IllegalArgumentException` including a description of what is invalid (in-depth-checking: classes should call validate on all instances they contain, e.g. a navigation instruction calls `validate()` of the landmarks it contains)
-- optional members
-    - use `java.util.Optional<T>` as member (not Java serializable, but this is not a requirement for now)
-    - just use `T` as argument for the setter and set the value with `Optional.ofNullable(t)`, so that unsetting of a member is possible by simply passing `null`
+- optional member variables
+    - `java.util.Optional<T>` is the type of the member variable and the getter (not Java serializable, but this is not a requirement for now)
+    - `T` is used as argument for the setter: the value is set with `Optional.ofNullable(t)`, so that unsetting of a member is possible by passing `null`
 - `java.time.ZonedDateTime` is used to represent time stamps
 - meaningful implementation of `toString()`
-- override `hashCode()` and `equals()` where necessary (for now this is the case for classes related to modes of transport because we needed to compare them for validation purposes)
+- `hashCode()` and `equals()` are overridden where necessary (for now this is the case for classes related to modes of transport because we needed to compare them for validation purposes)
 - documentation for individual fields (if present) is always located at the public getters (not the setters)
 
 ## Funding
