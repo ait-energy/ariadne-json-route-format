@@ -1,6 +1,7 @@
 package at.ac.ait.ariadne.routeformat.geojson;
 
 import java.io.IOException;
+import java.util.Collections;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -15,7 +16,7 @@ public class GeoJSONPointTest {
 
 	private static final String expectedJson = "{\"type\":\"Point\",\"coordinates\":[1.234,2.3456789]}";
 	private static ObjectMapper mapper;
-	private Point p;
+	private GeoJSONPoint p;
 
 	@BeforeClass
 	public static void setUp() {
@@ -25,8 +26,20 @@ public class GeoJSONPointTest {
 	}
 
 	@Before
-	public void createPoint() {
-		p = Point.create(new CoordinatePoint("1.234", "2.3456789"));
+	public void createPoints() {
+		p = GeoJSONPoint.create(Coordinate.createFromStrings("1.234", "2.3456789"));
+		p.validate();
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void illegalPointTest() {
+		Coordinate.create(Collections.emptyList());
+	}
+
+	@Test
+	public void point3D() {
+		p = GeoJSONPoint.create(Coordinate.createFromStrings("1.234", "2.3456789", "100"));
+		p.validate();
 	}
 
 	@Test
@@ -36,7 +49,7 @@ public class GeoJSONPointTest {
 
 	@Test
 	public void fromJsonTest() throws IOException {
-		Point parsedPoint = mapper.readValue(expectedJson, Point.class);
+		GeoJSONPoint parsedPoint = mapper.readValue(expectedJson, GeoJSONPoint.class);
 		Assert.assertEquals(expectedJson, mapper.writeValueAsString(parsedPoint));
 
 		GeoJSONGeometryObject parsedObject = mapper.readValue(expectedJson, GeoJSONGeometryObject.class);
@@ -50,7 +63,7 @@ public class GeoJSONPointTest {
 
 	@Test
 	public void emptyWktTest() {
-		Point empty = new Point();
+		GeoJSONPoint empty = new GeoJSONPoint();
 		Assert.assertTrue(empty.isEmpty());
 		Assert.assertEquals("POINT EMPTY", empty.toWKT());
 	}

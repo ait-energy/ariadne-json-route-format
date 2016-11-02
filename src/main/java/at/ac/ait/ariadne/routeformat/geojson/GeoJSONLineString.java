@@ -24,8 +24,8 @@ public class GeoJSONLineString implements GeoJSONGeometryObject {
     public GeoJSONLineString() {
     }
 
-    public GeoJSONLineString(List<CoordinatePoint> points) {
-        for (CoordinatePoint point : points)
+    public GeoJSONLineString(List<Coordinate> points) {
+        for (Coordinate point : points)
             coordinates.add(point.asNewList());
     }
 

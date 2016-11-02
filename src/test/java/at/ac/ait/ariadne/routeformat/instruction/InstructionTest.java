@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 import at.ac.ait.ariadne.routeformat.Constants.FormOfWay;
-import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
+import at.ac.ait.ariadne.routeformat.geojson.Coordinate;
 
 public class InstructionTest {
 
@@ -27,7 +27,7 @@ public class InstructionTest {
 	public void testProperDeSerialization() throws IOException {
 		mapper.disable(SerializationFeature.INDENT_OUTPUT);
 		BasicRoadInstruction instruction = BasicRoadInstruction.createMinimalRouteStart(
-				new CoordinatePoint("48.123", "16"), Optional.of("Testweg"), Optional.of(FormOfWay.ROAD));
+				new Coordinate("48.123", "16"), Optional.of("Testweg"), Optional.of(FormOfWay.ROAD));
 		instruction.validate();
 
 		String expected = "{\"type\":\"BasicRoadInstruction\",\"position\":{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[48.123,16]},\"properties\":{}},\"subType\":\"ROUTE_START\",\"ontoStreetName\":\"Testweg\",\"ontoFormOfWay\":\"ROAD\"}";

@@ -13,8 +13,8 @@ public class GeoJSONLineStringTest {
 
 	@BeforeClass
 	public static void setUp() {
-		List<CoordinatePoint> points = Arrays.asList(new CoordinatePoint(1.111, 1.2), new CoordinatePoint(2.1, 2.2),
-				new CoordinatePoint(3.1, 3.2), new CoordinatePoint(4.1, 4.2));
+		List<Coordinate> points = Arrays.asList(new Coordinate(1.111, 1.2), new Coordinate(2.1, 2.2),
+				new Coordinate(3.1, 3.2), new Coordinate(4.1, 4.2));
 		lineString = new GeoJSONLineString(points);
 	}
 

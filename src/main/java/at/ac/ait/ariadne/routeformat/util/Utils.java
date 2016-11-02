@@ -21,7 +21,7 @@ import com.google.common.collect.Lists;
 import at.ac.ait.ariadne.routeformat.Constants.GeneralizedModeOfTransportType;
 import at.ac.ait.ariadne.routeformat.ModeOfTransport;
 import at.ac.ait.ariadne.routeformat.RouteSegment;
-import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
+import at.ac.ait.ariadne.routeformat.geojson.Coordinate;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPolygon;
 import at.ac.ait.ariadne.routeformat.location.Location;
@@ -90,7 +90,7 @@ public class Utils {
 	}
 
 	public static Location<?> createLocation(double latitude, double longitude) {
-		return Location.createMinimal(new CoordinatePoint(longitude, latitude));
+		return Location.createMinimal(new Coordinate(longitude, latitude));
 	}
 
 	public static String getJsonString(Object object) throws JsonProcessingException {

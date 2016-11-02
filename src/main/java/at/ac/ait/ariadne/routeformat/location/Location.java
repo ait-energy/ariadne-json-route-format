@@ -14,9 +14,9 @@ import com.google.common.base.Preconditions;
 
 import at.ac.ait.ariadne.routeformat.RoutingRequest;
 import at.ac.ait.ariadne.routeformat.Validatable;
-import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
+import at.ac.ait.ariadne.routeformat.geojson.Coordinate;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
-import at.ac.ait.ariadne.routeformat.geojson.Point;
+import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPoint;
 
 /**
  * A generic {@link Location}.
@@ -32,7 +32,7 @@ import at.ac.ait.ariadne.routeformat.geojson.Point;
 		@JsonSubTypes.Type(value = SharingStation.class, name = "SharingStation") })
 @JsonInclude(Include.NON_EMPTY)
 public class Location<T extends Location<T>> implements Validatable {
-	private GeoJSONFeature<Point> coordinate;
+	private GeoJSONFeature<GeoJSONPoint> coordinate;
 	private Optional<GeoJSONFeature<?>> complexGeometry = Optional.empty();
 	private Optional<Address> address = Optional.empty();
 	private Map<String, String> additionalInfo = new TreeMap<>();
@@ -48,7 +48,7 @@ public class Location<T extends Location<T>> implements Validatable {
 	 * In case this {@link Location} is part of a {@link RoutingRequest}
 	 * (from/to/via) this point is used as input for routing.
 	 */
-	public GeoJSONFeature<Point> getCoordinate() {
+	public GeoJSONFeature<GeoJSONPoint> getCoordinate() {
 		return coordinate;
 	}
 
@@ -73,14 +73,14 @@ public class Location<T extends Location<T>> implements Validatable {
 
 	@SuppressWarnings("unchecked")
 	@JsonProperty
-	public T setCoordinate(GeoJSONFeature<Point> coordinate) {
+	public T setCoordinate(GeoJSONFeature<GeoJSONPoint> coordinate) {
 		this.coordinate = coordinate;
 		return (T) this;
 	}
 
 	@SuppressWarnings("unchecked")
 	@JsonIgnore
-	public T setCoordinate(CoordinatePoint coordinate) {
+	public T setCoordinate(Coordinate coordinate) {
 		this.coordinate = GeoJSONFeature.newPointFeature(coordinate);
 		return (T) this;
 	}
@@ -105,7 +105,7 @@ public class Location<T extends Location<T>> implements Validatable {
 
 	// --
 
-	public static Location<?> createMinimal(CoordinatePoint position) {
+	public static Location<?> createMinimal(Coordinate position) {
 		return new Location<>().setCoordinate(position);
 	}
 

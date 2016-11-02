@@ -15,7 +15,7 @@ import com.kjetland.jackson.jsonSchema.JsonSchemaGenerator;
 import at.ac.ait.ariadne.routeformat.Constants.FormOfWay;
 import at.ac.ait.ariadne.routeformat.Constants.Preposition;
 import at.ac.ait.ariadne.routeformat.Constants.TurnDirection;
-import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
+import at.ac.ait.ariadne.routeformat.geojson.Coordinate;
 import at.ac.ait.ariadne.routeformat.instruction.BasicRoadInstruction;
 import at.ac.ait.ariadne.routeformat.instruction.Landmark;
 import scala.Option;
@@ -55,7 +55,7 @@ class MutableJacksonExample {
 //		RoundaboutInstruction example = RoundaboutInstruction.createMinimalEnterInstruction(new CoordinatePoint(16, 48), 2);
 //		MutableJsonClass example = new DetailedMutableJsonClass().setAnotherDetail("yo").setMyInteger(1);
 		Landmark landmark = Landmark.createMinimalLandmark(Preposition.AFTER, null);
-		BasicRoadInstruction example = BasicRoadInstruction.createMinimalOnRoute(new CoordinatePoint(48, 16),
+		BasicRoadInstruction example = BasicRoadInstruction.createMinimalOnRoute(new Coordinate(48, 16),
 				TurnDirection.LEFT, Optional.of("Ringstraße"), Optional.of(FormOfWay.ROAD));
 		example.setContinueSeconds(50).setLandmark(landmark);
 		

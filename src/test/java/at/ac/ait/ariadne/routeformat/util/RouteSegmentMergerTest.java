@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import at.ac.ait.ariadne.routeformat.ModeOfTransport;
 import at.ac.ait.ariadne.routeformat.RouteSegment;
-import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
+import at.ac.ait.ariadne.routeformat.geojson.Coordinate;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONLineString;
 import at.ac.ait.ariadne.routeformat.location.Address;
@@ -22,16 +22,16 @@ public class RouteSegmentMergerTest {
 
 	@BeforeClass
 	public static void initialise() {
-		adalbertStifterStrasse15 = Location.createMinimal(new CoordinatePoint(16.3655, 48.23752))
+		adalbertStifterStrasse15 = Location.createMinimal(new Coordinate(16.3655, 48.23752))
 				.setAddress(new Address().setStreetName("Adalbert-Stifter-Straße").setHouseNumber("15"));
 
-		treustrasse92 = Location.createMinimal(new CoordinatePoint(16.36329, 48.234077))
+		treustrasse92 = Location.createMinimal(new Coordinate(16.36329, 48.234077))
 				.setAddress(new Address().setStreetName("Treustraße").setHouseNumber("92").setPostCode("1200"));
 
-		treustrasse84 = Location.createMinimal(new CoordinatePoint(16.36369, 48.23348))
+		treustrasse84 = Location.createMinimal(new Coordinate(16.36369, 48.23348))
 				.setAddress(new Address().setStreetName("Treustraße").setHouseNumber("84").setPostCode("1200"));
 
-		gaussplatz = Location.createMinimal(new CoordinatePoint(16.369045, 48.2267))
+		gaussplatz = Location.createMinimal(new Coordinate(16.369045, 48.2267))
 				.setAddress(new Address().setStreetName("Gaußplatz"));
 	}
 
@@ -113,8 +113,8 @@ public class RouteSegmentMergerTest {
 
 	private RouteSegment getFirstSegment(ModeOfTransport mot) {
 		GeoJSONFeature<GeoJSONLineString> geometryGeoJson = GeoJSONFeature.newLineStringFeature(
-				adalbertStifterStrasse15, treustrasse92, new CoordinatePoint(16.36515, 48.23729),
-				new CoordinatePoint(16.3656, 48.23515), new CoordinatePoint(16.36288, 48.23509));
+				adalbertStifterStrasse15, treustrasse92, new Coordinate(16.36515, 48.23729),
+				new Coordinate(16.3656, 48.23515), new Coordinate(16.36288, 48.23509));
 		RouteSegment bicycleFromAdalbertStifterStrasseToTreugasse = new RouteSegment().setNr(1)
 				.setFrom(adalbertStifterStrasse15).setTo(treustrasse92).setDistanceMeters(597)
 				// 106 seconds ride, 1 minutes unlocking bike, 1 minute parking
@@ -127,7 +127,7 @@ public class RouteSegmentMergerTest {
 
 	private RouteSegment getSecondSegment(ModeOfTransport mot) {
 		GeoJSONFeature<GeoJSONLineString> geometryGeoJson = GeoJSONFeature.newLineStringFeature(treustrasse84,
-				gaussplatz, new CoordinatePoint(16.3644, 48.2311), new CoordinatePoint(16.36638, 48.22886));
+				gaussplatz, new Coordinate(16.3644, 48.2311), new Coordinate(16.36638, 48.22886));
 		RouteSegment bicycleFromTreugasseToGaussplatz = new RouteSegment().setNr(2).setFrom(treustrasse84)
 				.setTo(gaussplatz).setDistanceMeters(941)
 				// 180 seconds ride, 1 minutes unlocking bike, 1 minute parking

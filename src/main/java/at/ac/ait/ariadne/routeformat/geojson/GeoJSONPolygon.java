@@ -44,11 +44,11 @@ public class GeoJSONPolygon implements GeoJSONGeometryObject {
      * @throws IllegalArgumentException
      *             if invalid LinearRings are contained
      */
-    public GeoJSONPolygon(List<List<CoordinatePoint>> points) {
-        for (List<CoordinatePoint> linearRing : points) {
+    public GeoJSONPolygon(List<List<Coordinate>> points) {
+        for (List<Coordinate> linearRing : points) {
 
             List<List<BigDecimal>> ring = new ArrayList<>();
-            for (CoordinatePoint point : linearRing)
+            for (Coordinate point : linearRing)
                 ring.add(point.asNewList());
             GeoJSONUtil.assertLinearRing(ring);
             coordinates.add(ring);

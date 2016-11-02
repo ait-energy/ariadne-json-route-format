@@ -3,11 +3,11 @@ package at.ac.ait.ariadne.routeformat.location;
 import org.junit.Assert;
 import org.junit.Test;
 
-import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
+import at.ac.ait.ariadne.routeformat.geojson.Coordinate;
 
 public class LocationTest {
 
-	private static CoordinatePoint coordinate = new CoordinatePoint("16.40073", "48.25625");
+	private static Coordinate coordinate = new Coordinate("16.40073", "48.25625");
 
 	@Test
 	public void simpleLocationTest() {

@@ -52,30 +52,30 @@ public class GeoJSONFeature<T extends GeoJSONGeometryObject> {
 		return "GeoJSONFeature [type=" + type + ", geometry=" + geometry + ", properties=" + properties + "]";
 	}
 
-	public static GeoJSONFeature<Point> newPointFeature(CoordinatePoint point) {
-		GeoJSONFeature<Point> feature = new GeoJSONFeature<>();
-		feature.geometry = new Point(point);
+	public static GeoJSONFeature<GeoJSONPoint> newPointFeature(Coordinate point) {
+		GeoJSONFeature<GeoJSONPoint> feature = new GeoJSONFeature<>();
+		feature.geometry = new GeoJSONPoint(point);
 		return feature;
 	}
 
-	public static GeoJSONFeature<Point> newPointFeature(Point point) {
-		GeoJSONFeature<Point> feature = new GeoJSONFeature<>();
+	public static GeoJSONFeature<GeoJSONPoint> newPointFeature(GeoJSONPoint point) {
+		GeoJSONFeature<GeoJSONPoint> feature = new GeoJSONFeature<>();
 		feature.geometry = point;
 		return feature;
 	}
 
-	public static GeoJSONFeature<GeoJSONLineString> newLineStringFeature(List<CoordinatePoint> points) {
+	public static GeoJSONFeature<GeoJSONLineString> newLineStringFeature(List<Coordinate> points) {
 		GeoJSONFeature<GeoJSONLineString> feature = new GeoJSONFeature<>();
 		feature.geometry = new GeoJSONLineString(points);
 		return feature;
 	}
 
 	public static GeoJSONFeature<GeoJSONLineString> newLineStringFeature(Location<?> from, Location<?> to,
-			CoordinatePoint... geometryInbetween) {
-		List<CoordinatePoint> coordinatePoints = new ArrayList<>();
-		coordinatePoints.add(CoordinatePoint.fromGeoJSONPointFeature(from.getCoordinate()));
+			Coordinate... geometryInbetween) {
+		List<Coordinate> coordinatePoints = new ArrayList<>();
+		coordinatePoints.add(Coordinate.fromGeoJSONPointFeature(from.getCoordinate()));
 		coordinatePoints.addAll(Arrays.asList(geometryInbetween));
-		coordinatePoints.add(CoordinatePoint.fromGeoJSONPointFeature(to.getCoordinate()));
+		coordinatePoints.add(Coordinate.fromGeoJSONPointFeature(to.getCoordinate()));
 		return GeoJSONFeature.newLineStringFeature(coordinatePoints);
 	}
 
@@ -89,7 +89,7 @@ public class GeoJSONFeature<T extends GeoJSONGeometryObject> {
 	 * @see GeoJSONPolygon#coordinates
 	 */
 	public static GeoJSONFeature<GeoJSONPolygon> newPolygonFeatureFromCoordinatePoints(
-			List<List<CoordinatePoint>> points) {
+			List<List<Coordinate>> points) {
 		GeoJSONFeature<GeoJSONPolygon> feature = new GeoJSONFeature<>();
 		feature.geometry = new GeoJSONPolygon(points);
 		return feature;

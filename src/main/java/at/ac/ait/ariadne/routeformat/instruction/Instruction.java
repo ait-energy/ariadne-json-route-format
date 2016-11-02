@@ -11,9 +11,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.google.common.base.Preconditions;
 
 import at.ac.ait.ariadne.routeformat.Validatable;
-import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
+import at.ac.ait.ariadne.routeformat.geojson.Coordinate;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
-import at.ac.ait.ariadne.routeformat.geojson.Point;
+import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPoint;
 
 /**
  * Common base class for all types of turn-by-turn navigation instructions.
@@ -28,9 +28,9 @@ import at.ac.ait.ariadne.routeformat.geojson.Point;
 		@JsonSubTypes.Type(value = RoundaboutInstruction.class, name = "RoundaboutInstruction") })
 public abstract class Instruction<T extends Instruction<T>> implements Validatable {
 
-	private GeoJSONFeature<Point> position;
-	private Optional<GeoJSONFeature<Point>> previewTriggerPosition = Optional.empty();
-	private Optional<GeoJSONFeature<Point>> confirmationTriggerPosition = Optional.empty();
+	private GeoJSONFeature<GeoJSONPoint> position;
+	private Optional<GeoJSONFeature<GeoJSONPoint>> previewTriggerPosition = Optional.empty();
+	private Optional<GeoJSONFeature<GeoJSONPoint>> confirmationTriggerPosition = Optional.empty();
 	private Map<String, String> text = new TreeMap<>();
 	private Map<String, Object> additionalInfo = new TreeMap<>();
 
@@ -39,7 +39,7 @@ public abstract class Instruction<T extends Instruction<T>> implements Validatab
 	/**
 	 * @return the position the instruction is defined for
 	 */
-	public GeoJSONFeature<Point> getPosition() {
+	public GeoJSONFeature<GeoJSONPoint> getPosition() {
 		return position;
 	}
 
@@ -47,7 +47,7 @@ public abstract class Instruction<T extends Instruction<T>> implements Validatab
 	 * @return a position where, during on-trip navigation, a first instruction
 	 *         could be presented to the user
 	 */
-	public Optional<GeoJSONFeature<Point>> getPreviewTriggerPosition() {
+	public Optional<GeoJSONFeature<GeoJSONPoint>> getPreviewTriggerPosition() {
 		return previewTriggerPosition;
 	}
 
@@ -55,7 +55,7 @@ public abstract class Instruction<T extends Instruction<T>> implements Validatab
 	 * @return a position after the maneuver, where, during on-trip navigation,
 	 *         a confirmation message could be presented to the user
 	 */
-	public Optional<GeoJSONFeature<Point>> getConfirmationTriggerPosition() {
+	public Optional<GeoJSONFeature<GeoJSONPoint>> getConfirmationTriggerPosition() {
 		return confirmationTriggerPosition;
 	}
 
@@ -75,42 +75,42 @@ public abstract class Instruction<T extends Instruction<T>> implements Validatab
 
 	@JsonProperty
 	@SuppressWarnings("unchecked")
-	public T setPosition(GeoJSONFeature<Point> position) {
+	public T setPosition(GeoJSONFeature<GeoJSONPoint> position) {
 		this.position = position;
 		return (T) this;
 	}
 
 	@JsonIgnore
 	@SuppressWarnings("unchecked")
-	public T setPosition(CoordinatePoint position) {
+	public T setPosition(Coordinate position) {
 		this.position = GeoJSONFeature.newPointFeature(position);
 		return (T) this;
 	}
 
 	@JsonProperty
 	@SuppressWarnings("unchecked")
-	public T setPreviewTriggerPosition(GeoJSONFeature<Point> previewTriggerPosition) {
+	public T setPreviewTriggerPosition(GeoJSONFeature<GeoJSONPoint> previewTriggerPosition) {
 		this.previewTriggerPosition = Optional.ofNullable(previewTriggerPosition);
 		return (T) this;
 	}
 
 	@JsonIgnore
 	@SuppressWarnings("unchecked")
-	public T setPreviewTriggerPosition(CoordinatePoint previewTriggerPosition) {
+	public T setPreviewTriggerPosition(Coordinate previewTriggerPosition) {
 		this.previewTriggerPosition = Optional.ofNullable(GeoJSONFeature.newPointFeature(previewTriggerPosition));
 		return (T) this;
 	}
 
 	@JsonProperty
 	@SuppressWarnings("unchecked")
-	public T setConfirmationTriggerPosition(GeoJSONFeature<Point> confirmationTriggerPosition) {
+	public T setConfirmationTriggerPosition(GeoJSONFeature<GeoJSONPoint> confirmationTriggerPosition) {
 		this.confirmationTriggerPosition = Optional.ofNullable(confirmationTriggerPosition);
 		return (T) this;
 	}
 
 	@JsonIgnore
 	@SuppressWarnings("unchecked")
-	public T setConfirmationTriggerPosition(CoordinatePoint confirmationTriggerPosition) {
+	public T setConfirmationTriggerPosition(Coordinate confirmationTriggerPosition) {
 		this.confirmationTriggerPosition = Optional
 				.ofNullable(GeoJSONFeature.newPointFeature(confirmationTriggerPosition));
 		return (T) this;

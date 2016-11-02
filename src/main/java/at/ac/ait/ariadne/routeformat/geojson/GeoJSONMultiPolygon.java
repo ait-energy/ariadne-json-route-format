@@ -45,12 +45,12 @@ public class GeoJSONMultiPolygon implements GeoJSONGeometryObject {
      * @throws IllegalArgumentException
      *             if invalid LinearRings are contained
      */
-    public GeoJSONMultiPolygon(List<List<List<CoordinatePoint>>> points) {
-        for (List<List<CoordinatePoint>> polygon : points) {
+    public GeoJSONMultiPolygon(List<List<List<Coordinate>>> points) {
+        for (List<List<Coordinate>> polygon : points) {
             List<List<List<BigDecimal>>> polyCoordinates = new ArrayList<>();
-            for (List<CoordinatePoint> linearRing : polygon) {
+            for (List<Coordinate> linearRing : polygon) {
                 List<List<BigDecimal>> ring = new ArrayList<>();
-                for (CoordinatePoint point : linearRing)
+                for (Coordinate point : linearRing)
                     ring.add(point.asNewList());
                 GeoJSONUtil.assertLinearRing(ring);
                 polyCoordinates.add(ring);
