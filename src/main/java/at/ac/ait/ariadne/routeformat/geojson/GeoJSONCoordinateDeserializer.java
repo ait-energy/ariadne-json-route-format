@@ -11,10 +11,10 @@ import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 
-public class CoordinateDeserializer extends JsonDeserializer<Coordinate> {
+public class GeoJSONCoordinateDeserializer extends JsonDeserializer<GeoJSONCoordinate> {
 
 	@Override
-	public Coordinate deserialize(JsonParser p, DeserializationContext ctxt)
+	public GeoJSONCoordinate deserialize(JsonParser p, DeserializationContext ctxt)
 			throws IOException, JsonProcessingException {
 		if (!p.isExpectedStartArrayToken())
 			throw ctxt.mappingException("expected array start for coordinate");
@@ -26,7 +26,7 @@ public class CoordinateDeserializer extends JsonDeserializer<Coordinate> {
 			else
 				break;
 		}
-		return Coordinate.create(coordinates);
+		return GeoJSONCoordinate.create(coordinates);
 	}
 
 }

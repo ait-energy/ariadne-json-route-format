@@ -20,7 +20,7 @@ import com.google.common.base.Preconditions;
 import at.ac.ait.ariadne.routeformat.Constants.GeneralizedModeOfTransportType;
 import at.ac.ait.ariadne.routeformat.ModeOfTransport;
 import at.ac.ait.ariadne.routeformat.RouteSegment;
-import at.ac.ait.ariadne.routeformat.geojson.Coordinate;
+import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPolygon;
 import at.ac.ait.ariadne.routeformat.location.Location;
@@ -89,7 +89,7 @@ public class Utils {
 	}
 
 	public static Location<?> createLocation(double latitude, double longitude) {
-		return Location.createMinimal(Coordinate.createFromDoubles(longitude, latitude));
+		return Location.createMinimal(GeoJSONCoordinate.createFromDoubles(longitude, latitude));
 	}
 
 	public static String getJsonString(Object object) throws JsonProcessingException {
@@ -104,7 +104,7 @@ public class Utils {
 		BigDecimal minX = null, maxX = null, minY = null, maxY = null;
 		for (RouteSegment segment : segments) {
 			if (segment.getGeometryGeoJson().isPresent()) {
-				for (Coordinate xy : segment.getGeometryGeoJson().get().getGeometry().getCoordinates()) {
+				for (GeoJSONCoordinate xy : segment.getGeometryGeoJson().get().getGeometry().getCoordinates()) {
 					if (minX == null || minX.compareTo(xy.getX()) > 0)
 						minX = xy.getX();
 					if (maxX == null || maxX.compareTo(xy.getX()) < 0)
@@ -120,12 +120,12 @@ public class Utils {
 		if (minX == null || maxX == null || minY == null || maxY == null)
 			return Optional.empty();
 
-		List<Coordinate> outerRing = new ArrayList<>();
-		outerRing.add(Coordinate.create(minX, minY));
-		outerRing.add(Coordinate.create(minX, maxY));
-		outerRing.add(Coordinate.create(maxX, maxY));
-		outerRing.add(Coordinate.create(maxX, minY));
-		outerRing.add(Coordinate.create(minX, minY));
+		List<GeoJSONCoordinate> outerRing = new ArrayList<>();
+		outerRing.add(GeoJSONCoordinate.create(minX, minY));
+		outerRing.add(GeoJSONCoordinate.create(minX, maxY));
+		outerRing.add(GeoJSONCoordinate.create(maxX, maxY));
+		outerRing.add(GeoJSONCoordinate.create(maxX, minY));
+		outerRing.add(GeoJSONCoordinate.create(minX, minY));
 		return Optional.of(GeoJSONFeature.createPolygonFeatureFromRings(outerRing, Collections.emptyList()));
 	}
 

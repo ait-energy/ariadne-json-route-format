@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.google.common.base.Preconditions;
 
 import at.ac.ait.ariadne.routeformat.Validatable;
-import at.ac.ait.ariadne.routeformat.geojson.Coordinate;
+import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPoint;
 
@@ -82,7 +82,7 @@ public abstract class Instruction<T extends Instruction<T>> implements Validatab
 
 	@JsonIgnore
 	@SuppressWarnings("unchecked")
-	public T setPosition(Coordinate position) {
+	public T setPosition(GeoJSONCoordinate position) {
 		this.position = GeoJSONFeature.createPointFeature(position);
 		return (T) this;
 	}
@@ -96,7 +96,7 @@ public abstract class Instruction<T extends Instruction<T>> implements Validatab
 
 	@JsonIgnore
 	@SuppressWarnings("unchecked")
-	public T setPreviewTriggerPosition(Coordinate previewTriggerPosition) {
+	public T setPreviewTriggerPosition(GeoJSONCoordinate previewTriggerPosition) {
 		this.previewTriggerPosition = Optional.ofNullable(GeoJSONFeature.createPointFeature(previewTriggerPosition));
 		return (T) this;
 	}
@@ -110,7 +110,7 @@ public abstract class Instruction<T extends Instruction<T>> implements Validatab
 
 	@JsonIgnore
 	@SuppressWarnings("unchecked")
-	public T setConfirmationTriggerPosition(Coordinate confirmationTriggerPosition) {
+	public T setConfirmationTriggerPosition(GeoJSONCoordinate confirmationTriggerPosition) {
 		this.confirmationTriggerPosition = Optional
 				.ofNullable(GeoJSONFeature.createPointFeature(confirmationTriggerPosition));
 		return (T) this;

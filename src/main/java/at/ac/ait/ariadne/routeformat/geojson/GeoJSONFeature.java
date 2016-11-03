@@ -56,7 +56,7 @@ public class GeoJSONFeature<T extends GeoJSONGeometryObject> implements Validata
 
 	// --
 
-	public static GeoJSONFeature<GeoJSONPoint> createPointFeature(Coordinate point) {
+	public static GeoJSONFeature<GeoJSONPoint> createPointFeature(GeoJSONCoordinate point) {
 		return createPointFeature(GeoJSONPoint.create(point));
 	}
 
@@ -65,15 +65,15 @@ public class GeoJSONFeature<T extends GeoJSONGeometryObject> implements Validata
 	}
 
 	public static GeoJSONFeature<GeoJSONLineString> createLineStringFeature(Location<?> from, Location<?> to,
-			Coordinate... geometryInbetween) {
-		List<Coordinate> coordinatePoints = new ArrayList<>();
+			GeoJSONCoordinate... geometryInbetween) {
+		List<GeoJSONCoordinate> coordinatePoints = new ArrayList<>();
 		coordinatePoints.add(from.getCoordinate().geometry.getCoordinates().get());
 		coordinatePoints.addAll(Arrays.asList(geometryInbetween));
 		coordinatePoints.add(to.getCoordinate().geometry.getCoordinates().get());
 		return createLineStringFeature(coordinatePoints);
 	}
 
-	public static GeoJSONFeature<GeoJSONLineString> createLineStringFeature(List<Coordinate> points) {
+	public static GeoJSONFeature<GeoJSONLineString> createLineStringFeature(List<GeoJSONCoordinate> points) {
 		return createLineStringFeature(GeoJSONLineString.create(points));
 	}
 
@@ -88,9 +88,9 @@ public class GeoJSONFeature<T extends GeoJSONGeometryObject> implements Validata
 	 * @param innerRings
 	 *            can be empty
 	 */
-	public static GeoJSONFeature<GeoJSONPolygon> createPolygonFeatureFromRings(List<Coordinate> outerRing,
-			List<List<Coordinate>> innerRings) {
-		List<List<Coordinate>> rings = new ArrayList<>();
+	public static GeoJSONFeature<GeoJSONPolygon> createPolygonFeatureFromRings(List<GeoJSONCoordinate> outerRing,
+			List<List<GeoJSONCoordinate>> innerRings) {
+		List<List<GeoJSONCoordinate>> rings = new ArrayList<>();
 		rings.add(outerRing);
 		rings.addAll(innerRings);
 		return createPolygonFeatureFromCoordinatePoints(rings);
@@ -100,7 +100,7 @@ public class GeoJSONFeature<T extends GeoJSONGeometryObject> implements Validata
 	 * @see GeoJSONPolygon#coordinates
 	 */
 	public static GeoJSONFeature<GeoJSONPolygon> createPolygonFeatureFromCoordinatePoints(
-			List<List<Coordinate>> points) {
+			List<List<GeoJSONCoordinate>> points) {
 		return createPolygonFeature(GeoJSONPolygon.create(points));
 	}
 
@@ -110,7 +110,7 @@ public class GeoJSONFeature<T extends GeoJSONGeometryObject> implements Validata
 
 	public static GeoJSONFeature<GeoJSONMultiPolygon> createMultiPolygonFeatureFromPolygons(
 			List<GeoJSONFeature<GeoJSONPolygon>> polygons) {
-		List<List<List<Coordinate>>> polygonGeometries = new ArrayList<>();
+		List<List<List<GeoJSONCoordinate>>> polygonGeometries = new ArrayList<>();
 		for (GeoJSONFeature<GeoJSONPolygon> polygon : polygons) {
 			polygonGeometries.add(polygon.geometry.getCoordinates());
 		}

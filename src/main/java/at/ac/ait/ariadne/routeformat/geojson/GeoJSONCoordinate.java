@@ -26,9 +26,9 @@ import at.ac.ait.ariadne.routeformat.Validatable;
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */
-@JsonDeserialize(using = CoordinateDeserializer.class)
-@JsonSerialize(using = CoordinateSerializer.class)
-public class Coordinate implements Validatable {
+@JsonDeserialize(using = GeoJSONCoordinateDeserializer.class)
+@JsonSerialize(using = GeoJSONCoordinateSerializer.class)
+public class GeoJSONCoordinate implements Validatable {
 
 	private BigDecimal x, y;
 	private Optional<BigDecimal> z = Optional.empty();
@@ -49,57 +49,57 @@ public class Coordinate implements Validatable {
 
 	// -- setters
 
-	public Coordinate setX(BigDecimal x) {
+	public GeoJSONCoordinate setX(BigDecimal x) {
 		this.x = x;
 		return this;
 	}
 
-	public Coordinate setY(BigDecimal y) {
+	public GeoJSONCoordinate setY(BigDecimal y) {
 		this.y = y;
 		return this;
 	}
 
-	public Coordinate setZ(BigDecimal z) {
+	public GeoJSONCoordinate setZ(BigDecimal z) {
 		this.z = Optional.ofNullable(z);
 		return this;
 	}
 
 	// --
 
-	public static Coordinate createFromDoubles(double x, double y) {
-		return Coordinate.createFromStrings(String.format(Locale.US, "%.7f", x), String.format(Locale.US, "%.7f", y));
+	public static GeoJSONCoordinate createFromDoubles(double x, double y) {
+		return GeoJSONCoordinate.createFromStrings(String.format(Locale.US, "%.7f", x), String.format(Locale.US, "%.7f", y));
 	}
 
-	public static Coordinate createFromDoubles(double x, double y, double z) {
-		return Coordinate.createFromStrings(String.format(Locale.US, "%.7f", x), String.format(Locale.US, "%.7f", y),
+	public static GeoJSONCoordinate createFromDoubles(double x, double y, double z) {
+		return GeoJSONCoordinate.createFromStrings(String.format(Locale.US, "%.7f", x), String.format(Locale.US, "%.7f", y),
 				String.format(Locale.US, "%.7f", z));
 	}
 
-	public static Coordinate createFromStrings(String x, String y) {
-		return Coordinate.create(new BigDecimal(x), new BigDecimal(y));
+	public static GeoJSONCoordinate createFromStrings(String x, String y) {
+		return GeoJSONCoordinate.create(new BigDecimal(x), new BigDecimal(y));
 	}
 
-	public static Coordinate createFromStrings(String x, String y, String z) {
-		return Coordinate.create(new BigDecimal(x), new BigDecimal(y), new BigDecimal(z));
+	public static GeoJSONCoordinate createFromStrings(String x, String y, String z) {
+		return GeoJSONCoordinate.create(new BigDecimal(x), new BigDecimal(y), new BigDecimal(z));
 	}
 
-	public static Coordinate create(List<BigDecimal> coordinates) {
+	public static GeoJSONCoordinate create(List<BigDecimal> coordinates) {
 		switch (coordinates.size()) {
 		case 2:
-			return Coordinate.create(coordinates.get(0), coordinates.get(1));
+			return GeoJSONCoordinate.create(coordinates.get(0), coordinates.get(1));
 		case 3:
-			return Coordinate.create(coordinates.get(0), coordinates.get(1), coordinates.get(2));
+			return GeoJSONCoordinate.create(coordinates.get(0), coordinates.get(1), coordinates.get(2));
 		default:
 			throw new IllegalArgumentException("exactly 2 or 3 coordinates allowed, but were " + coordinates.size());
 		}
 	}
 
-	public static Coordinate create(BigDecimal x, BigDecimal y) {
-		return new Coordinate().setX(x).setY(y);
+	public static GeoJSONCoordinate create(BigDecimal x, BigDecimal y) {
+		return new GeoJSONCoordinate().setX(x).setY(y);
 	}
 
-	public static Coordinate create(BigDecimal x, BigDecimal y, BigDecimal z) {
-		return new Coordinate().setX(x).setY(y).setZ(z);
+	public static GeoJSONCoordinate create(BigDecimal x, BigDecimal y, BigDecimal z) {
+		return new GeoJSONCoordinate().setX(x).setY(y).setZ(z);
 	}
 
 	@Override

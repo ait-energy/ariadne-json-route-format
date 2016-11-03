@@ -22,7 +22,7 @@ public class GeoJSONUtil {
 	 *             coordinate pairs, where the first and the last coordinate are
 	 *             the same)
 	 */
-	public static void assertLinearRing(List<Coordinate> coordinates) {
+	public static void assertLinearRing(List<GeoJSONCoordinate> coordinates) {
 		int count = coordinates.size();
 		Preconditions.checkArgument(count >= 4, "four coordinates required, got only %s", count);
 		BigDecimal x1, x2, y1, y2;

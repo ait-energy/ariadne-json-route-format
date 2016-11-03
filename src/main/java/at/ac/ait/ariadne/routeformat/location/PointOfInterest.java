@@ -5,7 +5,7 @@ import java.util.Optional;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
-import at.ac.ait.ariadne.routeformat.geojson.Coordinate;
+import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
 
 /**
  * A point of interest.
@@ -45,7 +45,7 @@ public class PointOfInterest extends Location<PointOfInterest> {
 
 	// --
 
-	public static PointOfInterest createMinimal(Coordinate position) {
+	public static PointOfInterest createMinimal(GeoJSONCoordinate position) {
 		return new PointOfInterest().setCoordinate(position);
 	}
 

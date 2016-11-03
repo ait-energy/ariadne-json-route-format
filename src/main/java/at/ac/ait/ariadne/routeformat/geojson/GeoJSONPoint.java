@@ -17,25 +17,25 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonInclude(Include.ALWAYS)
 public class GeoJSONPoint implements GeoJSONGeometryObject {
 
-	private Optional<Coordinate> coordinates = Optional.empty();
+	private Optional<GeoJSONCoordinate> coordinates = Optional.empty();
 
 	// -- getters
 
 	@JsonProperty(required = true)
-	public Optional<Coordinate> getCoordinates() {
+	public Optional<GeoJSONCoordinate> getCoordinates() {
 		return coordinates;
 	}
 
 	// -- setters
 
-	public GeoJSONPoint setCoordinates(Coordinate coordinates) {
+	public GeoJSONPoint setCoordinates(GeoJSONCoordinate coordinates) {
 		this.coordinates = Optional.ofNullable(coordinates);
 		return this;
 	}
 
 	// --
 
-	public static GeoJSONPoint create(Coordinate point) {
+	public static GeoJSONPoint create(GeoJSONCoordinate point) {
 		return new GeoJSONPoint().setCoordinates(point);
 	}
 
@@ -50,7 +50,7 @@ public class GeoJSONPoint implements GeoJSONGeometryObject {
 
 	@Override
 	public String toWKT() {
-		List<Coordinate> list = coordinates.isPresent() ? Arrays.asList(coordinates.get()) : Collections.emptyList();
+		List<GeoJSONCoordinate> list = coordinates.isPresent() ? Arrays.asList(coordinates.get()) : Collections.emptyList();
 		return getTypeName() + " " + WKTUtil.getCoordinateStringPointOrLineString(list);
 	}
 

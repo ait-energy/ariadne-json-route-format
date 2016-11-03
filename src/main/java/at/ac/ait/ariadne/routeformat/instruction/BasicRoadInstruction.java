@@ -9,7 +9,7 @@ import com.google.common.base.Preconditions;
 import at.ac.ait.ariadne.routeformat.Constants.CompassDirection;
 import at.ac.ait.ariadne.routeformat.Constants.FormOfWay;
 import at.ac.ait.ariadne.routeformat.Constants.TurnDirection;
-import at.ac.ait.ariadne.routeformat.geojson.Coordinate;
+import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
 
 /**
  * A {@link BasicRoadInstruction} contains episodes with classic-style turn
@@ -195,7 +195,7 @@ public class BasicRoadInstruction extends Instruction<BasicRoadInstruction> {
 	/**
 	 * either street name or form of way must be present
 	 */
-	public static BasicRoadInstruction createMinimalRouteStart(Coordinate position,
+	public static BasicRoadInstruction createMinimalRouteStart(GeoJSONCoordinate position,
 			Optional<String> ontoStreetName, Optional<FormOfWay> ontoFormOfWay) {
 		return new BasicRoadInstruction().setPosition(position).setSubType(SubType.ROUTE_START)
 				.setOntoStreetName(ontoStreetName.orElse(null)).setOntoFormOfWay(ontoFormOfWay.orElse(null));
@@ -205,7 +205,7 @@ public class BasicRoadInstruction extends Instruction<BasicRoadInstruction> {
 	 * either street name or form of way must be present
 	 */
 
-	public static BasicRoadInstruction createMinimalOnRoute(Coordinate position, TurnDirection turnDirection,
+	public static BasicRoadInstruction createMinimalOnRoute(GeoJSONCoordinate position, TurnDirection turnDirection,
 			Optional<String> ontoStreetName, Optional<FormOfWay> ontoFormOfWay) {
 		return new BasicRoadInstruction().setPosition(position).setSubType(getSubType(turnDirection))
 				.setTurnDirection(turnDirection).setOntoStreetName(ontoStreetName.orElse(null))
@@ -215,7 +215,7 @@ public class BasicRoadInstruction extends Instruction<BasicRoadInstruction> {
 	/**
 	 * either street name or form of way (of the destination) must be present
 	 */
-	public static BasicRoadInstruction createMinimalRouteEnd(Coordinate position, Optional<String> ontoStreetName,
+	public static BasicRoadInstruction createMinimalRouteEnd(GeoJSONCoordinate position, Optional<String> ontoStreetName,
 			Optional<FormOfWay> ontoFormOfWay) {
 		return new BasicRoadInstruction().setPosition(position).setSubType(SubType.ROUTE_END)
 				.setOntoStreetName(ontoStreetName.orElse(null)).setOntoFormOfWay(ontoFormOfWay.orElse(null));

@@ -19,13 +19,13 @@ public class GeoJSONPointTest {
 
 	@Before
 	public void createPoint() {
-		p = GeoJSONPoint.create(Coordinate.createFromStrings("1.234", "2.3456789"));
+		p = GeoJSONPoint.create(GeoJSONCoordinate.createFromStrings("1.234", "2.3456789"));
 		p.validate();
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void illegalPointTest() {
-		Coordinate.create(Collections.emptyList());
+		GeoJSONCoordinate.create(Collections.emptyList());
 	}
 
 	@Test
@@ -39,7 +39,7 @@ public class GeoJSONPointTest {
 
 	@Test
 	public void point3D() {
-		p = GeoJSONPoint.create(Coordinate.createFromStrings("1.234", "2.3456789", "100"));
+		p = GeoJSONPoint.create(GeoJSONCoordinate.createFromStrings("1.234", "2.3456789", "100"));
 		p.validate();
 
 		Assert.assertEquals(new BigDecimal("1.234"), p.getCoordinates().get().getX());

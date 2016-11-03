@@ -7,10 +7,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
-public class CoordinateSerializer extends JsonSerializer<Coordinate> {
+public class GeoJSONCoordinateSerializer extends JsonSerializer<GeoJSONCoordinate> {
 
 	@Override
-	public void serialize(Coordinate value, JsonGenerator gen, SerializerProvider serializers)
+	public void serialize(GeoJSONCoordinate value, JsonGenerator gen, SerializerProvider serializers)
 			throws IOException, JsonProcessingException {
 		gen.writeStartArray();
 		gen.writeNumber(value.getX());

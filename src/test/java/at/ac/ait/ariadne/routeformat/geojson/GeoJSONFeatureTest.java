@@ -17,7 +17,7 @@ public class GeoJSONFeatureTest {
 
 	@Before
 	public void createPointFeature() {
-		p = GeoJSONFeature.createPointFeature(GeoJSONPoint.create(Coordinate.createFromStrings("1.234", "2.3456789")));
+		p = GeoJSONFeature.createPointFeature(GeoJSONPoint.create(GeoJSONCoordinate.createFromStrings("1.234", "2.3456789")));
 		p.getProperties().put("aProperty", "aValue");
 		p.validate();
 	}

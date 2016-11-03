@@ -16,7 +16,7 @@ class WKTUtil {
 	 * @return either 'EMPTY' or '(x1 y1, x2 y2,.. )'
 	 * 
 	 */
-	public static String getCoordinateStringPointOrLineString(List<Coordinate> coordinates) {
+	public static String getCoordinateStringPointOrLineString(List<GeoJSONCoordinate> coordinates) {
 		if (coordinates.isEmpty())
 			return "EMPTY";
 
@@ -40,7 +40,7 @@ class WKTUtil {
 	 * @return either 'EMPTY' or '((x1 y1), (x2 y2,..),.. )'
 	 * 
 	 */
-	public static String getCoordinateStringPolygon(List<List<Coordinate>> coordinates) {
+	public static String getCoordinateStringPolygon(List<List<GeoJSONCoordinate>> coordinates) {
 		if (coordinates.isEmpty())
 			return "EMPTY";
 
@@ -58,7 +58,7 @@ class WKTUtil {
 	 * @return either 'EMPTY' or '(((x1 y1), (x2 y2,..),.. ),..)'
 	 * 
 	 */
-	public static String getCoordinateStringMultiPolygon(List<List<List<Coordinate>>> coordinates) {
+	public static String getCoordinateStringMultiPolygon(List<List<List<GeoJSONCoordinate>>> coordinates) {
 		if (coordinates.isEmpty())
 			return "EMPTY";
 
@@ -69,7 +69,7 @@ class WKTUtil {
 		return sb.toString();
 	}
 
-	private static String getCoordinateString(Coordinate coordinate) {
+	private static String getCoordinateString(GeoJSONCoordinate coordinate) {
 		DecimalFormat df = new DecimalFormat("#.#######");
 		DecimalFormatSymbols custom = new DecimalFormatSymbols();
 		custom.setDecimalSeparator('.');

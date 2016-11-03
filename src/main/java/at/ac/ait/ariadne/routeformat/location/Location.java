@@ -14,7 +14,7 @@ import com.google.common.base.Preconditions;
 
 import at.ac.ait.ariadne.routeformat.RoutingRequest;
 import at.ac.ait.ariadne.routeformat.Validatable;
-import at.ac.ait.ariadne.routeformat.geojson.Coordinate;
+import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPoint;
 
@@ -80,7 +80,7 @@ public class Location<T extends Location<T>> implements Validatable {
 
 	@SuppressWarnings("unchecked")
 	@JsonIgnore
-	public T setCoordinate(Coordinate coordinate) {
+	public T setCoordinate(GeoJSONCoordinate coordinate) {
 		this.coordinate = GeoJSONFeature.createPointFeature(coordinate);
 		return (T) this;
 	}
@@ -105,7 +105,7 @@ public class Location<T extends Location<T>> implements Validatable {
 
 	// --
 
-	public static Location<?> createMinimal(Coordinate position) {
+	public static Location<?> createMinimal(GeoJSONCoordinate position) {
 		return new Location<>().setCoordinate(position);
 	}
 

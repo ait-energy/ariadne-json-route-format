@@ -17,25 +17,25 @@ import com.google.common.base.Preconditions;
 @JsonInclude(Include.ALWAYS)
 public class GeoJSONLineString implements GeoJSONGeometryObject {
 
-	private List<Coordinate> coordinates = new ArrayList<>();
+	private List<GeoJSONCoordinate> coordinates = new ArrayList<>();
 
 	// -- getters
 
 	@JsonProperty(required = true)
-	public List<Coordinate> getCoordinates() {
+	public List<GeoJSONCoordinate> getCoordinates() {
 		return coordinates;
 	}
 
 	// -- setters
 
-	public GeoJSONLineString setCoordinates(List<Coordinate> coordinates) {
+	public GeoJSONLineString setCoordinates(List<GeoJSONCoordinate> coordinates) {
 		this.coordinates = new ArrayList<>(coordinates);
 		return this;
 	}
 
 	// --
 
-	public static GeoJSONLineString create(List<Coordinate> points) {
+	public static GeoJSONLineString create(List<GeoJSONCoordinate> points) {
 		return new GeoJSONLineString().setCoordinates(points);
 	}
 
@@ -46,7 +46,7 @@ public class GeoJSONLineString implements GeoJSONGeometryObject {
 	 *            high coordinate-pair (exclusive) of the subLineString
 	 * @return a shallow copy of the requested sub part, i.e. the sublist and
 	 *         the old list are independent from each other but use the same
-	 *         {@link Coordinate}s
+	 *         {@link GeoJSONCoordinate}s
 	 */
 	public GeoJSONLineString subLineString(int fromIndex, int toIndex) {
 		return GeoJSONLineString.create(coordinates.subList(fromIndex, toIndex));

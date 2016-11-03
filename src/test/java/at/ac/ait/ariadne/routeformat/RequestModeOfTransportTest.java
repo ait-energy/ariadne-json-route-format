@@ -9,12 +9,12 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
 import at.ac.ait.ariadne.routeformat.Constants.DetailedModeOfTransportType;
-import at.ac.ait.ariadne.routeformat.geojson.Coordinate;
+import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
 import at.ac.ait.ariadne.routeformat.location.Location;
 
 public class RequestModeOfTransportTest {
 
-	private static Location<?> location = Location.createMinimal(Coordinate.createFromStrings("16.40073", "48.25625"));
+	private static Location<?> location = Location.createMinimal(GeoJSONCoordinate.createFromStrings("16.40073", "48.25625"));
 
 	@Test
 	public void testRequestBuilding() {

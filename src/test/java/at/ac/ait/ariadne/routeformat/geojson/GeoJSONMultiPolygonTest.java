@@ -20,9 +20,9 @@ public class GeoJSONMultiPolygonTest {
 
 	@BeforeClass
 	public static void setUp() {
-		List<List<Coordinate>> polygonPoints = Arrays.asList(
-				Arrays.asList(Coordinate.createFromStrings("1.1", "1.2"), Coordinate.createFromStrings("2.1", "2.2"),
-						Coordinate.createFromStrings("3.1", "3.2"), Coordinate.createFromStrings("1.1", "1.2")));
+		List<List<GeoJSONCoordinate>> polygonPoints = Arrays.asList(
+				Arrays.asList(GeoJSONCoordinate.createFromStrings("1.1", "1.2"), GeoJSONCoordinate.createFromStrings("2.1", "2.2"),
+						GeoJSONCoordinate.createFromStrings("3.1", "3.2"), GeoJSONCoordinate.createFromStrings("1.1", "1.2")));
 		multiPolygon = GeoJSONMultiPolygon.create(Arrays.asList(polygonPoints, polygonPoints));
 		multiPolygon.validate();
 	}
@@ -54,8 +54,8 @@ public class GeoJSONMultiPolygonTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void tooShortForLinearRingTest() {
 		GeoJSONMultiPolygon
-				.create(Arrays.asList(Arrays.asList(Arrays.asList(Coordinate.createFromStrings("1.1", "1.2"),
-						Coordinate.createFromStrings("2.1", "2.2"), Coordinate.createFromStrings("3.1", "3.2")))))
+				.create(Arrays.asList(Arrays.asList(Arrays.asList(GeoJSONCoordinate.createFromStrings("1.1", "1.2"),
+						GeoJSONCoordinate.createFromStrings("2.1", "2.2"), GeoJSONCoordinate.createFromStrings("3.1", "3.2")))))
 				.validate();
 	}
 
@@ -68,12 +68,12 @@ public class GeoJSONMultiPolygonTest {
 
 	@Test
 	public void complexMultiPolygonTest() {
-		List<List<Coordinate>> polygonPoints = Arrays.asList(
-				Arrays.asList(Coordinate.createFromStrings("1.1", "1.2"), Coordinate.createFromStrings("2.1", "2.2"),
-						Coordinate.createFromStrings("3.1", "3.2"), Coordinate.createFromStrings("1.1", "1.2")),
-				Arrays.asList(Coordinate.createFromStrings("1.11", "1.22"),
-						Coordinate.createFromStrings("2.11", "2.22"), Coordinate.createFromStrings("3.11", "3.22"),
-						Coordinate.createFromStrings("1.11", "1.22")));
+		List<List<GeoJSONCoordinate>> polygonPoints = Arrays.asList(
+				Arrays.asList(GeoJSONCoordinate.createFromStrings("1.1", "1.2"), GeoJSONCoordinate.createFromStrings("2.1", "2.2"),
+						GeoJSONCoordinate.createFromStrings("3.1", "3.2"), GeoJSONCoordinate.createFromStrings("1.1", "1.2")),
+				Arrays.asList(GeoJSONCoordinate.createFromStrings("1.11", "1.22"),
+						GeoJSONCoordinate.createFromStrings("2.11", "2.22"), GeoJSONCoordinate.createFromStrings("3.11", "3.22"),
+						GeoJSONCoordinate.createFromStrings("1.11", "1.22")));
 		GeoJSONMultiPolygon multiPolygon = GeoJSONMultiPolygon.create(Arrays.asList(polygonPoints, polygonPoints));
 		multiPolygon.validate();
 		Assert.assertEquals(

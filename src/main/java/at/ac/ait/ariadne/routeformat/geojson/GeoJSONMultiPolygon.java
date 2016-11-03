@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonInclude(Include.ALWAYS)
 public class GeoJSONMultiPolygon implements GeoJSONGeometryObject {
 
-	private List<List<List<Coordinate>>> coordinates = new ArrayList<>();
+	private List<List<List<GeoJSONCoordinate>>> coordinates = new ArrayList<>();
 
 	// -- getters
 
@@ -29,17 +29,17 @@ public class GeoJSONMultiPolygon implements GeoJSONGeometryObject {
 	 * interior rings (or holes).
 	 */
 	@JsonProperty(required = true)
-	public List<List<List<Coordinate>>> getCoordinates() {
+	public List<List<List<GeoJSONCoordinate>>> getCoordinates() {
 		return coordinates;
 	}
 
 	// -- setters
 
-	public GeoJSONMultiPolygon setCoordinates(List<List<List<Coordinate>>> coordinates) {
+	public GeoJSONMultiPolygon setCoordinates(List<List<List<GeoJSONCoordinate>>> coordinates) {
 		this.coordinates = new ArrayList<>();
-		for (List<List<Coordinate>> polygon : coordinates) {
-			List<List<Coordinate>> polyCoordinates = new ArrayList<>();
-			for (List<Coordinate> ring : polygon) {
+		for (List<List<GeoJSONCoordinate>> polygon : coordinates) {
+			List<List<GeoJSONCoordinate>> polyCoordinates = new ArrayList<>();
+			for (List<GeoJSONCoordinate> ring : polygon) {
 				polyCoordinates.add(new ArrayList<>(ring));
 			}
 			this.coordinates.add(polyCoordinates);
@@ -49,7 +49,7 @@ public class GeoJSONMultiPolygon implements GeoJSONGeometryObject {
 
 	// --
 
-	public static GeoJSONMultiPolygon create(List<List<List<Coordinate>>> points) {
+	public static GeoJSONMultiPolygon create(List<List<List<GeoJSONCoordinate>>> points) {
 		return new GeoJSONMultiPolygon().setCoordinates(points);
 	}
 
@@ -60,8 +60,8 @@ public class GeoJSONMultiPolygon implements GeoJSONGeometryObject {
 
 	@Override
 	public void validate() {
-		for (List<List<Coordinate>> polygon : coordinates) {
-			for (List<Coordinate> ring : polygon) {
+		for (List<List<GeoJSONCoordinate>> polygon : coordinates) {
+			for (List<GeoJSONCoordinate> ring : polygon) {
 				GeoJSONUtil.assertLinearRing(ring);
 			}
 		}

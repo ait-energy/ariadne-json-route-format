@@ -10,7 +10,7 @@ import com.google.common.collect.Lists;
 
 import at.ac.ait.ariadne.routeformat.Constants.GeneralizedModeOfTransportType;
 import at.ac.ait.ariadne.routeformat.Operator;
-import at.ac.ait.ariadne.routeformat.geojson.Coordinate;
+import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
 
 /**
  * A sharing station, e.g. bike- or car-sharing.
@@ -76,7 +76,7 @@ public class SharingStation extends Location<SharingStation> {
 
 	// --
 
-	public static SharingStation createMinimal(Coordinate position) {
+	public static SharingStation createMinimal(GeoJSONCoordinate position) {
 		return new SharingStation().setCoordinate(position);
 	}
 

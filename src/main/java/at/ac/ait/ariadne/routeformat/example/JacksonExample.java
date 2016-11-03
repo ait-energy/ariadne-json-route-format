@@ -15,7 +15,7 @@ import com.kjetland.jackson.jsonSchema.JsonSchemaGenerator;
 
 import at.ac.ait.ariadne.routeformat.Constants.Status;
 import at.ac.ait.ariadne.routeformat.RouteFormatRoot;
-import at.ac.ait.ariadne.routeformat.geojson.Coordinate;
+import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
 import at.ac.ait.ariadne.routeformat.instruction.Instruction;
 import scala.Option;
 
@@ -66,7 +66,7 @@ public class JacksonExample {
 		// variant 1 - data binding
 		RouteFormatRoot root = mapper.readValue(new File(exampleFile), RouteFormatRoot.class);
 		Status status = root.getStatus();
-		Coordinate secondGeometryPointOfRoute = root.getRoutes().get(0).getSegments().get(0).getGeometryGeoJson()
+		GeoJSONCoordinate secondGeometryPointOfRoute = root.getRoutes().get(0).getSegments().get(0).getGeometryGeoJson()
 				.get().getGeometry().getCoordinates().get(1);
 		System.out.println(status);
 		System.out.println(secondGeometryPointOfRoute);

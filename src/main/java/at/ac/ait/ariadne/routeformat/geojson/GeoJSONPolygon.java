@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonInclude(Include.ALWAYS)
 public class GeoJSONPolygon implements GeoJSONGeometryObject {
 
-	private List<List<Coordinate>> coordinates = new ArrayList<>();
+	private List<List<GeoJSONCoordinate>> coordinates = new ArrayList<>();
 
 	// -- getters
 
@@ -28,15 +28,15 @@ public class GeoJSONPolygon implements GeoJSONGeometryObject {
 	 * subsequent elements represent interior rings (or holes).
 	 */
 	@JsonProperty(required = true)
-	public List<List<Coordinate>> getCoordinates() {
+	public List<List<GeoJSONCoordinate>> getCoordinates() {
 		return coordinates;
 	}
 
 	// -- setters
 
-	public GeoJSONPolygon setCoordinates(List<List<Coordinate>> coordinates) {
+	public GeoJSONPolygon setCoordinates(List<List<GeoJSONCoordinate>> coordinates) {
 		this.coordinates = new ArrayList<>();
-		for (List<Coordinate> ring : coordinates) {
+		for (List<GeoJSONCoordinate> ring : coordinates) {
 			this.coordinates.add(new ArrayList<>(ring));
 		}
 		return this;
@@ -44,7 +44,7 @@ public class GeoJSONPolygon implements GeoJSONGeometryObject {
 
 	// --
 
-	public static GeoJSONPolygon create(List<List<Coordinate>> points) {
+	public static GeoJSONPolygon create(List<List<GeoJSONCoordinate>> points) {
 		return new GeoJSONPolygon().setCoordinates(points);
 	}
 
@@ -55,7 +55,7 @@ public class GeoJSONPolygon implements GeoJSONGeometryObject {
 
 	@Override
 	public void validate() {
-		for (List<Coordinate> ring : coordinates)
+		for (List<GeoJSONCoordinate> ring : coordinates)
 			GeoJSONUtil.assertLinearRing(ring);
 	}
 

@@ -8,14 +8,14 @@ import org.junit.Test;
 
 import at.ac.ait.ariadne.routeformat.Constants.FormOfWay;
 import at.ac.ait.ariadne.routeformat.TestUtil;
-import at.ac.ait.ariadne.routeformat.geojson.Coordinate;
+import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
 
 public class InstructionTest {
 
 	@Test
 	public void testProperDeSerialization() throws IOException {
 		BasicRoadInstruction instruction = BasicRoadInstruction.createMinimalRouteStart(
-				Coordinate.createFromStrings("48.123", "16"), Optional.of("Testweg"), Optional.of(FormOfWay.ROAD));
+				GeoJSONCoordinate.createFromStrings("48.123", "16"), Optional.of("Testweg"), Optional.of(FormOfWay.ROAD));
 		instruction.validate();
 
 		String expected = "{\"type\":\"BasicRoadInstruction\",\"position\":{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[48.123,16]},\"properties\":{}},\"subType\":\"ROUTE_START\",\"ontoStreetName\":\"Testweg\",\"ontoFormOfWay\":\"ROAD\"}";
