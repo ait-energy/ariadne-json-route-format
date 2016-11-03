@@ -7,7 +7,7 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
 
 public class LocationTest {
 
-	private static GeoJSONCoordinate coordinate = GeoJSONCoordinate.createFromStrings("16.40073", "48.25625");
+	private static GeoJSONCoordinate coordinate = GeoJSONCoordinate.create("16.40073", "48.25625");
 
 	@Test
 	public void simpleLocationTest() {

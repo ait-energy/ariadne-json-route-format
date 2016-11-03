@@ -14,7 +14,7 @@ import at.ac.ait.ariadne.routeformat.location.Location;
 
 public class RequestModeOfTransportTest {
 
-	private static Location<?> location = Location.createMinimal(GeoJSONCoordinate.createFromStrings("16.40073", "48.25625"));
+	private static Location<?> location = Location.createMinimal(GeoJSONCoordinate.create("16.40073", "48.25625"));
 
 	@Test
 	public void testRequestBuilding() {

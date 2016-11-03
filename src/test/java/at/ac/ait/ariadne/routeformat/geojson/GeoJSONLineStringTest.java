@@ -19,9 +19,9 @@ public class GeoJSONLineStringTest {
 
 	@BeforeClass
 	public static void setUp() {
-		List<GeoJSONCoordinate> points = Arrays.asList(GeoJSONCoordinate.createFromStrings("1.111", "1.2"),
-				GeoJSONCoordinate.createFromStrings("2.1", "2.2"), GeoJSONCoordinate.createFromStrings("3.1", "3.2"),
-				GeoJSONCoordinate.createFromStrings("4.1", "4.2", "4.3"));
+		List<GeoJSONCoordinate> points = Arrays.asList(GeoJSONCoordinate.create("1.111", "1.2"),
+				GeoJSONCoordinate.create("2.1", "2.2"), GeoJSONCoordinate.create("3.1", "3.2"),
+				GeoJSONCoordinate.create("4.1", "4.2", "4.3"));
 		lineString = GeoJSONLineString.create(points);
 		lineString.validate();
 	}

@@ -20,8 +20,8 @@ public class GeoJSONPolygonTest {
 	@BeforeClass
 	public static void setUp() {
 		polygon = GeoJSONPolygon.create(Arrays.asList(
-				Arrays.asList(GeoJSONCoordinate.createFromStrings("1.1", "1.2"), GeoJSONCoordinate.createFromStrings("2.1", "2.2"),
-						GeoJSONCoordinate.createFromStrings("3.1", "3.2"), GeoJSONCoordinate.createFromStrings("1.1", "1.2"))));
+				Arrays.asList(GeoJSONCoordinate.create("1.1", "1.2"), GeoJSONCoordinate.create("2.1", "2.2"),
+						GeoJSONCoordinate.create("3.1", "3.2"), GeoJSONCoordinate.create("1.1", "1.2"))));
 		polygon.validate();
 	}
 
@@ -52,16 +52,16 @@ public class GeoJSONPolygonTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void tooShortForLinearRingTest() {
 		GeoJSONPolygon
-				.create(Arrays.asList(Arrays.asList(GeoJSONCoordinate.createFromStrings("1.1", "1.2"),
-						GeoJSONCoordinate.createFromStrings("2.1", "2.2"), GeoJSONCoordinate.createFromStrings("3.1", "3.2"))))
+				.create(Arrays.asList(Arrays.asList(GeoJSONCoordinate.create("1.1", "1.2"),
+						GeoJSONCoordinate.create("2.1", "2.2"), GeoJSONCoordinate.create("3.1", "3.2"))))
 				.validate();
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void unclosedLinearRingTest() {
 		GeoJSONPolygon.create(Arrays.asList(
-				Arrays.asList(GeoJSONCoordinate.createFromStrings("1.1", "1.2"), GeoJSONCoordinate.createFromStrings("2.1", "2.2"),
-						GeoJSONCoordinate.createFromStrings("3.1", "3.2"), GeoJSONCoordinate.createFromStrings("4.1", "4.2"))))
+				Arrays.asList(GeoJSONCoordinate.create("1.1", "1.2"), GeoJSONCoordinate.create("2.1", "2.2"),
+						GeoJSONCoordinate.create("3.1", "3.2"), GeoJSONCoordinate.create("4.1", "4.2"))))
 				.validate();
 	}
 
@@ -73,11 +73,11 @@ public class GeoJSONPolygonTest {
 	@Test
 	public void complexPolygonTest() {
 		GeoJSONPolygon polygon = GeoJSONPolygon.create(Arrays.asList(
-				Arrays.asList(GeoJSONCoordinate.createFromStrings("1.1", "1.2"), GeoJSONCoordinate.createFromStrings("2.1", "2.2"),
-						GeoJSONCoordinate.createFromStrings("3.1", "3.2"), GeoJSONCoordinate.createFromStrings("1.1", "1.2")),
-				Arrays.asList(GeoJSONCoordinate.createFromStrings("1.11", "1.22"),
-						GeoJSONCoordinate.createFromStrings("2.11", "2.22"), GeoJSONCoordinate.createFromStrings("3.11", "3.22"),
-						GeoJSONCoordinate.createFromStrings("1.11", "1.22"))));
+				Arrays.asList(GeoJSONCoordinate.create("1.1", "1.2"), GeoJSONCoordinate.create("2.1", "2.2"),
+						GeoJSONCoordinate.create("3.1", "3.2"), GeoJSONCoordinate.create("1.1", "1.2")),
+				Arrays.asList(GeoJSONCoordinate.create("1.11", "1.22"),
+						GeoJSONCoordinate.create("2.11", "2.22"), GeoJSONCoordinate.create("3.11", "3.22"),
+						GeoJSONCoordinate.create("1.11", "1.22"))));
 		polygon.validate();
 		Assert.assertEquals(
 				"Polygon ((1.1 1.2, 2.1 2.2, 3.1 3.2, 1.1 1.2), (1.11 1.22, 2.11 2.22, 3.11 3.22, 1.11 1.22))",

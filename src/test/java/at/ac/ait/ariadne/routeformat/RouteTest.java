@@ -40,22 +40,22 @@ public class RouteTest {
 
 	@Test
 	public void boundingBoxExtractionTest() {
-		Location<?> giefinggasseAit = Location.createMinimal(GeoJSONCoordinate.createFromStrings("16.4265", "48.2686"));
+		Location<?> giefinggasseAit = Location.createMinimal(GeoJSONCoordinate.create("16.4265", "48.2686"));
 		Location<?> heinrichVonBuolGasseBicycleParking = Location
-				.createMinimal(GeoJSONCoordinate.createFromStrings("16.4279", "48.2668"));
-		Location<?> floridsdorf = Location.createMinimal(GeoJSONCoordinate.createFromStrings("16.4007", "48.2562"));
+				.createMinimal(GeoJSONCoordinate.create("16.4279", "48.2668"));
+		Location<?> floridsdorf = Location.createMinimal(GeoJSONCoordinate.create("16.4007", "48.2562"));
 		GeoJSONFeature<GeoJSONLineString> geometryGeoJson = GeoJSONFeature.createLineStringFeature(giefinggasseAit,
-				heinrichVonBuolGasseBicycleParking, GeoJSONCoordinate.createFromStrings("16.4263", "48.2682"),
-				GeoJSONCoordinate.createFromStrings("16.42824", "48.26719"));
+				heinrichVonBuolGasseBicycleParking, GeoJSONCoordinate.create("16.4263", "48.2682"),
+				GeoJSONCoordinate.create("16.42824", "48.26719"));
 		RouteSegment walkToHeinrichVonBuolGasse = new RouteSegment().setNr(1).setFrom(giefinggasseAit)
 				.setTo(heinrichVonBuolGasseBicycleParking).setDistanceMeters(200).setDurationSeconds(60)
 				.setStartTime("2016-01-01T15:00:00+01:00").setEndTime("2016-01-01T15:01:00+01:00")
 				.setModeOfTransport(ModeOfTransport.STANDARD_FOOT).setGeometryGeoJson(geometryGeoJson);
 		geometryGeoJson = GeoJSONFeature.createLineStringFeature(heinrichVonBuolGasseBicycleParking, floridsdorf,
-				GeoJSONCoordinate.createFromStrings("16.42354", "48.26306"),
-				GeoJSONCoordinate.createFromStrings("16.4236", "48.2621"), GeoJSONCoordinate.createFromStrings("16.4044", "48.2576"),
-				GeoJSONCoordinate.createFromStrings("16.40305", "48.25621"),
-				GeoJSONCoordinate.createFromStrings("16.40127", "48.25698"));
+				GeoJSONCoordinate.create("16.42354", "48.26306"),
+				GeoJSONCoordinate.create("16.4236", "48.2621"), GeoJSONCoordinate.create("16.4044", "48.2576"),
+				GeoJSONCoordinate.create("16.40305", "48.25621"),
+				GeoJSONCoordinate.create("16.40127", "48.25698"));
 		RouteSegment cycleToFloridsdorf = new RouteSegment().setNr(2).setFrom(heinrichVonBuolGasseBicycleParking)
 				.setTo(floridsdorf).setDistanceMeters(2500).setDurationSeconds(60 * 9)
 				.setStartTime("2016-01-01T15:01:00+01:00").setEndTime("2016-01-01T15:10:00+01:00")

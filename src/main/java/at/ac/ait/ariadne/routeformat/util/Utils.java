@@ -89,7 +89,7 @@ public class Utils {
 	}
 
 	public static Location<?> createLocation(double latitude, double longitude) {
-		return Location.createMinimal(GeoJSONCoordinate.createFromDoubles(longitude, latitude));
+		return Location.createMinimal(GeoJSONCoordinate.create(longitude, latitude));
 	}
 
 	public static String getJsonString(Object object) throws JsonProcessingException {
