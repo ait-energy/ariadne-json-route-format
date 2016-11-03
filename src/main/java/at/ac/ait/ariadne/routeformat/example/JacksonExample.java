@@ -102,6 +102,19 @@ public class JacksonExample {
 		System.out.println(mapper.writeValueAsString(jsonSchema));
 		System.out.println("##########");
 		mapper.writeValue(new File(schema4File), jsonSchema);
+		
+		// FIXME maybe use JJ library instead?
+//		SchemaMapper schemaMapper = new SchemaMapper();
+//		JSONObject schema = schemaMapper.toJsonSchema4(GeoJSONFeatureCollection.class, true);
+////		JSONWriter writer = new JSONWriter(null);
+//		System.out.println(schema);
+		
+		// JJ variant
+		// JsonSchemaGenerator v4generator =
+		// SchemaGeneratorBuilder.draftV4Schema().build();
+		// JsonNode jsonSchema =
+		// v4generator.generateSchema(RouteFormatRoot.class);
+		// System.out.println(mapper.writeValueAsString(jsonSchema));
 	}
 
 }
