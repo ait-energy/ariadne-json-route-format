@@ -36,15 +36,16 @@ public class QGISGeoJSONExporter {
 		for (RouteSegment segment : route.getSegments()) {
 			if (segment.getGeometryGeoJson().isPresent()) {
 				GeoJSONFeature<GeoJSONLineString> feature = segment.getGeometryGeoJson().get();
-				feature.properties.put("generalizedMot", segment.getModeOfTransport().getGeneralizedType().name());
+				feature.getProperties().put("generalizedMot", segment.getModeOfTransport().getGeneralizedType().name());
 				if (segment.getModeOfTransport().getDetailedType().isPresent())
-					feature.properties.put("detailedMot", segment.getModeOfTransport().getDetailedType().get().name());
+					feature.getProperties().put("detailedMot",
+							segment.getModeOfTransport().getDetailedType().get().name());
 				if (segment.getModeOfTransport().getService().isPresent()) {
 					Service service = segment.getModeOfTransport().getService().get();
-					feature.properties.put("line", service.getName());
-					feature.properties.put("towards", service.getTowards().orElse(""));
+					feature.getProperties().put("line", service.getName());
+					feature.getProperties().put("towards", service.getTowards().orElse(""));
 				}
-				collection.features.add(feature);
+				collection.getFeatures().add(feature);
 			}
 		}
 

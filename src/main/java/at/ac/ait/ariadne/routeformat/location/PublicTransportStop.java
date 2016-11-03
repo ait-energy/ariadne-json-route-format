@@ -13,7 +13,7 @@ import com.google.common.collect.Lists;
 import at.ac.ait.ariadne.routeformat.Constants;
 import at.ac.ait.ariadne.routeformat.Constants.DetailedModeOfTransportType;
 import at.ac.ait.ariadne.routeformat.RouteSegment;
-import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
+import at.ac.ait.ariadne.routeformat.geojson.Coordinate;
 
 /**
  * A {@link PublicTransportStop} is used in two contexts: as from or to position
@@ -86,7 +86,7 @@ public class PublicTransportStop extends Location<PublicTransportStop> {
 
 	// --
 
-	public static PublicTransportStop createMinimal(CoordinatePoint position) {
+	public static PublicTransportStop createMinimal(Coordinate position) {
 		return new PublicTransportStop().setCoordinate(position);
 	}
 

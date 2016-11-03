@@ -24,6 +24,11 @@ import at.ac.ait.ariadne.routeformat.util.Utils;
  * <p>
  * Since most attributes are mandatory no <code>createMinimal</code> method is
  * offered.
+ * <p>
+ * The coordinate reference system is not directly set in the GeoJSON elements
+ * (as the specification would allow) because this would lead to unnecessarily
+ * big file sizes. Instead the CRS can optionally be set with the optional
+ * attribute {@link RouteFormatRoot#getCoordinateReferenceSystem()}.
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */

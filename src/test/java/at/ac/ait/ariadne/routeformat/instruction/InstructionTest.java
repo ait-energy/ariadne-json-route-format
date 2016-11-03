@@ -4,38 +4,27 @@ import java.io.IOException;
 import java.util.Optional;
 
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-
 import at.ac.ait.ariadne.routeformat.Constants.FormOfWay;
-import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
+import at.ac.ait.ariadne.routeformat.TestUtil;
+import at.ac.ait.ariadne.routeformat.geojson.Coordinate;
 
 public class InstructionTest {
 
-	private static ObjectMapper mapper;
-
-	@BeforeClass
-	public static void setup() {
-		mapper = new ObjectMapper();
-		mapper.findAndRegisterModules();
-	}
-
 	@Test
 	public void testProperDeSerialization() throws IOException {
-		mapper.disable(SerializationFeature.INDENT_OUTPUT);
 		BasicRoadInstruction instruction = BasicRoadInstruction.createMinimalRouteStart(
-				new CoordinatePoint("48.123", "16"), Optional.of("Testweg"), Optional.of(FormOfWay.ROAD));
+				Coordinate.createFromStrings("48.123", "16"), Optional.of("Testweg"), Optional.of(FormOfWay.ROAD));
 		instruction.validate();
 
 		String expected = "{\"type\":\"BasicRoadInstruction\",\"position\":{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[48.123,16]},\"properties\":{}},\"subType\":\"ROUTE_START\",\"ontoStreetName\":\"Testweg\",\"ontoFormOfWay\":\"ROAD\"}";
-		Assert.assertEquals("serialization failed", expected, mapper.writeValueAsString(instruction));
+		Assert.assertEquals("serialization failed", expected, TestUtil.MAPPER.writeValueAsString(instruction));
 
-		Instruction<?> deserializedInstruction = mapper.readValue(expected, Instruction.class);
+		Instruction<?> deserializedInstruction = TestUtil.MAPPER.readValue(expected, Instruction.class);
 		System.out.println(deserializedInstruction);
-		Assert.assertEquals("deserialization failed", expected, mapper.writeValueAsString(deserializedInstruction));
+		Assert.assertEquals("deserialization failed", expected,
+				TestUtil.MAPPER.writeValueAsString(deserializedInstruction));
 	}
 
 	// @Test

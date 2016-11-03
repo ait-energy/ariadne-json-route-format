@@ -1,48 +1,62 @@
 package at.ac.ait.ariadne.routeformat.geojson;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
+ * A point that may be empty, i.e. not contain a coordinate.
+ * 
  * @author AIT Austrian Institute of Technology GmbH
  */
 @JsonInclude(Include.ALWAYS)
 public class GeoJSONPoint implements GeoJSONGeometryObject {
 
-    @JsonProperty(required = true)
-    public final GeoJSONType type = GeoJSONType.Point;
+	private Optional<Coordinate> coordinates = Optional.empty();
 
-    @JsonProperty(required = true)
-    /** a pair of coordinates: X and Y (=longitude and latitude) */
-    public List<BigDecimal> coordinates = new ArrayList<>();
+	// -- getters
 
-    public GeoJSONPoint() {
-    }
+	@JsonProperty(required = true)
+	public Optional<Coordinate> getCoordinates() {
+		return coordinates;
+	}
 
-    public GeoJSONPoint(CoordinatePoint point) {
-        coordinates = point.asNewList();
-    }
+	// -- setters
 
-    @Override
-    public String toString() {
-        return "GeoJSONPoint [coordinates=" + coordinates + "]";
-    }
+	public GeoJSONPoint setCoordinates(Coordinate coordinates) {
+		this.coordinates = Optional.ofNullable(coordinates);
+		return this;
+	}
 
-    @Override
-    public String toWKT() {
-        return type.name().toUpperCase() + " "
-                + WKTUtil.getCoordinateStringPointOrLineString(Arrays.asList(coordinates));
-    }
+	// --
 
-    @Override
-    public boolean isEmpty() {
-        return coordinates.isEmpty();
-    }
+	public static GeoJSONPoint create(Coordinate point) {
+		return new GeoJSONPoint().setCoordinates(point);
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return !coordinates.isPresent();
+	}
+
+	@Override
+	public void validate() {
+	}
+
+	@Override
+	public String toWKT() {
+		List<Coordinate> list = coordinates.isPresent() ? Arrays.asList(coordinates.get()) : Collections.emptyList();
+		return getTypeName() + " " + WKTUtil.getCoordinateStringPointOrLineString(list);
+	}
+
+	@Override
+	public String toString() {
+		return toWKT();
+	}
 
 }

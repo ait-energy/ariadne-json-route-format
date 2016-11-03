@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import at.ac.ait.ariadne.routeformat.Constants.ContinueDirection;
 import at.ac.ait.ariadne.routeformat.Constants.CrossingInfrastructure;
-import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
+import at.ac.ait.ariadne.routeformat.geojson.Coordinate;
 
 /**
  * Instructions for crossing a road <b>away from a junction</b>, e.g. a
@@ -66,7 +66,7 @@ public class RoadCrossingInstruction extends Instruction<RoadCrossingInstruction
 
 	// --
 
-	public static RoadCrossingInstruction createMinimal(CoordinatePoint position) {
+	public static RoadCrossingInstruction createMinimal(Coordinate position) {
 		return new RoadCrossingInstruction().setPosition(position);
 	}
 

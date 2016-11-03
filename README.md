@@ -2,10 +2,13 @@
 This repository holds the JSON exchange format for intermodal routes developed by the business unit Dynamic Transportation Systems of the [AIT Austrian Institute of Technology](http://dts.ait.ac.at). It is the default format used by the AIT routing framework Ariadne.
 
 It specifies the format of a routing request as well as the format of the returned route(s). A route does not only consist of the geometry but also optional information such as detailed specification of the used mode of transports or navigation instructions.
-Geometries are represented in the [GeoJSON](http://geojson.org) format.
+Geometries are represented in the [GeoJSON](http://geojson.org) format as specified in RFC 7946.
 
-The route format is defined through the Java classes in the package `at.ac.ait.ariadne.routeformat`.
+## Usage Hints
+The route format is defined through the Java classes in the package `at.ac.ait.ariadne.routeformat`, most noteworthy `RouteFormatRoot.java`.
+
 Reading and writing of a route and exporting the JSON schema with Jackson is demonstrated in `JacksonExample.java`.
+
 A simple example how to display a route in a browser with Leaflet is shown in `src/main/resources/ariadne-json-route-format_example_leaflet.html`.
 
 ## Coding Style
@@ -13,7 +16,7 @@ A simple example how to display a route in a browser with Leaflet is shown in `s
     - initialization of complex types when they are defined and so that they are mutable (i.e. `new HashMap<>()` instead of `Collections.emptyMap()`)
 - getter methods for all member variables (used by jackson for serialization)
 - setter methods for all member variables (used by jackson for deserialization)
-    - create defensive mutable copies of **external** complex data structures (e.g. the additionalInfo Map, but not of objects belonging to the route format, such as the GeoJSON classes)
+    - create defensive mutable copies of common (nested) collections such as lists, sets or maps (e.g. additionalInfo or the list of coordinates in a GeoJSONLineString), but not of complex objects (e.g. a GeoJSONLineString itself)
     - return the object itself (so calls to setter methods can be chained similar to the builder pattern)
 - (mostly implicit) public constructor without arguments (used by jackson for deserialization)
 - static `createMinimal()` methods as shortcuts for building minimal (or typically used) instances where it makes sense, i.e. not for classes where nearly all attributes are mandatory.
@@ -37,8 +40,4 @@ Everything in this repository is licensed under CC0.
 - display forbidden areas in leaflet-example
 - public transport station details: differentiate between station entries & platforms, add travel time to transfer segments e.g. 5 min walk, 1 min escalators down, 2 min walk, 1 min elevator up;
 - reevaluate handling of waiting times (in transfer segments? in pt segments?)
-
-### Currently we are working on
-- consistent mutability & "light builders"
-- meaningful toString-methods for all classes
 - v4 schema generation

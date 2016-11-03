@@ -14,7 +14,7 @@ import com.google.common.base.Preconditions;
 
 import at.ac.ait.ariadne.routeformat.RoutingRequest;
 import at.ac.ait.ariadne.routeformat.Validatable;
-import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
+import at.ac.ait.ariadne.routeformat.geojson.Coordinate;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPoint;
 
@@ -80,8 +80,8 @@ public class Location<T extends Location<T>> implements Validatable {
 
 	@SuppressWarnings("unchecked")
 	@JsonIgnore
-	public T setCoordinate(CoordinatePoint coordinate) {
-		this.coordinate = GeoJSONFeature.newPointFeature(coordinate);
+	public T setCoordinate(Coordinate coordinate) {
+		this.coordinate = GeoJSONFeature.createPointFeature(coordinate);
 		return (T) this;
 	}
 
@@ -105,13 +105,16 @@ public class Location<T extends Location<T>> implements Validatable {
 
 	// --
 
-	public static Location<?> createMinimal(CoordinatePoint position) {
+	public static Location<?> createMinimal(Coordinate position) {
 		return new Location<>().setCoordinate(position);
 	}
 
 	@Override
 	public void validate() {
 		Preconditions.checkArgument(coordinate != null, "coordinate is mandatory but missing");
+		coordinate.validate();
+		complexGeometry.ifPresent(c -> c.validate());
+		address.ifPresent(a -> a.validate());
 	}
 
 	@Override

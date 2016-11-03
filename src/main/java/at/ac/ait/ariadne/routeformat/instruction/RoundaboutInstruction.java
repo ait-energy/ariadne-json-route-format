@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.google.common.base.Preconditions;
 
 import at.ac.ait.ariadne.routeformat.Constants.FormOfWay;
-import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
+import at.ac.ait.ariadne.routeformat.geojson.Coordinate;
 
 /**
  * Instructions for navigating a roundabout.
@@ -139,11 +139,11 @@ public class RoundaboutInstruction extends Instruction<RoundaboutInstruction> {
 
 	// --
 
-	public static RoundaboutInstruction createMinimalEnter(CoordinatePoint position, int exitNr) {
+	public static RoundaboutInstruction createMinimalEnter(Coordinate position, int exitNr) {
 		return new RoundaboutInstruction().setPosition(position).setSubType(SubType.ENTER).setExitNr(exitNr);
 	}
 
-	public static RoundaboutInstruction createMinimalExit(CoordinatePoint position) {
+	public static RoundaboutInstruction createMinimalExit(Coordinate position) {
 		return new RoundaboutInstruction().setPosition(position).setSubType(SubType.EXIT);
 	}
 

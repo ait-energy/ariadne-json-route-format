@@ -86,6 +86,7 @@ public class Landmark implements Validatable {
 	public void validate() {
 		Preconditions.checkArgument(preposition != null, "preposition is mandatory but missing");
 		Preconditions.checkArgument(location != null, "location is mandatory but missing");
+		location.validate();
 	}
 
 	@Override

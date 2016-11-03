@@ -276,6 +276,8 @@ public class Route implements Validatable {
 		Preconditions.checkArgument(startTime != null, "startTime is mandatory but missing");
 		Preconditions.checkArgument(endTime != null, "endTime is mandatory but missing");
 		segments.forEach(s -> s.validate());
+		boundingBox.ifPresent(b -> b.validate());
+		simplifiedGeometryGeoJson.ifPresent(g -> g.validate());
 
 		try {
 			Preconditions.checkArgument(distanceMeters >= 0, "distanceMeters must be >= 0, but was %s", distanceMeters);

@@ -4,9 +4,12 @@ import java.util.Arrays;
 
 import org.junit.Assert;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
 import at.ac.ait.ariadne.routeformat.Constants.DetailedModeOfTransportType;
 import at.ac.ait.ariadne.routeformat.Constants.GeneralizedModeOfTransportType;
-import at.ac.ait.ariadne.routeformat.geojson.CoordinatePoint;
+import at.ac.ait.ariadne.routeformat.geojson.Coordinate;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONLineString;
 import at.ac.ait.ariadne.routeformat.location.Location;
@@ -23,12 +26,13 @@ public class TestUtil {
 	public static final String SERVICE_ID = "test_service";
 	public static final String START_TIME = "2007-12-03T10:15:30+01:00";
 	public static final String END_TIME = "2007-12-03T10:16:30+01:00";
-	public static final Location<?> FROM = Location.createMinimal(new CoordinatePoint(16, 48));
-	public static final Location<?> TO = Location.createMinimal(new CoordinatePoint(16.01, 48.01));
+	public static final Location<?> FROM = Location.createMinimal(Coordinate.createFromStrings("16", "48"));
+	public static final Location<?> TO = Location.createMinimal(Coordinate.createFromStrings("16.01", "48.01"));
 	public static final ModeOfTransport MODE_OF_TRANSPORT = ModeOfTransport.STANDARD_BICYCLE;
 	public static final GeoJSONFeature<GeoJSONLineString> GEOMETRY_GEOJSON = GeoJSONFeature
-			.newLineStringFeature(Arrays.asList(CoordinatePoint.fromGeoJSONPointFeature(FROM.getCoordinate()),
-					CoordinatePoint.fromGeoJSONPointFeature(TO.getCoordinate())));
+			.createLineStringFeature(FROM, TO);
+	public static final ObjectMapper MAPPER = new ObjectMapper().findAndRegisterModules()
+			.disable(SerializationFeature.INDENT_OUTPUT);
 
 	public static RouteSegment createTestRouteSegment(String startTime, String endTime,
 			IntermediateStop... intermediateStops) {

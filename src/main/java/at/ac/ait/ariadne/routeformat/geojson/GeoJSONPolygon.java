@@ -1,6 +1,5 @@
 package at.ac.ait.ariadne.routeformat.geojson;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,60 +8,65 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
+ * A polygon consisting of a mandatory exterior ring and optional interior rings
+ * defining holes. Note, that {@link #validate()} does not check if the interior
+ * rings actually lie within the exterior ring.
+ * 
  * @author AIT Austrian Institute of Technology GmbH
  */
 @JsonInclude(Include.ALWAYS)
 public class GeoJSONPolygon implements GeoJSONGeometryObject {
 
-    @JsonProperty(required = true)
-    public final GeoJSONType type = GeoJSONType.Polygon;
+	private List<List<Coordinate>> coordinates = new ArrayList<>();
 
-    /**
-     * Coordinates of a polygon are an array of LinearRing coordinate arrays
-     * (the first and the last coordinate must be the same, thereby closing the
-     * ring). The first element in the array represents the exterior ring. Any
-     * subsequent elements represent interior rings (or holes).
-     * <p>
-     * The inner list of {@link BigDecimal} is always a pair of coordinates: X
-     * and Y (=longitude and latitude)
-     */
-    @JsonProperty(required = true)
-    public List<List<List<BigDecimal>>> coordinates = new ArrayList<>();
+	// -- getters
 
-    public GeoJSONPolygon() {
-    }
+	/**
+	 * Coordinates of a polygon are an array of LinearRing coordinate arrays
+	 * (the first and the last coordinate must be the same, thereby closing the
+	 * ring). The first element in the array represents the exterior ring. Any
+	 * subsequent elements represent interior rings (or holes).
+	 */
+	@JsonProperty(required = true)
+	public List<List<Coordinate>> getCoordinates() {
+		return coordinates;
+	}
 
-    @Override
-    public String toString() {
-        return "GeoJSONPolygon [coordinates=" + coordinates + "]";
-    }
+	// -- setters
 
-    /**
-     * Note: no checks if inner rings are actually within the outer ring are
-     * performed
-     * 
-     * @throws IllegalArgumentException
-     *             if invalid LinearRings are contained
-     */
-    public GeoJSONPolygon(List<List<CoordinatePoint>> points) {
-        for (List<CoordinatePoint> linearRing : points) {
+	public GeoJSONPolygon setCoordinates(List<List<Coordinate>> coordinates) {
+		this.coordinates = new ArrayList<>();
+		for (List<Coordinate> ring : coordinates) {
+			this.coordinates.add(new ArrayList<>(ring));
+		}
+		return this;
+	}
 
-            List<List<BigDecimal>> ring = new ArrayList<>();
-            for (CoordinatePoint point : linearRing)
-                ring.add(point.asNewList());
-            GeoJSONUtil.assertLinearRing(ring);
-            coordinates.add(ring);
-        }
-    }
+	// --
 
-    @Override
-    public String toWKT() {
-        return type.name().toUpperCase() + " " + WKTUtil.getCoordinateStringPolygon(coordinates);
-    }
+	public static GeoJSONPolygon create(List<List<Coordinate>> points) {
+		return new GeoJSONPolygon().setCoordinates(points);
+	}
 
-    @Override
-    public boolean isEmpty() {
-        return coordinates.isEmpty();
-    }
+	@Override
+	public boolean isEmpty() {
+		return coordinates.isEmpty();
+	}
+
+	@Override
+	public void validate() {
+		for (List<Coordinate> ring : coordinates)
+			GeoJSONUtil.assertLinearRing(ring);
+	}
+
+	@Override
+	public String toWKT() {
+		return getTypeName() + " " + WKTUtil.getCoordinateStringPolygon(coordinates);
+	}
+
+	@Override
+	public String toString() {
+		return toWKT();
+	}
 
 }

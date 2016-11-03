@@ -1,6 +1,5 @@
 package at.ac.ait.ariadne.routeformat.geojson;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,64 +8,73 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
+ * A multi polygon, i.e. several polygons as defined in {@link GeoJSONPolygon}.
+ * Note, that {@link #validate()} does not check if the interior rings actually
+ * lie within the exterior ring.
+ * 
  * @author AIT Austrian Institute of Technology GmbH
  */
 @JsonInclude(Include.ALWAYS)
 public class GeoJSONMultiPolygon implements GeoJSONGeometryObject {
 
-    @JsonProperty(required = true)
-    public final GeoJSONType type = GeoJSONType.MultiPolygon;
+	private List<List<List<Coordinate>>> coordinates = new ArrayList<>();
 
-    /**
-     * Coordinates of a multipolygon are an array of polygons, which are an
-     * array of LinearRing coordinate arrays (the first and the last coordinate
-     * must be the same, thereby closing the ring). The first element in the
-     * array represents the exterior ring. Any subsequent elements represent
-     * interior rings (or holes).
-     * <p>
-     * The inner list of {@link BigDecimal} is always a pair of coordinates: X
-     * and Y (=longitude and latitude)
-     */
-    @JsonProperty(required = true)
-    public List<List<List<List<BigDecimal>>>> coordinates = new ArrayList<>();
+	// -- getters
 
-    public GeoJSONMultiPolygon() {
-    }
+	/**
+	 * Coordinates of a multipolygon are an array of polygons, which are an
+	 * array of LinearRing coordinate arrays (the first and the last coordinate
+	 * must be the same, thereby closing the ring). The first element in the
+	 * array represents the exterior ring. Any subsequent elements represent
+	 * interior rings (or holes).
+	 */
+	@JsonProperty(required = true)
+	public List<List<List<Coordinate>>> getCoordinates() {
+		return coordinates;
+	}
 
-    @Override
-    public String toString() {
-        return "GeoJSONPolygon [coordinates=" + coordinates + "]";
-    }
+	// -- setters
 
-    /**
-     * Note: no checks if inner rings are actually within the outer ring are
-     * performed
-     * 
-     * @throws IllegalArgumentException
-     *             if invalid LinearRings are contained
-     */
-    public GeoJSONMultiPolygon(List<List<List<CoordinatePoint>>> points) {
-        for (List<List<CoordinatePoint>> polygon : points) {
-            List<List<List<BigDecimal>>> polyCoordinates = new ArrayList<>();
-            for (List<CoordinatePoint> linearRing : polygon) {
-                List<List<BigDecimal>> ring = new ArrayList<>();
-                for (CoordinatePoint point : linearRing)
-                    ring.add(point.asNewList());
-                GeoJSONUtil.assertLinearRing(ring);
-                polyCoordinates.add(ring);
-            }
-            coordinates.add(polyCoordinates);
-        }
-    }
+	public GeoJSONMultiPolygon setCoordinates(List<List<List<Coordinate>>> coordinates) {
+		this.coordinates = new ArrayList<>();
+		for (List<List<Coordinate>> polygon : coordinates) {
+			List<List<Coordinate>> polyCoordinates = new ArrayList<>();
+			for (List<Coordinate> ring : polygon) {
+				polyCoordinates.add(new ArrayList<>(ring));
+			}
+			this.coordinates.add(polyCoordinates);
+		}
+		return this;
+	}
 
-    @Override
-    public String toWKT() {
-        return type.name().toUpperCase() + " " + WKTUtil.getCoordinateStringMultiPolygon(coordinates);
-    }
+	// --
 
-    @Override
-    public boolean isEmpty() {
-        return coordinates.isEmpty();
-    }
+	public static GeoJSONMultiPolygon create(List<List<List<Coordinate>>> points) {
+		return new GeoJSONMultiPolygon().setCoordinates(points);
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return coordinates.isEmpty();
+	}
+
+	@Override
+	public void validate() {
+		for (List<List<Coordinate>> polygon : coordinates) {
+			for (List<Coordinate> ring : polygon) {
+				GeoJSONUtil.assertLinearRing(ring);
+			}
+		}
+	}
+
+	@Override
+	public String toWKT() {
+		return getTypeName() + " " + WKTUtil.getCoordinateStringMultiPolygon(coordinates);
+	}
+
+	@Override
+	public String toString() {
+		return toWKT();
+	}
 
 }
