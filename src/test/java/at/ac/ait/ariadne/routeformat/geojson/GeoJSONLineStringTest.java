@@ -53,6 +53,12 @@ public class GeoJSONLineStringTest {
 		Assert.assertEquals(2.1, subLineString.getCoordinates().get(0).getX().doubleValue(), 0.001);
 	}
 
+	@Test(expected = IllegalArgumentException.class)
+	public void onlyOneCoordinaateLineStringTest() {
+		GeoJSONLineString subLineString = lineString.subLineString(0, 1);
+		subLineString.validate();
+	}
+
 	@Test
 	public void wktTest() {
 		Assert.assertEquals("LineString (1.111 1.2, 2.1 2.2, 3.1 3.2, 4.1 4.2)", lineString.toWKT());

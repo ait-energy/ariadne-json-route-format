@@ -45,42 +45,16 @@
               "properties" : {
                 "type" : {
                   "type" : "string",
-                  "required" : true,
-                  "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon", "MultiPolygon" ]
-                },
-                "crs" : {
-                  "type" : "object",
-                  "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS",
-                  "properties" : {
-                    "type" : {
-                      "type" : "string",
-                      "required" : true
-                    },
-                    "properties" : {
-                      "type" : "object",
-                      "required" : true,
-                      "additionalProperties" : {
-                        "type" : "any"
-                      }
-                    }
-                  }
+                  "required" : true
                 },
                 "geometry" : {
                   "type" : "object",
                   "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONPoint",
                   "required" : true,
                   "properties" : {
-                    "type" : {
-                      "type" : "string",
-                      "required" : true,
-                      "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon", "MultiPolygon" ]
-                    },
                     "coordinates" : {
-                      "type" : "array",
-                      "required" : true,
-                      "items" : {
-                        "type" : "number"
-                      }
+                      "type" : "any",
+                      "required" : true
                     }
                   }
                 },
@@ -99,25 +73,7 @@
               "properties" : {
                 "type" : {
                   "type" : "string",
-                  "required" : true,
-                  "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon", "MultiPolygon" ]
-                },
-                "crs" : {
-                  "type" : "object",
-                  "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS",
-                  "properties" : {
-                    "type" : {
-                      "type" : "string",
-                      "required" : true
-                    },
-                    "properties" : {
-                      "type" : "object",
-                      "required" : true,
-                      "additionalProperties" : {
-                        "type" : "any"
-                      }
-                    }
-                  }
+                  "required" : true
                 },
                 "geometry" : {
                   "type" : "any",
@@ -323,36 +279,13 @@
                 "properties" : {
                   "type" : {
                     "type" : "string",
-                    "required" : true,
-                    "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon", "MultiPolygon" ]
-                  },
-                  "crs" : {
-                    "type" : "object",
-                    "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS",
-                    "properties" : {
-                      "type" : {
-                        "type" : "string",
-                        "required" : true
-                      },
-                      "properties" : {
-                        "type" : "object",
-                        "required" : true,
-                        "additionalProperties" : {
-                          "type" : "any"
-                        }
-                      }
-                    }
+                    "required" : true
                   },
                   "geometry" : {
                     "type" : "object",
                     "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONMultiPolygon",
                     "required" : true,
                     "properties" : {
-                      "type" : {
-                        "type" : "string",
-                        "required" : true,
-                        "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon", "MultiPolygon" ]
-                      },
                       "coordinates" : {
                         "type" : "array",
                         "required" : true,
@@ -361,10 +294,7 @@
                           "items" : {
                             "type" : "array",
                             "items" : {
-                              "type" : "array",
-                              "items" : {
-                                "type" : "number"
-                              }
+                              "type" : "any"
                             }
                           }
                         }
@@ -534,46 +464,20 @@
                   "properties" : {
                     "type" : {
                       "type" : "string",
-                      "required" : true,
-                      "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon", "MultiPolygon" ]
-                    },
-                    "crs" : {
-                      "type" : "object",
-                      "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS",
-                      "properties" : {
-                        "type" : {
-                          "type" : "string",
-                          "required" : true
-                        },
-                        "properties" : {
-                          "type" : "object",
-                          "required" : true,
-                          "additionalProperties" : {
-                            "type" : "any"
-                          }
-                        }
-                      }
+                      "required" : true
                     },
                     "geometry" : {
                       "type" : "object",
                       "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONPolygon",
                       "required" : true,
                       "properties" : {
-                        "type" : {
-                          "type" : "string",
-                          "required" : true,
-                          "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon", "MultiPolygon" ]
-                        },
                         "coordinates" : {
                           "type" : "array",
                           "required" : true,
                           "items" : {
                             "type" : "array",
                             "items" : {
-                              "type" : "array",
-                              "items" : {
-                                "type" : "number"
-                              }
+                              "type" : "any"
                             }
                           }
                         }
@@ -597,44 +501,18 @@
                   "properties" : {
                     "type" : {
                       "type" : "string",
-                      "required" : true,
-                      "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon", "MultiPolygon" ]
-                    },
-                    "crs" : {
-                      "type" : "object",
-                      "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS",
-                      "properties" : {
-                        "type" : {
-                          "type" : "string",
-                          "required" : true
-                        },
-                        "properties" : {
-                          "type" : "object",
-                          "required" : true,
-                          "additionalProperties" : {
-                            "type" : "any"
-                          }
-                        }
-                      }
+                      "required" : true
                     },
                     "geometry" : {
                       "type" : "object",
                       "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONLineString",
                       "required" : true,
                       "properties" : {
-                        "type" : {
-                          "type" : "string",
-                          "required" : true,
-                          "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon", "MultiPolygon" ]
-                        },
                         "coordinates" : {
                           "type" : "array",
                           "required" : true,
                           "items" : {
-                            "type" : "array",
-                            "items" : {
-                              "type" : "number"
-                            }
+                            "type" : "any"
                           }
                         }
                       }
@@ -654,25 +532,7 @@
                   "properties" : {
                     "type" : {
                       "type" : "string",
-                      "required" : true,
-                      "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon", "MultiPolygon" ]
-                    },
-                    "crs" : {
-                      "type" : "object",
-                      "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS",
-                      "properties" : {
-                        "type" : {
-                          "type" : "string",
-                          "required" : true
-                        },
-                        "properties" : {
-                          "type" : "object",
-                          "required" : true,
-                          "additionalProperties" : {
-                            "type" : "any"
-                          }
-                        }
-                      }
+                      "required" : true
                     },
                     "features" : {
                       "type" : "array",
@@ -700,25 +560,7 @@
                         "properties" : {
                           "type" : {
                             "type" : "string",
-                            "required" : true,
-                            "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon", "MultiPolygon" ]
-                          },
-                          "crs" : {
-                            "type" : "object",
-                            "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS",
-                            "properties" : {
-                              "type" : {
-                                "type" : "string",
-                                "required" : true
-                              },
-                              "properties" : {
-                                "type" : "object",
-                                "required" : true,
-                                "additionalProperties" : {
-                                  "type" : "any"
-                                }
-                              }
-                            }
+                            "required" : true
                           },
                           "geometry" : {
                             "type" : "object",
@@ -740,25 +582,7 @@
                         "properties" : {
                           "type" : {
                             "type" : "string",
-                            "required" : true,
-                            "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon", "MultiPolygon" ]
-                          },
-                          "crs" : {
-                            "type" : "object",
-                            "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS",
-                            "properties" : {
-                              "type" : {
-                                "type" : "string",
-                                "required" : true
-                              },
-                              "properties" : {
-                                "type" : "object",
-                                "required" : true,
-                                "additionalProperties" : {
-                                  "type" : "any"
-                                }
-                              }
-                            }
+                            "required" : true
                           },
                           "geometry" : {
                             "type" : "object",
@@ -823,25 +647,7 @@
             "properties" : {
               "type" : {
                 "type" : "string",
-                "required" : true,
-                "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon", "MultiPolygon" ]
-              },
-              "crs" : {
-                "type" : "object",
-                "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS",
-                "properties" : {
-                  "type" : {
-                    "type" : "string",
-                    "required" : true
-                  },
-                  "properties" : {
-                    "type" : "object",
-                    "required" : true,
-                    "additionalProperties" : {
-                      "type" : "any"
-                    }
-                  }
-                }
+                "required" : true
               },
               "geometry" : {
                 "type" : "object",
@@ -866,25 +672,7 @@
             "properties" : {
               "type" : {
                 "type" : "string",
-                "required" : true,
-                "enum" : [ "FeatureCollection", "Feature", "Point", "LineString", "Polygon", "MultiPolygon" ]
-              },
-              "crs" : {
-                "type" : "object",
-                "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:CRS",
-                "properties" : {
-                  "type" : {
-                    "type" : "string",
-                    "required" : true
-                  },
-                  "properties" : {
-                    "type" : "object",
-                    "required" : true,
-                    "additionalProperties" : {
-                      "type" : "any"
-                    }
-                  }
-                }
+                "required" : true
               },
               "geometry" : {
                 "type" : "object",

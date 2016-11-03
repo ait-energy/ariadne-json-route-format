@@ -1,13 +1,31 @@
 package at.ac.ait.ariadne.routeformat.geojson;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
+import at.ac.ait.ariadne.routeformat.TestUtil;
+
 public class GeoJSONMultiPolygonTest {
+
+	private static final String expectedJson = "{\"type\":\"MultiPolygon\",\"coordinates\":[[[[1.1,1.2],[2.1,2.2],[3.1,3.2],[1.1,1.2]]],[[[1.1,1.2],[2.1,2.2],[3.1,3.2],[1.1,1.2]]]]}";
+	private static GeoJSONMultiPolygon multiPolygon;
+
+	@BeforeClass
+	public static void setUp() {
+		List<List<Coordinate>> polygonPoints = Arrays.asList(
+				Arrays.asList(Coordinate.createFromStrings("1.1", "1.2"), Coordinate.createFromStrings("2.1", "2.2"),
+						Coordinate.createFromStrings("3.1", "3.2"), Coordinate.createFromStrings("1.1", "1.2")));
+		multiPolygon = GeoJSONMultiPolygon.create(Arrays.asList(polygonPoints, polygonPoints));
+		multiPolygon.validate();
+	}
 
 	@Test
 	public void emptyWktTest() {
@@ -15,6 +33,22 @@ public class GeoJSONMultiPolygonTest {
 		empty.validate();
 		Assert.assertTrue(empty.isEmpty());
 		Assert.assertEquals("MultiPolygon EMPTY", empty.toWKT());
+	}
+
+	@Test
+	public void toJsonTest() throws JsonProcessingException {
+		Assert.assertEquals(expectedJson, TestUtil.MAPPER.writeValueAsString(multiPolygon));
+	}
+
+	@Test
+	public void fromJsonTest() throws IOException {
+		GeoJSONMultiPolygon parsedMultiPolygon = TestUtil.MAPPER.readValue(expectedJson, GeoJSONMultiPolygon.class);
+		parsedMultiPolygon.validate();
+		Assert.assertEquals(expectedJson, TestUtil.MAPPER.writeValueAsString(parsedMultiPolygon));
+
+		GeoJSONGeometryObject parsedObject = TestUtil.MAPPER.readValue(expectedJson, GeoJSONGeometryObject.class);
+		parsedObject.validate();
+		Assert.assertEquals(expectedJson, TestUtil.MAPPER.writeValueAsString(parsedObject));
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -27,11 +61,6 @@ public class GeoJSONMultiPolygonTest {
 
 	@Test
 	public void simpleMultiPolygonTest() {
-		List<List<Coordinate>> polygonPoints = Arrays.asList(
-				Arrays.asList(Coordinate.createFromStrings("1.1", "1.2"), Coordinate.createFromStrings("2.1", "2.2"),
-						Coordinate.createFromStrings("3.1", "3.2"), Coordinate.createFromStrings("1.1", "1.2")));
-		GeoJSONMultiPolygon multiPolygon = GeoJSONMultiPolygon.create(Arrays.asList(polygonPoints, polygonPoints));
-		multiPolygon.validate();
 		Assert.assertEquals(
 				"MultiPolygon (((1.1 1.2, 2.1 2.2, 3.1 3.2, 1.1 1.2)), ((1.1 1.2, 2.1 2.2, 3.1 3.2, 1.1 1.2)))",
 				multiPolygon.toWKT());

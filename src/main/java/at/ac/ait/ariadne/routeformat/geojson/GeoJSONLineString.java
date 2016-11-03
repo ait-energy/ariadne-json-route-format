@@ -60,7 +60,7 @@ public class GeoJSONLineString implements GeoJSONGeometryObject {
 	@Override
 	public void validate() {
 		Preconditions.checkArgument(isEmpty() || coordinates.size() >= 2,
-				"coordinate is mandatory but missing (for valid GeoJSON)");
+				"coordinates must either be emtpy or >= 2 but was of length " + coordinates.size());
 	}
 
 	@Override
