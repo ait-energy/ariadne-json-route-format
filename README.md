@@ -15,7 +15,7 @@ A simple example how to display a route in a browser with Leaflet is shown in `s
     - initialization of complex types when they are defined and so that they are mutable (i.e. `new HashMap<>()` instead of `Collections.emptyMap()`)
 - getter methods for all members (used by jackson for serialization)
 - setter methods for all members (used by jackson for deserialization)
-    - create defensive mutable copies of **external** complex data structures (e.g. the additionalInfo Map, but not of objects belonging to the route format, such as the GeoJSON classes)
+    - create defensive mutable copies of common (nested) collections such as lists, sets or maps (e.g. additionalInfo or the list of coordinates in a GeoJSONLineString) Map, but not of complex objects (e.g. a GeoJSONLineString itself)
     - return the object itself (so calls to setter methods can be chained similar to the builder pattern)
 - for easy generic extension the map "additionalInfo" is provided for many classes
 - `validate()` method for checking if the state of the instance is legal, which throws an `IllegalArgumentException` including a description of what is invalid (in-depth-checking: classes should call validate on all instances they contain, e.g. a navigation instruction calls `validate()` of the landmarks it contains)

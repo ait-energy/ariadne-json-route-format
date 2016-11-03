@@ -7,14 +7,14 @@ import at.ac.ait.ariadne.routeformat.geojson.Coordinate;
 
 public class LocationTest {
 
-	private static Coordinate coordinate = new Coordinate("16.40073", "48.25625");
+	private static Coordinate coordinate = Coordinate.createFromStrings("16.40073", "48.25625");
 
 	@Test
 	public void simpleLocationTest() {
 		Location<?> l = Location.createMinimal(coordinate);
 		l.validate();
-		Assert.assertEquals(coordinate.x, l.getCoordinate().geometry.coordinates.get(0));
-		Assert.assertEquals(coordinate.y, l.getCoordinate().geometry.coordinates.get(1));
+		Assert.assertEquals(coordinate.getX(), l.getCoordinate().getGeometry().getCoordinates().get().getX());
+		Assert.assertEquals(coordinate.getY(), l.getCoordinate().getGeometry().getCoordinates().get().getY());
 	}
 
 	@Test(expected = IllegalArgumentException.class)

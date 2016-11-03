@@ -11,6 +11,14 @@ import com.google.common.base.Joiner;
 class WKTUtil {
 
 	/**
+	 * @return the uppercase geometry type of a GeoJSON* class, e.g. POINT for
+	 *         GeoJSONPoint
+	 */
+	public static String getTypeName(Class<?> clazz) {
+		return clazz.getSimpleName().replaceAll("GeoJSON", "").toUpperCase();
+	}
+
+	/**
 	 * @param coordinates
 	 *            list of coordinate pairs: X and Y (=longitude and latitude)
 	 * @return either 'EMPTY' or '(x1 y1, x2 y2,.. )'
@@ -33,41 +41,41 @@ class WKTUtil {
 		return sb.toString();
 	}
 
-//	/**
-//	 * @param coordinates
-//	 *            list of list of coordinate pairs: X and Y (=longitude and
-//	 *            latitude)
-//	 * @return either 'EMPTY' or '((x1 y1), (x2 y2,..),.. )'
-//	 * 
-//	 */
-//	public static String getCoordinateStringPolygon(List<List<List<BigDecimal>>> coordinates) {
-//		if (coordinates.isEmpty())
-//			return "EMPTY";
-//
-//		StringBuilder sb = new StringBuilder("(");
-//		sb.append(Joiner.on(", ").join(
-//				coordinates.stream().map(c -> getCoordinateStringPointOrLineString(c)).collect(Collectors.toList())));
-//		sb.append(")");
-//		return sb.toString();
-//	}
-//
-//	/**
-//	 * @param coordinates
-//	 *            list of list of list of coordinate pairs: X and Y (=longitude
-//	 *            and latitude)
-//	 * @return either 'EMPTY' or '(((x1 y1), (x2 y2,..),.. ),..)'
-//	 * 
-//	 */
-//	public static String getCoordinateStringMultiPolygon(List<List<List<List<BigDecimal>>>> coordinates) {
-//		if (coordinates.isEmpty())
-//			return "EMPTY";
-//
-//		StringBuilder sb = new StringBuilder("(");
-//		sb.append(Joiner.on(", ")
-//				.join(coordinates.stream().map(c -> getCoordinateStringPolygon(c)).collect(Collectors.toList())));
-//		sb.append(")");
-//		return sb.toString();
-//	}
+	/**
+	 * @param coordinates
+	 *            list of list of coordinate pairs: X and Y (=longitude and
+	 *            latitude)
+	 * @return either 'EMPTY' or '((x1 y1), (x2 y2,..),.. )'
+	 * 
+	 */
+	public static String getCoordinateStringPolygon(List<List<Coordinate>> coordinates) {
+		if (coordinates.isEmpty())
+			return "EMPTY";
+
+		StringBuilder sb = new StringBuilder("(");
+		sb.append(Joiner.on(", ").join(
+				coordinates.stream().map(c -> getCoordinateStringPointOrLineString(c)).collect(Collectors.toList())));
+		sb.append(")");
+		return sb.toString();
+	}
+
+	/**
+	 * @param coordinates
+	 *            list of list of list of coordinate pairs: X and Y (=longitude
+	 *            and latitude)
+	 * @return either 'EMPTY' or '(((x1 y1), (x2 y2,..),.. ),..)'
+	 * 
+	 */
+	public static String getCoordinateStringMultiPolygon(List<List<List<Coordinate>>> coordinates) {
+		if (coordinates.isEmpty())
+			return "EMPTY";
+
+		StringBuilder sb = new StringBuilder("(");
+		sb.append(Joiner.on(", ")
+				.join(coordinates.stream().map(c -> getCoordinateStringPolygon(c)).collect(Collectors.toList())));
+		sb.append(")");
+		return sb.toString();
+	}
 
 	private static String getCoordinateString(Coordinate coordinate) {
 		DecimalFormat df = new DecimalFormat("#.#######");

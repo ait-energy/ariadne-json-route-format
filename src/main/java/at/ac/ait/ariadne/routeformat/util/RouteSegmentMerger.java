@@ -274,9 +274,11 @@ public class RouteSegmentMerger {
 
 		// adapt geometry & length
 		merged.setTo(b.getTo());
-		GeoJSONFeature<GeoJSONLineString> newlineString = GeoJSONFeature.newLineStringFeature(new ArrayList<>());
-		a.getGeometryGeoJson().ifPresent(g -> newlineString.geometry.coordinates.addAll(g.geometry.coordinates));
-		b.getGeometryGeoJson().ifPresent(g -> newlineString.geometry.coordinates.addAll(g.geometry.coordinates));
+		GeoJSONFeature<GeoJSONLineString> newlineString = GeoJSONFeature.createLineStringFeature(new ArrayList<>());
+		a.getGeometryGeoJson()
+				.ifPresent(g -> newlineString.getGeometry().getCoordinates().addAll(g.getGeometry().getCoordinates()));
+		b.getGeometryGeoJson()
+				.ifPresent(g -> newlineString.getGeometry().getCoordinates().addAll(g.getGeometry().getCoordinates()));
 		merged.setGeometryGeoJson(newlineString);
 		merged.setDistanceMeters(a.getDistanceMeters() + b.getDistanceMeters());
 

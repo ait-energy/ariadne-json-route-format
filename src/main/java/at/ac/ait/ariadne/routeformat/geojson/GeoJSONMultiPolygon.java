@@ -14,59 +14,71 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonInclude(Include.ALWAYS)
 public class GeoJSONMultiPolygon implements GeoJSONGeometryObject {
 
-    @JsonProperty(required = true)
-    public final GeoJSONType type = GeoJSONType.MultiPolygon;
+	private List<List<List<Coordinate>>> coordinates = new ArrayList<>();
 
-    /**
-     * Coordinates of a multipolygon are an array of polygons, which are an
-     * array of LinearRing coordinate arrays (the first and the last coordinate
-     * must be the same, thereby closing the ring). The first element in the
-     * array represents the exterior ring. Any subsequent elements represent
-     * interior rings (or holes).
-     * <p>
-     * The inner list of {@link BigDecimal} is always a pair of coordinates: X
-     * and Y (=longitude and latitude)
-     */
-    @JsonProperty(required = true)
-    public List<List<List<List<BigDecimal>>>> coordinates = new ArrayList<>();
+	// -- getters
+	/**
+	 * Coordinates of a multipolygon are an array of polygons, which are an
+	 * array of LinearRing coordinate arrays (the first and the last coordinate
+	 * must be the same, thereby closing the ring). The first element in the
+	 * array represents the exterior ring. Any subsequent elements represent
+	 * interior rings (or holes).
+	 */
+	@JsonProperty(required = true)
+	public List<List<List<Coordinate>>> getCoordinates() {
+		return coordinates;
+	}
 
-    public GeoJSONMultiPolygon() {
-    }
+	// -- setters
 
-    @Override
-    public String toString() {
-        return "GeoJSONPolygon [coordinates=" + coordinates + "]";
-    }
+	/**
+	 * Note: no checks if inner rings are actually within the outer ring are
+	 * performed
+	 * 
+	 * @throws IllegalArgumentException
+	 *             if invalid LinearRings are contained
+	 */
+	public GeoJSONMultiPolygon setCoordinates(List<List<List<Coordinate>>> coordinates) {
+		this.coordinates = new ArrayList<>();
+		for (List<List<Coordinate>> polygon : coordinates) {
+			List<List<Coordinate>> polyCoordinates = new ArrayList<>();
+			for (List<Coordinate> ring : polygon) {
+				GeoJSONUtil.assertLinearRing(ring);
+				polyCoordinates.add(new ArrayList<>(ring));
+			}
+			this.coordinates.add(polyCoordinates);
+		}
+		return this;
+	}
 
-    /**
-     * Note: no checks if inner rings are actually within the outer ring are
-     * performed
-     * 
-     * @throws IllegalArgumentException
-     *             if invalid LinearRings are contained
-     */
-    public GeoJSONMultiPolygon(List<List<List<Coordinate>>> points) {
-        for (List<List<Coordinate>> polygon : points) {
-            List<List<List<BigDecimal>>> polyCoordinates = new ArrayList<>();
-            for (List<Coordinate> linearRing : polygon) {
-                List<List<BigDecimal>> ring = new ArrayList<>();
-                for (Coordinate point : linearRing)
-                    ring.add(point.asNewList());
-                GeoJSONUtil.assertLinearRing(ring);
-                polyCoordinates.add(ring);
-            }
-            coordinates.add(polyCoordinates);
-        }
-    }
+	// --
 
-    @Override
-    public String toWKT() {
-        return type.name().toUpperCase() + " " + WKTUtil.getCoordinateStringMultiPolygon(coordinates);
-    }
+	/**
+	 * @see #setCoordinates(List)
+	 */
+	public static GeoJSONMultiPolygon create(List<List<List<Coordinate>>> points) {
+		return new GeoJSONMultiPolygon().setCoordinates(points);
+	}
 
-    @Override
-    public boolean isEmpty() {
-        return coordinates.isEmpty();
-    }
+	@Override
+	public boolean isEmpty() {
+		return coordinates.isEmpty();
+	}
+
+	@Override
+	public void validate() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public String toWKT() {
+		return getTypeName() + " " + WKTUtil.getCoordinateStringMultiPolygon(coordinates);
+	}
+
+	@Override
+	public String toString() {
+		return toWKT();
+	}
 
 }

@@ -2,8 +2,6 @@ package at.ac.ait.ariadne.routeformat.example;
 
 import java.io.File;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -17,6 +15,7 @@ import com.kjetland.jackson.jsonSchema.JsonSchemaGenerator;
 
 import at.ac.ait.ariadne.routeformat.Constants.Status;
 import at.ac.ait.ariadne.routeformat.RouteFormatRoot;
+import at.ac.ait.ariadne.routeformat.geojson.Coordinate;
 import at.ac.ait.ariadne.routeformat.instruction.Instruction;
 import scala.Option;
 
@@ -67,8 +66,8 @@ public class JacksonExample {
 		// variant 1 - data binding
 		RouteFormatRoot root = mapper.readValue(new File(exampleFile), RouteFormatRoot.class);
 		Status status = root.getStatus();
-		List<BigDecimal> secondGeometryPointOfRoute = root.getRoutes().get(0).getSegments().get(0).getGeometryGeoJson()
-				.get().geometry.coordinates.get(1);
+		Coordinate secondGeometryPointOfRoute = root.getRoutes().get(0).getSegments().get(0).getGeometryGeoJson()
+				.get().getGeometry().getCoordinates().get(1);
 		System.out.println(status);
 		System.out.println(secondGeometryPointOfRoute);
 		System.out.println(root.getProcessedTime());

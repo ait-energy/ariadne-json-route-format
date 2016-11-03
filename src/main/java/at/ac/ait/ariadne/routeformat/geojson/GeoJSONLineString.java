@@ -1,12 +1,12 @@
 package at.ac.ait.ariadne.routeformat.geojson;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.Preconditions;
 
 /**
  * @author AIT Austrian Institute of Technology GmbH
@@ -14,42 +14,60 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonInclude(Include.ALWAYS)
 public class GeoJSONLineString implements GeoJSONGeometryObject {
 
-    @JsonProperty(required = true)
-    public final GeoJSONType type = GeoJSONType.LineString;
+	private List<Coordinate> coordinates = new ArrayList<>();
 
-    @JsonProperty(required = true)
-    /** pairs of coordinates: X and Y (=longitude and latitude) */
-    public List<List<BigDecimal>> coordinates = new ArrayList<>();
+	// -- getters
 
-    public GeoJSONLineString() {
-    }
+	@JsonProperty(required = true)
+	public List<Coordinate> getCoordinates() {
+		return coordinates;
+	}
 
-    public GeoJSONLineString(List<Coordinate> points) {
-        for (Coordinate point : points)
-            coordinates.add(point.asNewList());
-    }
+	// -- setters
 
-    /**
-     * @param fromIndex
-     *            low coordinate-pair (inclusive) of the subLineString
-     * @param toIndex
-     *            high coordinate-pair (exclusive) of the subLineString
-     * @return a deep copy of the requested sub part
-     */
-    public GeoJSONLineString subLineString(int fromIndex, int toIndex) {
-        GeoJSONLineString sub = new GeoJSONLineString();
-        sub.coordinates = new ArrayList<>(coordinates.subList(fromIndex, toIndex));
-        return sub;
-    }
+	public GeoJSONLineString setCoordinates(List<Coordinate> coordinates) {
+		this.coordinates = new ArrayList<>(coordinates);
+		return this;
+	}
 
-    @Override
-    public String toWKT() {
-        return type.name().toUpperCase() + " " + WKTUtil.getCoordinateStringPointOrLineString(coordinates);
-    }
+	// --
 
-    @Override
-    public boolean isEmpty() {
-        return coordinates.isEmpty();
-    }
-    
+	public static GeoJSONLineString create(List<Coordinate> points) {
+		return new GeoJSONLineString().setCoordinates(points);
+	}
+
+	/**
+	 * @param fromIndex
+	 *            low coordinate-pair (inclusive) of the subLineString
+	 * @param toIndex
+	 *            high coordinate-pair (exclusive) of the subLineString
+	 * @return a shallow copy of the requested sub part, i.e. the sublist and
+	 *         the old list are independent from each other but use the same
+	 *         {@link Coordinate}s
+	 */
+	public GeoJSONLineString subLineString(int fromIndex, int toIndex) {
+		return GeoJSONLineString.create(coordinates.subList(fromIndex, toIndex));
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return coordinates.isEmpty();
+	}
+
+	@Override
+	public void validate() {
+		Preconditions.checkArgument(isEmpty() || coordinates.size() >= 2,
+				"coordinate is mandatory but missing (for valid GeoJSON)");
+	}
+
+	@Override
+	public String toWKT() {
+		return getTypeName() + " " + WKTUtil.getCoordinateStringPointOrLineString(coordinates);
+	}
+
+	@Override
+	public String toString() {
+		return toWKT();
+	}
+
 }

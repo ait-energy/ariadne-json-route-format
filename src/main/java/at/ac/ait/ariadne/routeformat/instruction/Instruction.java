@@ -83,7 +83,7 @@ public abstract class Instruction<T extends Instruction<T>> implements Validatab
 	@JsonIgnore
 	@SuppressWarnings("unchecked")
 	public T setPosition(Coordinate position) {
-		this.position = GeoJSONFeature.newPointFeature(position);
+		this.position = GeoJSONFeature.createPointFeature(position);
 		return (T) this;
 	}
 
@@ -97,7 +97,7 @@ public abstract class Instruction<T extends Instruction<T>> implements Validatab
 	@JsonIgnore
 	@SuppressWarnings("unchecked")
 	public T setPreviewTriggerPosition(Coordinate previewTriggerPosition) {
-		this.previewTriggerPosition = Optional.ofNullable(GeoJSONFeature.newPointFeature(previewTriggerPosition));
+		this.previewTriggerPosition = Optional.ofNullable(GeoJSONFeature.createPointFeature(previewTriggerPosition));
 		return (T) this;
 	}
 
@@ -112,7 +112,7 @@ public abstract class Instruction<T extends Instruction<T>> implements Validatab
 	@SuppressWarnings("unchecked")
 	public T setConfirmationTriggerPosition(Coordinate confirmationTriggerPosition) {
 		this.confirmationTriggerPosition = Optional
-				.ofNullable(GeoJSONFeature.newPointFeature(confirmationTriggerPosition));
+				.ofNullable(GeoJSONFeature.createPointFeature(confirmationTriggerPosition));
 		return (T) this;
 	}
 

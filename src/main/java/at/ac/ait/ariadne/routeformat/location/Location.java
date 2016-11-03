@@ -81,7 +81,7 @@ public class Location<T extends Location<T>> implements Validatable {
 	@SuppressWarnings("unchecked")
 	@JsonIgnore
 	public T setCoordinate(Coordinate coordinate) {
-		this.coordinate = GeoJSONFeature.newPointFeature(coordinate);
+		this.coordinate = GeoJSONFeature.createPointFeature(coordinate);
 		return (T) this;
 	}
 

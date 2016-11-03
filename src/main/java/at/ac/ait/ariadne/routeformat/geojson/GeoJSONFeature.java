@@ -1,39 +1,34 @@
 package at.ac.ait.ariadne.routeformat.geojson;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.TreeMap;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.Preconditions;
 
-import at.ac.ait.ariadne.routeformat.RouteFormatRoot;
+import at.ac.ait.ariadne.routeformat.Validatable;
 import at.ac.ait.ariadne.routeformat.location.Location;
 
 /**
  * @author AIT Austrian Institute of Technology GmbH
  */
 @JsonInclude(Include.NON_EMPTY)
-public class GeoJSONFeature<T extends GeoJSONGeometryObject> {
+public class GeoJSONFeature<T extends GeoJSONGeometryObject> implements Validatable {
+
+	private T geometry;
+	private Map<String, Object> properties = new TreeMap<>();
+
+	// -- getters
 
 	@JsonProperty(required = true)
-	public final GeoJSONType type = GeoJSONType.Feature;
-
-	/**
-	 * In case neither this field nor
-	 * {@link RouteFormatRoot#getCoordinateReferenceSystem()} is set, fall back
-	 * to {@link CRS#WGS84}
-	 */
-	@JsonProperty(required = false)
-	public Optional<CRS> crs = Optional.empty();
-
-	@JsonProperty(required = true)
-	public T geometry;
+	public T getGeometry() {
+		return geometry;
+	}
 
 	/**
 	 * Unrestricted possibility to store additional information, e.g. properties
@@ -41,58 +36,47 @@ public class GeoJSONFeature<T extends GeoJSONGeometryObject> {
 	 */
 	@JsonInclude(Include.ALWAYS)
 	@JsonProperty(required = true)
-	public Map<String, Object> properties = new TreeMap<>();
-
-	public String toWKT() {
-		return geometry.toWKT();
+	public Map<String, Object> getProperties() {
+		return properties;
 	}
 
-	@Override
-	public String toString() {
-		return "GeoJSONFeature [type=" + type + ", geometry=" + geometry + ", properties=" + properties + "]";
+	// -- setters
+
+	public GeoJSONFeature<T> setGeometry(T geometry) {
+		this.geometry = geometry;
+		return this;
 	}
 
-	public static GeoJSONFeature<GeoJSONPoint> newPointFeature(Coordinate point) {
-		GeoJSONFeature<GeoJSONPoint> feature = new GeoJSONFeature<>();
-		feature.geometry = new GeoJSONPoint(point);
-		return feature;
+	public GeoJSONFeature<T> setProperties(Map<String, Object> properties) {
+		this.properties = new TreeMap<>(properties);
+		return this;
 	}
 
-	public static GeoJSONFeature<GeoJSONPoint> newPointFeature(GeoJSONPoint point) {
-		GeoJSONFeature<GeoJSONPoint> feature = new GeoJSONFeature<>();
-		feature.geometry = point;
-		return feature;
+	// --
+
+	public static GeoJSONFeature<GeoJSONPoint> createPointFeature(Coordinate point) {
+		return createPointFeature(GeoJSONPoint.create(point));
 	}
 
-	public static GeoJSONFeature<GeoJSONLineString> newLineStringFeature(List<Coordinate> points) {
-		GeoJSONFeature<GeoJSONLineString> feature = new GeoJSONFeature<>();
-		feature.geometry = new GeoJSONLineString(points);
-		return feature;
+	public static GeoJSONFeature<GeoJSONPoint> createPointFeature(GeoJSONPoint point) {
+		return new GeoJSONFeature<GeoJSONPoint>().setGeometry(point);
 	}
 
-	public static GeoJSONFeature<GeoJSONLineString> newLineStringFeature(Location<?> from, Location<?> to,
+	public static GeoJSONFeature<GeoJSONLineString> createLineStringFeature(Location<?> from, Location<?> to,
 			Coordinate... geometryInbetween) {
 		List<Coordinate> coordinatePoints = new ArrayList<>();
-		coordinatePoints.add(Coordinate.fromGeoJSONPointFeature(from.getCoordinate()));
+		coordinatePoints.add(from.getCoordinate().geometry.getCoordinates().get());
 		coordinatePoints.addAll(Arrays.asList(geometryInbetween));
-		coordinatePoints.add(Coordinate.fromGeoJSONPointFeature(to.getCoordinate()));
-		return GeoJSONFeature.newLineStringFeature(coordinatePoints);
+		coordinatePoints.add(to.getCoordinate().geometry.getCoordinates().get());
+		return createLineStringFeature(coordinatePoints);
 	}
 
-	public static GeoJSONFeature<GeoJSONLineString> newLineStringFeature(GeoJSONLineString lineString) {
-		GeoJSONFeature<GeoJSONLineString> feature = new GeoJSONFeature<>();
-		feature.geometry = lineString;
-		return feature;
+	public static GeoJSONFeature<GeoJSONLineString> createLineStringFeature(List<Coordinate> points) {
+		return createLineStringFeature(GeoJSONLineString.create(points));
 	}
 
-	/**
-	 * @see GeoJSONPolygon#coordinates
-	 */
-	public static GeoJSONFeature<GeoJSONPolygon> newPolygonFeatureFromCoordinatePoints(
-			List<List<Coordinate>> points) {
-		GeoJSONFeature<GeoJSONPolygon> feature = new GeoJSONFeature<>();
-		feature.geometry = new GeoJSONPolygon(points);
-		return feature;
+	public static GeoJSONFeature<GeoJSONLineString> createLineStringFeature(GeoJSONLineString lineString) {
+		return new GeoJSONFeature<GeoJSONLineString>().setGeometry(lineString);
 	}
 
 	/**
@@ -102,27 +86,47 @@ public class GeoJSONFeature<T extends GeoJSONGeometryObject> {
 	 * @param innerRings
 	 *            can be empty
 	 */
-	public static GeoJSONFeature<GeoJSONPolygon> newPolygonFeatureFromBigDecimals(List<List<BigDecimal>> outerRing,
-			List<List<List<BigDecimal>>> innerRings) {
-		GeoJSONFeature<GeoJSONPolygon> feature = new GeoJSONFeature<>();
-		feature.geometry = new GeoJSONPolygon();
-		List<List<List<BigDecimal>>> rings = new ArrayList<>();
+	public static GeoJSONFeature<GeoJSONPolygon> createPolygonFeatureFromRings(List<Coordinate> outerRing,
+			List<List<Coordinate>> innerRings) {
+		List<List<Coordinate>> rings = new ArrayList<>();
 		rings.add(outerRing);
 		rings.addAll(innerRings);
-		feature.geometry.coordinates = rings;
-		return feature;
+		return createPolygonFeatureFromCoordinatePoints(rings);
 	}
 
-	public static GeoJSONFeature<GeoJSONMultiPolygon> newMultiPolygonFeatureFromPolygons(
+	/**
+	 * @see GeoJSONPolygon#coordinates
+	 */
+	public static GeoJSONFeature<GeoJSONPolygon> createPolygonFeatureFromCoordinatePoints(
+			List<List<Coordinate>> points) {
+		return createPolygonFeature(GeoJSONPolygon.create(points));
+	}
+
+	public static GeoJSONFeature<GeoJSONPolygon> createPolygonFeature(GeoJSONPolygon polygon) {
+		return new GeoJSONFeature<GeoJSONPolygon>().setGeometry(polygon);
+	}
+
+	public static GeoJSONFeature<GeoJSONMultiPolygon> createMultiPolygonFeatureFromPolygons(
 			List<GeoJSONFeature<GeoJSONPolygon>> polygons) {
-		GeoJSONFeature<GeoJSONMultiPolygon> feature = new GeoJSONFeature<>();
-		feature.geometry = new GeoJSONMultiPolygon();
-		List<List<List<List<BigDecimal>>>> polygonGeometry = new ArrayList<>();
+		List<List<List<Coordinate>>> polygonGeometries = new ArrayList<>();
 		for (GeoJSONFeature<GeoJSONPolygon> polygon : polygons) {
-			polygonGeometry.add(polygon.geometry.coordinates);
+			polygonGeometries.add(polygon.geometry.getCoordinates());
 		}
-		feature.geometry.coordinates = polygonGeometry;
-		return feature;
+		return new GeoJSONFeature<GeoJSONMultiPolygon>().setGeometry(GeoJSONMultiPolygon.create(polygonGeometries));
+	}
+
+	@Override
+	public void validate() {
+		Preconditions.checkArgument(geometry != null, "geometry is mandatory but missing");
+	}
+
+	public String toWKT() {
+		return geometry.toWKT();
+	}
+
+	@Override
+	public String toString() {
+		return "GeoJSONFeature [geometryWKT=" + toWKT() + ", properties=" + properties + "]";
 	}
 
 }

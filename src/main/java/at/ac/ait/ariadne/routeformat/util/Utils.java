@@ -16,7 +16,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
 
 import at.ac.ait.ariadne.routeformat.Constants.GeneralizedModeOfTransportType;
 import at.ac.ait.ariadne.routeformat.ModeOfTransport;
@@ -90,7 +89,7 @@ public class Utils {
 	}
 
 	public static Location<?> createLocation(double latitude, double longitude) {
-		return Location.createMinimal(new Coordinate(longitude, latitude));
+		return Location.createMinimal(Coordinate.createFromDoubles(longitude, latitude));
 	}
 
 	public static String getJsonString(Object object) throws JsonProcessingException {
@@ -105,15 +104,15 @@ public class Utils {
 		BigDecimal minX = null, maxX = null, minY = null, maxY = null;
 		for (RouteSegment segment : segments) {
 			if (segment.getGeometryGeoJson().isPresent()) {
-				for (List<BigDecimal> xy : segment.getGeometryGeoJson().get().geometry.coordinates) {
-					if (minX == null || minX.compareTo(xy.get(0)) > 0)
-						minX = xy.get(0);
-					if (maxX == null || maxX.compareTo(xy.get(0)) < 0)
-						maxX = xy.get(0);
-					if (minY == null || minY.compareTo(xy.get(1)) > 0)
-						minY = xy.get(1);
-					if (maxY == null || maxY.compareTo(xy.get(1)) < 0)
-						maxY = xy.get(1);
+				for (Coordinate xy : segment.getGeometryGeoJson().get().getGeometry().getCoordinates()) {
+					if (minX == null || minX.compareTo(xy.getX()) > 0)
+						minX = xy.getX();
+					if (maxX == null || maxX.compareTo(xy.getX()) < 0)
+						maxX = xy.getX();
+					if (minY == null || minY.compareTo(xy.getY()) > 0)
+						minY = xy.getY();
+					if (maxY == null || maxY.compareTo(xy.getY()) < 0)
+						maxY = xy.getY();
 				}
 			}
 		}
@@ -121,13 +120,13 @@ public class Utils {
 		if (minX == null || maxX == null || minY == null || maxY == null)
 			return Optional.empty();
 
-		List<List<BigDecimal>> outerRing = new ArrayList<>();
-		outerRing.add(Lists.newArrayList(minX, minY));
-		outerRing.add(Lists.newArrayList(minX, maxY));
-		outerRing.add(Lists.newArrayList(maxX, maxY));
-		outerRing.add(Lists.newArrayList(maxX, minY));
-		outerRing.add(Lists.newArrayList(minX, minY));
-		return Optional.of(GeoJSONFeature.newPolygonFeatureFromBigDecimals(outerRing, Collections.emptyList()));
+		List<Coordinate> outerRing = new ArrayList<>();
+		outerRing.add(Coordinate.create(minX, minY));
+		outerRing.add(Coordinate.create(minX, maxY));
+		outerRing.add(Coordinate.create(maxX, maxY));
+		outerRing.add(Coordinate.create(maxX, minY));
+		outerRing.add(Coordinate.create(minX, minY));
+		return Optional.of(GeoJSONFeature.createPolygonFeatureFromRings(outerRing, Collections.emptyList()));
 	}
 
 	/**

@@ -27,7 +27,7 @@ public class InstructionTest {
 	public void testProperDeSerialization() throws IOException {
 		mapper.disable(SerializationFeature.INDENT_OUTPUT);
 		BasicRoadInstruction instruction = BasicRoadInstruction.createMinimalRouteStart(
-				new Coordinate("48.123", "16"), Optional.of("Testweg"), Optional.of(FormOfWay.ROAD));
+				Coordinate.createFromStrings("48.123", "16"), Optional.of("Testweg"), Optional.of(FormOfWay.ROAD));
 		instruction.validate();
 
 		String expected = "{\"type\":\"BasicRoadInstruction\",\"position\":{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[48.123,16]},\"properties\":{}},\"subType\":\"ROUTE_START\",\"ontoStreetName\":\"Testweg\",\"ontoFormOfWay\":\"ROAD\"}";

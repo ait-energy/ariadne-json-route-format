@@ -38,27 +38,31 @@ class MutableJacksonExample {
 		mapper.findAndRegisterModules();
 		mapper.enable(SerializationFeature.INDENT_OUTPUT);
 	}
-	
+
 	public static void main(String[] args) throws JsonGenerationException, JsonMappingException, IOException {
 		MutableJacksonExample main = new MutableJacksonExample();
 		main.writeExampleJson();
 		main.readExampleJson();
-//		main.writeSchemav4();
+		// main.writeSchemav4();
 	}
 
 	public void writeExampleJson() throws JsonGenerationException, JsonMappingException, IOException {
-//		MutableJsonClass example = MutableJsonClass.createDefault(3, "servus");
-//		MinimizedMutableClass example = new MinimizedMutableClass();
-//		example.setMyInteger(100);
-//		example.setMyOptionalString("");
-//		example.setMyMap(ImmutableMap.of("a", ContinueDirection.OPPOSITE));
-//		RoundaboutInstruction example = RoundaboutInstruction.createMinimalEnterInstruction(new CoordinatePoint(16, 48), 2);
-//		MutableJsonClass example = new DetailedMutableJsonClass().setAnotherDetail("yo").setMyInteger(1);
+		// MutableJsonClass example = MutableJsonClass.createDefault(3,
+		// "servus");
+		// MinimizedMutableClass example = new MinimizedMutableClass();
+		// example.setMyInteger(100);
+		// example.setMyOptionalString("");
+		// example.setMyMap(ImmutableMap.of("a", ContinueDirection.OPPOSITE));
+		// RoundaboutInstruction example =
+		// RoundaboutInstruction.createMinimalEnterInstruction(new
+		// CoordinatePoint(16, 48), 2);
+		// MutableJsonClass example = new
+		// DetailedMutableJsonClass().setAnotherDetail("yo").setMyInteger(1);
 		Landmark landmark = Landmark.createMinimalLandmark(Preposition.AFTER, null);
-		BasicRoadInstruction example = BasicRoadInstruction.createMinimalOnRoute(new Coordinate(48, 16),
+		BasicRoadInstruction example = BasicRoadInstruction.createMinimalOnRoute(Coordinate.createFromDoubles(48, 16),
 				TurnDirection.LEFT, Optional.of("Ringstraße"), Optional.of(FormOfWay.ROAD));
 		example.setContinueSeconds(50).setLandmark(landmark);
-		
+
 		System.out.println(mapper.writeValueAsString(example));
 		System.out.println("##########");
 		mapper.writeValue(new File(exampleFile), example);
@@ -73,8 +77,7 @@ class MutableJacksonExample {
 	public void writeSchemav4() throws JsonGenerationException, IOException {
 		JsonSchemaGenerator jsonSchemaGenerator = new JsonSchemaGenerator(mapper);
 		Option<String> emtpyOption = Option.empty();
-		JsonNode jsonSchema = jsonSchemaGenerator.generateJsonSchema(MutableJsonClass.class, emtpyOption,
-				emtpyOption);
+		JsonNode jsonSchema = jsonSchemaGenerator.generateJsonSchema(MutableJsonClass.class, emtpyOption, emtpyOption);
 
 		System.out.println(mapper.writeValueAsString(jsonSchema));
 		System.out.println("##########");

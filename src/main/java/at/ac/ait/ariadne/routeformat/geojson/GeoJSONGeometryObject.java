@@ -11,12 +11,15 @@ import at.ac.ait.ariadne.routeformat.Validatable;
  * @author AIT Austrian Institute of Technology GmbH
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
-@JsonSubTypes({ @Type(value = GeoJSONPoint.class, name = "Point") })
+@JsonSubTypes({ @Type(value = GeoJSONPoint.class, name = "Point"),
+		@Type(value = GeoJSONLineString.class, name = "LineString"),
+		@Type(value = GeoJSONPolygon.class, name = "Polygon"),
+		@Type(value = GeoJSONMultiPolygon.class, name = "MultiPolygon") })
 public interface GeoJSONGeometryObject extends Validatable {
 
 	@JsonIgnore
 	default String getTypeName() {
-		return this.getClass().getSimpleName().replaceAll("GeoJSON", "").toUpperCase();
+		return WKTUtil.getTypeName(this.getClass());
 	}
 
 	/**

@@ -19,26 +19,15 @@ import at.ac.ait.ariadne.routeformat.RouteFormatRoot;
 @JsonInclude(Include.NON_EMPTY)
 public class GeoJSONFeatureCollection<T extends GeoJSONGeometryObject> {
 
-    @JsonProperty(required = true)
-    public final GeoJSONType type = GeoJSONType.FeatureCollection;
+	@JsonInclude(Include.ALWAYS)
+	@JsonProperty(required = true)
+	public List<GeoJSONFeature<T>> features = new ArrayList<>();
 
-    /**
-     * In case neither this field nor
-     * {@link RouteFormatRoot#getCoordinateReferenceSystem()} is set, fall back
-     * to {@link CRS#WGS84}
-     */
-    @JsonProperty(required = false)
-    public Optional<CRS> crs = Optional.empty();
+	public List<String> toWKT() {
+		return features.stream().map(f -> f.toWKT()).collect(Collectors.toList());
+	}
 
-    @JsonInclude(Include.ALWAYS)
-    @JsonProperty(required = true)
-    public List<GeoJSONFeature<T>> features = new ArrayList<>();
-
-    public List<String> toWKT() {
-        return features.stream().map(f -> f.toWKT()).collect(Collectors.toList());
-    }
-
-    public GeoJSONFeatureCollection() {
-    }
+	public GeoJSONFeatureCollection() {
+	}
 
 }

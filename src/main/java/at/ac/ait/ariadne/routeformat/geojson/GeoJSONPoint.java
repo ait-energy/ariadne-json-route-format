@@ -8,7 +8,6 @@ import java.util.Optional;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.base.Preconditions;
 
 /**
  * @author AIT Austrian Institute of Technology GmbH
@@ -39,19 +38,20 @@ public class GeoJSONPoint implements GeoJSONGeometryObject {
 	}
 
 	@Override
-	public String toWKT() {
-		List<Coordinate> list = coordinates.isPresent() ? Arrays.asList(coordinates.get()) : Collections.emptyList();
-		return getTypeName() + " " + WKTUtil.getCoordinateStringPointOrLineString(list);
-	}
-
-	@Override
 	public boolean isEmpty() {
 		return !coordinates.isPresent();
 	}
 
 	@Override
 	public void validate() {
-		Preconditions.checkArgument(coordinates.isPresent(), "coordinate is mandatory but missing (for valid GeoJSON)");
+		// Preconditions.checkArgument(coordinates.isPresent(), "coordinate is
+		// mandatory but missing (for valid GeoJSON)");
+	}
+
+	@Override
+	public String toWKT() {
+		List<Coordinate> list = coordinates.isPresent() ? Arrays.asList(coordinates.get()) : Collections.emptyList();
+		return getTypeName() + " " + WKTUtil.getCoordinateStringPointOrLineString(list);
 	}
 
 	@Override
