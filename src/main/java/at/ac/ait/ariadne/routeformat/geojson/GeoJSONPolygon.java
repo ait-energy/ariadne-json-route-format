@@ -8,6 +8,10 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
+ * A polygon consisting of a mandatory exterior ring and optional interior rings
+ * defining holes. Note, that {@link #validate()} does not check if the interior
+ * rings actually lie within the exterior ring.
+ * 
  * @author AIT Austrian Institute of Technology GmbH
  */
 @JsonInclude(Include.ALWAYS)
@@ -30,17 +34,9 @@ public class GeoJSONPolygon implements GeoJSONGeometryObject {
 
 	// -- setters
 
-	/**
-	 * Note: no checks if inner rings are actually within the outer ring are
-	 * performed
-	 * 
-	 * @throws IllegalArgumentException
-	 *             if invalid LinearRings are contained
-	 */
 	public GeoJSONPolygon setCoordinates(List<List<Coordinate>> coordinates) {
 		this.coordinates = new ArrayList<>();
 		for (List<Coordinate> ring : coordinates) {
-			GeoJSONUtil.assertLinearRing(ring);
 			this.coordinates.add(new ArrayList<>(ring));
 		}
 		return this;
@@ -48,9 +44,6 @@ public class GeoJSONPolygon implements GeoJSONGeometryObject {
 
 	// --
 
-	/**
-	 * @see #setCoordinates(List)
-	 */
 	public static GeoJSONPolygon create(List<List<Coordinate>> points) {
 		return new GeoJSONPolygon().setCoordinates(points);
 	}
@@ -62,8 +55,8 @@ public class GeoJSONPolygon implements GeoJSONGeometryObject {
 
 	@Override
 	public void validate() {
-		// Preconditions.checkArgument(coordinates.isEmpty(), "coordinate is
-		// mandatory but missing (for valid GeoJSON)");
+		for (List<Coordinate> ring : coordinates)
+			GeoJSONUtil.assertLinearRing(ring);
 	}
 
 	@Override

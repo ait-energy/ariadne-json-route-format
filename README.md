@@ -2,9 +2,10 @@
 This repository holds the JSON exchange format for intermodal routes developed by the business unit Dynamic Transportation Systems of the [AIT Austrian Institute of Technology](http://dts.ait.ac.at). It is the default format used by the AIT routing framework Ariadne.
 
 It specifies the format of a routing request as well as the format of the returned route(s). A route does not only consist of the geometry but also optional information such as detailed specification of the used mode of transports or navigation instructions.
-Geometries are represented in the [GeoJSON](http://geojson.org) format.
+Geometries are represented in the [GeoJSON](http://geojson.org) format as specified in RFC 7946.
 
-The route format is defined through the Java classes in the package `at.ac.ait.ariadne.routeformat`.
+## Usage Hints
+The route format is defined through the Java classes in the package `at.ac.ait.ariadne.routeformat`, most noteworthy the root class `at.ac.ait.ariadne.routeformat.RouteFormatRoot`.
 Reading and writing of a route and exporting the JSON schema with Jackson is demonstrated in `JacksonExample.java`.
 A simple example how to display a route in a browser with Leaflet is shown in `src/main/resources/ariadne-json-route-format_example_leaflet.html`.
 

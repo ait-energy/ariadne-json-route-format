@@ -45,7 +45,7 @@ public class QGISGeoJSONExporter {
 					feature.getProperties().put("line", service.getName());
 					feature.getProperties().put("towards", service.getTowards().orElse(""));
 				}
-				collection.features.add(feature);
+				collection.getFeatures().add(feature);
 			}
 		}
 

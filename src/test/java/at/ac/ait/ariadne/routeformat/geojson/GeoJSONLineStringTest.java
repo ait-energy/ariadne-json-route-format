@@ -32,14 +32,14 @@ public class GeoJSONLineStringTest {
 
 	@Test
 	public void wktTest() {
-		Assert.assertEquals("LINESTRING (1.111 1.2, 2.1 2.2, 3.1 3.2, 4.1 4.2)", lineString.toWKT());
+		Assert.assertEquals("LineString (1.111 1.2, 2.1 2.2, 3.1 3.2, 4.1 4.2)", lineString.toWKT());
 	}
 
 	@Test
 	public void emptyWktTest() {
 		GeoJSONLineString empty = new GeoJSONLineString();
 		Assert.assertTrue(empty.isEmpty());
-		Assert.assertEquals("LINESTRING EMPTY", empty.toWKT());
+		Assert.assertEquals("LineString EMPTY", empty.toWKT());
 	}
 
 }

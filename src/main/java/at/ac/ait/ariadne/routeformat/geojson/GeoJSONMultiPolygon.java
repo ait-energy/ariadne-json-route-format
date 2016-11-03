@@ -1,6 +1,5 @@
 package at.ac.ait.ariadne.routeformat.geojson;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +8,10 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
+ * A multi polygon, i.e. several polygons as defined in {@link GeoJSONPolygon}.
+ * Note, that {@link #validate()} does not check if the interior rings actually
+ * lie within the exterior ring.
+ * 
  * @author AIT Austrian Institute of Technology GmbH
  */
 @JsonInclude(Include.ALWAYS)
@@ -17,6 +20,7 @@ public class GeoJSONMultiPolygon implements GeoJSONGeometryObject {
 	private List<List<List<Coordinate>>> coordinates = new ArrayList<>();
 
 	// -- getters
+
 	/**
 	 * Coordinates of a multipolygon are an array of polygons, which are an
 	 * array of LinearRing coordinate arrays (the first and the last coordinate
@@ -31,13 +35,6 @@ public class GeoJSONMultiPolygon implements GeoJSONGeometryObject {
 
 	// -- setters
 
-	/**
-	 * Note: no checks if inner rings are actually within the outer ring are
-	 * performed
-	 * 
-	 * @throws IllegalArgumentException
-	 *             if invalid LinearRings are contained
-	 */
 	public GeoJSONMultiPolygon setCoordinates(List<List<List<Coordinate>>> coordinates) {
 		this.coordinates = new ArrayList<>();
 		for (List<List<Coordinate>> polygon : coordinates) {
@@ -53,9 +50,6 @@ public class GeoJSONMultiPolygon implements GeoJSONGeometryObject {
 
 	// --
 
-	/**
-	 * @see #setCoordinates(List)
-	 */
 	public static GeoJSONMultiPolygon create(List<List<List<Coordinate>>> points) {
 		return new GeoJSONMultiPolygon().setCoordinates(points);
 	}
@@ -67,8 +61,11 @@ public class GeoJSONMultiPolygon implements GeoJSONGeometryObject {
 
 	@Override
 	public void validate() {
-		// TODO Auto-generated method stub
-
+		for (List<List<Coordinate>> polygon : coordinates) {
+			for (List<Coordinate> ring : polygon) {
+				GeoJSONUtil.assertLinearRing(ring);
+			}
+		}
 	}
 
 	@Override

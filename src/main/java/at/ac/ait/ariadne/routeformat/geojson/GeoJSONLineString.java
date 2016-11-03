@@ -9,6 +9,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Preconditions;
 
 /**
+ * A linestring that may be empty, i.e. not contain a coordinate, but may never
+ * consist of a single coordinate.
+ * 
  * @author AIT Austrian Institute of Technology GmbH
  */
 @JsonInclude(Include.ALWAYS)

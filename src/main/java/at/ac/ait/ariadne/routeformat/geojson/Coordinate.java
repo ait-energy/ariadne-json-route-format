@@ -9,13 +9,14 @@ import java.util.Optional;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.google.common.base.Preconditions;
 
 import at.ac.ait.ariadne.routeformat.Validatable;
 
 /**
- * A coordinate independent of the coordinate reference system.
+ * A coordinate independent of coordinate reference systems.
  * <p>
- * The GeoJSON spec (RFC 7946) says:
+ * The GeoJSON specification (RFC 7946) says:
  * <p>
  * <i> A position is an array of numbers. There MUST be two or more elements.
  * The first two elements are longitude and latitude, or easting and northing,
@@ -103,8 +104,8 @@ public class Coordinate implements Validatable {
 
 	@Override
 	public void validate() {
-		// TODO Auto-generated method stub
-
+		Preconditions.checkArgument(x != null, "x is mandatory but missing");
+		Preconditions.checkArgument(y != null, "y is mandatory but missing");
 	}
 
 	@JsonIgnore

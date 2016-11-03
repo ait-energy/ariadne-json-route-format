@@ -423,6 +423,9 @@ public class RouteSegment implements Validatable {
 		Preconditions.checkArgument(startTime != null, "startTime is mandatory but missing for segment #" + nr);
 		Preconditions.checkArgument(endTime != null, "endTime is mandatory but missing for segment #" + nr);
 		intermediateStops.forEach(s -> s.validate());
+		boundingBox.ifPresent(b -> b.validate());
+		geometryGeoJson.ifPresent(g -> g.validate());
+		geometryGeoJsonEdges.ifPresent(g -> g.validate());
 		navigationInstructions.forEach(i -> i.validate());
 
 		try {

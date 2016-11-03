@@ -11,14 +11,6 @@ import com.google.common.base.Joiner;
 class WKTUtil {
 
 	/**
-	 * @return the uppercase geometry type of a GeoJSON* class, e.g. POINT for
-	 *         GeoJSONPoint
-	 */
-	public static String getTypeName(Class<?> clazz) {
-		return clazz.getSimpleName().replaceAll("GeoJSON", "").toUpperCase();
-	}
-
-	/**
 	 * @param coordinates
 	 *            list of coordinate pairs: X and Y (=longitude and latitude)
 	 * @return either 'EMPTY' or '(x1 y1, x2 y2,.. )'

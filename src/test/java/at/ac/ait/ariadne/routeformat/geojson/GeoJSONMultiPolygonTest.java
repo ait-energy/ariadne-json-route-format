@@ -13,7 +13,7 @@ public class GeoJSONMultiPolygonTest {
 	public void emptyWktTest() {
 		GeoJSONMultiPolygon empty = GeoJSONMultiPolygon.create(Collections.emptyList());
 		Assert.assertTrue(empty.isEmpty());
-		Assert.assertEquals("MULTIPOLYGON EMPTY", empty.toWKT());
+		Assert.assertEquals("MultiPolygon EMPTY", empty.toWKT());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -29,7 +29,7 @@ public class GeoJSONMultiPolygonTest {
 						Coordinate.createFromStrings("3.1", "3.2"), Coordinate.createFromStrings("1.1", "1.2")));
 		GeoJSONMultiPolygon multiPolygon = GeoJSONMultiPolygon.create(Arrays.asList(polygonPoints, polygonPoints));
 		Assert.assertEquals(
-				"MULTIPOLYGON (((1.1 1.2, 2.1 2.2, 3.1 3.2, 1.1 1.2)), ((1.1 1.2, 2.1 2.2, 3.1 3.2, 1.1 1.2)))",
+				"MultiPolygon (((1.1 1.2, 2.1 2.2, 3.1 3.2, 1.1 1.2)), ((1.1 1.2, 2.1 2.2, 3.1 3.2, 1.1 1.2)))",
 				multiPolygon.toWKT());
 	}
 
@@ -43,7 +43,7 @@ public class GeoJSONMultiPolygonTest {
 						Coordinate.createFromStrings("1.11", "1.22")));
 		GeoJSONMultiPolygon multiPolygon = GeoJSONMultiPolygon.create(Arrays.asList(polygonPoints, polygonPoints));
 		Assert.assertEquals(
-				"MULTIPOLYGON (((1.1 1.2, 2.1 2.2, 3.1 3.2, 1.1 1.2), (1.11 1.22, 2.11 2.22, 3.11 3.22, 1.11 1.22)), ((1.1 1.2, 2.1 2.2, 3.1 3.2, 1.1 1.2), (1.11 1.22, 2.11 2.22, 3.11 3.22, 1.11 1.22)))",
+				"MultiPolygon (((1.1 1.2, 2.1 2.2, 3.1 3.2, 1.1 1.2), (1.11 1.22, 2.11 2.22, 3.11 3.22, 1.11 1.22)), ((1.1 1.2, 2.1 2.2, 3.1 3.2, 1.1 1.2), (1.11 1.22, 2.11 2.22, 3.11 3.22, 1.11 1.22)))",
 				multiPolygon.toWKT());
 	}
 

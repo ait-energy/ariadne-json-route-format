@@ -12,7 +12,7 @@ public class GeoJSONPolygonTest {
 	public void emptyWktTest() {
 		GeoJSONPolygon empty = GeoJSONPolygon.create(Collections.emptyList());
 		Assert.assertTrue(empty.isEmpty());
-		Assert.assertEquals("POLYGON EMPTY", empty.toWKT());
+		Assert.assertEquals("Polygon EMPTY", empty.toWKT());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -33,7 +33,7 @@ public class GeoJSONPolygonTest {
 		GeoJSONPolygon polygon = GeoJSONPolygon.create(Arrays.asList(
 				Arrays.asList(Coordinate.createFromStrings("1.1", "1.2"), Coordinate.createFromStrings("2.1", "2.2"),
 						Coordinate.createFromStrings("3.1", "3.2"), Coordinate.createFromStrings("1.1", "1.2"))));
-		Assert.assertEquals("POLYGON ((1.1 1.2, 2.1 2.2, 3.1 3.2, 1.1 1.2))", polygon.toWKT());
+		Assert.assertEquals("Polygon ((1.1 1.2, 2.1 2.2, 3.1 3.2, 1.1 1.2))", polygon.toWKT());
 	}
 
 	@Test
@@ -45,7 +45,7 @@ public class GeoJSONPolygonTest {
 						Coordinate.createFromStrings("2.11", "2.22"), Coordinate.createFromStrings("3.11", "3.22"),
 						Coordinate.createFromStrings("1.11", "1.22"))));
 		Assert.assertEquals(
-				"POLYGON ((1.1 1.2, 2.1 2.2, 3.1 3.2, 1.1 1.2), (1.11 1.22, 2.11 2.22, 3.11 3.22, 1.11 1.22))",
+				"Polygon ((1.1 1.2, 2.1 2.2, 3.1 3.2, 1.1 1.2), (1.11 1.22, 2.11 2.22, 3.11 3.22, 1.11 1.22))",
 				polygon.toWKT());
 	}
 

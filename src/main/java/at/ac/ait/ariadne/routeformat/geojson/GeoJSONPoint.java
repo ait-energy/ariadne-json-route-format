@@ -10,6 +10,8 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
+ * A point that may be empty, i.e. not contain a coordinate.
+ * 
  * @author AIT Austrian Institute of Technology GmbH
  */
 @JsonInclude(Include.ALWAYS)
@@ -44,8 +46,6 @@ public class GeoJSONPoint implements GeoJSONGeometryObject {
 
 	@Override
 	public void validate() {
-		// Preconditions.checkArgument(coordinates.isPresent(), "coordinate is
-		// mandatory but missing (for valid GeoJSON)");
 	}
 
 	@Override

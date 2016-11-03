@@ -442,19 +442,19 @@ public class IntermodalRouteExample {
 		lineStringFeature.getProperties().put("name", "Giefinggasse");
 		lineStringFeature.getProperties().put("frc", "6");
 		lineStringFeature.getProperties().put("edgeWeight", "54.1");
-		geometryGeoJsonEdges.features.add(lineStringFeature);
+		geometryGeoJsonEdges.getFeatures().add(lineStringFeature);
 
 		lineStringFeature = GeoJSONFeature.createLineStringFeature(geometryGeoJson.getGeometry().subLineString(1, 3));
 		lineStringFeature.getProperties().put("name", "Siemensstraße");
 		lineStringFeature.getProperties().put("frc", "2");
 		lineStringFeature.getProperties().put("edgeWeight", "182.5");
-		geometryGeoJsonEdges.features.add(lineStringFeature);
+		geometryGeoJsonEdges.getFeatures().add(lineStringFeature);
 
 		lineStringFeature = GeoJSONFeature.createLineStringFeature(geometryGeoJson.getGeometry().subLineString(2, 4));
 		lineStringFeature.getProperties().put("name", "Heinrich-von-Buol-Gasse");
 		lineStringFeature.getProperties().put("frc", "3");
 		lineStringFeature.getProperties().put("edgeWeight", "49.8");
-		geometryGeoJsonEdges.features.add(lineStringFeature);
+		geometryGeoJsonEdges.getFeatures().add(lineStringFeature);
 
 		return geometryGeoJsonEdges;
 	}

@@ -8,6 +8,14 @@ import com.google.common.base.Preconditions;
 public class GeoJSONUtil {
 
 	/**
+	 * @return the geometry type of a GeoJSON* class, e.g. Point for
+	 *         {@link GeoJSONPoint}
+	 */
+	public static String getTypeName(Class<?> clazz) {
+		return clazz.getSimpleName().replaceAll("GeoJSON", "");
+	}
+
+	/**
 	 * @param coordinates
 	 * @throws IllegalArgumentException
 	 *             if the coordinates are no valid LinearRing (at least 4

@@ -20,6 +20,8 @@ import at.ac.ait.ariadne.routeformat.location.Location;
 @JsonInclude(Include.NON_EMPTY)
 public class GeoJSONFeature<T extends GeoJSONGeometryObject> implements Validatable {
 
+	@JsonProperty(required = true)
+	public final String type = GeoJSONUtil.getTypeName(this.getClass());
 	private T geometry;
 	private Map<String, Object> properties = new TreeMap<>();
 
@@ -118,6 +120,7 @@ public class GeoJSONFeature<T extends GeoJSONGeometryObject> implements Validata
 	@Override
 	public void validate() {
 		Preconditions.checkArgument(geometry != null, "geometry is mandatory but missing");
+		geometry.validate();
 	}
 
 	public String toWKT() {

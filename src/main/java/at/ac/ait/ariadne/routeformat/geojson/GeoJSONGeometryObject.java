@@ -19,7 +19,7 @@ public interface GeoJSONGeometryObject extends Validatable {
 
 	@JsonIgnore
 	default String getTypeName() {
-		return WKTUtil.getTypeName(this.getClass());
+		return GeoJSONUtil.getTypeName(this.getClass());
 	}
 
 	/**
