@@ -4,6 +4,9 @@ import java.util.Arrays;
 
 import org.junit.Assert;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
 import at.ac.ait.ariadne.routeformat.Constants.DetailedModeOfTransportType;
 import at.ac.ait.ariadne.routeformat.Constants.GeneralizedModeOfTransportType;
 import at.ac.ait.ariadne.routeformat.geojson.Coordinate;
@@ -28,6 +31,8 @@ public class TestUtil {
 	public static final ModeOfTransport MODE_OF_TRANSPORT = ModeOfTransport.STANDARD_BICYCLE;
 	public static final GeoJSONFeature<GeoJSONLineString> GEOMETRY_GEOJSON = GeoJSONFeature
 			.createLineStringFeature(FROM, TO);
+	public static final ObjectMapper MAPPER = new ObjectMapper().findAndRegisterModules()
+			.disable(SerializationFeature.INDENT_OUTPUT);
 
 	public static RouteSegment createTestRouteSegment(String startTime, String endTime,
 			IntermediateStop... intermediateStops) {

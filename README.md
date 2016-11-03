@@ -38,8 +38,4 @@ Everything in this repository is licensed under CC0.
 - display forbidden areas in leaflet-example
 - public transport station details: differentiate between station entries & platforms, add travel time to transfer segments e.g. 5 min walk, 1 min escalators down, 2 min walk, 1 min elevator up;
 - reevaluate handling of waiting times (in transfer segments? in pt segments?)
-
-### Currently we are working on
-- consistent mutability & "light builders"
-- meaningful toString-methods for all classes
 - v4 schema generation

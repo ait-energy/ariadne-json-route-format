@@ -9,8 +9,6 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 
 import at.ac.ait.ariadne.routeformat.Constants.DetailedModeOfTransportType;
 import at.ac.ait.ariadne.routeformat.Constants.GeneralizedModeOfTransportType;
@@ -23,10 +21,8 @@ public class RouteSegmentMergerPTTest {
 
 	@BeforeClass
 	public static void readRoutes() throws JsonParseException, JsonMappingException, IOException {
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.registerModule(new Jdk8Module());
 		InputStream inStream = RouteSegmentMergerPTTest.class.getResourceAsStream("/test-merge.json");
-		segmentsToMerge = mapper.readValue(inStream, DataFormat.class).segmentsToMerge;
+		segmentsToMerge = TestUtil.MAPPER.readValue(inStream, DataFormat.class).segmentsToMerge;
 	}
 	
 	// TODO write another test that checks if more complex waiting times are merged correctly?

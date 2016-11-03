@@ -40,7 +40,6 @@ public class GeoJSONMultiPolygon implements GeoJSONGeometryObject {
 		for (List<List<Coordinate>> polygon : coordinates) {
 			List<List<Coordinate>> polyCoordinates = new ArrayList<>();
 			for (List<Coordinate> ring : polygon) {
-				GeoJSONUtil.assertLinearRing(ring);
 				polyCoordinates.add(new ArrayList<>(ring));
 			}
 			this.coordinates.add(polyCoordinates);

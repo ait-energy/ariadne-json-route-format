@@ -16,16 +16,15 @@ public class CoordinateDeserializer extends JsonDeserializer<Coordinate> {
 	@Override
 	public Coordinate deserialize(JsonParser p, DeserializationContext ctxt)
 			throws IOException, JsonProcessingException {
+		if (!p.isExpectedStartArrayToken())
+			throw ctxt.mappingException("expected array start for coordinate");
+
 		List<BigDecimal> coordinates = new ArrayList<>();
-		for (JsonToken t = p.currentToken(); t != null; t = p.nextToken()) {
-			switch (t) {
-			case VALUE_NUMBER_INT:
-			case VALUE_NUMBER_FLOAT:
+		for (JsonToken t = p.nextToken(); t != null; t = p.nextToken()) {
+			if (t.equals(JsonToken.VALUE_NUMBER_INT) || t.equals(JsonToken.VALUE_NUMBER_FLOAT))
 				coordinates.add(new BigDecimal(p.getValueAsString()));
+			else
 				break;
-			default:
-				// ignore non-values
-			}
 		}
 		return Coordinate.create(coordinates);
 	}

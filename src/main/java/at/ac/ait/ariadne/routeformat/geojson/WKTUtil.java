@@ -78,8 +78,9 @@ class WKTUtil {
 		List<String> subStrings = new ArrayList<>();
 		subStrings.add(df.format(coordinate.getX()));
 		subStrings.add(df.format(coordinate.getY()));
-		if (coordinate.getZ().isPresent())
-			subStrings.add(df.format(coordinate.getZ().get()));
+		// FIXME properly export altitude to WKT
+		// if (coordinate.getZ().isPresent())
+		// subStrings.add(df.format(coordinate.getZ().get()));
 		return Joiner.on(' ').join(subStrings);
 	}
 
