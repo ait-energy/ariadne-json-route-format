@@ -83,6 +83,18 @@ public class Constants {
             return mot;
         }
     }
+    
+    /**
+     * Detailed classification of the parking type
+     */
+    public enum ParkingType {
+        /** surface parking with no or little protection from the elements */
+        SURFACE,
+        /** underground car park (in a building) */
+        UNDERGROUND,
+        /** car park in a building (DE: Parkhaus) */
+        CARPARK
+    }
 
     /**
      * Detailed classification of the sharing type

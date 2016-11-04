@@ -22,6 +22,7 @@ import at.ac.ait.ariadne.routeformat.Constants.Accessibility;
 import at.ac.ait.ariadne.routeformat.Constants.AccessibilityRestriction;
 import at.ac.ait.ariadne.routeformat.Constants.DetailedModeOfTransportType;
 import at.ac.ait.ariadne.routeformat.Constants.GeneralizedModeOfTransportType;
+import at.ac.ait.ariadne.routeformat.Constants.ParkingType;
 import at.ac.ait.ariadne.routeformat.Constants.Sharing;
 import at.ac.ait.ariadne.routeformat.Constants.Speed;
 import at.ac.ait.ariadne.routeformat.Constants.Status;
@@ -44,6 +45,7 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONMultiPolygon;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPolygon;
 import at.ac.ait.ariadne.routeformat.location.Address;
 import at.ac.ait.ariadne.routeformat.location.Location;
+import at.ac.ait.ariadne.routeformat.location.Parking;
 import at.ac.ait.ariadne.routeformat.location.PointOfInterest;
 import at.ac.ait.ariadne.routeformat.location.PublicTransportStop;
 import at.ac.ait.ariadne.routeformat.location.SharingStation;
@@ -66,7 +68,7 @@ public class IntermodalRouteExample {
 	private Location<?> giefinggasseAit, heinrichVonBuolGasseBusStop, floridsdorfBusStop, floridsdorfSubwayStop,
 			neueDonauSubwayStop, handelskaiSubwayStop, handelskaiSubwayEntry, handelskaiCitybike,
 			friedrichEngelsPlatzCitybike, car2goPickup, adalbertStifterStrasse15, privateBicycleHopsagasse,
-			antonKummererPark, treustrasse92, gaussplatz, scholzgasse1;
+			antonKummererPark, treustrasse92, gaussplatz, scholzgasse1Parking;
 	private Service service28A, serviceU6;
 	private RouteSegment walkToBusStopHeinrichVonBuolGasse, transferToBusHeinrichVonBuolGasse,
 			busFromHeinrichVonBuolGgasseToFloridsdorf, citybikeFromHandelskaiToFriedrichEngelsPlatz,
@@ -137,8 +139,7 @@ public class IntermodalRouteExample {
 		handelskaiSubwayStop = PublicTransportStop.createMinimal(GeoJSONCoordinate.create("16.38541", "48.24173"))
 				.setName("Handelskai").setPlatform("2");
 
-		handelskaiSubwayEntry = PublicTransportStop
-				.createMinimal(GeoJSONCoordinate.create("16.3848877", "48.2416471"))
+		handelskaiSubwayEntry = PublicTransportStop.createMinimal(GeoJSONCoordinate.create("16.3848877", "48.2416471"))
 				.setName("Handelskai (Stationseingang)");
 
 		handelskaiCitybike = SharingStation.createMinimal(GeoJSONCoordinate.create("16.3847976", "48.2420356"))
@@ -148,9 +149,8 @@ public class IntermodalRouteExample {
 				.setAdditionalInfo(ImmutableMap.of("capacity", "35", "bikes_available", "10", "boxes_available", "25"));
 
 		friedrichEngelsPlatzCitybike = SharingStation
-				.createMinimal(GeoJSONCoordinate.create("16.3792033", "48.2441354"))
-				.setName("Friedrich Engels Platz").setId("2006")
-				.setModesOfTransport(Arrays.asList(GeneralizedModeOfTransportType.BICYCLE))
+				.createMinimal(GeoJSONCoordinate.create("16.3792033", "48.2441354")).setName("Friedrich Engels Platz")
+				.setId("2006").setModesOfTransport(Arrays.asList(GeneralizedModeOfTransportType.BICYCLE))
 				.setOperator(citybikeOperator)
 				.setAdditionalInfo(ImmutableMap.of("capacity", "27", "bikes_available", "27", "boxes_available", "0"));
 
@@ -172,8 +172,12 @@ public class IntermodalRouteExample {
 		gaussplatz = Location.createMinimal(GeoJSONCoordinate.create("16.369045", "48.2267"))
 				.setAddress(new Address().setStreetName("Gaußplatz"));
 
-		scholzgasse1 = Location.createMinimal(GeoJSONCoordinate.create("16.3695", "48.2243"))
-				.setAddress(new Address().setStreetName("Scholzgasse").setHouseNumber("1").setPostCode("1020"));
+		scholzgasse1Parking = Parking.createMinimal(GeoJSONCoordinate.create("16.3695", "48.2243"))
+				.setAddress(new Address().setStreetName("Scholzgasse").setHouseNumber("1").setPostCode("1020"))
+				.setFee(true).setName("Virtuelle Parkgarage Scholzgasse")
+				.setModesOfTransport(
+						ImmutableSet.of(GeneralizedModeOfTransportType.CAR, GeneralizedModeOfTransportType.BICYCLE))
+				.setParkingType(ParkingType.UNDERGROUND).setParkAndRide(false);
 	}
 
 	private void initializePublicTransportServices() {
@@ -190,8 +194,9 @@ public class IntermodalRouteExample {
 
 	private RouteFormatRoot createRouteFormatRoot() throws JsonGenerationException, JsonMappingException, IOException {
 		RouteFormatRoot root = new RouteFormatRoot().setRouteFormatVersion("X.Y-UNKNOWN").setRequestId("999")
-				.setProcessedTimeNow().setStatus(Status.OK).setDebugMessage("Route calculated in 0.002 seconds")
-				.setCoordinateReferenceSystem("EPSG:4326").setRequest(createRoutingRequest()).setRoutes(Arrays.asList(
+				.setProcessedTime("1970-01-01T00:00:00Z").setStatus(Status.OK)
+				.setDebugMessage("Route calculated in 0.002 seconds").setCoordinateReferenceSystem("EPSG:4326")
+				.setRequest(createRoutingRequest()).setRoutes(Arrays.asList(
 						Route.createFromSegments(createRouteSegments()).setOptimizedFor("travel time and low costs")));
 		root.validate();
 		return root;
@@ -230,7 +235,7 @@ public class IntermodalRouteExample {
 
 		String serviceId = "ariadne_webservice_vienna";
 		Location<?> from = giefinggasseAit;
-		Location<?> to = scholzgasse1;
+		Location<?> to = scholzgasse1Parking;
 		return RoutingRequest.createMinimal(serviceId, from, to, requestModes)
 				.setDepartureTime("2016-01-01T15:00:00+01:00").setLanguage("DE")
 				.setAccessibilityRestrictions(ImmutableSet.of(AccessibilityRestriction.NO_ELEVATOR))
@@ -246,8 +251,7 @@ public class IntermodalRouteExample {
 
 		// ### walk to bus ###
 		geometryGeoJson = GeoJSONFeature.createLineStringFeature(giefinggasseAit, heinrichVonBuolGasseBusStop,
-				GeoJSONCoordinate.create("16.4263", "48.2682"),
-				GeoJSONCoordinate.create("16.42824", "48.26719"));
+				GeoJSONCoordinate.create("16.4263", "48.2682"), GeoJSONCoordinate.create("16.42824", "48.26719"));
 		// NOTE: example on how to add geometry for single edges
 		GeoJSONFeatureCollection<GeoJSONLineString> geometryGeoJsonEdges = createGeometryGeoJsonEdgesFromGiefinggasseToHeinrichVonBuolGasse(
 				geometryGeoJson);
@@ -271,9 +275,8 @@ public class IntermodalRouteExample {
 
 		// ### ride bus (bus is not wheelchair accessible!) ###
 		geometryGeoJson = GeoJSONFeature.createLineStringFeature(heinrichVonBuolGasseBusStop, floridsdorfBusStop,
-				GeoJSONCoordinate.create("16.42354", "48.26306"),
-				GeoJSONCoordinate.create("16.4236", "48.2621"), GeoJSONCoordinate.create("16.4044", "48.2576"),
-				GeoJSONCoordinate.create("16.40305", "48.25621"),
+				GeoJSONCoordinate.create("16.42354", "48.26306"), GeoJSONCoordinate.create("16.4236", "48.2621"),
+				GeoJSONCoordinate.create("16.4044", "48.2576"), GeoJSONCoordinate.create("16.40305", "48.25621"),
 				GeoJSONCoordinate.create("16.40127", "48.25698"));
 		busFromHeinrichVonBuolGgasseToFloridsdorf = new RouteSegment().setNr(++segmentNr)
 				.setFrom(heinrichVonBuolGasseBusStop).setTo(floridsdorfBusStop).setDistanceMeters(2500)
@@ -382,8 +385,7 @@ public class IntermodalRouteExample {
 		// ### ride private vehicle (bicycle) - and there is a park as potential
 		// stop on the way ###
 		geometryGeoJson = GeoJSONFeature.createLineStringFeature(adalbertStifterStrasse15, treustrasse92,
-				GeoJSONCoordinate.create("16.36515", "48.23729"),
-				GeoJSONCoordinate.create("16.3656", "48.23515"),
+				GeoJSONCoordinate.create("16.36515", "48.23729"), GeoJSONCoordinate.create("16.3656", "48.23515"),
 				GeoJSONCoordinate.create("16.36288", "48.23509"));
 		bicycleFromAdalbertStifterStrasseToTreugasse = new RouteSegment().setNr(++segmentNr)
 				.setFrom(adalbertStifterStrasse15).setTo(treustrasse92).setDistanceMeters(597)
@@ -400,8 +402,7 @@ public class IntermodalRouteExample {
 
 		// ### ride-sharing (via car) ###
 		geometryGeoJson = GeoJSONFeature.createLineStringFeature(treustrasse92, gaussplatz,
-				GeoJSONCoordinate.create("16.3644", "48.2311"),
-				GeoJSONCoordinate.create("16.36638", "48.22886"));
+				GeoJSONCoordinate.create("16.3644", "48.2311"), GeoJSONCoordinate.create("16.36638", "48.22886"));
 		rideSharingFromTreugasseToGaussplatz = new RouteSegment().setNr(++segmentNr).setFrom(treustrasse92)
 				.setTo(gaussplatz).setDistanceMeters(941)
 				// 112 seconds ride, 3 minutes waiting for ride-sharing &
@@ -417,11 +418,11 @@ public class IntermodalRouteExample {
 		segments.add(rideSharingFromTreugasseToGaussplatz);
 
 		// ### private car ###
-		geometryGeoJson = GeoJSONFeature.createLineStringFeature(gaussplatz, scholzgasse1,
+		geometryGeoJson = GeoJSONFeature.createLineStringFeature(gaussplatz, scholzgasse1Parking,
 				GeoJSONCoordinate.create("16.3688", "48.2263"), GeoJSONCoordinate.create("16.3693", "48.2257"),
 				GeoJSONCoordinate.create("16.3697", "48.2256"));
-		carFromGaussplatzToScholzgasse = new RouteSegment().setNr(++segmentNr).setFrom(gaussplatz).setTo(scholzgasse1)
-				.setDistanceMeters(299)
+		carFromGaussplatzToScholzgasse = new RouteSegment().setNr(++segmentNr).setFrom(gaussplatz)
+				.setTo(scholzgasse1Parking).setDistanceMeters(299)
 				// 57 seconds ride
 				// 1 minute unlocking/entering time
 				// 5 minutes searching for a parking space

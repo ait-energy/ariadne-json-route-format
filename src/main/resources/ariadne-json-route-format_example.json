@@ -1,7 +1,7 @@
 {
   "routeFormatVersion" : "X.Y-UNKNOWN",
   "requestId" : "999",
-  "processedTime" : "2016-11-03T15:15:47.078+01:00[Europe/Vienna]",
+  "processedTime" : "1970-01-01T00:00Z",
   "status" : "OK",
   "debugMessage" : "Route calculated in 0.002 seconds",
   "coordinateReferenceSystem" : "EPSG:4326",
@@ -32,7 +32,7 @@
       "name" : "AIT"
     },
     "to" : {
-      "type" : "Location",
+      "type" : "Parking",
       "coordinate" : {
         "type" : "Feature",
         "geometry" : {
@@ -45,7 +45,12 @@
         "postCode" : "1020",
         "streetName" : "Scholzgasse",
         "houseNumber" : "1"
-      }
+      },
+      "parkingType" : "UNDERGROUND",
+      "modesOfTransport" : [ "CAR", "BICYCLE" ],
+      "name" : "Virtuelle Parkgarage Scholzgasse",
+      "fee" : true,
+      "parkAndRide" : false
     },
     "modesOfTransport" : [ {
       "type" : "RequestModeOfTransport",
@@ -255,7 +260,7 @@
       "name" : "AIT"
     },
     "to" : {
-      "type" : "Location",
+      "type" : "Parking",
       "coordinate" : {
         "type" : "Feature",
         "geometry" : {
@@ -268,7 +273,12 @@
         "postCode" : "1020",
         "streetName" : "Scholzgasse",
         "houseNumber" : "1"
-      }
+      },
+      "parkingType" : "UNDERGROUND",
+      "modesOfTransport" : [ "CAR", "BICYCLE" ],
+      "name" : "Virtuelle Parkgarage Scholzgasse",
+      "fee" : true,
+      "parkAndRide" : false
     },
     "distanceMeters" : 8208,
     "durationSeconds" : 3520,
@@ -1065,7 +1075,7 @@
         }
       },
       "to" : {
-        "type" : "Location",
+        "type" : "Parking",
         "coordinate" : {
           "type" : "Feature",
           "geometry" : {
@@ -1078,7 +1088,12 @@
           "postCode" : "1020",
           "streetName" : "Scholzgasse",
           "houseNumber" : "1"
-        }
+        },
+        "parkingType" : "UNDERGROUND",
+        "modesOfTransport" : [ "CAR", "BICYCLE" ],
+        "name" : "Virtuelle Parkgarage Scholzgasse",
+        "fee" : true,
+        "parkAndRide" : false
       },
       "distanceMeters" : 299,
       "durationSeconds" : 417,

@@ -26,10 +26,9 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPoint;
  * @author AIT Austrian Institute of Technology GmbH
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
-@JsonSubTypes({ @JsonSubTypes.Type(value = Location.class, name = "Location"),
-		@JsonSubTypes.Type(value = PointOfInterest.class, name = "PointOfInterest"),
-		@JsonSubTypes.Type(value = PublicTransportStop.class, name = "PublicTransportStop"),
-		@JsonSubTypes.Type(value = SharingStation.class, name = "SharingStation") })
+@JsonSubTypes({ @JsonSubTypes.Type(value = Location.class), @JsonSubTypes.Type(value = PointOfInterest.class),
+		@JsonSubTypes.Type(value = PublicTransportStop.class), @JsonSubTypes.Type(value = SharingStation.class),
+		@JsonSubTypes.Type(value = Parking.class) })
 @JsonInclude(Include.NON_EMPTY)
 public class Location<T extends Location<T>> implements Validatable {
 	private GeoJSONFeature<GeoJSONPoint> coordinate;
