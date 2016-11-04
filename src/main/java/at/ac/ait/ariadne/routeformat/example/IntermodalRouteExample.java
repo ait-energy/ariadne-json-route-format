@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -21,11 +22,14 @@ import com.google.common.collect.Sets;
 import at.ac.ait.ariadne.routeformat.Constants.Accessibility;
 import at.ac.ait.ariadne.routeformat.Constants.AccessibilityRestriction;
 import at.ac.ait.ariadne.routeformat.Constants.DetailedModeOfTransportType;
+import at.ac.ait.ariadne.routeformat.Constants.FormOfWay;
 import at.ac.ait.ariadne.routeformat.Constants.GeneralizedModeOfTransportType;
 import at.ac.ait.ariadne.routeformat.Constants.ParkingType;
+import at.ac.ait.ariadne.routeformat.Constants.Preposition;
 import at.ac.ait.ariadne.routeformat.Constants.Sharing;
 import at.ac.ait.ariadne.routeformat.Constants.Speed;
 import at.ac.ait.ariadne.routeformat.Constants.Status;
+import at.ac.ait.ariadne.routeformat.Constants.TurnDirection;
 import at.ac.ait.ariadne.routeformat.Constants.VehicleAccessibility;
 import at.ac.ait.ariadne.routeformat.IntermediateStop;
 import at.ac.ait.ariadne.routeformat.ModeOfTransport;
@@ -43,6 +47,10 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeatureCollection;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONLineString;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONMultiPolygon;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPolygon;
+import at.ac.ait.ariadne.routeformat.instruction.BasicRoadInstruction;
+import at.ac.ait.ariadne.routeformat.instruction.Instruction;
+import at.ac.ait.ariadne.routeformat.instruction.Landmark;
+import at.ac.ait.ariadne.routeformat.instruction.RoundaboutInstruction;
 import at.ac.ait.ariadne.routeformat.location.Address;
 import at.ac.ait.ariadne.routeformat.location.Location;
 import at.ac.ait.ariadne.routeformat.location.Parking;
@@ -387,6 +395,31 @@ public class IntermodalRouteExample {
 		geometryGeoJson = GeoJSONFeature.createLineStringFeature(adalbertStifterStrasse15, treustrasse92,
 				GeoJSONCoordinate.create("16.36515", "48.23729"), GeoJSONCoordinate.create("16.3656", "48.23515"),
 				GeoJSONCoordinate.create("16.36288", "48.23509"));
+
+		// add navigation instructions
+		List<Instruction<?>> navigationInstructions = new ArrayList<>();
+		navigationInstructions
+				.add(BasicRoadInstruction.createMinimalRouteStart(adalbertStifterStrasse15.getSimpleCoordinate(),
+						Optional.of("Adalbert-Stifter-Straße"), Optional.of(FormOfWay.ROAD)));
+		navigationInstructions.add(BasicRoadInstruction
+				.createMinimalOnRoute(GeoJSONCoordinate.create("16.3651564", "48.2372703"), TurnDirection.SLIGHT_LEFT,
+						Optional.of("Klosterneuburger Straße"), Optional.of(FormOfWay.ROAD))
+				.setLandmark(Landmark.createMinimalLandmark(Preposition.AFTER,
+						PointOfInterest.createMinimal(GeoJSONCoordinate.create("16.3653027", "48.2374996"))
+								.setName("Wiener Backstube").setPoiType("amenity=bakery"))));
+		// there is no roundabout, but let's demonstrate this anyways
+		navigationInstructions
+				.add(RoundaboutInstruction.createMinimalEnter(GeoJSONCoordinate.create("16.36560", "48.23511"), 2));
+		navigationInstructions
+				.add(RoundaboutInstruction.createMinimalExit(GeoJSONCoordinate.create("16.36560", "48.23511"))
+						.setOntoStreetName("Leipziger Straße").setOntoFormOfWay(FormOfWay.FOOT_AND_CYCLEPATH));
+		navigationInstructions.add(BasicRoadInstruction
+				.createMinimalOnRoute(GeoJSONCoordinate.create("16.36292", "48.23504"), TurnDirection.LEFT,
+						Optional.of("Treustraße"), Optional.of(FormOfWay.ROAD))
+				.setContinueMeters(110));
+		navigationInstructions.add(BasicRoadInstruction.createMinimalRouteEnd(treustrasse92.getSimpleCoordinate(),
+				Optional.of("Treustraße"), Optional.of(FormOfWay.ROAD)));
+
 		bicycleFromAdalbertStifterStrasseToTreugasse = new RouteSegment().setNr(++segmentNr)
 				.setFrom(adalbertStifterStrasse15).setTo(treustrasse92).setDistanceMeters(597)
 				// 106 seconds ride, 1 minutes unlocking bike, 1 minute parking
@@ -397,7 +430,8 @@ public class IntermodalRouteExample {
 				// additional info about vehicles provided in the request can be
 				// added here (such as in project SMILE)
 				.setAdditionalInfo(ImmutableMap.of("name", "Univega Mountainbike"))
-				.setModeOfTransport(ModeOfTransport.STANDARD_BICYCLE).setGeometryGeoJson(geometryGeoJson);
+				.setModeOfTransport(ModeOfTransport.STANDARD_BICYCLE).setGeometryGeoJson(geometryGeoJson)
+				.setNavigationInstructions(navigationInstructions);
 		segments.add(bicycleFromAdalbertStifterStrasseToTreugasse);
 
 		// ### ride-sharing (via car) ###
@@ -472,7 +506,7 @@ public class IntermodalRouteExample {
 		return walkToBusStopHeinrichVonBuolGasse;
 	}
 
-	public RouteSegment getPrivateBicycleSegment() {
+	public RouteSegment getPrivateBicycleSegmentWithNavigationInstructions() {
 		return bicycleFromAdalbertStifterStrasseToTreugasse;
 	}
 
@@ -500,13 +534,4 @@ public class IntermodalRouteExample {
 		return rideSharingFromTreugasseToGaussplatz;
 	}
 
-	// TODO add exemplary navigation instructions
-	// List<Instruction> navigationInstructions = new ArrayList<>();
-	// navigationInstructions.add(BasicRoadInstruction
-	// .builder()
-	// .forRouteEnd(routeGeometry.getFirst(), Optional.of("Hügelweg"),
-	// Optional.of(FormOfWay.PEDESTRIAN_ZONE),
-	// Optional.empty()).build());
-	// navigationInstructions.add(RoundaboutInstruction.enterBuilder(routeGeometry.getFirst())
-	// .withOntoStreetName("Bergstraße").withOntoFormOfWay(FormOfWay.CYCLEPATH).withExitNr(3).build());
 }

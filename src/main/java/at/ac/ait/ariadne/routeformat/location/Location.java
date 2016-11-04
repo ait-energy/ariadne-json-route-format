@@ -39,6 +39,19 @@ public class Location<T extends Location<T>> implements Validatable {
 	// -- getters
 
 	/**
+	 * Convenience getter for the actual coordinate wrapped in the GeoJSON
+	 * feature
+	 * 
+	 * @throws NullPointerException
+	 *             in case the {@link Location}'s point feature did not contain
+	 *             a coordinate
+	 */
+	@JsonIgnore
+	public GeoJSONCoordinate getSimpleCoordinate() {
+		return coordinate.getGeometry().getCoordinates().get();
+	}
+
+	/**
 	 * Get a point representing this {@link Location}. This information is
 	 * mandatory and also available for more complex locations, e.g. for a
 	 * {@link PointOfInterest} polygon (see {@link #getComplexGeometry()}) of a

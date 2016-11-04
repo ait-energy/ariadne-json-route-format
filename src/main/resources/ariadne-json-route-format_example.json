@@ -997,6 +997,105 @@
         },
         "properties" : { }
       },
+      "navigationInstructions" : [ {
+        "type" : "BasicRoadInstruction",
+        "position" : {
+          "type" : "Feature",
+          "geometry" : {
+            "type" : "Point",
+            "coordinates" : [ 16.3655, 48.23752 ]
+          },
+          "properties" : { }
+        },
+        "subType" : "ROUTE_START",
+        "ontoStreetName" : "Adalbert-Stifter-Straße",
+        "ontoFormOfWay" : "ROAD"
+      }, {
+        "type" : "BasicRoadInstruction",
+        "position" : {
+          "type" : "Feature",
+          "geometry" : {
+            "type" : "Point",
+            "coordinates" : [ 16.3651564, 48.2372703 ]
+          },
+          "properties" : { }
+        },
+        "subType" : "TURN",
+        "turnDirection" : "SLIGHT_LEFT",
+        "ontoStreetName" : "Klosterneuburger Straße",
+        "ontoFormOfWay" : "ROAD",
+        "landmark" : {
+          "preposition" : "AFTER",
+          "location" : {
+            "type" : "PointOfInterest",
+            "coordinate" : {
+              "type" : "Feature",
+              "geometry" : {
+                "type" : "Point",
+                "coordinates" : [ 16.3653027, 48.2374996 ]
+              },
+              "properties" : { }
+            },
+            "poiType" : "amenity=bakery",
+            "name" : "Wiener Backstube"
+          },
+          "direction" : null,
+          "additionalInfo" : { }
+        }
+      }, {
+        "type" : "RoundaboutInstruction",
+        "position" : {
+          "type" : "Feature",
+          "geometry" : {
+            "type" : "Point",
+            "coordinates" : [ 16.36560, 48.23511 ]
+          },
+          "properties" : { }
+        },
+        "subType" : "ENTER",
+        "exitNr" : 2
+      }, {
+        "type" : "RoundaboutInstruction",
+        "position" : {
+          "type" : "Feature",
+          "geometry" : {
+            "type" : "Point",
+            "coordinates" : [ 16.36560, 48.23511 ]
+          },
+          "properties" : { }
+        },
+        "subType" : "EXIT",
+        "ontoStreetName" : "Leipziger Straße",
+        "ontoFormOfWay" : "FOOT_AND_CYCLEPATH"
+      }, {
+        "type" : "BasicRoadInstruction",
+        "position" : {
+          "type" : "Feature",
+          "geometry" : {
+            "type" : "Point",
+            "coordinates" : [ 16.36292, 48.23504 ]
+          },
+          "properties" : { }
+        },
+        "subType" : "TURN",
+        "turnDirection" : "LEFT",
+        "ontoStreetName" : "Treustraße",
+        "ontoFormOfWay" : "ROAD",
+        "continueMeters" : 110
+      }, {
+        "type" : "BasicRoadInstruction",
+        "position" : {
+          "type" : "Feature",
+          "geometry" : {
+            "type" : "Point",
+            "coordinates" : [ 16.36329, 48.234077 ]
+          },
+          "properties" : { }
+        },
+        "subType" : "ROUTE_END",
+        "ontoStreetName" : "Treustraße",
+        "ontoFormOfWay" : "ROAD"
+      } ],
       "additionalInfo" : {
         "name" : "Univega Mountainbike"
       }
