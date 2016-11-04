@@ -54,8 +54,9 @@ public class Parking extends Location<Parking> {
 	}
 
 	/**
-	 * @return a String in the opening_hours format of OpenStreetMap
-	 *         {@link https://wiki.openstreetmap.org/wiki/Key:opening_hours}
+	 * @return a String in the <a href=
+	 *         "https://wiki.openstreetmap.org/wiki/Key:opening_hours">opening_hours
+	 *         format of OpenStreetMap</a>
 	 */
 	public Optional<String> getOpeningHours() {
 		return openingHours;
