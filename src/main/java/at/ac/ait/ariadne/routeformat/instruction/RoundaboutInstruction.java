@@ -3,6 +3,7 @@ package at.ac.ait.ariadne.routeformat.instruction;
 import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.google.common.base.Preconditions;
 
@@ -60,6 +61,7 @@ public class RoundaboutInstruction extends Instruction<RoundaboutInstruction> {
 
 	// -- getters
 
+	@JsonProperty(required = true)
 	public SubType getSubType() {
 		return subType;
 	}

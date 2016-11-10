@@ -39,6 +39,7 @@ public abstract class Instruction<T extends Instruction<T>> implements Validatab
 	/**
 	 * @return the position the instruction is defined for
 	 */
+	@JsonProperty(required = true)
 	public GeoJSONFeature<GeoJSONPoint> getPosition() {
 		return position;
 	}

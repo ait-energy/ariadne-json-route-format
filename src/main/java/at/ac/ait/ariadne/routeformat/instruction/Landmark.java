@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.TreeMap;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Preconditions;
 
 import at.ac.ait.ariadne.routeformat.Constants.Preposition;
@@ -33,10 +34,12 @@ public class Landmark implements Validatable {
 	 *         to the route (i.e. the point on the route an {@link Instruction}
 	 *         is valid for)
 	 */
+	@JsonProperty(required = true)
 	public Preposition getPreposition() {
 		return preposition;
 	}
 
+	@JsonProperty(required = true)
 	public Location<?> getLocation() {
 		return location;
 	}
@@ -78,7 +81,7 @@ public class Landmark implements Validatable {
 
 	// --
 
-	public static Landmark createMinimalLandmark(Preposition preposition, Location<?> location) {
+	public static Landmark createMinimal(Preposition preposition, Location<?> location) {
 		return new Landmark().setPreposition(preposition).setLocation(location);
 	}
 

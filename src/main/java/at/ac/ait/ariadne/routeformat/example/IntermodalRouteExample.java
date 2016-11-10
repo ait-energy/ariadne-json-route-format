@@ -404,7 +404,7 @@ public class IntermodalRouteExample {
 		navigationInstructions.add(BasicRoadInstruction
 				.createMinimalOnRoute(GeoJSONCoordinate.create("16.3651564", "48.2372703"), TurnDirection.SLIGHT_LEFT,
 						Optional.of("Klosterneuburger Straße"), Optional.of(FormOfWay.ROAD))
-				.setLandmark(Landmark.createMinimalLandmark(Preposition.AFTER,
+				.setLandmark(Landmark.createMinimal(Preposition.AFTER,
 						PointOfInterest.createMinimal(GeoJSONCoordinate.create("16.3653027", "48.2374996"))
 								.setName("Wiener Backstube").setPoiType("amenity=bakery"))));
 		// there is no roundabout, but let's demonstrate this anyways
