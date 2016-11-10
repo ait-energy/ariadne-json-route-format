@@ -409,7 +409,8 @@ public class IntermodalRouteExample {
 								.setName("Wiener Backstube").setPoiType("amenity=bakery"))));
 		// there is no roundabout, but let's demonstrate this anyways
 		navigationInstructions
-				.add(RoundaboutInstruction.createMinimalEnter(GeoJSONCoordinate.create("16.36560", "48.23511"), 2));
+				.add(RoundaboutInstruction.createMinimalEnter(GeoJSONCoordinate.create("16.36560", "48.23511"))
+						.setExitNr(2).setRoundaboutStreetName("Rondeauplatz"));
 		navigationInstructions
 				.add(RoundaboutInstruction.createMinimalExit(GeoJSONCoordinate.create("16.36560", "48.23511"))
 						.setOntoStreetName("Leipziger Straße").setOntoFormOfWay(FormOfWay.FOOT_AND_CYCLEPATH));

@@ -1,5 +1,6 @@
 package at.ac.ait.ariadne.routeformat.instruction;
 
+// other missing instructions: SquareCrossingInstruction, HierarchicalEnterInstruction, HierarchicalExitInstruction
 
 ///**
 // * A {@link ModeChangeInstruction} contains details about alighting and boarding modes of transport. This includes

@@ -3,18 +3,20 @@ package at.ac.ait.ariadne.routeformat.instruction;
 import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Preconditions;
 
+import at.ac.ait.ariadne.routeformat.Constants.CompassDirection;
 import at.ac.ait.ariadne.routeformat.Constants.FormOfWay;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
 
 /**
- * Instructions for navigating a roundabout.
+ * Instructions for navigating a roundabout. For pre-trip instructions a single
+ * detailed {@link SubType#ENTER} instruction should be used. In case of on-trip
+ * navigation an additional {@link SubType#EXIT} instruction could be useful.
  * <p>
- * In its minimal form it consists of a position and a {@link #getSubType()}. In
- * case of {@link SubType#ENTER} the {@link #getExitNr()} is mandatory as well.
+ * In its minimal form it consists of a position and a {@link #getSubType()}.
  * 
  * <p>
  * Exemplary EBNF of how this instruction can be transformed into human-readable
@@ -27,14 +29,16 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
  * {@code
  * ROUNDABOUT_INSTRUCTION = ENTER | EXIT;
  * 
- * ENTER = "Take", EXIT_NUMBER, "exit", ["onto", NAME_OR_TYPE], "on roundabout", [STREET_NAME_STRING];
- * EXIT = "Exit roundabout onto", [STREET_NAME_STRING], [CONFIRMATION_LANDMARK_PART], [CONTINUE];
+ * ENTER = "In the roundabout", [LANDMARK_PART], [ "on" ROUNDABOUT_STREET_NAME_STRING], "take the" [EXIT_NUMBER], "exit", 
+ *         ["onto", NAME_OR_TYPE], [CONFIRMATION_LANDMARK_PART], [CONTINUE];
+ * EXIT = "Exit roundabout now", ["onto", NAME_OR_TYPE], [CONFIRMATION_LANDMARK_PART], [CONTINUE];
  * 
  * EXIT_NUMBER = "first", "second",...;
- * NAME_OR_TYPE = STREET_NAME_STRING | FORM_OF_WAY_STRING;
+ * NAME_OR_TYPE = ONTO_STREET_NAME_STRING | ONTO_FORM_OF_WAY_STRING;
  * CONTINUE = "and follow it", ["for", UNIT], ["until", CONTINUE_LANDMARK_PART]; (* at least one of the two *)
  * UNIT = [DISTANCE_STRING], [TIME_STRING]; (* at least one of the two *)
  * 
+ * LANDMARK_PART = PREPOSITION, LANDMARK_STRING;
  * CONTINUE_LANDMARK_PART = PREPOSITION, CONTINUE_LANDMARK_STRING;
  * CONFIRMATION_LANDMARK_PART = CONFIRMATION_PREPOSITION, CONFIRMATION_LANDMARK_STRING;
  * PREPOSITION = "before" | "at" | "after";
@@ -52,18 +56,23 @@ public class RoundaboutInstruction extends Instruction<RoundaboutInstruction> {
 	}
 
 	private SubType subType;
+	private Optional<CompassDirection> compassDirection = Optional.empty();
 	private Optional<String> roundaboutStreetName = Optional.empty();
 	private Optional<String> ontoStreetName = Optional.empty();
 	private Optional<FormOfWay> ontoFormOfWay = Optional.empty();
 	private Optional<Integer> exitNr = Optional.empty();
 	private Optional<Integer> continueMeters = Optional.empty(), continueSeconds = Optional.empty();
-	private Optional<Landmark> confirmationLandmark = Optional.empty();
+	private Optional<Landmark> landmark = Optional.empty(), confirmationLandmark = Optional.empty();
 
 	// -- getters
 
 	@JsonProperty(required = true)
 	public SubType getSubType() {
 		return subType;
+	}
+
+	public Optional<CompassDirection> getCompassDirection() {
+		return compassDirection;
 	}
 
 	/** street name of the roundabout itself */
@@ -93,6 +102,20 @@ public class RoundaboutInstruction extends Instruction<RoundaboutInstruction> {
 		return continueSeconds;
 	}
 
+	/**
+	 * @return the landmark at roundabout. At the same time this landmark is the
+	 *         continue-landmark for the previous instruction, i.e. the landmark
+	 *         after {@link #getContinueMeters()}.
+	 */
+	public Optional<Landmark> getLandmark() {
+		return landmark;
+	}
+
+	/**
+	 * @return a landmark between this and the next instruction (or a global
+	 *         landmark in the general direction after this instruction) that
+	 *         helps users to stay on track
+	 */
 	public Optional<Landmark> getConfirmationLandmark() {
 		return confirmationLandmark;
 	}
@@ -101,6 +124,11 @@ public class RoundaboutInstruction extends Instruction<RoundaboutInstruction> {
 
 	public RoundaboutInstruction setSubType(SubType subType) {
 		this.subType = subType;
+		return this;
+	}
+
+	public RoundaboutInstruction setCompassDirection(CompassDirection compassDirection) {
+		this.compassDirection = Optional.ofNullable(compassDirection);
 		return this;
 	}
 
@@ -134,6 +162,11 @@ public class RoundaboutInstruction extends Instruction<RoundaboutInstruction> {
 		return this;
 	}
 
+	public RoundaboutInstruction setLandmark(Landmark landmark) {
+		this.landmark = Optional.ofNullable(landmark);
+		return this;
+	}
+
 	public RoundaboutInstruction setConfirmationLandmark(Landmark confirmationLandmark) {
 		this.confirmationLandmark = Optional.ofNullable(confirmationLandmark);
 		return this;
@@ -141,64 +174,26 @@ public class RoundaboutInstruction extends Instruction<RoundaboutInstruction> {
 
 	// --
 
-	public static RoundaboutInstruction createMinimalEnter(GeoJSONCoordinate position, int exitNr) {
-		return new RoundaboutInstruction().setPosition(position).setSubType(SubType.ENTER).setExitNr(exitNr);
+	public static RoundaboutInstruction createMinimalEnter(GeoJSONCoordinate position) {
+		return new RoundaboutInstruction().setPosition(position).setSubType(SubType.ENTER);
 	}
 
 	public static RoundaboutInstruction createMinimalExit(GeoJSONCoordinate position) {
 		return new RoundaboutInstruction().setPosition(position).setSubType(SubType.EXIT);
 	}
 
-	// /**
-	// * Set all attributes useful for a {@link SubType#ENTER}
-	// *
-	// * @param exitNr
-	// * mandatory
-	// */
-	// public Builder createMinimalEnterInstruction(CoordinatePoint position,
-	// Optional<String> roundaboutStreetName,
-	// Optional<String> ontoStreetName, Optional<FormOfWay> ontoFormOfWay, int
-	// exitNr) {
-	// this.subType = SubType.ENTER;
-	// this.position = GeoJSONFeature.newPointFeature(position);
-	// this.roundaboutStreetName = roundaboutStreetName;
-	// this.ontoStreetName = ontoStreetName;
-	// this.ontoFormOfWay = ontoFormOfWay;
-	// this.exitNr = Optional.of(exitNr);
-	// return this;
-	// }
-	//
-	// /**
-	// * Set all attributes useful for a {@link SubType#EXIT}
-	// */
-	// public Builder forExitingRoundabout(CoordinatePoint position,
-	// Optional<String> ontoStreetName,
-	// Optional<FormOfWay> ontoFormOfWay, Optional<Integer> continueMeters,
-	// Optional<Integer> continueSeconds,
-	// Optional<Landmark> confirmationLandmark) {
-	// this.subType = SubType.EXIT;
-	// this.position = GeoJSONFeature.newPointFeature(position);
-	// this.ontoStreetName = ontoStreetName;
-	// this.ontoFormOfWay = ontoFormOfWay;
-	// this.continueMeters = continueMeters;
-	// this.continueSeconds = continueSeconds;
-	// this.confirmationLandmark = confirmationLandmark;
-	// return this;
-	// }
-
 	@Override
 	public void validate() {
 		super.validate();
 		Preconditions.checkArgument(subType != null, "subType is mandatory but missing");
-		if (subType.equals(SubType.ENTER))
-			Preconditions.checkArgument(exitNr.isPresent(), "exit nr is mandatory for enter-instructions");
 	}
 
 	@Override
 	public String toString() {
-		return super.toString() + " -> RoundaboutInstruction [subType=" + subType + ", roundaboutStreetName="
-				+ roundaboutStreetName + ", ontoStreetName=" + ontoStreetName + ", ontoFormOfWay=" + ontoFormOfWay
-				+ ", exitNr=" + exitNr + ", continueMeters=" + continueMeters + ", continueSeconds=" + continueSeconds
+		return super.toString() + " -> RoundaboutInstruction [subType=" + subType + ", compassDirection="
+				+ compassDirection + ", roundaboutStreetName=" + roundaboutStreetName + ", ontoStreetName="
+				+ ontoStreetName + ", ontoFormOfWay=" + ontoFormOfWay + ", exitNr=" + exitNr + ", continueMeters="
+				+ continueMeters + ", continueSeconds=" + continueSeconds + ", landmark=" + landmark
 				+ ", confirmationLandmark=" + confirmationLandmark + "]";
 	}
 

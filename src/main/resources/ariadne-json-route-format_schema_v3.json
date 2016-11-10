@@ -552,7 +552,8 @@
                     "properties" : {
                       "position" : {
                         "type" : "object",
-                        "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONFeature<at:ac:ait:ariadne:routeformat:geojson:GeoJSONPoint>"
+                        "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONFeature<at:ac:ait:ariadne:routeformat:geojson:GeoJSONPoint>",
+                        "required" : true
                       },
                       "previewTriggerPosition" : {
                         "type" : "object",

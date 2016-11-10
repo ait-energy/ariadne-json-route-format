@@ -1053,6 +1053,7 @@
           "properties" : { }
         },
         "subType" : "ENTER",
+        "roundaboutStreetName" : "Rondeauplatz",
         "exitNr" : 2
       }, {
         "type" : "RoundaboutInstruction",

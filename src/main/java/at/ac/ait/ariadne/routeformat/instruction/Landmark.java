@@ -84,6 +84,10 @@ public class Landmark implements Validatable {
 	public static Landmark createMinimal(Preposition preposition, Location<?> location) {
 		return new Landmark().setPreposition(preposition).setLocation(location);
 	}
+	
+	public Landmark shallowCopy() {
+        return new Landmark().setPreposition(preposition).setLocation(location).setDirection(direction.orElse(null)).setAdditionalInfo(additionalInfo);
+    }
 
 	@Override
 	public void validate() {
