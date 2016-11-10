@@ -16,7 +16,8 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
  * detailed {@link SubType#ENTER} instruction should be used. In case of on-trip
  * navigation an additional {@link SubType#EXIT} instruction could be useful.
  * <p>
- * In its minimal form it consists of a position and a {@link #getSubType()}.
+ * In its minimal form it consists of a position, a {@link #getSubType()} and at
+ * least one of {@link #getOntoStreetName()} and {@link #getOntoFormOfWay()}.
  * 
  * <p>
  * Exemplary EBNF of how this instruction can be transformed into human-readable
@@ -186,6 +187,8 @@ public class RoundaboutInstruction extends Instruction<RoundaboutInstruction> {
 	public void validate() {
 		super.validate();
 		Preconditions.checkArgument(subType != null, "subType is mandatory but missing");
+		Preconditions.checkArgument(ontoStreetName.isPresent() || ontoFormOfWay.isPresent(),
+				"at least one onto-type is required");
 	}
 
 	@Override
