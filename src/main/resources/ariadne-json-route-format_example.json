@@ -1054,6 +1054,7 @@
         },
         "subType" : "ENTER",
         "roundaboutStreetName" : "Rondeauplatz",
+        "ontoStreetName" : "Leiziger Straße",
         "exitNr" : 2
       }, {
         "type" : "RoundaboutInstruction",
