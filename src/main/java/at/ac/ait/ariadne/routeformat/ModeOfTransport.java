@@ -34,13 +34,16 @@ import at.ac.ait.ariadne.routeformat.Constants.VehicleAccessibility;
 @JsonInclude(Include.NON_EMPTY)
 public class ModeOfTransport implements Validatable {
 
-	public static final ModeOfTransport STANDARD_FOOT = createMinimal(DetailedModeOfTransportType.FOOT);
-	public static final ModeOfTransport STANDARD_BICYCLE = createMinimal(DetailedModeOfTransportType.BICYCLE);
-	public static final ModeOfTransport STANDARD_MOTORCYCLE = createMinimal(DetailedModeOfTransportType.MOTORCYCLE);
-	public static final ModeOfTransport STANDARD_CAR = createMinimal(DetailedModeOfTransportType.CAR);
-	public static final ModeOfTransport STANDARD_TRANSFER = createMinimal(DetailedModeOfTransportType.TRANSFER);
+	public static final ModeOfTransport STANDARD_FOOT = createMinimal(DetailedModeOfTransportType.FOOT).setId("foot");
+	public static final ModeOfTransport STANDARD_BICYCLE = createMinimal(DetailedModeOfTransportType.BICYCLE)
+			.setId("bicycle");
+	public static final ModeOfTransport STANDARD_MOTORCYCLE = createMinimal(DetailedModeOfTransportType.MOTORCYCLE)
+			.setId("motorcycle");
+	public static final ModeOfTransport STANDARD_CAR = createMinimal(DetailedModeOfTransportType.CAR).setId("car");
+	public static final ModeOfTransport STANDARD_TRANSFER = createMinimal(DetailedModeOfTransportType.TRANSFER)
+			.setId("transfer");
 	public static final ModeOfTransport STANDARD_PUBLIC_TRANSPORT = createMinimal(
-			GeneralizedModeOfTransportType.PUBLIC_TRANSPORT);
+			GeneralizedModeOfTransportType.PUBLIC_TRANSPORT).setId("publictransport");
 
 	private GeneralizedModeOfTransportType generalizedType;
 	private Optional<DetailedModeOfTransportType> detailedType = Optional.empty();

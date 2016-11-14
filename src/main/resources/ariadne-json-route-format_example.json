@@ -56,7 +56,8 @@
       "type" : "RequestModeOfTransport",
       "modeOfTransport" : {
         "generalizedType" : "FOOT",
-        "detailedType" : "FOOT"
+        "detailedType" : "FOOT",
+        "id" : "foot"
       },
       "maximumDistanceMeters" : 2000,
       "speed" : "FAST",
@@ -72,7 +73,8 @@
       "type" : "RequestModeOfTransport",
       "modeOfTransport" : {
         "generalizedType" : "BICYCLE",
-        "detailedType" : "BICYCLE"
+        "detailedType" : "BICYCLE",
+        "id" : "bicycle"
       },
       "maximumTravelTimeSeconds" : 2700,
       "speed" : "SLOW",
@@ -110,13 +112,15 @@
       "type" : "RequestModeOfTransport",
       "modeOfTransport" : {
         "generalizedType" : "MOTORCYCLE",
-        "detailedType" : "MOTORCYCLE"
+        "detailedType" : "MOTORCYCLE",
+        "id" : "motorcycle"
       }
     }, {
       "type" : "RequestModeOfTransport",
       "modeOfTransport" : {
         "generalizedType" : "CAR",
-        "detailedType" : "CAR"
+        "detailedType" : "CAR",
+        "id" : "car"
       },
       "locations" : [ {
         "type" : "Location",
@@ -196,7 +200,8 @@
       "type" : "RequestModeOfTransport",
       "modeOfTransport" : {
         "generalizedType" : "CAR",
-        "detailedType" : "CAR"
+        "detailedType" : "CAR",
+        "id" : "car"
       },
       "locations" : [ {
         "type" : "Location",
@@ -324,7 +329,8 @@
       "durationSeconds" : 60,
       "modeOfTransport" : {
         "generalizedType" : "FOOT",
-        "detailedType" : "FOOT"
+        "detailedType" : "FOOT",
+        "id" : "foot"
       },
       "startTime" : "2016-01-01T15:00+01:00",
       "endTime" : "2016-01-01T15:01+01:00",
@@ -403,7 +409,8 @@
       "durationSeconds" : 300,
       "modeOfTransport" : {
         "generalizedType" : "FOOT",
-        "detailedType" : "TRANSFER"
+        "detailedType" : "TRANSFER",
+        "id" : "transfer"
       },
       "boardingSeconds" : 300,
       "startTime" : "2016-01-01T15:01+01:00",
@@ -504,7 +511,8 @@
       "durationSeconds" : 240,
       "modeOfTransport" : {
         "generalizedType" : "FOOT",
-        "detailedType" : "TRANSFER"
+        "detailedType" : "TRANSFER",
+        "id" : "transfer"
       },
       "boardingSeconds" : 180,
       "startTime" : "2016-01-01T15:16:30+01:00",
@@ -630,7 +638,8 @@
       "durationSeconds" : 180,
       "modeOfTransport" : {
         "generalizedType" : "FOOT",
-        "detailedType" : "TRANSFER"
+        "detailedType" : "TRANSFER",
+        "id" : "transfer"
       },
       "startTime" : "2016-01-01T15:24:30+01:00",
       "endTime" : "2016-01-01T15:27:30+01:00",
@@ -692,7 +701,8 @@
       "durationSeconds" : 40,
       "modeOfTransport" : {
         "generalizedType" : "FOOT",
-        "detailedType" : "FOOT"
+        "detailedType" : "FOOT",
+        "id" : "foot"
       },
       "startTime" : "2016-01-01T15:27:30+01:00",
       "endTime" : "2016-01-01T15:28:10+01:00",
@@ -855,7 +865,8 @@
       "durationSeconds" : 115,
       "modeOfTransport" : {
         "generalizedType" : "FOOT",
-        "detailedType" : "FOOT"
+        "detailedType" : "FOOT",
+        "id" : "foot"
       },
       "startTime" : "2016-01-01T15:34:10+01:00",
       "endTime" : "2016-01-01T15:36:05+01:00",
@@ -968,7 +979,8 @@
       "durationSeconds" : 226,
       "modeOfTransport" : {
         "generalizedType" : "BICYCLE",
-        "detailedType" : "BICYCLE"
+        "detailedType" : "BICYCLE",
+        "id" : "bicycle"
       },
       "boardingSeconds" : 60,
       "alightingSeconds" : 60,
@@ -1200,7 +1212,8 @@
       "durationSeconds" : 417,
       "modeOfTransport" : {
         "generalizedType" : "CAR",
-        "detailedType" : "CAR"
+        "detailedType" : "CAR",
+        "id" : "car"
       },
       "boardingSeconds" : 60,
       "alightingSeconds" : 300,

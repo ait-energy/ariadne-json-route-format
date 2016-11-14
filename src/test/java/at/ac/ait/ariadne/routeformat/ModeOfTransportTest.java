@@ -13,7 +13,7 @@ public class ModeOfTransportTest {
 	public void equalsTest() {
 		Assert.assertTrue(ModeOfTransport.STANDARD_FOOT.equals(ModeOfTransport.STANDARD_FOOT));
 
-		ModeOfTransport mot = ModeOfTransport.createMinimal(DetailedModeOfTransportType.FOOT);
+		ModeOfTransport mot = ModeOfTransport.createMinimal(DetailedModeOfTransportType.FOOT).setId("foot");
 		Assert.assertTrue(ModeOfTransport.STANDARD_FOOT.equals(mot));
 
 		mot.setAdditionalInfo(ImmutableMap.of("key", "value"));
