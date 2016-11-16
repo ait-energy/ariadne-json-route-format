@@ -41,6 +41,8 @@ import at.ac.ait.ariadne.routeformat.RouteFormatRoot;
 import at.ac.ait.ariadne.routeformat.RouteSegment;
 import at.ac.ait.ariadne.routeformat.RoutingRequest;
 import at.ac.ait.ariadne.routeformat.Service;
+import at.ac.ait.ariadne.routeformat.features.RoutingFeatures;
+import at.ac.ait.ariadne.routeformat.features.Site;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeatureCollection;
@@ -83,8 +85,10 @@ public class IntermodalRouteExample {
 			car2goAlongAdalbertStifterStrasse, bicycleFromAdalbertStifterStrasseToTreugasse,
 			rideSharingFromTreugasseToGaussplatz, carFromGaussplatzToScholzgasse;
 	private RouteFormatRoot root;
+	private RoutingFeatures routingFeatures;
 
 	public IntermodalRouteExample() throws JsonGenerationException, JsonMappingException, IOException {
+		this.routingFeatures = createRoutingFeatures();
 		initializeOperators();
 		initializeComplexModesOfTransport();
 		initializeLocations();
@@ -110,16 +114,16 @@ public class IntermodalRouteExample {
 
 	private void initializeComplexModesOfTransport() {
 		wienerLinienMot = ModeOfTransport.createMinimal(GeneralizedModeOfTransportType.PUBLIC_TRANSPORT)
-				.setOperator(wienerLinienOperator);
+				.setId("wiener_linien").setOperator(wienerLinienOperator);
 
-		citybikeMot = ModeOfTransport.createMinimal(DetailedModeOfTransportType.BICYCLE)
+		citybikeMot = ModeOfTransport.createMinimal(DetailedModeOfTransportType.BICYCLE).setId("citybike")
 				.setSharingType(Sharing.STATION_BOUND_VEHICLE_SHARING).setOperator(citybikeOperator);
 
-		car2goMot = ModeOfTransport.createMinimal(DetailedModeOfTransportType.CAR)
+		car2goMot = ModeOfTransport.createMinimal(DetailedModeOfTransportType.CAR).setId("car2go")
 				.setSharingType(Sharing.FREE_FLOATING_VEHICLE_SHARING).setElectric(true).setOperator(car2goOperator);
 
-		flincMot = ModeOfTransport.createMinimal(DetailedModeOfTransportType.CAR).setSharingType(Sharing.RIDE_SHARING)
-				.setOperator(flincOperator);
+		flincMot = ModeOfTransport.createMinimal(DetailedModeOfTransportType.CAR).setId("flinc")
+				.setSharingType(Sharing.RIDE_SHARING).setOperator(flincOperator);
 	}
 
 	private void initializeLocations() {
@@ -194,10 +198,29 @@ public class IntermodalRouteExample {
 	}
 
 	/**
+	 * @return a cached instance of exemplary routing features
+	 */
+	public RoutingFeatures getRoutingFeatures() {
+		return routingFeatures;
+	}
+
+	/**
 	 * @return a cached instance of an intermodal showcase-route
 	 */
 	public RouteFormatRoot getRouteFormatRoot() {
 		return root;
+	}
+
+	private RoutingFeatures createRoutingFeatures() {
+		List<Site> sites = new ArrayList<>();
+		sites.add(Site.createMinimal("test_vienna").setName("Wien")
+				.setOptimizedFor(ImmutableMap.of("DISTANCE", "shortest distance", "TRAVELTIME", "shortest travel time",
+						"ENERGY", "minimum energy"))
+				.setModesOfTransport(Arrays.asList(ModeOfTransport.STANDARD_FOOT, ModeOfTransport.STANDARD_BICYCLE,
+						ModeOfTransport.STANDARD_CAR, wienerLinienMot, citybikeMot, car2goMot, flincMot)));
+		RoutingFeatures routingFeatures = RoutingFeatures.create(sites);
+		routingFeatures.validate();
+		return routingFeatures;
 	}
 
 	private RouteFormatRoot createRouteFormatRoot() throws JsonGenerationException, JsonMappingException, IOException {

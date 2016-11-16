@@ -142,6 +142,7 @@
       "type" : "RequestPTModeOfTransport",
       "modeOfTransport" : {
         "generalizedType" : "PUBLIC_TRANSPORT",
+        "id" : "wiener_linien",
         "operator" : {
           "name" : "Wiener Linien",
           "website" : "http://www.wienerlinien.at",
@@ -157,6 +158,7 @@
       "modeOfTransport" : {
         "generalizedType" : "BICYCLE",
         "detailedType" : "BICYCLE",
+        "id" : "citybike",
         "operator" : {
           "name" : "Citybike Wien",
           "address" : {
@@ -176,6 +178,7 @@
       "modeOfTransport" : {
         "generalizedType" : "CAR",
         "detailedType" : "CAR",
+        "id" : "car2go",
         "operator" : {
           "name" : "Car2Go",
           "website" : "https://www.car2go.com/de/wien",
@@ -189,6 +192,7 @@
       "modeOfTransport" : {
         "generalizedType" : "CAR",
         "detailedType" : "CAR",
+        "id" : "flinc",
         "operator" : {
           "name" : "Flinc",
           "website" : "https://flinc.org"
@@ -783,6 +787,7 @@
       "modeOfTransport" : {
         "generalizedType" : "BICYCLE",
         "detailedType" : "BICYCLE",
+        "id" : "citybike",
         "operator" : {
           "name" : "Citybike Wien",
           "address" : {
