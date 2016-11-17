@@ -21,7 +21,7 @@ public class RoutingRequestTest {
 	public void createMinimalRequest() {
 		List<RequestModeOfTransport<?>> modesOfTransport = ImmutableList
 				.of(RequestModeOfTransport.createMinimal(ModeOfTransport.STANDARD_BICYCLE));
-		request = RoutingRequest.createMinimal(TestUtil.SERVICE_ID, TestUtil.FROM, TestUtil.TO, modesOfTransport);
+		request = RoutingRequest.createMinimal(TestUtil.FROM, TestUtil.TO, modesOfTransport);
 	}
 
 	@Test

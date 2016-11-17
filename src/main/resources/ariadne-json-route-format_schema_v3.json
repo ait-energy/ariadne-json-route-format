@@ -30,10 +30,6 @@
       "type" : "object",
       "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:RoutingRequest",
       "properties" : {
-        "serviceId" : {
-          "type" : "string",
-          "required" : true
-        },
         "from" : {
           "type" : "object",
           "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:location:Location<java:lang:Object>",
@@ -329,6 +325,9 @@
           "type" : "string",
           "required" : true
         },
+        "siteId" : {
+          "type" : "string"
+        },
         "maximumTransfers" : {
           "type" : "integer"
         },
@@ -353,6 +352,9 @@
           "additionalProperties" : {
             "type" : "any"
           }
+        },
+        "serviceId" : {
+          "type" : "string"
         }
       }
     },

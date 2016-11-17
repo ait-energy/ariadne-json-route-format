@@ -19,6 +19,7 @@ import com.google.common.base.Preconditions;
 
 import at.ac.ait.ariadne.routeformat.Constants.AccessibilityRestriction;
 import at.ac.ait.ariadne.routeformat.Constants.GeneralizedModeOfTransportType;
+import at.ac.ait.ariadne.routeformat.features.Site;
 import at.ac.ait.ariadne.routeformat.location.Location;
 import at.ac.ait.ariadne.routeformat.util.Utils;
 
@@ -54,7 +55,6 @@ public class RoutingRequest implements Validatable {
 	public static final String DEFAULT_DEPARTURE_TIME = NOW;
 	public static final String DEFAULT_OPTIMIZED_FOR = "TRAVELTIME";
 
-	private String serviceId;
 	private Location<?> from;
 	private List<Location<?>> via = new ArrayList<>();
 	private Location<?> to;
@@ -62,6 +62,7 @@ public class RoutingRequest implements Validatable {
 	private Optional<RequestModeOfTransport<?>> startModeOfTransport = Optional.empty();
 	private Optional<RequestModeOfTransport<?>> endModeOfTransport = Optional.empty();
 	private String optimizedFor;
+	private Optional<String> siteId = Optional.empty();
 	private Optional<Integer> maximumTransfers = Optional.empty();
 	private Optional<ZonedDateTime> departureTime = Optional.empty();
 	private Optional<ZonedDateTime> arrivalTime = Optional.empty();
@@ -77,12 +78,12 @@ public class RoutingRequest implements Validatable {
 	// -- getters
 
 	/**
-	 * Defines which routing service (a combination of maps, timeseries,..) will
-	 * be / was used for routing
+	 * replaced by {@link #getSiteId()}
 	 */
-	@JsonProperty(required = true)
+	@Deprecated
+	@JsonProperty(required = false)
 	public String getServiceId() {
-		return serviceId;
+		return getSiteId().orElse("");
 	}
 
 	@JsonProperty(required = true)
@@ -141,6 +142,16 @@ public class RoutingRequest implements Validatable {
 	@JsonProperty(required = true)
 	public String getOptimizedFor() {
 		return optimizedFor;
+	}
+
+	/**
+	 * @return the {@link Site} the routing request should be restricted to. If
+	 *         it is not set the routing service has to determine itself which
+	 *         site to use, e.g. through checking the bounding boxes of the
+	 *         available sites
+	 */
+	public Optional<String> getSiteId() {
+		return siteId;
 	}
 
 	/**
@@ -222,9 +233,12 @@ public class RoutingRequest implements Validatable {
 
 	// -- setters
 
+	/**
+	 * superseded by {@link #setSiteId()}
+	 */
+	@Deprecated
 	public RoutingRequest setServiceId(String serviceId) {
-		this.serviceId = serviceId;
-		return this;
+		return setSiteId(serviceId);
 	}
 
 	public RoutingRequest setFrom(Location<?> from) {
@@ -271,6 +285,11 @@ public class RoutingRequest implements Validatable {
 
 	public RoutingRequest setOptimizedFor(String optimizedFor) {
 		this.optimizedFor = optimizedFor;
+		return this;
+	}
+
+	public RoutingRequest setSiteId(String siteId) {
+		this.siteId = Optional.ofNullable(siteId);
 		return this;
 	}
 
@@ -372,15 +391,13 @@ public class RoutingRequest implements Validatable {
 	 * Creates a {@link RoutingRequest} with default departure time and default
 	 * optimized for.
 	 */
-	public static RoutingRequest createMinimal(String serviceId, Location<?> from, Location<?> to,
+	public static RoutingRequest createMinimal(Location<?> from, Location<?> to,
 			List<RequestModeOfTransport<?>> modesOfTransport) {
-		return new RoutingRequest().setServiceId(serviceId).setFrom(from).setTo(to)
-				.setModesOfTransport(modesOfTransport);
+		return new RoutingRequest().setFrom(from).setTo(to).setModesOfTransport(modesOfTransport);
 	}
 
 	@Override
 	public void validate() {
-		Preconditions.checkArgument(serviceId != null, "serviceId is mandatory but missing");
 		Preconditions.checkArgument(from != null, "from is mandatory but missing");
 		from.validate();
 		via.forEach(v -> v.validate());
@@ -417,12 +434,11 @@ public class RoutingRequest implements Validatable {
 
 	@Override
 	public String toString() {
-		return "RoutingRequest [serviceId=" + serviceId + ", from=" + from + ", via=" + via + ", to=" + to
-				+ ", modesOfTransport=" + modesOfTransport + ", startModeOfTransport=" + startModeOfTransport
-				+ ", endModeOfTransport=" + endModeOfTransport + ", optimizedFor=" + optimizedFor
-				+ ", maximumTransfers=" + maximumTransfers + ", departureTime=" + departureTime + ", arrivalTime="
-				+ arrivalTime + ", accessibilityRestrictions=" + accessibilityRestrictions + ", language=" + language
-				+ ", additionalInfo=" + additionalInfo + "]";
+		return "RoutingRequest [from=" + from + ", via=" + via + ", to=" + to + ", modesOfTransport=" + modesOfTransport
+				+ ", startModeOfTransport=" + startModeOfTransport + ", endModeOfTransport=" + endModeOfTransport
+				+ ", optimizedFor=" + optimizedFor + ", siteId=" + siteId + ", maximumTransfers=" + maximumTransfers
+				+ ", departureTime=" + departureTime + ", arrivalTime=" + arrivalTime + ", accessibilityRestrictions="
+				+ accessibilityRestrictions + ", language=" + language + ", additionalInfo=" + additionalInfo + "]";
 	}
 
 }

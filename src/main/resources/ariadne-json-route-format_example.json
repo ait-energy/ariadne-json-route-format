@@ -6,7 +6,6 @@
   "debugMessage" : "Route calculated in 0.002 seconds",
   "coordinateReferenceSystem" : "EPSG:4326",
   "request" : {
-    "serviceId" : "ariadne_webservice_vienna",
     "from" : {
       "type" : "PointOfInterest",
       "coordinate" : {

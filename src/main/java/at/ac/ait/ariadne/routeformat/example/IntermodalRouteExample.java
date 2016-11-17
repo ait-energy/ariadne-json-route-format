@@ -264,12 +264,10 @@ public class IntermodalRouteExample {
 		requestModes.add(RequestModeOfTransport.createMinimal(car2goMot));
 		requestModes.add(RequestModeOfTransport.createMinimal(flincMot));
 
-		String serviceId = "ariadne_webservice_vienna";
 		Location<?> from = giefinggasseAit;
 		Location<?> to = scholzgasse1Parking;
-		return RoutingRequest.createMinimal(serviceId, from, to, requestModes)
-				.setDepartureTime("2016-01-01T15:00:00+01:00").setLanguage("DE")
-				.setAccessibilityRestrictions(ImmutableSet.of(AccessibilityRestriction.NO_ELEVATOR))
+		return RoutingRequest.createMinimal(from, to, requestModes).setDepartureTime("2016-01-01T15:00:00+01:00")
+				.setLanguage("DE").setAccessibilityRestrictions(ImmutableSet.of(AccessibilityRestriction.NO_ELEVATOR))
 				.setOptimizedFor("ENERGY").setMaximumTransfers(10).setEndModeOfTransport(carMot)
 				.setAdditionalInfo(additionalInfoRouteRequest);
 	}
