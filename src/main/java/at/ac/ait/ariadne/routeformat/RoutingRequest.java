@@ -234,7 +234,7 @@ public class RoutingRequest implements Validatable {
 	// -- setters
 
 	/**
-	 * superseded by {@link #setSiteId()}
+	 * superseded by {@link #setSiteId(String)}
 	 */
 	@Deprecated
 	public RoutingRequest setServiceId(String serviceId) {
