@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.TreeMap;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.google.common.base.Preconditions;
 
@@ -33,6 +34,7 @@ public class RoutingFeatures implements Validatable {
 	 * @return a human-readable (potentially internationalized) name of the
 	 *         routing service
 	 */
+	@JsonProperty(required = true)
 	public String getName() {
 		return name;
 	}
@@ -64,6 +66,7 @@ public class RoutingFeatures implements Validatable {
 	/**
 	 * @return all {@link Site}s supported by this service
 	 */
+	@JsonProperty(required = true)
 	public List<Site> getSites() {
 		return sites;
 	}
