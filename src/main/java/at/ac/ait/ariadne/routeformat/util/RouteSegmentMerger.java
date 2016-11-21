@@ -25,6 +25,7 @@ import at.ac.ait.ariadne.routeformat.Constants.DetailedModeOfTransportType;
 import at.ac.ait.ariadne.routeformat.ModeOfTransport;
 import at.ac.ait.ariadne.routeformat.RouteSegment;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
+import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeatureCollection;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONLineString;
 
 /**
@@ -215,7 +216,7 @@ public class RouteSegmentMerger {
 	 * @param shiftSeconds
 	 *            seconds the segments should be shifted in time
 	 */
-	private List<RouteSegment> shiftInTime(List<RouteSegment> segments, int shiftSeconds) {
+	private static List<RouteSegment> shiftInTime(List<RouteSegment> segments, int shiftSeconds) {
 		List<RouteSegment> modifiedSegments = new ArrayList<>();
 		for (RouteSegment segment : segments) {
 			RouteSegment modifiedCopy = RouteSegment.createShallowCopy(segment);
@@ -228,7 +229,7 @@ public class RouteSegmentMerger {
 		return modifiedSegments;
 	}
 
-	private List<RouteSegment> mergeSegmentsWithSameMot(List<RouteSegment> segments) {
+	private static List<RouteSegment> mergeSegmentsWithSameMot(List<RouteSegment> segments) {
 		RangeSet<Integer> rangeSet = TreeRangeSet.create();
 		for (int i = 0; i < segments.size() - 1; i++) {
 			if (segments.get(i).getModeOfTransport().equals(segments.get(i + 1).getModeOfTransport())) {
@@ -261,7 +262,7 @@ public class RouteSegmentMerger {
 	 *         from the first segment but the combined duration, distance and
 	 *         geometry
 	 */
-	private RouteSegment mergeTwoSegments(RouteSegment a, RouteSegment b) {
+	private static RouteSegment mergeTwoSegments(RouteSegment a, RouteSegment b) {
 		// mot, start & end time e.g. from a
 		RouteSegment merged = RouteSegment.createShallowCopy(a);
 
@@ -275,17 +276,22 @@ public class RouteSegmentMerger {
 		// adapt geometry & length
 		merged.setTo(b.getTo());
 		GeoJSONFeature<GeoJSONLineString> newlineString = GeoJSONFeature.createLineStringFeature(new ArrayList<>());
-		a.getGeometryGeoJson()
-				.ifPresent(g -> newlineString.getGeometry().getCoordinates().addAll(g.getGeometry().getCoordinates()));
-		b.getGeometryGeoJson()
-				.ifPresent(g -> newlineString.getGeometry().getCoordinates().addAll(g.getGeometry().getCoordinates()));
+		List<GeoJSONFeature<GeoJSONLineString>> newGeometryGeoJsonEdges = new ArrayList<>();
+		for(RouteSegment routeSegment : new RouteSegment[]{ a, b }) {
+            routeSegment.getGeometryGeoJson().ifPresent(
+                    g -> newlineString.getGeometry().getCoordinates().addAll(g.getGeometry().getCoordinates()));
+            routeSegment.getGeometryGeoJsonEdges().ifPresent(g -> newGeometryGeoJsonEdges.addAll(g.getFeatures()));
+		}
 		merged.setGeometryGeoJson(newlineString);
+        if (!newGeometryGeoJsonEdges.isEmpty()) {
+            merged.setGeometryGeoJsonEdges(GeoJSONFeatureCollection.create(newGeometryGeoJsonEdges));
+        }
 		merged.setDistanceMeters(a.getDistanceMeters() + b.getDistanceMeters());
 
 		return merged;
 	}
 
-	private void fixConsecutiveSegmentNrs(List<RouteSegment> segments) {
+	private static void fixConsecutiveSegmentNrs(List<RouteSegment> segments) {
 		for (int i = 0; i < segments.size(); i++) {
 			segments.get(i).setNr(i + 1);
 		}
