@@ -218,7 +218,8 @@ public class IntermodalRouteExample {
 						"ENERGY", "minimum energy"))
 				.setModesOfTransport(Arrays.asList(ModeOfTransport.STANDARD_FOOT, ModeOfTransport.STANDARD_BICYCLE,
 						ModeOfTransport.STANDARD_CAR, wienerLinienMot, citybikeMot, car2goMot, flincMot)));
-		RoutingFeatures routingFeatures = RoutingFeatures.create(sites);
+		RoutingFeatures routingFeatures = RoutingFeatures.createMinimal("Example", sites).setUrl("http://www.ait.ac.at")
+				.setCredits("(c) by Austrian Institute of Technology GmbH");
 		routingFeatures.validate();
 		return routingFeatures;
 	}

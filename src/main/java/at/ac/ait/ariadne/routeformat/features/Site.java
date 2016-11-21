@@ -8,6 +8,7 @@ import java.util.TreeMap;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Preconditions;
 
 import at.ac.ait.ariadne.routeformat.ModeOfTransport;
@@ -38,6 +39,7 @@ public class Site implements Validatable {
 	/**
 	 * @return a unique ID
 	 */
+	@JsonProperty(required = true)
 	public String getId() {
 		return id;
 	}
@@ -126,6 +128,15 @@ public class Site implements Validatable {
 
 	public static Site createMinimal(String id) {
 		return new Site().setId(id);
+	}
+
+	public static Site createShallowCopy(Site s) {
+		Site copy = createMinimal(s.getId()).setOptimizedFor(s.getOptimizedFor())
+				.setAdditionalInfo(s.getAdditionalInfo());
+		s.getName().ifPresent(n -> copy.setName(n));
+		s.focusPoint.ifPresent(f -> s.setFocusPoint(f));
+		s.boundingPolygon.ifPresent(b -> s.setBoundingPolygon(b));
+		return copy;
 	}
 
 	@Override
