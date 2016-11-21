@@ -110,7 +110,7 @@ public class Constants {
 
     public enum Speed {
         SLOW, NORMAL, FAST
-    };
+    }
 
     public enum FormOfWay {
         MOTORWAY,
