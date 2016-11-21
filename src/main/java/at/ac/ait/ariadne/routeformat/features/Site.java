@@ -134,8 +134,8 @@ public class Site implements Validatable {
 		Site copy = createMinimal(s.getId()).setOptimizedFor(s.getOptimizedFor())
 				.setAdditionalInfo(s.getAdditionalInfo());
 		s.getName().ifPresent(n -> copy.setName(n));
-		s.focusPoint.ifPresent(f -> s.setFocusPoint(f));
-		s.boundingPolygon.ifPresent(b -> s.setBoundingPolygon(b));
+		s.focusPoint.ifPresent(f -> copy.setFocusPoint(f));
+		s.boundingPolygon.ifPresent(b -> copy.setBoundingPolygon(b));
 		return copy;
 	}
 
