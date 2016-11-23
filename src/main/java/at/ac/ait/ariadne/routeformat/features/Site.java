@@ -132,7 +132,7 @@ public class Site implements Validatable {
 
 	public static Site createShallowCopy(Site s) {
 		Site copy = createMinimal(s.getId()).setOptimizedFor(s.getOptimizedFor())
-				.setAdditionalInfo(s.getAdditionalInfo());
+				.setModesOfTransport(s.getModesOfTransport()).setAdditionalInfo(s.getAdditionalInfo());
 		s.getName().ifPresent(n -> copy.setName(n));
 		s.focusPoint.ifPresent(f -> copy.setFocusPoint(f));
 		s.boundingPolygon.ifPresent(b -> copy.setBoundingPolygon(b));
