@@ -17,64 +17,64 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonInclude(Include.ALWAYS)
 public class GeoJSONMultiPolygon implements GeoJSONGeometryObject {
 
-	private List<List<List<GeoJSONCoordinate>>> coordinates = new ArrayList<>();
+    private List<List<List<GeoJSONCoordinate>>> coordinates = new ArrayList<>();
 
-	// -- getters
+    // -- getters
 
-	/**
-	 * Coordinates of a multipolygon are an array of polygons, which are an
-	 * array of LinearRing coordinate arrays (the first and the last coordinate
-	 * must be the same, thereby closing the ring). The first element in the
-	 * array represents the exterior ring. Any subsequent elements represent
-	 * interior rings (or holes).
-	 */
-	@JsonProperty(required = true)
-	public List<List<List<GeoJSONCoordinate>>> getCoordinates() {
-		return coordinates;
-	}
+    /**
+     * Coordinates of a multipolygon are an array of polygons, which are an
+     * array of LinearRing coordinate arrays (the first and the last coordinate
+     * must be the same, thereby closing the ring). The first element in the
+     * array represents the exterior ring. Any subsequent elements represent
+     * interior rings (or holes).
+     */
+    @JsonProperty(required = true)
+    public List<List<List<GeoJSONCoordinate>>> getCoordinates() {
+        return coordinates;
+    }
 
-	// -- setters
+    // -- setters
 
-	public GeoJSONMultiPolygon setCoordinates(List<List<List<GeoJSONCoordinate>>> coordinates) {
-		this.coordinates = new ArrayList<>();
-		for (List<List<GeoJSONCoordinate>> polygon : coordinates) {
-			List<List<GeoJSONCoordinate>> polyCoordinates = new ArrayList<>();
-			for (List<GeoJSONCoordinate> ring : polygon) {
-				polyCoordinates.add(new ArrayList<>(ring));
-			}
-			this.coordinates.add(polyCoordinates);
-		}
-		return this;
-	}
+    public GeoJSONMultiPolygon setCoordinates(List<List<List<GeoJSONCoordinate>>> coordinates) {
+        this.coordinates = new ArrayList<>();
+        for (List<List<GeoJSONCoordinate>> polygon : coordinates) {
+            List<List<GeoJSONCoordinate>> polyCoordinates = new ArrayList<>();
+            for (List<GeoJSONCoordinate> ring : polygon) {
+                polyCoordinates.add(new ArrayList<>(ring));
+            }
+            this.coordinates.add(polyCoordinates);
+        }
+        return this;
+    }
 
-	// --
+    // --
 
-	public static GeoJSONMultiPolygon create(List<List<List<GeoJSONCoordinate>>> points) {
-		return new GeoJSONMultiPolygon().setCoordinates(points);
-	}
+    public static GeoJSONMultiPolygon create(List<List<List<GeoJSONCoordinate>>> points) {
+        return new GeoJSONMultiPolygon().setCoordinates(points);
+    }
 
-	@Override
-	public boolean isEmpty() {
-		return coordinates.isEmpty();
-	}
+    @Override
+    public boolean isEmpty() {
+        return coordinates.isEmpty();
+    }
 
-	@Override
-	public void validate() {
-		for (List<List<GeoJSONCoordinate>> polygon : coordinates) {
-			for (List<GeoJSONCoordinate> ring : polygon) {
-				GeoJSONUtil.assertLinearRing(ring);
-			}
-		}
-	}
+    @Override
+    public void validate() {
+        for (List<List<GeoJSONCoordinate>> polygon : coordinates) {
+            for (List<GeoJSONCoordinate> ring : polygon) {
+                GeoJSONUtil.assertLinearRing(ring);
+            }
+        }
+    }
 
-	@Override
-	public String toWKT() {
-		return getTypeName() + " " + WKTUtil.getCoordinateStringMultiPolygon(coordinates);
-	}
+    @Override
+    public String toWKT() {
+        return getTypeName() + " " + WKTUtil.getCoordinateStringMultiPolygon(coordinates);
+    }
 
-	@Override
-	public String toString() {
-		return toWKT();
-	}
+    @Override
+    public String toString() {
+        return toWKT();
+    }
 
 }

@@ -58,257 +58,257 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONLineString;
  */
 public class RouteSegmentMerger {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(RouteSegmentMerger.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RouteSegmentMerger.class);
 
-	private final List<LinkedList<RouteSegment>> routes;
-	private List<Integer> additionalAlightingSecondsBetweenRoutes;
-	private boolean mergeSegmentsWithSameMot = true;
-	private Set<ModeOfTransport> writeWaitingTimePreferableNotInto;
+    private final List<LinkedList<RouteSegment>> routes;
+    private List<Integer> additionalAlightingSecondsBetweenRoutes;
+    private boolean mergeSegmentsWithSameMot = true;
+    private Set<ModeOfTransport> writeWaitingTimePreferableNotInto;
 
-	/**
-	 * @param routes
-	 *            the routes to be merged into one route. lists must not be
-	 *            empty.
-	 */
-	public RouteSegmentMerger(List<List<RouteSegment>> routes) {
-		this.routes = routes.stream().map(l -> new LinkedList<>(l)).collect(Collectors.toList());
-		this.additionalAlightingSecondsBetweenRoutes = new ArrayList<>();
-		for (int i = 0; i < routes.size() - 1; i++)
-			additionalAlightingSecondsBetweenRoutes.add(0);
-		this.writeWaitingTimePreferableNotInto = new HashSet<>();
-		this.writeWaitingTimePreferableNotInto.add(ModeOfTransport.STANDARD_FOOT);
-	}
+    /**
+     * @param routes
+     *            the routes to be merged into one route. lists must not be
+     *            empty.
+     */
+    public RouteSegmentMerger(List<List<RouteSegment>> routes) {
+        this.routes = routes.stream().map(l -> new LinkedList<>(l)).collect(Collectors.toList());
+        this.additionalAlightingSecondsBetweenRoutes = new ArrayList<>();
+        for (int i = 0; i < routes.size() - 1; i++)
+            additionalAlightingSecondsBetweenRoutes.add(0);
+        this.writeWaitingTimePreferableNotInto = new HashSet<>();
+        this.writeWaitingTimePreferableNotInto.add(ModeOfTransport.STANDARD_FOOT);
+    }
 
-	public boolean isMergeSegmentsWithSameMot() {
-		return mergeSegmentsWithSameMot;
-	}
+    public boolean isMergeSegmentsWithSameMot() {
+        return mergeSegmentsWithSameMot;
+    }
 
-	public void setMergeSegmentsWithSameMot(boolean mergeSegmentsWithSameMot) {
-		this.mergeSegmentsWithSameMot = mergeSegmentsWithSameMot;
-	}
+    public void setMergeSegmentsWithSameMot(boolean mergeSegmentsWithSameMot) {
+        this.mergeSegmentsWithSameMot = mergeSegmentsWithSameMot;
+    }
 
-	/**
-	 * @return a mutable copy of the internal set
-	 */
-	public Set<ModeOfTransport> getWriteWaitingTimePreferableNotInto() {
-		return new HashSet<>(writeWaitingTimePreferableNotInto);
-	}
+    /**
+     * @return a mutable copy of the internal set
+     */
+    public Set<ModeOfTransport> getWriteWaitingTimePreferableNotInto() {
+        return new HashSet<>(writeWaitingTimePreferableNotInto);
+    }
 
-	public void setWriteWaitingTimePreferableNotInto(Set<ModeOfTransport> writeWaitingTimePreferableNotInto) {
-		this.writeWaitingTimePreferableNotInto = writeWaitingTimePreferableNotInto;
-	}
+    public void setWriteWaitingTimePreferableNotInto(Set<ModeOfTransport> writeWaitingTimePreferableNotInto) {
+        this.writeWaitingTimePreferableNotInto = writeWaitingTimePreferableNotInto;
+    }
 
-	/**
-	 * @return a mutable copy of the internal list
-	 */
-	public List<Integer> getAdditionalAlightingSecondsBetweenRoutes() {
-		return new ArrayList<>(additionalAlightingSecondsBetweenRoutes);
-	}
+    /**
+     * @return a mutable copy of the internal list
+     */
+    public List<Integer> getAdditionalAlightingSecondsBetweenRoutes() {
+        return new ArrayList<>(additionalAlightingSecondsBetweenRoutes);
+    }
 
-	public void setAdditionalAlightingSecondsBetweenRoutes(List<Integer> additionalAlightingSecondsBetweenRoutes) {
-		if (additionalAlightingSecondsBetweenRoutes.size() != routes.size() - 1)
-			throw new IllegalArgumentException(
-					"alighting seconds must be given for exactly each change between routes");
-		this.additionalAlightingSecondsBetweenRoutes = additionalAlightingSecondsBetweenRoutes;
-	}
+    public void setAdditionalAlightingSecondsBetweenRoutes(List<Integer> additionalAlightingSecondsBetweenRoutes) {
+        if (additionalAlightingSecondsBetweenRoutes.size() != routes.size() - 1)
+            throw new IllegalArgumentException(
+                    "alighting seconds must be given for exactly each change between routes");
+        this.additionalAlightingSecondsBetweenRoutes = additionalAlightingSecondsBetweenRoutes;
+    }
 
-	public List<RouteSegment> createMergedSegments() {
-		return mergeAllSegments();
-	}
+    public List<RouteSegment> createMergedSegments() {
+        return mergeAllSegments();
+    }
 
-	List<RouteSegment> mergeAllSegments() {
-		List<RouteSegment> mergedSegments = new ArrayList<>();
+    List<RouteSegment> mergeAllSegments() {
+        List<RouteSegment> mergedSegments = new ArrayList<>();
 
-		for (int i = 0; i < routes.size() - 1; i++) {
-			int alightingSeconds = additionalAlightingSecondsBetweenRoutes.get(i);
-			if (alightingSeconds > 0) {
-				RouteSegment segmentToProlong = routes.get(i).removeLast();
-				RouteSegment prolongedSegment = RouteSegment.createShallowCopy(segmentToProlong)
-						.setAlightingSeconds(segmentToProlong.getAlightingSeconds().orElse(0) + alightingSeconds)
-						.setDurationSeconds(segmentToProlong.getDurationSeconds() + alightingSeconds)
-						.setEndTime(segmentToProlong.getEndTimeAsZonedDateTime().plus(alightingSeconds,
-								ChronoUnit.SECONDS));
-				routes.get(i).addLast(prolongedSegment);
-			}
-		}
+        for (int i = 0; i < routes.size() - 1; i++) {
+            int alightingSeconds = additionalAlightingSecondsBetweenRoutes.get(i);
+            if (alightingSeconds > 0) {
+                RouteSegment segmentToProlong = routes.get(i).removeLast();
+                RouteSegment prolongedSegment = RouteSegment.createShallowCopy(segmentToProlong)
+                        .setAlightingSeconds(segmentToProlong.getAlightingSeconds().orElse(0) + alightingSeconds)
+                        .setDurationSeconds(segmentToProlong.getDurationSeconds() + alightingSeconds)
+                        .setEndTime(segmentToProlong.getEndTimeAsZonedDateTime().plus(alightingSeconds,
+                                ChronoUnit.SECONDS));
+                routes.get(i).addLast(prolongedSegment);
+            }
+        }
 
-		Map<Integer, Integer> index2waitingSeconds = new HashMap<>();
-		index2waitingSeconds.put(0, 0);
-		ZonedDateTime endOfLastRoute = routes.get(0).getLast().getEndTimeAsZonedDateTime();
-		for (int i = 1; i < routes.size(); i++) {
-			int waitingSeconds = (int) Duration
-					.between(endOfLastRoute, routes.get(i).getFirst().getStartTimeAsZonedDateTime()).getSeconds();
-			index2waitingSeconds.put(i, waitingSeconds);
-			int routeSeconds = routes.get(i).stream().mapToInt(s -> s.getDurationSeconds()).sum();
-			endOfLastRoute = endOfLastRoute.plus(routeSeconds + (waitingSeconds > 0 ? waitingSeconds : 0),
-					ChronoUnit.SECONDS);
-		}
+        Map<Integer, Integer> index2waitingSeconds = new HashMap<>();
+        index2waitingSeconds.put(0, 0);
+        ZonedDateTime endOfLastRoute = routes.get(0).getLast().getEndTimeAsZonedDateTime();
+        for (int i = 1; i < routes.size(); i++) {
+            int waitingSeconds = (int) Duration
+                    .between(endOfLastRoute, routes.get(i).getFirst().getStartTimeAsZonedDateTime()).getSeconds();
+            index2waitingSeconds.put(i, waitingSeconds);
+            int routeSeconds = routes.get(i).stream().mapToInt(s -> s.getDurationSeconds()).sum();
+            endOfLastRoute = endOfLastRoute.plus(routeSeconds + (waitingSeconds > 0 ? waitingSeconds : 0),
+                    ChronoUnit.SECONDS);
+        }
 
-		for (int i = 0; i < routes.size(); i++) {
-			List<RouteSegment> segmentsToAdd;
+        for (int i = 0; i < routes.size(); i++) {
+            List<RouteSegment> segmentsToAdd;
 
-			int waitingSeconds = index2waitingSeconds.get(i);
+            int waitingSeconds = index2waitingSeconds.get(i);
 
-			if (waitingSeconds > 0)
-				segmentsToAdd = prependWaitingTime(routes.get(i), waitingSeconds);
-			else if (waitingSeconds < 0)
-				segmentsToAdd = shiftInTime(routes.get(i), -waitingSeconds);
-			else
-				segmentsToAdd = routes.get(i);
+            if (waitingSeconds > 0)
+                segmentsToAdd = prependWaitingTime(routes.get(i), waitingSeconds);
+            else if (waitingSeconds < 0)
+                segmentsToAdd = shiftInTime(routes.get(i), -waitingSeconds);
+            else
+                segmentsToAdd = routes.get(i);
 
-			mergedSegments.addAll(segmentsToAdd);
-		}
+            mergedSegments.addAll(segmentsToAdd);
+        }
 
-		if (mergeSegmentsWithSameMot)
-			mergedSegments = mergeSegmentsWithSameMot(mergedSegments);
+        if (mergeSegmentsWithSameMot)
+            mergedSegments = mergeSegmentsWithSameMot(mergedSegments);
 
-		fixConsecutiveSegmentNrs(mergedSegments);
+        fixConsecutiveSegmentNrs(mergedSegments);
 
-		return mergedSegments;
-	}
+        return mergedSegments;
+    }
 
-	/**
-	 * Prepends waiting time (boarding time) to the first segment that is not in
-	 * the black list (and use the last segment if all are on the black list)
-	 */
-	private List<RouteSegment> prependWaitingTime(List<RouteSegment> segments, int waitingSeconds) {
-		int firstMatchingSegmentIndex = 0;
-		while (firstMatchingSegmentIndex < segments.size()) {
-			ModeOfTransport mot = segments.get(firstMatchingSegmentIndex).getModeOfTransport();
-			if (writeWaitingTimePreferableNotInto.contains(mot)) {
-				firstMatchingSegmentIndex++;
-			} else {
-				break;
-			}
-		}
-		if (firstMatchingSegmentIndex >= segments.size())
-			firstMatchingSegmentIndex = segments.size() - 1;
+    /**
+     * Prepends waiting time (boarding time) to the first segment that is not in
+     * the black list (and use the last segment if all are on the black list)
+     */
+    private List<RouteSegment> prependWaitingTime(List<RouteSegment> segments, int waitingSeconds) {
+        int firstMatchingSegmentIndex = 0;
+        while (firstMatchingSegmentIndex < segments.size()) {
+            ModeOfTransport mot = segments.get(firstMatchingSegmentIndex).getModeOfTransport();
+            if (writeWaitingTimePreferableNotInto.contains(mot)) {
+                firstMatchingSegmentIndex++;
+            } else {
+                break;
+            }
+        }
+        if (firstMatchingSegmentIndex >= segments.size())
+            firstMatchingSegmentIndex = segments.size() - 1;
 
-		List<RouteSegment> modifiedSegments = new ArrayList<>(segments);
-		RouteSegment old = modifiedSegments.get(firstMatchingSegmentIndex);
+        List<RouteSegment> modifiedSegments = new ArrayList<>(segments);
+        RouteSegment old = modifiedSegments.get(firstMatchingSegmentIndex);
 
-		// add waiting time to chosen segment
-		RouteSegment modifiedCopy = RouteSegment.createShallowCopy(old);
-		if (old.getModeOfTransport().getDetailedType().isPresent()
-				&& old.getModeOfTransport().getDetailedType().get().equals(DetailedModeOfTransportType.TRANSFER)) {
-			modifiedCopy.setAlightingSeconds(old.getAlightingSeconds().orElse(0) + waitingSeconds);
-		} else {
-			modifiedCopy.setBoardingSeconds(old.getBoardingSeconds().orElse(0) + waitingSeconds);
-		}
-		modifiedCopy.setDurationSeconds(old.getDurationSeconds() + waitingSeconds);
-		modifiedCopy.setStartTime(old.getStartTimeAsZonedDateTime().minus(waitingSeconds, ChronoUnit.SECONDS));
-		modifiedSegments.set(firstMatchingSegmentIndex, modifiedCopy);
+        // add waiting time to chosen segment
+        RouteSegment modifiedCopy = RouteSegment.createShallowCopy(old);
+        if (old.getModeOfTransport().getDetailedType().isPresent()
+                && old.getModeOfTransport().getDetailedType().get().equals(DetailedModeOfTransportType.TRANSFER)) {
+            modifiedCopy.setAlightingSeconds(old.getAlightingSeconds().orElse(0) + waitingSeconds);
+        } else {
+            modifiedCopy.setBoardingSeconds(old.getBoardingSeconds().orElse(0) + waitingSeconds);
+        }
+        modifiedCopy.setDurationSeconds(old.getDurationSeconds() + waitingSeconds);
+        modifiedCopy.setStartTime(old.getStartTimeAsZonedDateTime().minus(waitingSeconds, ChronoUnit.SECONDS));
+        modifiedSegments.set(firstMatchingSegmentIndex, modifiedCopy);
 
-		// shift start/end times for segments
-		// before the modified segment
-		for (int i = 0; i < firstMatchingSegmentIndex; i++) {
-			old = modifiedSegments.get(i);
-			modifiedCopy = RouteSegment.createShallowCopy(old);
-			modifiedCopy.setStartTime(old.getStartTimeAsZonedDateTime().minus(waitingSeconds, ChronoUnit.SECONDS));
-			modifiedCopy.setEndTime(old.getEndTimeAsZonedDateTime().minus(waitingSeconds, ChronoUnit.SECONDS));
-			modifiedSegments.set(i, modifiedCopy);
-		}
+        // shift start/end times for segments
+        // before the modified segment
+        for (int i = 0; i < firstMatchingSegmentIndex; i++) {
+            old = modifiedSegments.get(i);
+            modifiedCopy = RouteSegment.createShallowCopy(old);
+            modifiedCopy.setStartTime(old.getStartTimeAsZonedDateTime().minus(waitingSeconds, ChronoUnit.SECONDS));
+            modifiedCopy.setEndTime(old.getEndTimeAsZonedDateTime().minus(waitingSeconds, ChronoUnit.SECONDS));
+            modifiedSegments.set(i, modifiedCopy);
+        }
 
-		return modifiedSegments;
-	}
+        return modifiedSegments;
+    }
 
-	/**
-	 * @param shiftSeconds
-	 *            seconds the segments should be shifted in time
-	 */
-	private static List<RouteSegment> shiftInTime(List<RouteSegment> segments, int shiftSeconds) {
-		List<RouteSegment> modifiedSegments = new ArrayList<>();
-		for (RouteSegment segment : segments) {
-			RouteSegment modifiedCopy = RouteSegment.createShallowCopy(segment);
-			modifiedCopy.setStartTime(segment.getStartTimeAsZonedDateTime().plus(shiftSeconds, ChronoUnit.SECONDS));
-			modifiedCopy.setEndTime(segment.getEndTimeAsZonedDateTime().plus(shiftSeconds, ChronoUnit.SECONDS));
-			modifiedSegments.add(modifiedCopy);
-			if (!segment.getModeOfTransport().equals(ModeOfTransport.STANDARD_FOOT))
-				LOGGER.warn(shiftSeconds + "s shift for mot " + segment.getModeOfTransport());
-		}
-		return modifiedSegments;
-	}
+    /**
+     * @param shiftSeconds
+     *            seconds the segments should be shifted in time
+     */
+    private static List<RouteSegment> shiftInTime(List<RouteSegment> segments, int shiftSeconds) {
+        List<RouteSegment> modifiedSegments = new ArrayList<>();
+        for (RouteSegment segment : segments) {
+            RouteSegment modifiedCopy = RouteSegment.createShallowCopy(segment);
+            modifiedCopy.setStartTime(segment.getStartTimeAsZonedDateTime().plus(shiftSeconds, ChronoUnit.SECONDS));
+            modifiedCopy.setEndTime(segment.getEndTimeAsZonedDateTime().plus(shiftSeconds, ChronoUnit.SECONDS));
+            modifiedSegments.add(modifiedCopy);
+            if (!segment.getModeOfTransport().equals(ModeOfTransport.STANDARD_FOOT))
+                LOGGER.warn(shiftSeconds + "s shift for mot " + segment.getModeOfTransport());
+        }
+        return modifiedSegments;
+    }
 
-	private static List<RouteSegment> mergeSegmentsWithSameMot(List<RouteSegment> segments) {
-		RangeSet<Integer> rangeSet = TreeRangeSet.create();
-		for (int i = 0; i < segments.size() - 1; i++) {
-			if (segments.get(i).getModeOfTransport().equals(segments.get(i + 1).getModeOfTransport())) {
-				rangeSet.add(Range.closed(i, i + 1).canonical(DiscreteDomain.integers()));
-			}
-		}
+    private static List<RouteSegment> mergeSegmentsWithSameMot(List<RouteSegment> segments) {
+        RangeSet<Integer> rangeSet = TreeRangeSet.create();
+        for (int i = 0; i < segments.size() - 1; i++) {
+            if (segments.get(i).getModeOfTransport().equals(segments.get(i + 1).getModeOfTransport())) {
+                rangeSet.add(Range.closed(i, i + 1).canonical(DiscreteDomain.integers()));
+            }
+        }
 
-		Map<Integer, Range<Integer>> start2Range = new HashMap<>();
-		for (Range<Integer> range : rangeSet.asRanges())
-			start2Range.put(lowerBound(range), range);
+        Map<Integer, Range<Integer>> start2Range = new HashMap<>();
+        for (Range<Integer> range : rangeSet.asRanges())
+            start2Range.put(lowerBound(range), range);
 
-		List<RouteSegment> mergedSegments = new ArrayList<>();
-		for (int i = 0; i < segments.size(); i++) {
-			if (start2Range.containsKey(i)) {
-				Range<Integer> range = start2Range.get(i);
-				RouteSegment prev = segments.get(i);
-				while (i < upperBound(range)) {
-					prev = mergeTwoSegments(prev, segments.get(++i));
-				}
-				mergedSegments.add(prev);
-			} else {
-				mergedSegments.add(segments.get(i));
-			}
-		}
-		return mergedSegments;
-	}
+        List<RouteSegment> mergedSegments = new ArrayList<>();
+        for (int i = 0; i < segments.size(); i++) {
+            if (start2Range.containsKey(i)) {
+                Range<Integer> range = start2Range.get(i);
+                RouteSegment prev = segments.get(i);
+                while (i < upperBound(range)) {
+                    prev = mergeTwoSegments(prev, segments.get(++i));
+                }
+                mergedSegments.add(prev);
+            } else {
+                mergedSegments.add(segments.get(i));
+            }
+        }
+        return mergedSegments;
+    }
 
-	/**
-	 * @return a single merged {@link RouteSegment} with the main attributes
-	 *         from the first segment but the combined duration, distance and
-	 *         geometry
-	 */
-	private static RouteSegment mergeTwoSegments(RouteSegment a, RouteSegment b) {
-		// mot, start & end time e.g. from a
-		RouteSegment merged = RouteSegment.createShallowCopy(a);
+    /**
+     * @return a single merged {@link RouteSegment} with the main attributes
+     *         from the first segment but the combined duration, distance and
+     *         geometry
+     */
+    private static RouteSegment mergeTwoSegments(RouteSegment a, RouteSegment b) {
+        // mot, start & end time e.g. from a
+        RouteSegment merged = RouteSegment.createShallowCopy(a);
 
-		// adapt time
-		int totalSeconds = a.getDurationSeconds() + b.getDurationSeconds();
-		merged.setBoardingSeconds(a.getBoardingSeconds().orElse(0) + b.getBoardingSeconds().orElse(0));
-		merged.setAlightingSeconds(a.getAlightingSeconds().orElse(0) + b.getAlightingSeconds().orElse(0));
-		merged.setDurationSeconds(totalSeconds);
-		merged.setEndTime(a.getStartTimeAsZonedDateTime().plus(totalSeconds, ChronoUnit.SECONDS));
+        // adapt time
+        int totalSeconds = a.getDurationSeconds() + b.getDurationSeconds();
+        merged.setBoardingSeconds(a.getBoardingSeconds().orElse(0) + b.getBoardingSeconds().orElse(0));
+        merged.setAlightingSeconds(a.getAlightingSeconds().orElse(0) + b.getAlightingSeconds().orElse(0));
+        merged.setDurationSeconds(totalSeconds);
+        merged.setEndTime(a.getStartTimeAsZonedDateTime().plus(totalSeconds, ChronoUnit.SECONDS));
 
-		// adapt geometry & length
-		merged.setTo(b.getTo());
-		GeoJSONFeature<GeoJSONLineString> newlineString = GeoJSONFeature.createLineStringFeature(new ArrayList<>());
-		List<GeoJSONFeature<GeoJSONLineString>> newGeometryGeoJsonEdges = new ArrayList<>();
-		for(RouteSegment routeSegment : new RouteSegment[]{ a, b }) {
+        // adapt geometry & length
+        merged.setTo(b.getTo());
+        GeoJSONFeature<GeoJSONLineString> newlineString = GeoJSONFeature.createLineStringFeature(new ArrayList<>());
+        List<GeoJSONFeature<GeoJSONLineString>> newGeometryGeoJsonEdges = new ArrayList<>();
+        for (RouteSegment routeSegment : new RouteSegment[] { a, b }) {
             routeSegment.getGeometryGeoJson().ifPresent(
                     g -> newlineString.getGeometry().getCoordinates().addAll(g.getGeometry().getCoordinates()));
             routeSegment.getGeometryGeoJsonEdges().ifPresent(g -> newGeometryGeoJsonEdges.addAll(g.getFeatures()));
-		}
-		merged.setGeometryGeoJson(newlineString);
+        }
+        merged.setGeometryGeoJson(newlineString);
         if (!newGeometryGeoJsonEdges.isEmpty()) {
             merged.setGeometryGeoJsonEdges(GeoJSONFeatureCollection.create(newGeometryGeoJsonEdges));
         }
-		merged.setDistanceMeters(a.getDistanceMeters() + b.getDistanceMeters());
+        merged.setDistanceMeters(a.getDistanceMeters() + b.getDistanceMeters());
 
-		return merged;
-	}
+        return merged;
+    }
 
-	private static void fixConsecutiveSegmentNrs(List<RouteSegment> segments) {
-		for (int i = 0; i < segments.size(); i++) {
-			segments.get(i).setNr(i + 1);
-		}
-	}
+    private static void fixConsecutiveSegmentNrs(List<RouteSegment> segments) {
+        for (int i = 0; i < segments.size(); i++) {
+            segments.get(i).setNr(i + 1);
+        }
+    }
 
-	static int lowerBound(Range<Integer> range) {
-		int lower = range.lowerEndpoint();
-		if (range.lowerBoundType().equals(BoundType.OPEN))
-			++lower;
-		return lower;
-	}
+    static int lowerBound(Range<Integer> range) {
+        int lower = range.lowerEndpoint();
+        if (range.lowerBoundType().equals(BoundType.OPEN))
+            ++lower;
+        return lower;
+    }
 
-	static int upperBound(Range<Integer> range) {
-		int upper = range.upperEndpoint();
-		if (range.upperBoundType().equals(BoundType.OPEN))
-			--upper;
-		return upper;
-	}
+    static int upperBound(Range<Integer> range) {
+        int upper = range.upperEndpoint();
+        if (range.upperBoundType().equals(BoundType.OPEN))
+            --upper;
+        return upper;
+    }
 
 }

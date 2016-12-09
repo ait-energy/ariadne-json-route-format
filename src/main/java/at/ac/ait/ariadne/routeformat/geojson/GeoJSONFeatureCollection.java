@@ -19,44 +19,44 @@ import at.ac.ait.ariadne.routeformat.Validatable;
 @JsonInclude(Include.NON_EMPTY)
 public class GeoJSONFeatureCollection<T extends GeoJSONGeometryObject> implements Validatable {
 
-	@JsonProperty(required = true)
-	public final String type = GeoJSONUtil.getTypeName(this.getClass());
-	private List<GeoJSONFeature<T>> features = new ArrayList<>();
+    @JsonProperty(required = true)
+    public final String type = GeoJSONUtil.getTypeName(this.getClass());
+    private List<GeoJSONFeature<T>> features = new ArrayList<>();
 
-	// -- getters
+    // -- getters
 
-	@JsonInclude(Include.ALWAYS)
-	@JsonProperty(required = true)
-	public List<GeoJSONFeature<T>> getFeatures() {
-		return features;
-	}
+    @JsonInclude(Include.ALWAYS)
+    @JsonProperty(required = true)
+    public List<GeoJSONFeature<T>> getFeatures() {
+        return features;
+    }
 
-	// -- setters
+    // -- setters
 
-	public GeoJSONFeatureCollection<T> setFeatures(List<GeoJSONFeature<T>> features) {
-		this.features = new ArrayList<>(features);
-		return this;
-	}
+    public GeoJSONFeatureCollection<T> setFeatures(List<GeoJSONFeature<T>> features) {
+        this.features = new ArrayList<>(features);
+        return this;
+    }
 
-	// --
+    // --
 
-	public static <T extends GeoJSONGeometryObject> GeoJSONFeatureCollection<T> create(
-			List<GeoJSONFeature<T>> features) {
-		return new GeoJSONFeatureCollection<T>().setFeatures(features);
-	}
+    public static <T extends GeoJSONGeometryObject> GeoJSONFeatureCollection<T> create(
+            List<GeoJSONFeature<T>> features) {
+        return new GeoJSONFeatureCollection<T>().setFeatures(features);
+    }
 
-	@Override
-	public void validate() {
-		features.forEach(f -> f.validate());
-	}
+    @Override
+    public void validate() {
+        features.forEach(f -> f.validate());
+    }
 
-	public List<String> toWKT() {
-		return features.stream().map(f -> f.toWKT()).collect(Collectors.toList());
-	}
+    public List<String> toWKT() {
+        return features.stream().map(f -> f.toWKT()).collect(Collectors.toList());
+    }
 
-	@Override
-	public String toString() {
-		return "GeoJSONFeatureCollection [featuresWKT=" + toWKT() + "]";
-	}
+    @Override
+    public String toString() {
+        return "GeoJSONFeatureCollection [featuresWKT=" + toWKT() + "]";
+    }
 
 }

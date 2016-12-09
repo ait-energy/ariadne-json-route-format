@@ -21,77 +21,77 @@ import at.ac.ait.ariadne.routeformat.Constants.GeneralizedModeOfTransportType;
 @JsonInclude(Include.NON_EMPTY)
 public class RequestPTModeOfTransport extends RequestModeOfTransport<RequestPTModeOfTransport> {
 
-	private Set<DetailedModeOfTransportType> excludedPublicTransportModes = new TreeSet<>();
+    private Set<DetailedModeOfTransportType> excludedPublicTransportModes = new TreeSet<>();
 
-	// -- getters
+    // -- getters
 
-	/**
-	 * @return a set of public transport types which must not be used for
-	 *         routing. It is guaranteed that for all returned mots
-	 *         {@link DetailedModeOfTransportType#getGeneralizedType()} returns
-	 *         {@link GeneralizedModeOfTransportType#PUBLIC_TRANSPORT}
-	 */
-	@JsonProperty
-	public Set<DetailedModeOfTransportType> getExcludedPublicTransportModes() {
-		return excludedPublicTransportModes;
-	}
+    /**
+     * @return a set of public transport types which must not be used for
+     *         routing. It is guaranteed that for all returned mots
+     *         {@link DetailedModeOfTransportType#getGeneralizedType()} returns
+     *         {@link GeneralizedModeOfTransportType#PUBLIC_TRANSPORT}
+     */
+    @JsonProperty
+    public Set<DetailedModeOfTransportType> getExcludedPublicTransportModes() {
+        return excludedPublicTransportModes;
+    }
 
-	// -- setters
+    // -- setters
 
-	public RequestPTModeOfTransport setExcludedPublicTransportModes(
-			Set<DetailedModeOfTransportType> excludedPublicTransportModes) {
-		this.excludedPublicTransportModes = new TreeSet<>(excludedPublicTransportModes);
-		return this;
-	}
+    public RequestPTModeOfTransport setExcludedPublicTransportModes(
+            Set<DetailedModeOfTransportType> excludedPublicTransportModes) {
+        this.excludedPublicTransportModes = new TreeSet<>(excludedPublicTransportModes);
+        return this;
+    }
 
-	// --
+    // --
 
-	public static RequestPTModeOfTransport createMinimal(ModeOfTransport modeOfTransport) {
-		return new RequestPTModeOfTransport().setModeOfTransport(modeOfTransport);
-	}
+    public static RequestPTModeOfTransport createMinimal(ModeOfTransport modeOfTransport) {
+        return new RequestPTModeOfTransport().setModeOfTransport(modeOfTransport);
+    }
 
-	@Override
-	public void validate() {
-		super.validate();
-		Preconditions.checkArgument(
-				modeOfTransport.getGeneralizedType().equals(GeneralizedModeOfTransportType.PUBLIC_TRANSPORT),
-				"only public transport allowed");
-		for (DetailedModeOfTransportType mot : excludedPublicTransportModes) {
-			Preconditions.checkArgument(mot.getGeneralizedType() == GeneralizedModeOfTransportType.PUBLIC_TRANSPORT,
-					"only detailed public transport mots allowed when excluding public transport");
-		}
-	}
+    @Override
+    public void validate() {
+        super.validate();
+        Preconditions.checkArgument(
+                modeOfTransport.getGeneralizedType().equals(GeneralizedModeOfTransportType.PUBLIC_TRANSPORT),
+                "only public transport allowed");
+        for (DetailedModeOfTransportType mot : excludedPublicTransportModes) {
+            Preconditions.checkArgument(mot.getGeneralizedType() == GeneralizedModeOfTransportType.PUBLIC_TRANSPORT,
+                    "only detailed public transport mots allowed when excluding public transport");
+        }
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result
-				+ ((excludedPublicTransportModes == null) ? 0 : excludedPublicTransportModes.hashCode());
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result
+                + ((excludedPublicTransportModes == null) ? 0 : excludedPublicTransportModes.hashCode());
+        return result;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		RequestPTModeOfTransport other = (RequestPTModeOfTransport) obj;
-		if (excludedPublicTransportModes == null) {
-			if (other.excludedPublicTransportModes != null)
-				return false;
-		} else if (!excludedPublicTransportModes.equals(other.excludedPublicTransportModes))
-			return false;
-		return true;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        RequestPTModeOfTransport other = (RequestPTModeOfTransport) obj;
+        if (excludedPublicTransportModes == null) {
+            if (other.excludedPublicTransportModes != null)
+                return false;
+        } else if (!excludedPublicTransportModes.equals(other.excludedPublicTransportModes))
+            return false;
+        return true;
+    }
 
-	@Override
-	public String toString() {
-		return super.toString() + " -> RequestPTModeOfTransport [excludedPublicTransportModes="
-				+ excludedPublicTransportModes + "]";
-	}
+    @Override
+    public String toString() {
+        return super.toString() + " -> RequestPTModeOfTransport [excludedPublicTransportModes="
+                + excludedPublicTransportModes + "]";
+    }
 
 }

@@ -17,46 +17,47 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonInclude(Include.ALWAYS)
 public class GeoJSONPoint implements GeoJSONGeometryObject {
 
-	private Optional<GeoJSONCoordinate> coordinates = Optional.empty();
+    private Optional<GeoJSONCoordinate> coordinates = Optional.empty();
 
-	// -- getters
+    // -- getters
 
-	@JsonProperty(required = true)
-	public Optional<GeoJSONCoordinate> getCoordinates() {
-		return coordinates;
-	}
+    @JsonProperty(required = true)
+    public Optional<GeoJSONCoordinate> getCoordinates() {
+        return coordinates;
+    }
 
-	// -- setters
+    // -- setters
 
-	public GeoJSONPoint setCoordinates(GeoJSONCoordinate coordinates) {
-		this.coordinates = Optional.ofNullable(coordinates);
-		return this;
-	}
+    public GeoJSONPoint setCoordinates(GeoJSONCoordinate coordinates) {
+        this.coordinates = Optional.ofNullable(coordinates);
+        return this;
+    }
 
-	// --
+    // --
 
-	public static GeoJSONPoint create(GeoJSONCoordinate point) {
-		return new GeoJSONPoint().setCoordinates(point);
-	}
+    public static GeoJSONPoint create(GeoJSONCoordinate point) {
+        return new GeoJSONPoint().setCoordinates(point);
+    }
 
-	@Override
-	public boolean isEmpty() {
-		return !coordinates.isPresent();
-	}
+    @Override
+    public boolean isEmpty() {
+        return !coordinates.isPresent();
+    }
 
-	@Override
-	public void validate() {
-	}
+    @Override
+    public void validate() {
+    }
 
-	@Override
-	public String toWKT() {
-		List<GeoJSONCoordinate> list = coordinates.isPresent() ? Arrays.asList(coordinates.get()) : Collections.emptyList();
-		return getTypeName() + " " + WKTUtil.getCoordinateStringPointOrLineString(list);
-	}
+    @Override
+    public String toWKT() {
+        List<GeoJSONCoordinate> list = coordinates.isPresent() ? Arrays.asList(coordinates.get())
+                : Collections.emptyList();
+        return getTypeName() + " " + WKTUtil.getCoordinateStringPointOrLineString(list);
+    }
 
-	@Override
-	public String toString() {
-		return toWKT();
-	}
+    @Override
+    public String toString() {
+        return toWKT();
+    }
 
 }

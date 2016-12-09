@@ -17,56 +17,56 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonInclude(Include.ALWAYS)
 public class GeoJSONPolygon implements GeoJSONGeometryObject {
 
-	private List<List<GeoJSONCoordinate>> coordinates = new ArrayList<>();
+    private List<List<GeoJSONCoordinate>> coordinates = new ArrayList<>();
 
-	// -- getters
+    // -- getters
 
-	/**
-	 * Coordinates of a polygon are an array of LinearRing coordinate arrays
-	 * (the first and the last coordinate must be the same, thereby closing the
-	 * ring). The first element in the array represents the exterior ring. Any
-	 * subsequent elements represent interior rings (or holes).
-	 */
-	@JsonProperty(required = true)
-	public List<List<GeoJSONCoordinate>> getCoordinates() {
-		return coordinates;
-	}
+    /**
+     * Coordinates of a polygon are an array of LinearRing coordinate arrays
+     * (the first and the last coordinate must be the same, thereby closing the
+     * ring). The first element in the array represents the exterior ring. Any
+     * subsequent elements represent interior rings (or holes).
+     */
+    @JsonProperty(required = true)
+    public List<List<GeoJSONCoordinate>> getCoordinates() {
+        return coordinates;
+    }
 
-	// -- setters
+    // -- setters
 
-	public GeoJSONPolygon setCoordinates(List<List<GeoJSONCoordinate>> coordinates) {
-		this.coordinates = new ArrayList<>();
-		for (List<GeoJSONCoordinate> ring : coordinates) {
-			this.coordinates.add(new ArrayList<>(ring));
-		}
-		return this;
-	}
+    public GeoJSONPolygon setCoordinates(List<List<GeoJSONCoordinate>> coordinates) {
+        this.coordinates = new ArrayList<>();
+        for (List<GeoJSONCoordinate> ring : coordinates) {
+            this.coordinates.add(new ArrayList<>(ring));
+        }
+        return this;
+    }
 
-	// --
+    // --
 
-	public static GeoJSONPolygon create(List<List<GeoJSONCoordinate>> points) {
-		return new GeoJSONPolygon().setCoordinates(points);
-	}
+    public static GeoJSONPolygon create(List<List<GeoJSONCoordinate>> points) {
+        return new GeoJSONPolygon().setCoordinates(points);
+    }
 
-	@Override
-	public boolean isEmpty() {
-		return coordinates.isEmpty();
-	}
+    @Override
+    public boolean isEmpty() {
+        return coordinates.isEmpty();
+    }
 
-	@Override
-	public void validate() {
-		for (List<GeoJSONCoordinate> ring : coordinates)
-			GeoJSONUtil.assertLinearRing(ring);
-	}
+    @Override
+    public void validate() {
+        for (List<GeoJSONCoordinate> ring : coordinates)
+            GeoJSONUtil.assertLinearRing(ring);
+    }
 
-	@Override
-	public String toWKT() {
-		return getTypeName() + " " + WKTUtil.getCoordinateStringPolygon(coordinates);
-	}
+    @Override
+    public String toWKT() {
+        return getTypeName() + " " + WKTUtil.getCoordinateStringPolygon(coordinates);
+    }
 
-	@Override
-	public String toString() {
-		return toWKT();
-	}
+    @Override
+    public String toString() {
+        return toWKT();
+    }
 
 }

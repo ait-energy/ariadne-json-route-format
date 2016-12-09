@@ -18,47 +18,47 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
 @JsonInclude(Include.NON_EMPTY)
 public class PointOfInterest extends Location<PointOfInterest> {
 
-	private Optional<String> poiType = Optional.empty();
-	private Optional<String> name = Optional.empty();
+    private Optional<String> poiType = Optional.empty();
+    private Optional<String> name = Optional.empty();
 
-	// -- getters
+    // -- getters
 
-	public Optional<String> getPoiType() {
-		return poiType;
-	}
+    public Optional<String> getPoiType() {
+        return poiType;
+    }
 
-	public Optional<String> getName() {
-		return name;
-	}
+    public Optional<String> getName() {
+        return name;
+    }
 
-	// -- setters
+    // -- setters
 
-	public PointOfInterest setPoiType(String poiType) {
-		this.poiType = Optional.ofNullable(poiType);
-		return this;
-	}
+    public PointOfInterest setPoiType(String poiType) {
+        this.poiType = Optional.ofNullable(poiType);
+        return this;
+    }
 
-	public PointOfInterest setName(String name) {
-		this.name = Optional.ofNullable(name);
-		return this;
-	}
+    public PointOfInterest setName(String name) {
+        this.name = Optional.ofNullable(name);
+        return this;
+    }
 
-	// --
+    // --
 
-	public static PointOfInterest createMinimal(GeoJSONCoordinate position) {
-		return new PointOfInterest().setCoordinate(position);
-	}
+    public static PointOfInterest createMinimal(GeoJSONCoordinate position) {
+        return new PointOfInterest().setCoordinate(position);
+    }
 
-	@Override
-	public void validate() {
-		super.validate();
-		// no other requirements
-	}
+    @Override
+    public void validate() {
+        super.validate();
+        // no other requirements
+    }
 
-	@Override
-	public String toString() {
-		return super.toString() + " -> PointOfInterest [poiType=" + poiType + ", name=" + name + ", address="
-				+ getAddress() + "]";
-	}
+    @Override
+    public String toString() {
+        return super.toString() + " -> PointOfInterest [poiType=" + poiType + ", name=" + name + ", address="
+                + getAddress() + "]";
+    }
 
 }

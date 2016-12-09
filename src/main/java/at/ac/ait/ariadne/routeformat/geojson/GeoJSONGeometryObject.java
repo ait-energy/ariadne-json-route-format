@@ -12,27 +12,27 @@ import at.ac.ait.ariadne.routeformat.Validatable;
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({ @Type(value = GeoJSONPoint.class, name = "Point"),
-		@Type(value = GeoJSONLineString.class, name = "LineString"),
-		@Type(value = GeoJSONPolygon.class, name = "Polygon"),
-		@Type(value = GeoJSONMultiPolygon.class, name = "MultiPolygon") })
+        @Type(value = GeoJSONLineString.class, name = "LineString"),
+        @Type(value = GeoJSONPolygon.class, name = "Polygon"),
+        @Type(value = GeoJSONMultiPolygon.class, name = "MultiPolygon") })
 public interface GeoJSONGeometryObject extends Validatable {
 
-	@JsonIgnore
-	default String getTypeName() {
-		return GeoJSONUtil.getTypeName(this.getClass());
-	}
+    @JsonIgnore
+    default String getTypeName() {
+        return GeoJSONUtil.getTypeName(this.getClass());
+    }
 
-	/**
-	 * @return the <a href="https://en.wikipedia.org/wiki/Well-known_text">well
-	 *         known text</a> representation of this geometry object
-	 */
-	@JsonIgnore
-	String toWKT();
+    /**
+     * @return the <a href="https://en.wikipedia.org/wiki/Well-known_text">well
+     *         known text</a> representation of this geometry object
+     */
+    @JsonIgnore
+    String toWKT();
 
-	/**
-	 * @return <code>true</code> if the element does not contain any coordinates
-	 */
-	@JsonIgnore
-	boolean isEmpty();
+    /**
+     * @return <code>true</code> if the element does not contain any coordinates
+     */
+    @JsonIgnore
+    boolean isEmpty();
 
 }

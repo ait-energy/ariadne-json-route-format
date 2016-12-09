@@ -21,96 +21,96 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
  */
 @JsonInclude(Include.NON_EMPTY)
 public class Parking extends Location<Parking> {
-	private Optional<ParkingType> parkingType = Optional.empty();
-	private Set<GeneralizedModeOfTransportType> modesOfTransport = new TreeSet<>();
-	private Optional<String> name = Optional.empty();
-	private Optional<Boolean> fee = Optional.empty();
-	private Optional<Boolean> parkAndRide = Optional.empty();
-	private Optional<String> openingHours = Optional.empty();
+    private Optional<ParkingType> parkingType = Optional.empty();
+    private Set<GeneralizedModeOfTransportType> modesOfTransport = new TreeSet<>();
+    private Optional<String> name = Optional.empty();
+    private Optional<Boolean> fee = Optional.empty();
+    private Optional<Boolean> parkAndRide = Optional.empty();
+    private Optional<String> openingHours = Optional.empty();
 
-	// -- getters
+    // -- getters
 
-	public Optional<ParkingType> getParkingType() {
-		return parkingType;
-	}
+    public Optional<ParkingType> getParkingType() {
+        return parkingType;
+    }
 
-	public Set<GeneralizedModeOfTransportType> getModesOfTransport() {
-		return modesOfTransport;
-	}
+    public Set<GeneralizedModeOfTransportType> getModesOfTransport() {
+        return modesOfTransport;
+    }
 
-	public Optional<String> getName() {
-		return name;
-	}
+    public Optional<String> getName() {
+        return name;
+    }
 
-	public Optional<Boolean> getFee() {
-		return fee;
-	}
+    public Optional<Boolean> getFee() {
+        return fee;
+    }
 
-	/**
-	 * @return <code>true</code> if this is a park and ride facility
-	 */
-	public Optional<Boolean> getParkAndRide() {
-		return parkAndRide;
-	}
+    /**
+     * @return <code>true</code> if this is a park and ride facility
+     */
+    public Optional<Boolean> getParkAndRide() {
+        return parkAndRide;
+    }
 
-	/**
-	 * @return a String in the <a href=
-	 *         "https://wiki.openstreetmap.org/wiki/Key:opening_hours">opening_hours
-	 *         format of OpenStreetMap</a>
-	 */
-	public Optional<String> getOpeningHours() {
-		return openingHours;
-	}
+    /**
+     * @return a String in the <a href=
+     *         "https://wiki.openstreetmap.org/wiki/Key:opening_hours">opening_hours
+     *         format of OpenStreetMap</a>
+     */
+    public Optional<String> getOpeningHours() {
+        return openingHours;
+    }
 
-	// -- setters
+    // -- setters
 
-	public Parking setParkingType(ParkingType parkingType) {
-		this.parkingType = Optional.ofNullable(parkingType);
-		return this;
-	}
+    public Parking setParkingType(ParkingType parkingType) {
+        this.parkingType = Optional.ofNullable(parkingType);
+        return this;
+    }
 
-	public Parking setModesOfTransport(Set<GeneralizedModeOfTransportType> modesOfTransport) {
-		this.modesOfTransport = modesOfTransport;
-		return this;
-	}
+    public Parking setModesOfTransport(Set<GeneralizedModeOfTransportType> modesOfTransport) {
+        this.modesOfTransport = modesOfTransport;
+        return this;
+    }
 
-	public Parking setName(String name) {
-		this.name = Optional.ofNullable(name);
-		return this;
-	}
+    public Parking setName(String name) {
+        this.name = Optional.ofNullable(name);
+        return this;
+    }
 
-	public Parking setFee(Boolean fee) {
-		this.fee = Optional.ofNullable(fee);
-		return this;
-	}
+    public Parking setFee(Boolean fee) {
+        this.fee = Optional.ofNullable(fee);
+        return this;
+    }
 
-	public Parking setParkAndRide(Boolean parkAndRide) {
-		this.parkAndRide = Optional.ofNullable(parkAndRide);
-		return this;
-	}
+    public Parking setParkAndRide(Boolean parkAndRide) {
+        this.parkAndRide = Optional.ofNullable(parkAndRide);
+        return this;
+    }
 
-	public Parking setOpeningHours(String openingHours) {
-		this.openingHours = Optional.ofNullable(openingHours);
-		return this;
-	}
+    public Parking setOpeningHours(String openingHours) {
+        this.openingHours = Optional.ofNullable(openingHours);
+        return this;
+    }
 
-	// --
+    // --
 
-	public static Parking createMinimal(GeoJSONCoordinate position) {
-		return new Parking().setCoordinate(position);
-	}
+    public static Parking createMinimal(GeoJSONCoordinate position) {
+        return new Parking().setCoordinate(position);
+    }
 
-	@Override
-	public void validate() {
-		super.validate();
-		// no other requirements
-	}
+    @Override
+    public void validate() {
+        super.validate();
+        // no other requirements
+    }
 
-	@Override
-	public String toString() {
-		return super.toString() + " -> Parking [parkingType=" + parkingType + ", modesOfTransport=" + modesOfTransport
-				+ ", name=" + name + ", fee=" + fee + ", parkAndRide=" + parkAndRide + ", openingHours=" + openingHours
-				+ "]";
-	}
+    @Override
+    public String toString() {
+        return super.toString() + " -> Parking [parkingType=" + parkingType + ", modesOfTransport=" + modesOfTransport
+                + ", name=" + name + ", fee=" + fee + ", parkAndRide=" + parkAndRide + ", openingHours=" + openingHours
+                + "]";
+    }
 
 }

@@ -9,12 +9,13 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 
 public class JacksonExampleTest {
 
-	/**
-	 * Generating a .json for the example route and parsing it again should complete without {@link Exception}s
-	 */
-	@Test
-	public void testJacksonGeneration() throws JsonGenerationException, JsonMappingException, IOException {
-		JacksonExample.main(new String[0]);
-	}
+    /**
+     * Generating a .json for the example route and parsing it again should
+     * complete without {@link Exception}s
+     */
+    @Test
+    public void testJacksonGeneration() throws JsonGenerationException, JsonMappingException, IOException {
+        JacksonExample.main(new String[0]);
+    }
 
 }

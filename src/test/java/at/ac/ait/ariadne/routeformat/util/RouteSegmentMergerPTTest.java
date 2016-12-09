@@ -17,23 +17,24 @@ import at.ac.ait.ariadne.routeformat.TestUtil;
 
 public class RouteSegmentMergerPTTest {
 
-	private static List<List<RouteSegment>> segmentsToMerge;
+    private static List<List<RouteSegment>> segmentsToMerge;
 
-	@BeforeClass
-	public static void readRoutes() throws JsonParseException, JsonMappingException, IOException {
-		InputStream inStream = RouteSegmentMergerPTTest.class.getResourceAsStream("/test-merge.json");
-		segmentsToMerge = TestUtil.MAPPER.readValue(inStream, DataFormat.class).segmentsToMerge;
-	}
-	
-	// TODO write another test that checks if more complex waiting times are merged correctly?
+    @BeforeClass
+    public static void readRoutes() throws JsonParseException, JsonMappingException, IOException {
+        InputStream inStream = RouteSegmentMergerPTTest.class.getResourceAsStream("/test-merge.json");
+        segmentsToMerge = TestUtil.MAPPER.readValue(inStream, DataFormat.class).segmentsToMerge;
+    }
 
-	@Test
-	public void mergeTest() {
-		RouteSegmentMerger merger = new RouteSegmentMerger(segmentsToMerge);
-		merger.setMergeSegmentsWithSameMot(true);
-		List<RouteSegment> mergedSegments = merger.createMergedSegments();
+    // TODO write another test that checks if more complex waiting times are
+    // merged correctly?
 
-		/* @formatter:off */
+    @Test
+    public void mergeTest() {
+        RouteSegmentMerger merger = new RouteSegmentMerger(segmentsToMerge);
+        merger.setMergeSegmentsWithSameMot(true);
+        List<RouteSegment> mergedSegments = merger.createMergedSegments();
+
+        /* @formatter:off */
 //		1: FOOT-FOOT 347m 289s (2016-04-12 departure: 16:26:36, arrival: 16:31:25)
 //		2: PUBLIC_TRANSPORT-TRAM 6 -> Wien Burggasse-Stadthalle 435m 275s (2016-04-12 boarding: 16:31:25, departure: 16:34:00, arrival: 16:36:00)
 //		3: FOOT-TRANSFER 31m 60s (2016-04-12 departure: 16:36:00, arrival: 16:37:00)
@@ -62,10 +63,10 @@ public class RouteSegmentMergerPTTest {
 		TestUtil.checkStart(mergedSegments.get(7), "2016-04-12T17:01:00");
 		TestUtil.checkEnd(mergedSegments.get(7), "2016-04-12T17:07:00");
 		/* @formatter:on */
-	}
+    }
 
-	public static class DataFormat {
-		public List<List<RouteSegment>> segmentsToMerge;
-	}
+    public static class DataFormat {
+        public List<List<RouteSegment>> segmentsToMerge;
+    }
 
 }

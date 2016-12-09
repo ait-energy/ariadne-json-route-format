@@ -12,32 +12,32 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
 
 public class InstructionTest {
 
-	@Test
-	public void testProperDeSerialization() throws IOException {
-		BasicRoadInstruction instruction = BasicRoadInstruction.createMinimalRouteStart(
-				GeoJSONCoordinate.create("48.123", "16"), Optional.of("Testweg"), Optional.of(FormOfWay.ROAD));
-		instruction.validate();
+    @Test
+    public void testProperDeSerialization() throws IOException {
+        BasicRoadInstruction instruction = BasicRoadInstruction.createMinimalRouteStart(
+                GeoJSONCoordinate.create("48.123", "16"), Optional.of("Testweg"), Optional.of(FormOfWay.ROAD));
+        instruction.validate();
 
-		String expected = "{\"type\":\"BasicRoadInstruction\",\"position\":{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[48.123,16]},\"properties\":{}},\"subType\":\"ROUTE_START\",\"ontoStreetName\":\"Testweg\",\"ontoFormOfWay\":\"ROAD\"}";
-		Assert.assertEquals("serialization failed", expected, TestUtil.MAPPER.writeValueAsString(instruction));
+        String expected = "{\"type\":\"BasicRoadInstruction\",\"position\":{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[48.123,16]},\"properties\":{}},\"subType\":\"ROUTE_START\",\"ontoStreetName\":\"Testweg\",\"ontoFormOfWay\":\"ROAD\"}";
+        Assert.assertEquals("serialization failed", expected, TestUtil.MAPPER.writeValueAsString(instruction));
 
-		Instruction<?> deserializedInstruction = TestUtil.MAPPER.readValue(expected, Instruction.class);
-		System.out.println(deserializedInstruction);
-		Assert.assertEquals("deserialization failed", expected,
-				TestUtil.MAPPER.writeValueAsString(deserializedInstruction));
-	}
+        Instruction<?> deserializedInstruction = TestUtil.MAPPER.readValue(expected, Instruction.class);
+        System.out.println(deserializedInstruction);
+        Assert.assertEquals("deserialization failed", expected,
+                TestUtil.MAPPER.writeValueAsString(deserializedInstruction));
+    }
 
-	// @Test
-	// public void testSchema() throws JsonProcessingException {
-	// mapper.enable(SerializationFeature.INDENT_OUTPUT);
-	// JsonSchemaGenerator jsonSchemaGenerator = new
-	// JsonSchemaGenerator(mapper);
-	// Option<String> emtpyOption = Option.empty();
-	// JsonNode jsonSchema =
-	// jsonSchemaGenerator.generateJsonSchema(Instruction.class, emtpyOption,
-	// emtpyOption);
-	//
-	// System.out.println(mapper.writeValueAsString(jsonSchema));
-	// }
+    // @Test
+    // public void testSchema() throws JsonProcessingException {
+    // mapper.enable(SerializationFeature.INDENT_OUTPUT);
+    // JsonSchemaGenerator jsonSchemaGenerator = new
+    // JsonSchemaGenerator(mapper);
+    // Option<String> emtpyOption = Option.empty();
+    // JsonNode jsonSchema =
+    // jsonSchemaGenerator.generateJsonSchema(Instruction.class, emtpyOption,
+    // emtpyOption);
+    //
+    // System.out.println(mapper.writeValueAsString(jsonSchema));
+    // }
 
 }

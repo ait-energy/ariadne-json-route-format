@@ -23,73 +23,73 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
 @JsonInclude(Include.NON_EMPTY)
 public class SharingStation extends Location<SharingStation> {
 
-	private Optional<String> name = Optional.empty();
-	private Optional<String> id = Optional.empty();
-	private List<GeneralizedModeOfTransportType> modesOfTransport = new ArrayList<>();
-	private Optional<Operator> operator = Optional.empty();
+    private Optional<String> name = Optional.empty();
+    private Optional<String> id = Optional.empty();
+    private List<GeneralizedModeOfTransportType> modesOfTransport = new ArrayList<>();
+    private Optional<Operator> operator = Optional.empty();
 
-	// -- getters
+    // -- getters
 
-	public Optional<String> getName() {
-		return name;
-	}
+    public Optional<String> getName() {
+        return name;
+    }
 
-	/**
-	 * @return an ID that should be visible to / of interest for the user
-	 */
-	public Optional<String> getId() {
-		return id;
-	}
+    /**
+     * @return an ID that should be visible to / of interest for the user
+     */
+    public Optional<String> getId() {
+        return id;
+    }
 
-	/**
-	 * @return at least (and typically exactly) one mode of transport
-	 */
-	public List<GeneralizedModeOfTransportType> getModesOfTransport() {
-		return modesOfTransport;
-	}
+    /**
+     * @return at least (and typically exactly) one mode of transport
+     */
+    public List<GeneralizedModeOfTransportType> getModesOfTransport() {
+        return modesOfTransport;
+    }
 
-	public Optional<Operator> getOperator() {
-		return operator;
-	}
+    public Optional<Operator> getOperator() {
+        return operator;
+    }
 
-	// -- setters
+    // -- setters
 
-	public SharingStation setName(String name) {
-		this.name = Optional.ofNullable(name);
-		return this;
-	}
+    public SharingStation setName(String name) {
+        this.name = Optional.ofNullable(name);
+        return this;
+    }
 
-	public SharingStation setId(String id) {
-		this.id = Optional.ofNullable(id);
-		return this;
-	}
+    public SharingStation setId(String id) {
+        this.id = Optional.ofNullable(id);
+        return this;
+    }
 
-	public SharingStation setModesOfTransport(List<GeneralizedModeOfTransportType> modesOfTransport) {
-		this.modesOfTransport = Lists.newArrayList(modesOfTransport);
-		return this;
-	}
+    public SharingStation setModesOfTransport(List<GeneralizedModeOfTransportType> modesOfTransport) {
+        this.modesOfTransport = Lists.newArrayList(modesOfTransport);
+        return this;
+    }
 
-	public SharingStation setOperator(Operator operator) {
-		this.operator = Optional.ofNullable(operator);
-		return this;
-	}
+    public SharingStation setOperator(Operator operator) {
+        this.operator = Optional.ofNullable(operator);
+        return this;
+    }
 
-	// --
+    // --
 
-	public static SharingStation createMinimal(GeoJSONCoordinate position) {
-		return new SharingStation().setCoordinate(position);
-	}
+    public static SharingStation createMinimal(GeoJSONCoordinate position) {
+        return new SharingStation().setCoordinate(position);
+    }
 
-	@Override
-	public void validate() {
-		super.validate();
-		// no other requirements
-	}
+    @Override
+    public void validate() {
+        super.validate();
+        // no other requirements
+    }
 
-	@Override
-	public String toString() {
-		return super.toString() + " -> SharingStation [name=" + name + ", id=" + id + ", modesOfTransport="
-				+ modesOfTransport + ", operator=" + operator + "]";
-	}
+    @Override
+    public String toString() {
+        return super.toString() + " -> SharingStation [name=" + name + ", id=" + id + ", modesOfTransport="
+                + modesOfTransport + ", operator=" + operator + "]";
+    }
 
 }

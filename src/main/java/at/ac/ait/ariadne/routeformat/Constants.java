@@ -83,7 +83,7 @@ public class Constants {
             return mot;
         }
     }
-    
+
     /**
      * Detailed classification of the parking type
      */
@@ -161,13 +161,13 @@ public class Constants {
     public enum Preposition {
         BEFORE, AT, AFTER, TOWARDS, THROUGH, ALONG, PAST
     }
-    
+
     public enum ContinueDirection {
         SAME, OPPOSITE
     }
-    
+
     public enum CrossingInfrastructure {
-    	TRAFFIC_LIGHT, ZEBRA_CROSSING, BICYCLE_CROSSING
+        TRAFFIC_LIGHT, ZEBRA_CROSSING, BICYCLE_CROSSING
     }
 
     public enum Status {

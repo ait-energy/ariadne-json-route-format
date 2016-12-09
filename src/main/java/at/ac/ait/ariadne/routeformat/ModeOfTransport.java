@@ -34,224 +34,224 @@ import at.ac.ait.ariadne.routeformat.Constants.VehicleAccessibility;
 @JsonInclude(Include.NON_EMPTY)
 public class ModeOfTransport implements Validatable {
 
-	public static final ModeOfTransport STANDARD_FOOT = createMinimal(DetailedModeOfTransportType.FOOT).setId("foot");
-	public static final ModeOfTransport STANDARD_BICYCLE = createMinimal(DetailedModeOfTransportType.BICYCLE)
-			.setId("bicycle");
-	public static final ModeOfTransport STANDARD_MOTORCYCLE = createMinimal(DetailedModeOfTransportType.MOTORCYCLE)
-			.setId("motorcycle");
-	public static final ModeOfTransport STANDARD_CAR = createMinimal(DetailedModeOfTransportType.CAR).setId("car");
-	public static final ModeOfTransport STANDARD_TRANSFER = createMinimal(DetailedModeOfTransportType.TRANSFER)
-			.setId("transfer");
-	public static final ModeOfTransport STANDARD_PUBLIC_TRANSPORT = createMinimal(
-			GeneralizedModeOfTransportType.PUBLIC_TRANSPORT).setId("publictransport");
+    public static final ModeOfTransport STANDARD_FOOT = createMinimal(DetailedModeOfTransportType.FOOT).setId("foot");
+    public static final ModeOfTransport STANDARD_BICYCLE = createMinimal(DetailedModeOfTransportType.BICYCLE)
+            .setId("bicycle");
+    public static final ModeOfTransport STANDARD_MOTORCYCLE = createMinimal(DetailedModeOfTransportType.MOTORCYCLE)
+            .setId("motorcycle");
+    public static final ModeOfTransport STANDARD_CAR = createMinimal(DetailedModeOfTransportType.CAR).setId("car");
+    public static final ModeOfTransport STANDARD_TRANSFER = createMinimal(DetailedModeOfTransportType.TRANSFER)
+            .setId("transfer");
+    public static final ModeOfTransport STANDARD_PUBLIC_TRANSPORT = createMinimal(
+            GeneralizedModeOfTransportType.PUBLIC_TRANSPORT).setId("publictransport");
 
-	private GeneralizedModeOfTransportType generalizedType;
-	private Optional<DetailedModeOfTransportType> detailedType = Optional.empty();
-	private Optional<String> id = Optional.empty();
-	private Optional<Service> service = Optional.empty();
-	private Optional<Operator> operator = Optional.empty();
-	private Optional<Boolean> electric = Optional.empty();
-	private Optional<Sharing> sharingType = Optional.empty();
-	private Set<VehicleAccessibility> accessibility = new TreeSet<>();
-	private Map<String, Object> additionalInfo = new TreeMap<>();
+    private GeneralizedModeOfTransportType generalizedType;
+    private Optional<DetailedModeOfTransportType> detailedType = Optional.empty();
+    private Optional<String> id = Optional.empty();
+    private Optional<Service> service = Optional.empty();
+    private Optional<Operator> operator = Optional.empty();
+    private Optional<Boolean> electric = Optional.empty();
+    private Optional<Sharing> sharingType = Optional.empty();
+    private Set<VehicleAccessibility> accessibility = new TreeSet<>();
+    private Map<String, Object> additionalInfo = new TreeMap<>();
 
-	// -- getters
+    // -- getters
 
-	@JsonProperty(required = true)
-	public GeneralizedModeOfTransportType getGeneralizedType() {
-		return generalizedType;
-	}
+    @JsonProperty(required = true)
+    public GeneralizedModeOfTransportType getGeneralizedType() {
+        return generalizedType;
+    }
 
-	public Optional<DetailedModeOfTransportType> getDetailedType() {
-		return detailedType;
-	}
+    public Optional<DetailedModeOfTransportType> getDetailedType() {
+        return detailedType;
+    }
 
-	/**
-	 * E.g. number plate for cars, bicycle nr for bike-sharing,..
-	 */
-	public Optional<String> getId() {
-		return id;
-	}
+    /**
+     * E.g. number plate for cars, bicycle nr for bike-sharing,..
+     */
+    public Optional<String> getId() {
+        return id;
+    }
 
-	/**
-	 * @return a service (in case this vehicle is part of public transport)
-	 */
-	public Optional<Service> getService() {
-		return service;
-	}
+    /**
+     * @return a service (in case this vehicle is part of public transport)
+     */
+    public Optional<Service> getService() {
+        return service;
+    }
 
-	public Optional<Operator> getOperator() {
-		return operator;
-	}
+    public Optional<Operator> getOperator() {
+        return operator;
+    }
 
-	public Optional<Boolean> getElectric() {
-		return electric;
-	}
+    public Optional<Boolean> getElectric() {
+        return electric;
+    }
 
-	/**
-	 * @return the sharing type. If empty the mode of transport is not shared.
-	 */
-	public Optional<Sharing> getSharingType() {
-		return sharingType;
-	}
+    /**
+     * @return the sharing type. If empty the mode of transport is not shared.
+     */
+    public Optional<Sharing> getSharingType() {
+        return sharingType;
+    }
 
-	public Set<VehicleAccessibility> getAccessibility() {
-		return accessibility;
-	}
+    public Set<VehicleAccessibility> getAccessibility() {
+        return accessibility;
+    }
 
-	public Map<String, Object> getAdditionalInfo() {
-		return additionalInfo;
-	}
+    public Map<String, Object> getAdditionalInfo() {
+        return additionalInfo;
+    }
 
-	// -- setters
+    // -- setters
 
-	public ModeOfTransport setGeneralizedType(GeneralizedModeOfTransportType generalizedType) {
-		this.generalizedType = generalizedType;
-		return this;
-	}
+    public ModeOfTransport setGeneralizedType(GeneralizedModeOfTransportType generalizedType) {
+        this.generalizedType = generalizedType;
+        return this;
+    }
 
-	/**
-	 * Set detailed <b>and</b> generalized type in one step
-	 */
-	public ModeOfTransport setDetailedType(DetailedModeOfTransportType detailedType) {
-		this.detailedType = Optional.ofNullable(detailedType);
-		if (detailedType == null)
-			generalizedType = null;
-		else
-			generalizedType = detailedType.getGeneralizedType();
-		this.detailedType = Optional.ofNullable(detailedType);
-		return this;
-	}
+    /**
+     * Set detailed <b>and</b> generalized type in one step
+     */
+    public ModeOfTransport setDetailedType(DetailedModeOfTransportType detailedType) {
+        this.detailedType = Optional.ofNullable(detailedType);
+        if (detailedType == null)
+            generalizedType = null;
+        else
+            generalizedType = detailedType.getGeneralizedType();
+        this.detailedType = Optional.ofNullable(detailedType);
+        return this;
+    }
 
-	public ModeOfTransport setId(String id) {
-		this.id = Optional.ofNullable(id);
-		return this;
-	}
+    public ModeOfTransport setId(String id) {
+        this.id = Optional.ofNullable(id);
+        return this;
+    }
 
-	public ModeOfTransport setService(Service service) {
-		this.service = Optional.ofNullable(service);
-		return this;
-	}
+    public ModeOfTransport setService(Service service) {
+        this.service = Optional.ofNullable(service);
+        return this;
+    }
 
-	public ModeOfTransport setOperator(Operator operator) {
-		this.operator = Optional.ofNullable(operator);
-		return this;
-	}
+    public ModeOfTransport setOperator(Operator operator) {
+        this.operator = Optional.ofNullable(operator);
+        return this;
+    }
 
-	public ModeOfTransport setElectric(boolean electric) {
-		this.electric = Optional.ofNullable(electric);
-		return this;
-	}
+    public ModeOfTransport setElectric(boolean electric) {
+        this.electric = Optional.ofNullable(electric);
+        return this;
+    }
 
-	public ModeOfTransport setSharingType(Sharing sharingType) {
-		this.sharingType = Optional.ofNullable(sharingType);
-		return this;
-	}
+    public ModeOfTransport setSharingType(Sharing sharingType) {
+        this.sharingType = Optional.ofNullable(sharingType);
+        return this;
+    }
 
-	public ModeOfTransport setAccessibility(Set<VehicleAccessibility> accessibility) {
-		this.accessibility = new TreeSet<>(accessibility);
-		return this;
-	}
+    public ModeOfTransport setAccessibility(Set<VehicleAccessibility> accessibility) {
+        this.accessibility = new TreeSet<>(accessibility);
+        return this;
+    }
 
-	public ModeOfTransport setAdditionalInfo(Map<String, Object> additionalInfo) {
-		this.additionalInfo = new TreeMap<>(additionalInfo);
-		return this;
-	}
+    public ModeOfTransport setAdditionalInfo(Map<String, Object> additionalInfo) {
+        this.additionalInfo = new TreeMap<>(additionalInfo);
+        return this;
+    }
 
-	// --
+    // --
 
-	public static ModeOfTransport createMinimal(GeneralizedModeOfTransportType generalizedType) {
-		return new ModeOfTransport().setGeneralizedType(generalizedType);
-	}
+    public static ModeOfTransport createMinimal(GeneralizedModeOfTransportType generalizedType) {
+        return new ModeOfTransport().setGeneralizedType(generalizedType);
+    }
 
-	public static ModeOfTransport createMinimal(DetailedModeOfTransportType detailedType) {
-		return new ModeOfTransport().setDetailedType(detailedType);
-	}
+    public static ModeOfTransport createMinimal(DetailedModeOfTransportType detailedType) {
+        return new ModeOfTransport().setDetailedType(detailedType);
+    }
 
-	@Override
-	public void validate() {
-		Preconditions.checkArgument(generalizedType != null, "generalizedType is mandatory but missing");
-		detailedType.ifPresent(d -> Preconditions.checkArgument(d.getGeneralizedType() == generalizedType,
-				"mode of transpor types do not match"));
-		service.ifPresent(s -> s.validate());
-		operator.ifPresent(o -> o.validate());
-	}
+    @Override
+    public void validate() {
+        Preconditions.checkArgument(generalizedType != null, "generalizedType is mandatory but missing");
+        detailedType.ifPresent(d -> Preconditions.checkArgument(d.getGeneralizedType() == generalizedType,
+                "mode of transpor types do not match"));
+        service.ifPresent(s -> s.validate());
+        operator.ifPresent(o -> o.validate());
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((accessibility == null) ? 0 : accessibility.hashCode());
-		result = prime * result + ((additionalInfo == null) ? 0 : additionalInfo.hashCode());
-		result = prime * result + ((detailedType == null) ? 0 : detailedType.hashCode());
-		result = prime * result + ((electric == null) ? 0 : electric.hashCode());
-		result = prime * result + ((generalizedType == null) ? 0 : generalizedType.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((operator == null) ? 0 : operator.hashCode());
-		result = prime * result + ((service == null) ? 0 : service.hashCode());
-		result = prime * result + ((sharingType == null) ? 0 : sharingType.hashCode());
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((accessibility == null) ? 0 : accessibility.hashCode());
+        result = prime * result + ((additionalInfo == null) ? 0 : additionalInfo.hashCode());
+        result = prime * result + ((detailedType == null) ? 0 : detailedType.hashCode());
+        result = prime * result + ((electric == null) ? 0 : electric.hashCode());
+        result = prime * result + ((generalizedType == null) ? 0 : generalizedType.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((operator == null) ? 0 : operator.hashCode());
+        result = prime * result + ((service == null) ? 0 : service.hashCode());
+        result = prime * result + ((sharingType == null) ? 0 : sharingType.hashCode());
+        return result;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ModeOfTransport other = (ModeOfTransport) obj;
-		if (accessibility == null) {
-			if (other.accessibility != null)
-				return false;
-		} else if (!accessibility.equals(other.accessibility))
-			return false;
-		if (additionalInfo == null) {
-			if (other.additionalInfo != null)
-				return false;
-		} else if (!additionalInfo.equals(other.additionalInfo))
-			return false;
-		if (detailedType == null) {
-			if (other.detailedType != null)
-				return false;
-		} else if (!detailedType.equals(other.detailedType))
-			return false;
-		if (electric == null) {
-			if (other.electric != null)
-				return false;
-		} else if (!electric.equals(other.electric))
-			return false;
-		if (generalizedType != other.generalizedType)
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (operator == null) {
-			if (other.operator != null)
-				return false;
-		} else if (!operator.equals(other.operator))
-			return false;
-		if (service == null) {
-			if (other.service != null)
-				return false;
-		} else if (!service.equals(other.service))
-			return false;
-		if (sharingType == null) {
-			if (other.sharingType != null)
-				return false;
-		} else if (!sharingType.equals(other.sharingType))
-			return false;
-		return true;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        ModeOfTransport other = (ModeOfTransport) obj;
+        if (accessibility == null) {
+            if (other.accessibility != null)
+                return false;
+        } else if (!accessibility.equals(other.accessibility))
+            return false;
+        if (additionalInfo == null) {
+            if (other.additionalInfo != null)
+                return false;
+        } else if (!additionalInfo.equals(other.additionalInfo))
+            return false;
+        if (detailedType == null) {
+            if (other.detailedType != null)
+                return false;
+        } else if (!detailedType.equals(other.detailedType))
+            return false;
+        if (electric == null) {
+            if (other.electric != null)
+                return false;
+        } else if (!electric.equals(other.electric))
+            return false;
+        if (generalizedType != other.generalizedType)
+            return false;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        if (operator == null) {
+            if (other.operator != null)
+                return false;
+        } else if (!operator.equals(other.operator))
+            return false;
+        if (service == null) {
+            if (other.service != null)
+                return false;
+        } else if (!service.equals(other.service))
+            return false;
+        if (sharingType == null) {
+            if (other.sharingType != null)
+                return false;
+        } else if (!sharingType.equals(other.sharingType))
+            return false;
+        return true;
+    }
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder(generalizedType.name());
-		detailedType.ifPresent(d -> builder.append("-" + d));
-		service.ifPresent(s -> builder.append(" " + s.toString()));
-		return builder.toString();
-	}
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder(generalizedType.name());
+        detailedType.ifPresent(d -> builder.append("-" + d));
+        service.ifPresent(s -> builder.append(" " + s.toString()));
+        return builder.toString();
+    }
 }

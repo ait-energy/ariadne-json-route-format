@@ -26,164 +26,164 @@ import at.ac.ait.ariadne.routeformat.util.Utils;
  */
 @JsonInclude(Include.NON_EMPTY)
 public class IntermediateStop implements Validatable {
-	private Location<?> stop;
-	private Optional<ZonedDateTime> plannedArrivalTime = Optional.empty();
-	private Optional<ZonedDateTime> plannedDepartureTime = Optional.empty();
-	private Optional<ZonedDateTime> estimatedArrivalTime = Optional.empty();
-	private Optional<ZonedDateTime> estimatedDepartureTime = Optional.empty();
-	private Map<String, Object> additionalInfo = new TreeMap<>();
+    private Location<?> stop;
+    private Optional<ZonedDateTime> plannedArrivalTime = Optional.empty();
+    private Optional<ZonedDateTime> plannedDepartureTime = Optional.empty();
+    private Optional<ZonedDateTime> estimatedArrivalTime = Optional.empty();
+    private Optional<ZonedDateTime> estimatedDepartureTime = Optional.empty();
+    private Map<String, Object> additionalInfo = new TreeMap<>();
 
-	// -- getters
+    // -- getters
 
-	public Location<?> getStop() {
-		return stop;
-	}
+    public Location<?> getStop() {
+        return stop;
+    }
 
-	/**
-	 * @return static time according to a time table
-	 */
-	public Optional<String> getPlannedArrivalTime() {
-		return plannedArrivalTime.map(time -> time.toString());
-	}
+    /**
+     * @return static time according to a time table
+     */
+    public Optional<String> getPlannedArrivalTime() {
+        return plannedArrivalTime.map(time -> time.toString());
+    }
 
-	/**
-	 * @return static time according to a time table
-	 */
-	@JsonIgnore
-	public Optional<ZonedDateTime> getPlannedArrivalTimeAsZonedDateTime() {
-		return plannedArrivalTime;
-	}
+    /**
+     * @return static time according to a time table
+     */
+    @JsonIgnore
+    public Optional<ZonedDateTime> getPlannedArrivalTimeAsZonedDateTime() {
+        return plannedArrivalTime;
+    }
 
-	/**
-	 * @return static time according to a time table
-	 */
-	public Optional<String> getPlannedDepartureTime() {
-		return plannedDepartureTime.map(time -> time.toString());
-	}
+    /**
+     * @return static time according to a time table
+     */
+    public Optional<String> getPlannedDepartureTime() {
+        return plannedDepartureTime.map(time -> time.toString());
+    }
 
-	/**
-	 * @return static time according to a time table
-	 */
-	@JsonIgnore
-	public Optional<ZonedDateTime> getPlannedDepartureTimeAsZonedDateTime() {
-		return plannedDepartureTime;
-	}
+    /**
+     * @return static time according to a time table
+     */
+    @JsonIgnore
+    public Optional<ZonedDateTime> getPlannedDepartureTimeAsZonedDateTime() {
+        return plannedDepartureTime;
+    }
 
-	/**
-	 * @return time estimated via real-time data
-	 */
-	public Optional<String> getEstimatedArrivalTime() {
-		return estimatedArrivalTime.map(time -> time.toString());
-	}
+    /**
+     * @return time estimated via real-time data
+     */
+    public Optional<String> getEstimatedArrivalTime() {
+        return estimatedArrivalTime.map(time -> time.toString());
+    }
 
-	/**
-	 * @return time estimated via real-time data
-	 */
-	@JsonIgnore
-	public Optional<ZonedDateTime> getEstimatedArrivalTimeAsZonedDateTime() {
-		return estimatedArrivalTime;
-	}
+    /**
+     * @return time estimated via real-time data
+     */
+    @JsonIgnore
+    public Optional<ZonedDateTime> getEstimatedArrivalTimeAsZonedDateTime() {
+        return estimatedArrivalTime;
+    }
 
-	/**
-	 * @return time estimated via real-time data
-	 */
-	public Optional<String> getEstimatedDepartureTime() {
-		return estimatedDepartureTime.map(time -> time.toString());
-	}
+    /**
+     * @return time estimated via real-time data
+     */
+    public Optional<String> getEstimatedDepartureTime() {
+        return estimatedDepartureTime.map(time -> time.toString());
+    }
 
-	/**
-	 * @return time estimated via real-time data
-	 */
-	@JsonIgnore
-	public Optional<ZonedDateTime> getEstimatedDepartureTimeAsZonedDateTime() {
-		return estimatedDepartureTime;
-	}
+    /**
+     * @return time estimated via real-time data
+     */
+    @JsonIgnore
+    public Optional<ZonedDateTime> getEstimatedDepartureTimeAsZonedDateTime() {
+        return estimatedDepartureTime;
+    }
 
-	public Map<String, Object> getAdditionalInfo() {
-		return additionalInfo;
-	}
+    public Map<String, Object> getAdditionalInfo() {
+        return additionalInfo;
+    }
 
-	// -- setters
+    // -- setters
 
-	public IntermediateStop setStop(Location<?> stop) {
-		this.stop = stop;
-		return this;
-	}
+    public IntermediateStop setStop(Location<?> stop) {
+        this.stop = stop;
+        return this;
+    }
 
-	@JsonIgnore
-	public IntermediateStop setPlannedArrivalTime(ZonedDateTime plannedArrivalTime) {
-		this.plannedArrivalTime = Optional.ofNullable(plannedArrivalTime);
-		return this;
-	}
+    @JsonIgnore
+    public IntermediateStop setPlannedArrivalTime(ZonedDateTime plannedArrivalTime) {
+        this.plannedArrivalTime = Optional.ofNullable(plannedArrivalTime);
+        return this;
+    }
 
-	@JsonProperty
-	public IntermediateStop setPlannedArrivalTime(String plannedArrivalTime) {
-		this.plannedArrivalTime = Optional
-				.ofNullable(Utils.parseZonedDateTime(plannedArrivalTime, "plannedArrivalTime"));
-		return this;
-	}
+    @JsonProperty
+    public IntermediateStop setPlannedArrivalTime(String plannedArrivalTime) {
+        this.plannedArrivalTime = Optional
+                .ofNullable(Utils.parseZonedDateTime(plannedArrivalTime, "plannedArrivalTime"));
+        return this;
+    }
 
-	@JsonIgnore
-	public IntermediateStop setPlannedDepartureTime(ZonedDateTime plannedDepartureTime) {
-		this.plannedDepartureTime = Optional.ofNullable(plannedDepartureTime);
-		return this;
-	}
+    @JsonIgnore
+    public IntermediateStop setPlannedDepartureTime(ZonedDateTime plannedDepartureTime) {
+        this.plannedDepartureTime = Optional.ofNullable(plannedDepartureTime);
+        return this;
+    }
 
-	@JsonProperty
-	public IntermediateStop setPlannedDepartureTime(String plannedDepartureTime) {
-		this.plannedDepartureTime = Optional
-				.ofNullable(Utils.parseZonedDateTime(plannedDepartureTime, "plannedDepartureTime"));
-		return this;
-	}
+    @JsonProperty
+    public IntermediateStop setPlannedDepartureTime(String plannedDepartureTime) {
+        this.plannedDepartureTime = Optional
+                .ofNullable(Utils.parseZonedDateTime(plannedDepartureTime, "plannedDepartureTime"));
+        return this;
+    }
 
-	@JsonIgnore
-	public IntermediateStop setEstimatedArrivalTime(ZonedDateTime estimatedArrivalTime) {
-		this.estimatedArrivalTime = Optional.ofNullable(estimatedArrivalTime);
-		return this;
-	}
+    @JsonIgnore
+    public IntermediateStop setEstimatedArrivalTime(ZonedDateTime estimatedArrivalTime) {
+        this.estimatedArrivalTime = Optional.ofNullable(estimatedArrivalTime);
+        return this;
+    }
 
-	@JsonProperty
-	public IntermediateStop setEstimatedArrivalTime(String estimatedArrivalTime) {
-		this.estimatedArrivalTime = Optional
-				.ofNullable(Utils.parseZonedDateTime(estimatedArrivalTime, "estimatedArrivalTime"));
-		return this;
-	}
+    @JsonProperty
+    public IntermediateStop setEstimatedArrivalTime(String estimatedArrivalTime) {
+        this.estimatedArrivalTime = Optional
+                .ofNullable(Utils.parseZonedDateTime(estimatedArrivalTime, "estimatedArrivalTime"));
+        return this;
+    }
 
-	@JsonIgnore
-	public IntermediateStop setEstimatedDepartureTime(ZonedDateTime estimatedDepartureTime) {
-		this.estimatedDepartureTime = Optional.ofNullable(estimatedDepartureTime);
-		return this;
-	}
+    @JsonIgnore
+    public IntermediateStop setEstimatedDepartureTime(ZonedDateTime estimatedDepartureTime) {
+        this.estimatedDepartureTime = Optional.ofNullable(estimatedDepartureTime);
+        return this;
+    }
 
-	@JsonProperty
-	public IntermediateStop setEstimatedDepartureTime(String estimatedDepartureTime) {
-		this.estimatedDepartureTime = Optional
-				.ofNullable(Utils.parseZonedDateTime(estimatedDepartureTime, "estimatedDepartureTime"));
-		return this;
-	}
+    @JsonProperty
+    public IntermediateStop setEstimatedDepartureTime(String estimatedDepartureTime) {
+        this.estimatedDepartureTime = Optional
+                .ofNullable(Utils.parseZonedDateTime(estimatedDepartureTime, "estimatedDepartureTime"));
+        return this;
+    }
 
-	public IntermediateStop setAdditionalInfo(Map<String, Object> additionalInfo) {
-		this.additionalInfo = new TreeMap<>(additionalInfo);
-		return this;
-	}
+    public IntermediateStop setAdditionalInfo(Map<String, Object> additionalInfo) {
+        this.additionalInfo = new TreeMap<>(additionalInfo);
+        return this;
+    }
 
-	// --
+    // --
 
-	public static IntermediateStop createMinimal(Location<?> stop) {
-		return new IntermediateStop().setStop(stop);
-	}
+    public static IntermediateStop createMinimal(Location<?> stop) {
+        return new IntermediateStop().setStop(stop);
+    }
 
-	@Override
-	public void validate() {
-		Preconditions.checkArgument(stop != null, "stop is mandatory but missing");
-		stop.validate();
-	}
+    @Override
+    public void validate() {
+        Preconditions.checkArgument(stop != null, "stop is mandatory but missing");
+        stop.validate();
+    }
 
-	@Override
-	public String toString() {
-		return "IntermediateStop [stop=" + stop + ", plannedArrivalTime=" + plannedArrivalTime
-				+ ", plannedDepartureTime=" + plannedDepartureTime + ", estimatedArrivalTime=" + estimatedArrivalTime
-				+ ", estimatedDepartureTime=" + estimatedDepartureTime + ", additionalInfo=" + additionalInfo + "]";
-	}
+    @Override
+    public String toString() {
+        return "IntermediateStop [stop=" + stop + ", plannedArrivalTime=" + plannedArrivalTime
+                + ", plannedDepartureTime=" + plannedDepartureTime + ", estimatedArrivalTime=" + estimatedArrivalTime
+                + ", estimatedDepartureTime=" + estimatedDepartureTime + ", additionalInfo=" + additionalInfo + "]";
+    }
 
 }

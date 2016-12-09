@@ -22,84 +22,85 @@ import at.ac.ait.ariadne.routeformat.location.Location;
  * @author AIT Austrian Institute of Technology GmbH
  */
 public class Landmark implements Validatable {
-	private Preposition preposition;
-	private Location<?> location;
-	private Optional<RelativeDirection> direction = Optional.empty();
-	private Map<String, Object> additionalInfo = new TreeMap<>();
+    private Preposition preposition;
+    private Location<?> location;
+    private Optional<RelativeDirection> direction = Optional.empty();
+    private Map<String, Object> additionalInfo = new TreeMap<>();
 
-	// -- getters
+    // -- getters
 
-	/**
-	 * @return the preposition describing the location of the landmark relative
-	 *         to the route (i.e. the point on the route an {@link Instruction}
-	 *         is valid for)
-	 */
-	@JsonProperty(required = true)
-	public Preposition getPreposition() {
-		return preposition;
-	}
-
-	@JsonProperty(required = true)
-	public Location<?> getLocation() {
-		return location;
-	}
-
-	/**
-	 * @return the detailed direction in which the landmark lies relative to the
-	 *         route (i.e. the point on the route an {@link Instruction} is
-	 *         valid for)
-	 */
-	public Optional<RelativeDirection> getDirection() {
-		return direction;
-	}
-
-	public Map<String, Object> getAdditionalInfo() {
-		return additionalInfo;
-	}
-
-	// -- setters
-
-	public Landmark setPreposition(Preposition preposition) {
-		this.preposition = preposition;
-		return this;
-	}
-
-	public Landmark setLocation(Location<?> location) {
-		this.location = location;
-		return this;
-	}
-
-	public Landmark setDirection(RelativeDirection direction) {
-		this.direction = Optional.ofNullable(direction);
-		return this;
-	}
-
-	public Landmark setAdditionalInfo(Map<String, Object> additionalInfo) {
-		this.additionalInfo = new TreeMap<>(additionalInfo);
-		return this;
-	}
-
-	// --
-
-	public static Landmark createMinimal(Preposition preposition, Location<?> location) {
-		return new Landmark().setPreposition(preposition).setLocation(location);
-	}
-	
-	public Landmark shallowCopy() {
-        return new Landmark().setPreposition(preposition).setLocation(location).setDirection(direction.orElse(null)).setAdditionalInfo(additionalInfo);
+    /**
+     * @return the preposition describing the location of the landmark relative
+     *         to the route (i.e. the point on the route an {@link Instruction}
+     *         is valid for)
+     */
+    @JsonProperty(required = true)
+    public Preposition getPreposition() {
+        return preposition;
     }
 
-	@Override
-	public void validate() {
-		Preconditions.checkArgument(preposition != null, "preposition is mandatory but missing");
-		Preconditions.checkArgument(location != null, "location is mandatory but missing");
-		location.validate();
-	}
+    @JsonProperty(required = true)
+    public Location<?> getLocation() {
+        return location;
+    }
 
-	@Override
-	public String toString() {
-		return "Landmark [preposition=" + preposition + ", location=" + location + ", direction=" + direction
-				+ ", additionalInfo=" + additionalInfo + "]";
-	}
+    /**
+     * @return the detailed direction in which the landmark lies relative to the
+     *         route (i.e. the point on the route an {@link Instruction} is
+     *         valid for)
+     */
+    public Optional<RelativeDirection> getDirection() {
+        return direction;
+    }
+
+    public Map<String, Object> getAdditionalInfo() {
+        return additionalInfo;
+    }
+
+    // -- setters
+
+    public Landmark setPreposition(Preposition preposition) {
+        this.preposition = preposition;
+        return this;
+    }
+
+    public Landmark setLocation(Location<?> location) {
+        this.location = location;
+        return this;
+    }
+
+    public Landmark setDirection(RelativeDirection direction) {
+        this.direction = Optional.ofNullable(direction);
+        return this;
+    }
+
+    public Landmark setAdditionalInfo(Map<String, Object> additionalInfo) {
+        this.additionalInfo = new TreeMap<>(additionalInfo);
+        return this;
+    }
+
+    // --
+
+    public static Landmark createMinimal(Preposition preposition, Location<?> location) {
+        return new Landmark().setPreposition(preposition).setLocation(location);
+    }
+
+    public Landmark shallowCopy() {
+        return new Landmark().setPreposition(preposition).setLocation(location).setDirection(direction.orElse(null))
+                .setAdditionalInfo(additionalInfo);
+    }
+
+    @Override
+    public void validate() {
+        Preconditions.checkArgument(preposition != null, "preposition is mandatory but missing");
+        Preconditions.checkArgument(location != null, "location is mandatory but missing");
+        location.validate();
+    }
+
+    @Override
+    public String toString() {
+        return "Landmark [preposition=" + preposition + ", location=" + location + ", direction=" + direction
+                + ", additionalInfo=" + additionalInfo + "]";
+    }
 
 }
