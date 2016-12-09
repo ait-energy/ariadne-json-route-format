@@ -63,6 +63,7 @@ public class RoundaboutInstruction extends Instruction<RoundaboutInstruction> {
     private Optional<FormOfWay> ontoFormOfWay = Optional.empty();
     private Optional<Integer> exitNr = Optional.empty();
     private Optional<Integer> continueMeters = Optional.empty(), continueSeconds = Optional.empty();
+    private Optional<String> continueUntilIntersectingStreetName = Optional.empty();
     private Optional<Landmark> landmark = Optional.empty(), confirmationLandmark = Optional.empty();
 
     // -- getters
@@ -101,6 +102,14 @@ public class RoundaboutInstruction extends Instruction<RoundaboutInstruction> {
 
     public Optional<Integer> getContinueSeconds() {
         return continueSeconds;
+    }
+
+    /**
+     * @return the name of an intersecting road at the end of the current
+     *         instruction, i.e. the place where the next instruction is
+     */
+    public Optional<String> getContinueUntilIntersectingStreetName() {
+        return continueUntilIntersectingStreetName;
     }
 
     /**
@@ -163,6 +172,11 @@ public class RoundaboutInstruction extends Instruction<RoundaboutInstruction> {
         return this;
     }
 
+    public RoundaboutInstruction setContinueUntilIntersectingStreetName(String continueUntilIntersectingStreetName) {
+        this.continueUntilIntersectingStreetName = Optional.ofNullable(continueUntilIntersectingStreetName);
+        return this;
+    }
+
     public RoundaboutInstruction setLandmark(Landmark landmark) {
         this.landmark = Optional.ofNullable(landmark);
         return this;
@@ -193,11 +207,12 @@ public class RoundaboutInstruction extends Instruction<RoundaboutInstruction> {
 
     @Override
     public String toString() {
-        return super.toString() + " -> RoundaboutInstruction [subType=" + subType + ", compassDirection="
-                + compassDirection + ", roundaboutStreetName=" + roundaboutStreetName + ", ontoStreetName="
-                + ontoStreetName + ", ontoFormOfWay=" + ontoFormOfWay + ", exitNr=" + exitNr + ", continueMeters="
-                + continueMeters + ", continueSeconds=" + continueSeconds + ", landmark=" + landmark
-                + ", confirmationLandmark=" + confirmationLandmark + "]";
+        return "RoundaboutInstruction [subType=" + subType + ", compassDirection=" + compassDirection
+                + ", roundaboutStreetName=" + roundaboutStreetName + ", ontoStreetName=" + ontoStreetName
+                + ", ontoFormOfWay=" + ontoFormOfWay + ", exitNr=" + exitNr + ", continueMeters=" + continueMeters
+                + ", continueSeconds=" + continueSeconds + ", continueUntilIntersectingStreetName="
+                + continueUntilIntersectingStreetName + ", landmark=" + landmark + ", confirmationLandmark="
+                + confirmationLandmark + "]";
     }
 
 }
