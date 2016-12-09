@@ -3,12 +3,13 @@ package at.ac.ait.ariadne.routeformat.instruction;
 import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Preconditions;
 
 import at.ac.ait.ariadne.routeformat.Constants.CompassDirection;
 import at.ac.ait.ariadne.routeformat.Constants.FormOfWay;
+import at.ac.ait.ariadne.routeformat.Constants.GeneralizedModeOfTransportType;
 import at.ac.ait.ariadne.routeformat.Constants.TurnDirection;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
 
@@ -42,8 +43,10 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
  * 
  * INITIAL_DIRECTION = "heading", COMPASS_STRING, ["into the direction of", CONTINUE_LANDMARK_STRING];
  *
- * CONTINUE = "and follow it", ["for", UNIT], ["until", CONTINUE_LANDMARK_PART]; (* at least one of the two *)
+ * CONTINUE = "and continue", [ROAD_SIDE], ["for", UNIT], [UNTIL]; (* at least one of the two *)
+ * ROAD_SIDE = "on the", "left" | "right", "side of the road;
  * UNIT = [DISTANCE_STRING], [TIME_STRING]; (* at least one of the two *)
+ * UNTIL = "until", [INTERSECTING_ROAD_STRING], [CONTINUE_LANDMARK_PART]; 
  * 
  * LANDMARK_PART = PREPOSITION, LANDMARK_STRING;
  * CONFIRMATION_LANDMARK_PART = CONFIRMATION_PREPOSITION, CONFIRMATION_LANDMARK_STRING;
@@ -66,12 +69,15 @@ public class BasicRoadInstruction extends Instruction<BasicRoadInstruction> {
 	}
 
 	private SubType subType;
+	private Optional<GeneralizedModeOfTransportType> modeOfTransport = Optional.empty();
 	private Optional<TurnDirection> turnDirection = Optional.empty();
 	private Optional<CompassDirection> compassDirection = Optional.empty();
 	private Optional<Boolean> roadChange = Optional.empty();
 	private Optional<String> ontoStreetName = Optional.empty();
 	private Optional<FormOfWay> ontoFormOfWay = Optional.empty();
+	private Optional<Boolean> ontoRightSideOfRoad = Optional.empty();
 	private Optional<Integer> continueMeters = Optional.empty(), continueSeconds = Optional.empty();
+	private Optional<String> continueUntilIntersectingStreetName = Optional.empty();
 	private Optional<Landmark> landmark = Optional.empty(), confirmationLandmark = Optional.empty();
 
 	// -- getters
@@ -80,6 +86,13 @@ public class BasicRoadInstruction extends Instruction<BasicRoadInstruction> {
 	public SubType getSubType() {
 		return subType;
 	}
+	
+    /**
+     * @return the mode of transport for the turn (walk left, cycle left,..)
+     */
+    public Optional<GeneralizedModeOfTransportType> getModeOfTransport() {
+        return modeOfTransport;
+    }
 
 	/**
 	 * @return the turn direction relative to the direction until this point
@@ -107,6 +120,20 @@ public class BasicRoadInstruction extends Instruction<BasicRoadInstruction> {
 	public Optional<FormOfWay> getOntoFormOfWay() {
 		return ontoFormOfWay;
 	}
+	
+    /**
+     * Defines the side of the road where the route continues. This is mostly
+     * relevant for pedestrians and maybe also for cyclists (e.g. when
+     * bidirectional cycle paths run along a road on both sides). For other
+     * modes of transport an empty Optional shall be returned.
+     * 
+     * @return <code>true</code> for the right side, <code>false</code> for the
+     *         left side of the road (in moving direction), empty if unknown or
+     *         not relevant
+     */
+	public Optional<Boolean> getOntoRightSideOfRoad() {
+	    return ontoRightSideOfRoad;
+	}
 
 	public Optional<Integer> getContinueMeters() {
 		return continueMeters;
@@ -114,6 +141,14 @@ public class BasicRoadInstruction extends Instruction<BasicRoadInstruction> {
 
 	public Optional<Integer> getContinueSeconds() {
 		return continueSeconds;
+	}
+	
+    /**
+     * @return the name of an intersecting road at the end of the current
+     *         instruction, i.e. the place where the next instruction is
+     */
+    public Optional<String> getContinueUntilIntersectingStreetName() {
+        return continueUntilIntersectingStreetName;
 	}
 
 	/**
@@ -142,6 +177,11 @@ public class BasicRoadInstruction extends Instruction<BasicRoadInstruction> {
 		this.subType = subType;
 		return this;
 	}
+	
+    public BasicRoadInstruction setModeOfTransport(GeneralizedModeOfTransportType modeOfTransport) {
+        this.modeOfTransport = Optional.ofNullable(modeOfTransport);
+        return this;
+    }
 
 	public BasicRoadInstruction setTurnDirection(TurnDirection turnDirection) {
 		this.turnDirection = Optional.ofNullable(turnDirection);
@@ -167,6 +207,11 @@ public class BasicRoadInstruction extends Instruction<BasicRoadInstruction> {
 		this.ontoFormOfWay = Optional.ofNullable(ontoFormOfWay);
 		return this;
 	}
+	
+	public BasicRoadInstruction setOntoRightSideOfRoad(Boolean ontoRightSideOfRoad) {
+	    this.ontoRightSideOfRoad = Optional.ofNullable(ontoRightSideOfRoad);
+	    return this;
+	}
 
 	public BasicRoadInstruction setContinueMeters(Integer continueMeters) {
 		this.continueMeters = Optional.ofNullable(continueMeters);
@@ -177,6 +222,11 @@ public class BasicRoadInstruction extends Instruction<BasicRoadInstruction> {
 		this.continueSeconds = Optional.ofNullable(continueSeconds);
 		return this;
 	}
+	
+    public BasicRoadInstruction setContinueUntilIntersectingStreetName(String continueUntilIntersectingStreetName) {
+        this.continueUntilIntersectingStreetName = Optional.ofNullable(continueUntilIntersectingStreetName);
+        return this;
+    }
 
 	/**
 	 * @param landmark
@@ -240,12 +290,13 @@ public class BasicRoadInstruction extends Instruction<BasicRoadInstruction> {
 	}
 
 	@Override
-	public String toString() {
-		return super.toString() + " -> BasicRoadInstruction [subType=" + subType + ", turnDirection=" + turnDirection
-				+ ", compassDirection=" + compassDirection + ", roadChange=" + roadChange + ", ontoStreetName="
-				+ ontoStreetName + ", ontoFormOfWay=" + ontoFormOfWay + ", continueMeters=" + continueMeters
-				+ ", continueSeconds=" + continueSeconds + ", landmark=" + landmark + ", confirmationLandmark="
-				+ confirmationLandmark + "]";
-	}
+    public String toString() {
+        return "BasicRoadInstruction [subType=" + subType + ", modeOfTransport=" + modeOfTransport + ", turnDirection="
+                + turnDirection + ", compassDirection=" + compassDirection + ", roadChange=" + roadChange
+                + ", ontoStreetName=" + ontoStreetName + ", ontoFormOfWay=" + ontoFormOfWay + ", ontoRightSideOfRoad="
+                + ontoRightSideOfRoad + ", continueMeters=" + continueMeters + ", continueSeconds=" + continueSeconds
+                + ", continueUntilIntersectingStreetName=" + continueUntilIntersectingStreetName + ", landmark="
+                + landmark + ", confirmationLandmark=" + confirmationLandmark + "]";
+    }
 
 }
