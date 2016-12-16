@@ -10,6 +10,7 @@ import com.google.common.base.Preconditions;
 import at.ac.ait.ariadne.routeformat.Constants.CompassDirection;
 import at.ac.ait.ariadne.routeformat.Constants.FormOfWay;
 import at.ac.ait.ariadne.routeformat.Constants.GeneralizedModeOfTransportType;
+import at.ac.ait.ariadne.routeformat.Constants.Tunnel;
 import at.ac.ait.ariadne.routeformat.Constants.TurnDirection;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
 
@@ -33,13 +34,13 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
  * {@code
  * BASIC_INSTRUCTION = ROUTE_START | ROUTE_END | STRAIGHT | TURN | U_TURN;
  * 
- * ROUTE_START = "Start", [LANDMARK_PART], "on", NAME_OR_TYPE, [INITIAL_DIRECTION], [CONFIRMATION_LANDMARK_PART], [CONTINUE];
- * ROUTE_END = "You reached your destination", [LANDMARK_PART], "on", NAME_OR_TYPE;
- * STRAIGHT = "Keep straight", [LANDMARK_PART], "on", NAME_OR_TYPE, [CONFIRMATION_LANDMARK_PART], [CONTINUE];
- * TURN = "Turn", ["slight"], DIRECTION, [LANDMARK_PART], "on", NAME_OR_TYPE, [CONFIRMATION_LANDMARK_PART], [CONTINUE];
- * U_TURN = "Make a u-turn", [LANDMARK_PART], on", NAME_OR_TYPE, [CONFIRMATION_LANDMARK_PART], [CONTINUE];
+ * ROUTE_START = "Start", [LANDMARK_PART], "on", NAME_TYPE, [INITIAL_DIRECTION], [CONFIRMATION_LANDMARK_PART], [CONTINUE];
+ * ROUTE_END = "You reached your destination", [LANDMARK_PART], "on", NAME_TYPE;
+ * STRAIGHT = "Go straight", [LANDMARK_PART], "on", NAME_TYPE, [CONFIRMATION_LANDMARK_PART], [CONTINUE];
+ * TURN = "Turn", ["slight"], DIRECTION, [LANDMARK_PART], "on", NAME_TYPE, [CONFIRMATION_LANDMARK_PART], [CONTINUE];
+ * U_TURN = "Make a u-turn", [LANDMARK_PART], on", NAME_TYPE, [CONFIRMATION_LANDMARK_PART], [CONTINUE];
  * 
- * NAME_OR_TYPE = STREET_NAME_STRING | FORM_OF_WAY_STRING;
+ * NAME_TYPE = [STREET_NAME_STRING], [FORM_OF_WAY_STRING], [onto the bridge], [into the TUNNEL_STRING];
  * 
  * INITIAL_DIRECTION = "heading", COMPASS_STRING, ["into the direction of", CONTINUE_LANDMARK_STRING];
  *
@@ -75,6 +76,8 @@ public class BasicRoadInstruction extends Instruction<BasicRoadInstruction> {
     private Optional<Boolean> roadChange = Optional.empty();
     private Optional<String> ontoStreetName = Optional.empty();
     private Optional<FormOfWay> ontoFormOfWay = Optional.empty();
+    private Optional<Boolean> enterBridge = Optional.empty();
+    private Optional<Tunnel> enterTunnel = Optional.empty();
     private Optional<Boolean> ontoRightSideOfRoad = Optional.empty();
     private Optional<Integer> continueMeters = Optional.empty(), continueSeconds = Optional.empty();
     private Optional<String> continueUntilIntersectingStreetName = Optional.empty();
@@ -119,6 +122,21 @@ public class BasicRoadInstruction extends Instruction<BasicRoadInstruction> {
 
     public Optional<FormOfWay> getOntoFormOfWay() {
         return ontoFormOfWay;
+    }
+
+    /**
+     * @return information if this instruction marks the entrance to a bridge
+     */
+    public Optional<Boolean> getEnterBridge() {
+        return enterBridge;
+    }
+
+    /**
+     * @return information if this instruction marks the entrance to a tunnal
+     *         (and which kind of tunnel)
+     */
+    public Optional<Tunnel> getEnterTunnel() {
+        return enterTunnel;
     }
 
     /**
@@ -208,6 +226,16 @@ public class BasicRoadInstruction extends Instruction<BasicRoadInstruction> {
         return this;
     }
 
+    public BasicRoadInstruction setEnterBridge(Boolean enterBridge) {
+        this.enterBridge = Optional.ofNullable(enterBridge);
+        return this;
+    }
+
+    public BasicRoadInstruction setEnterTunnel(Tunnel enterTunnel) {
+        this.enterTunnel = Optional.ofNullable(enterTunnel);
+        return this;
+    }
+
     public BasicRoadInstruction setOntoRightSideOfRoad(Boolean ontoRightSideOfRoad) {
         this.ontoRightSideOfRoad = Optional.ofNullable(ontoRightSideOfRoad);
         return this;
@@ -291,12 +319,14 @@ public class BasicRoadInstruction extends Instruction<BasicRoadInstruction> {
 
     @Override
     public String toString() {
-        return "BasicRoadInstruction [subType=" + subType + ", modeOfTransport=" + modeOfTransport + ", turnDirection="
-                + turnDirection + ", compassDirection=" + compassDirection + ", roadChange=" + roadChange
-                + ", ontoStreetName=" + ontoStreetName + ", ontoFormOfWay=" + ontoFormOfWay + ", ontoRightSideOfRoad="
-                + ontoRightSideOfRoad + ", continueMeters=" + continueMeters + ", continueSeconds=" + continueSeconds
-                + ", continueUntilIntersectingStreetName=" + continueUntilIntersectingStreetName + ", landmark="
-                + landmark + ", confirmationLandmark=" + confirmationLandmark + "]";
+        return super.toString() + " -> BasicRoadInstruction [subType=" + subType + ", modeOfTransport="
+                + modeOfTransport + ", turnDirection=" + turnDirection + ", compassDirection=" + compassDirection
+                + ", roadChange=" + roadChange + ", ontoStreetName=" + ontoStreetName + ", ontoFormOfWay="
+                + ontoFormOfWay + ", enterBridge=" + enterBridge + ", enterTunnel=" + enterTunnel
+                + ", ontoRightSideOfRoad=" + ontoRightSideOfRoad + ", continueMeters=" + continueMeters
+                + ", continueSeconds=" + continueSeconds + ", continueUntilIntersectingStreetName="
+                + continueUntilIntersectingStreetName + ", landmark=" + landmark + ", confirmationLandmark="
+                + confirmationLandmark + "]";
     }
 
 }

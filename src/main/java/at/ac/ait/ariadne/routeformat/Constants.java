@@ -146,6 +146,28 @@ public class Constants {
         PATH
     }
 
+    /**
+     * Detailed specification if a street is covered or a tunnel. See
+     * http://wiki.openstreetmap.org/wiki/Key:tunnel and
+     * http://wiki.openstreetmap.org/wiki/Key:covered for more details.
+     */
+    public enum Tunnel {
+        /** neither a tunnel nor covered */
+        NO,
+        /** classic tunnel */
+        TUNNEL,
+        /** a more specific variant of {@link Tunnel#TUNNEL} */
+        BUILDING_PASSAGE,
+        /** a more specific variant of {@link Tunnel#TUNNEL} */
+        AVALANCHE_PROTECTOR,
+        /** only covered, not a real tunnel */
+        COVERED,
+        /** a more specific variant of {@link Tunnel#COVERED} */
+        ARCADE,
+        /** a more specific variant of {@link Tunnel#COVERED} */
+        COLONNADE
+    }
+
     public enum CompassDirection {
         N, NE, E, SE, S, SW, W, NW
     }
