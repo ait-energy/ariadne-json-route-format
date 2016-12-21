@@ -190,14 +190,20 @@ public class Constants {
 
     public enum RoadCrossing {
         /** not a crossing */
-        NONE,
+        NO,
         /** generic crossing, no detailed information */
         CROSSING,
         /**
-         * no zebra crossing, traffic lights, etc., but it is possible to cross
-         * the street
+         * neither marked nor controlled via traffic signals, but it is possible
+         * to cross the road here
          */
-        UNMARKED, TRAFFIC_LIGHT, ZEBRA_CROSSING, BICYCLE_CROSSING
+        UNMARKED,
+        /**
+         * marked (e.g. zebra crossing) but not controlled via traffic signals
+         */
+        UNCONTROLLED,
+        /** controlled with traffic signals and most probably marked */
+        TRAFFIC_SIGNALS
     }
 
     public enum Status {
