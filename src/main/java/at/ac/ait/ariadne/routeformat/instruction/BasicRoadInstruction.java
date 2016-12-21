@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Preconditions;
 
 import at.ac.ait.ariadne.routeformat.Constants.CompassDirection;
+import at.ac.ait.ariadne.routeformat.Constants.RoadCrossing;
 import at.ac.ait.ariadne.routeformat.Constants.FormOfWay;
 import at.ac.ait.ariadne.routeformat.Constants.GeneralizedModeOfTransportType;
 import at.ac.ait.ariadne.routeformat.Constants.Tunnel;
@@ -36,11 +37,12 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
  * 
  * ROUTE_START = "Start", [LANDMARK_PART], "on", NAME_TYPE, [INITIAL_DIRECTION], [CONFIRMATION_LANDMARK_PART], [CONTINUE];
  * ROUTE_END = "You reached your destination", [LANDMARK_PART], "on", NAME_TYPE;
- * STRAIGHT = "Go straight", [LANDMARK_PART], "on", NAME_TYPE, [CONFIRMATION_LANDMARK_PART], [CONTINUE];
- * TURN = "Turn", ["slight"], DIRECTION, [LANDMARK_PART], "on", NAME_TYPE, [CONFIRMATION_LANDMARK_PART], [CONTINUE];
- * U_TURN = "Make a u-turn", [LANDMARK_PART], on", NAME_TYPE, [CONFIRMATION_LANDMARK_PART], [CONTINUE];
+ * STRAIGHT = "Go straight", [LANDMARK_PART], [CROSSING_PART], "on", NAME_TYPE, [CONFIRMATION_LANDMARK_PART], [CONTINUE];
+ * TURN = "Turn", ["slight"], DIRECTION, [LANDMARK_PART], [CROSSING_PART], "on", NAME_TYPE, [CONFIRMATION_LANDMARK_PART], [CONTINUE];
+ * U_TURN = "Make a u-turn", [LANDMARK_PART], [CROSSING_PART], "on", NAME_TYPE, [CONFIRMATION_LANDMARK_PART], [CONTINUE];
  * 
  * NAME_TYPE = [STREET_NAME_STRING], [FORM_OF_WAY_STRING], [onto the bridge], [into the TUNNEL_STRING];
+ * CROSSING_PART = "over the intersection" | "at the traffic light" | ...
  * 
  * INITIAL_DIRECTION = "heading", COMPASS_STRING, ["into the direction of", CONTINUE_LANDMARK_STRING];
  *
@@ -79,6 +81,7 @@ public class BasicRoadInstruction extends Instruction<BasicRoadInstruction> {
     private Optional<Boolean> enterBridge = Optional.empty();
     private Optional<Tunnel> enterTunnel = Optional.empty();
     private Optional<Boolean> ontoRightSideOfRoad = Optional.empty();
+    private Optional<RoadCrossing> crossing = Optional.empty();
     private Optional<Integer> continueMeters = Optional.empty(), continueSeconds = Optional.empty();
     private Optional<String> continueUntilIntersectingStreetName = Optional.empty();
     private Optional<Landmark> landmark = Optional.empty(), confirmationLandmark = Optional.empty();
@@ -151,6 +154,14 @@ public class BasicRoadInstruction extends Instruction<BasicRoadInstruction> {
      */
     public Optional<Boolean> getOntoRightSideOfRoad() {
         return ontoRightSideOfRoad;
+    }
+
+    /**
+     * @return a {@link RoadCrossing} in case the instruction starts
+     *         with a road crossing
+     */
+    public Optional<RoadCrossing> getCrossing() {
+        return crossing;
     }
 
     public Optional<Integer> getContinueMeters() {
@@ -238,6 +249,11 @@ public class BasicRoadInstruction extends Instruction<BasicRoadInstruction> {
 
     public BasicRoadInstruction setOntoRightSideOfRoad(Boolean ontoRightSideOfRoad) {
         this.ontoRightSideOfRoad = Optional.ofNullable(ontoRightSideOfRoad);
+        return this;
+    }
+
+    public BasicRoadInstruction setCrossing(RoadCrossing crossing) {
+        this.crossing = Optional.ofNullable(crossing);
         return this;
     }
 

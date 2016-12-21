@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import at.ac.ait.ariadne.routeformat.Constants.ContinueDirection;
-import at.ac.ait.ariadne.routeformat.Constants.CrossingInfrastructure;
+import at.ac.ait.ariadne.routeformat.Constants.RoadCrossing;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
 
 /**
@@ -28,8 +28,8 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
  * <pre>
  * {@code
  * ROAD_CROSSING_INSTRUCTION = "Change to the other side of the road", [CROSSING_TYPE], [CONTINUE];
- * CROSSING_TYPE = "at the", CROSSING_INFRASTRUCTURE;
- * CROSSING_INFRASTRUCTURE = "zebra crossing" | "traffic light" | ...;
+ * CROSSING_TYPE = "at the", ROAD_CROSSING;
+ * ROAD_CROSSING = "zebra crossing" | "traffic light" | ...;
  * CONTINUE = "and continue in the", "same" | "opposite", "direction"; 
  * }
  * </pre>
@@ -39,13 +39,13 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
 @JsonInclude(Include.NON_EMPTY)
 public class RoadCrossingInstruction extends Instruction<RoadCrossingInstruction> {
 
-    private Optional<CrossingInfrastructure> crossingInfrastructure = Optional.empty();
+    private Optional<RoadCrossing> roadCrossing = Optional.empty();
     private Optional<ContinueDirection> continueDirection = Optional.empty();
 
     // -- getters
 
-    public Optional<CrossingInfrastructure> getCrossingInfrastructure() {
-        return crossingInfrastructure;
+    public Optional<RoadCrossing> getRoadCrossing() {
+        return roadCrossing;
     }
 
     public Optional<ContinueDirection> getContinueDirection() {
@@ -54,8 +54,8 @@ public class RoadCrossingInstruction extends Instruction<RoadCrossingInstruction
 
     // -- setters
 
-    public RoadCrossingInstruction setCrossingInfrastructure(CrossingInfrastructure crossingInfrastructure) {
-        this.crossingInfrastructure = Optional.ofNullable(crossingInfrastructure);
+    public RoadCrossingInstruction setRoadCrossing(RoadCrossing roadCrossing) {
+        this.roadCrossing = Optional.ofNullable(roadCrossing);
         return this;
     }
 
@@ -77,8 +77,8 @@ public class RoadCrossingInstruction extends Instruction<RoadCrossingInstruction
 
     @Override
     public String toString() {
-        return super.toString() + " -> RoadCrossingInstruction [crossingInfrastructure=" + crossingInfrastructure
-                + ", continueDirection=" + continueDirection + "]";
+        return super.toString() + " -> RoadCrossingInstruction [roadCrossing=" + roadCrossing + ", continueDirection="
+                + continueDirection + "]";
     }
 
 }
