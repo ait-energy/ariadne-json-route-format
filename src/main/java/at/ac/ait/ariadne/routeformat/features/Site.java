@@ -31,6 +31,7 @@ public class Site implements Validatable {
     private Map<String, String> optimizedFor = new TreeMap<>();
     private List<ModeOfTransport> modesOfTransport = new ArrayList<>();
     private Optional<GeoJSONFeature<GeoJSONPoint>> focusPoint = Optional.empty();
+    private Optional<Integer> zoomLevel = Optional.empty();
     private Optional<GeoJSONFeature<GeoJSONPolygon>> boundingPolygon = Optional.empty();
     private Map<String, Object> additionalInfo = new TreeMap<>();
 
@@ -76,6 +77,14 @@ public class Site implements Validatable {
     }
 
     /**
+     * @return the zoom level to be used when displaying an overview map of the
+     *         {@link Site}, see http://wiki.openstreetmap.org/wiki/Zoom_levels
+     */
+    public Optional<Integer> getZoomLevel() {
+        return zoomLevel;
+    }
+
+    /**
      * @return a polygon defining the bounds of the site e.g. for displaying it
      *         on a map
      */
@@ -114,6 +123,11 @@ public class Site implements Validatable {
         return this;
     }
 
+    public Site setZoomLevel(Integer zoomLevel) {
+        this.zoomLevel = Optional.ofNullable(zoomLevel);
+        return this;
+    }
+
     public Site setBoundingPolygon(GeoJSONFeature<GeoJSONPolygon> boundingPolygon) {
         this.boundingPolygon = Optional.ofNullable(boundingPolygon);
         return this;
@@ -135,6 +149,7 @@ public class Site implements Validatable {
                 .setModesOfTransport(s.getModesOfTransport()).setAdditionalInfo(s.getAdditionalInfo());
         s.getName().ifPresent(n -> copy.setName(n));
         s.focusPoint.ifPresent(f -> copy.setFocusPoint(f));
+        s.zoomLevel.ifPresent(z -> copy.setZoomLevel(z));
         s.boundingPolygon.ifPresent(b -> copy.setBoundingPolygon(b));
         return copy;
     }
@@ -147,8 +162,8 @@ public class Site implements Validatable {
     @Override
     public String toString() {
         return "Site [id=" + id + ", name=" + name + ", optimizedFor=" + optimizedFor + ", modesOfTransport="
-                + modesOfTransport + ", focusPoint=" + focusPoint + ", boundingPolygon=" + boundingPolygon
-                + ", additionalInfo=" + additionalInfo + "]";
+                + modesOfTransport + ", focusPoint=" + focusPoint + ", zoomLevel=" + zoomLevel + ", boundingPolygon="
+                + boundingPolygon + ", additionalInfo=" + additionalInfo + "]";
     }
 
 }
