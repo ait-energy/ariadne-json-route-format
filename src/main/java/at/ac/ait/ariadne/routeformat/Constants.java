@@ -2,6 +2,8 @@ package at.ac.ait.ariadne.routeformat;
 
 import static at.ac.ait.ariadne.routeformat.Constants.GeneralizedModeOfTransportType.PUBLIC_TRANSPORT;
 
+import at.ac.ait.ariadne.routeformat.instruction.AreaInstruction;
+
 /**
  * {@link Constants} holds all {@link Enum}s of the route format
  * 
@@ -144,6 +146,14 @@ public class Constants {
 
         /** small path, typically foot-only and/or unpaved */
         PATH
+    }
+
+    /**
+     * Types of areas used in {@link AreaInstruction}
+     */
+    public enum Area {
+        /** open area or plaza */
+        SQUARE, PARK, DISTRICT
     }
 
     /**
