@@ -259,6 +259,9 @@
               "maximumTravelTimeSeconds" : {
                 "type" : "integer"
               },
+              "userAffinity" : {
+                "type" : "integer"
+              },
               "speed" : {
                 "type" : "string"
               },

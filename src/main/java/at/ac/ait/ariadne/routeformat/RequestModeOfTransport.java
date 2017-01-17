@@ -42,6 +42,7 @@ public class RequestModeOfTransport<T extends RequestModeOfTransport<T>> impleme
     ModeOfTransport modeOfTransport;
     private Optional<Integer> maximumDistanceMeters = Optional.empty();
     private Optional<Integer> maximumTravelTimeSeconds = Optional.empty();
+    private Optional<Integer> userAffinity = Optional.empty();
     private Optional<String> speed = Optional.empty();
     private List<Location<?>> locations = new ArrayList<>();
     private Optional<GeoJSONFeature<GeoJSONMultiPolygon>> forbiddenAreas = Optional.empty();
@@ -68,6 +69,18 @@ public class RequestModeOfTransport<T extends RequestModeOfTransport<T>> impleme
      */
     public Optional<Integer> getMaximumTravelTimeSeconds() {
         return maximumTravelTimeSeconds;
+    }
+
+    /**
+     * A user's affinity of the mode of transport, preferably in the range of 0
+     * (does not like it at all) to 100 (loves it). This parameter is useful for
+     * intermodal routing where users have preferences towards the available
+     * modes of transport. E.g. for a routing request with the modes bicycle
+     * (100% affinity) and public transport (25% affinity) the router should
+     * prefer the bicycle.
+     */
+    public Optional<Integer> getUserAffinity() {
+        return userAffinity;
     }
 
     /**
@@ -127,6 +140,12 @@ public class RequestModeOfTransport<T extends RequestModeOfTransport<T>> impleme
     }
 
     @SuppressWarnings("unchecked")
+    public T setUserAffinity(Integer userAffinity) {
+        this.userAffinity = Optional.ofNullable(userAffinity);
+        return (T) this;
+    }
+
+    @SuppressWarnings("unchecked")
     public T setSpeed(String speed) {
         this.speed = Optional.ofNullable(speed);
         return (T) this;
@@ -174,6 +193,7 @@ public class RequestModeOfTransport<T extends RequestModeOfTransport<T>> impleme
         result = prime * result + ((locations == null) ? 0 : locations.hashCode());
         result = prime * result + ((maximumDistanceMeters == null) ? 0 : maximumDistanceMeters.hashCode());
         result = prime * result + ((maximumTravelTimeSeconds == null) ? 0 : maximumTravelTimeSeconds.hashCode());
+        result = prime * result + ((userAffinity == null) ? 0 : userAffinity.hashCode());
         result = prime * result + ((modeOfTransport == null) ? 0 : modeOfTransport.hashCode());
         result = prime * result + ((speed == null) ? 0 : speed.hashCode());
         return result;
@@ -213,6 +233,11 @@ public class RequestModeOfTransport<T extends RequestModeOfTransport<T>> impleme
                 return false;
         } else if (!maximumTravelTimeSeconds.equals(other.maximumTravelTimeSeconds))
             return false;
+        if (userAffinity == null) {
+            if (other.userAffinity != null)
+                return false;
+        } else if (!userAffinity.equals(other.userAffinity))
+            return false;
         if (modeOfTransport == null) {
             if (other.modeOfTransport != null)
                 return false;
@@ -229,9 +254,9 @@ public class RequestModeOfTransport<T extends RequestModeOfTransport<T>> impleme
     @Override
     public String toString() {
         return "RequestModeOfTransport [modeOfTransport=" + modeOfTransport + ", maximumDistanceMeters="
-                + maximumDistanceMeters + ", maximumTravelTimeSeconds=" + maximumTravelTimeSeconds + ", speed=" + speed
-                + ", locations=" + locations + ", forbiddenAreas=" + forbiddenAreas + ", additionalInfo="
-                + additionalInfo + "]";
+                + maximumDistanceMeters + ", maximumTravelTimeSeconds=" + maximumTravelTimeSeconds + ", userAffinity="
+                + userAffinity + ", speed=" + speed + ", locations=" + locations + ", forbiddenAreas=" + forbiddenAreas
+                + ", additionalInfo=" + additionalInfo + "]";
     }
 
 }
