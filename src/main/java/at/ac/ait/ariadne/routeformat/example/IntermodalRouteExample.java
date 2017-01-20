@@ -268,7 +268,8 @@ public class IntermodalRouteExample {
         Location<?> from = giefinggasseAit;
         Location<?> to = scholzgasse1Parking;
         return RoutingRequest.createMinimal(from, to, requestModes).setDepartureTime("2016-01-01T15:00:00+01:00")
-                .setLanguage("DE").setAccessibilityRestrictions(ImmutableSet.of(AccessibilityRestriction.NO_ELEVATOR))
+                .setLanguages(Arrays.asList("de"))
+                .setAccessibilityRestrictions(ImmutableSet.of(AccessibilityRestriction.NO_ELEVATOR))
                 .setOptimizedFor("ENERGY").setMaximumTransfers(10).setEndModeOfTransport(carMot)
                 .setAdditionalInfo(additionalInfoRouteRequest);
     }

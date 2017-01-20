@@ -227,7 +227,7 @@
     "maximumTransfers" : 10,
     "departureTime" : "2016-01-01T15:00+01:00",
     "accessibilityRestrictions" : [ "NO_ELEVATOR" ],
-    "language" : "DE",
+    "languages" : [ "de" ],
     "additionalInfo" : {
       "ait:additionalTestBigDecimal" : 12.34567,
       "ait:additionalTestList" : [ 1, 2, 3, 4, 5, 6, 7 ],

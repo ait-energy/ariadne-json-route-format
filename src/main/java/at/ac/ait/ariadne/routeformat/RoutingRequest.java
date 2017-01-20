@@ -4,6 +4,7 @@ import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -67,7 +68,7 @@ public class RoutingRequest implements Validatable {
     private Optional<ZonedDateTime> departureTime = Optional.empty();
     private Optional<ZonedDateTime> arrivalTime = Optional.empty();
     private Set<AccessibilityRestriction> accessibilityRestrictions = new TreeSet<>();
-    private Optional<String> language = Optional.empty();
+    private List<String> languages = new ArrayList<>();
     private Map<String, Object> additionalInfo = new TreeMap<>();
 
     public RoutingRequest() {
@@ -217,11 +218,19 @@ public class RoutingRequest implements Validatable {
     }
 
     /**
-     * @return the preferred language of the user. E.g. navigation instructions,
-     *         street or POI names are provided in this language if available
+     * @return the requested languages of the user in the form of IETF BCP 47
+     *         language tag strings (see {@link Locale#forLanguageTag(String)}).
+     *         E.g. for navigation instructions or street or POI names. The
+     *         first language is regarded the primary language, if none is
+     *         defined the service can choose a fallback language itself.
      */
-    public Optional<String> getLanguage() {
-        return language;
+    public List<String> getLanguages() {
+        return languages;
+    }
+
+    @JsonIgnore
+    public List<Locale> getLanguagesAsLocales() {
+        return languages.stream().map(l -> Locale.forLanguageTag(l)).collect(Collectors.toList());
     }
 
     /**
@@ -375,8 +384,8 @@ public class RoutingRequest implements Validatable {
         return this;
     }
 
-    public RoutingRequest setLanguage(String language) {
-        this.language = Optional.ofNullable(language);
+    public RoutingRequest setLanguages(List<String> languages) {
+        this.languages = new ArrayList<>(languages);
         return this;
     }
 
@@ -438,7 +447,7 @@ public class RoutingRequest implements Validatable {
                 + ", startModeOfTransport=" + startModeOfTransport + ", endModeOfTransport=" + endModeOfTransport
                 + ", optimizedFor=" + optimizedFor + ", siteId=" + siteId + ", maximumTransfers=" + maximumTransfers
                 + ", departureTime=" + departureTime + ", arrivalTime=" + arrivalTime + ", accessibilityRestrictions="
-                + accessibilityRestrictions + ", language=" + language + ", additionalInfo=" + additionalInfo + "]";
+                + accessibilityRestrictions + ", languages=" + languages + ", additionalInfo=" + additionalInfo + "]";
     }
 
 }

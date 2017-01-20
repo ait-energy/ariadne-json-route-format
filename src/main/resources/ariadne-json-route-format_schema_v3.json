@@ -347,8 +347,11 @@
             "enum" : [ "NO_STAIRS", "NO_ESCALATOR", "NO_ELEVATOR", "ONLY_LOW_FLOOR_VEHICLE" ]
           }
         },
-        "language" : {
-          "type" : "string"
+        "languages" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
         },
         "additionalInfo" : {
           "type" : "object",
