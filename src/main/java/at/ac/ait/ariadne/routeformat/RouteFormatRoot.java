@@ -27,8 +27,8 @@ import at.ac.ait.ariadne.routeformat.util.Utils;
  * <p>
  * The coordinate reference system is not directly set in the GeoJSON elements
  * (as the specification would allow) because this would lead to unnecessarily
- * big file sizes. Instead the CRS can optionally be set with the optional
- * attribute {@link RouteFormatRoot#getCoordinateReferenceSystem()}.
+ * big file sizes. Instead the CRS can optionally be set with the attribute
+ * {@link RouteFormatRoot#getCoordinateReferenceSystem()}.
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */
