@@ -436,7 +436,7 @@ public class IntermodalRouteExample {
                         .setExitNr(2).setRoundaboutStreetName("Rondeauplatz").setOntoStreetName("Leiziger Straße"));
         navigationInstructions
                 .add(RoundaboutInstruction.createMinimalExit(GeoJSONCoordinate.create("16.36560", "48.23511"))
-                        .setOntoStreetName("Leipziger Straße").setOntoFormOfWay(FormOfWay.FOOT_AND_CYCLEPATH));
+                        .setOntoStreetName("Leipziger Straße").setOntoFormOfWay(FormOfWay.FOOT_CYCLEPATH));
         navigationInstructions.add(BasicRoadInstruction
                 .createMinimalOnRoute(GeoJSONCoordinate.create("16.36292", "48.23504"), TurnDirection.LEFT,
                         Optional.of("Treustraße"), Optional.of(FormOfWay.ROAD))

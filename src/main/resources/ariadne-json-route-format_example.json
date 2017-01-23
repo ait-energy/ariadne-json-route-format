@@ -1084,7 +1084,7 @@
         },
         "subType" : "EXIT",
         "ontoStreetName" : "Leipziger Straße",
-        "ontoFormOfWay" : "FOOT_AND_CYCLEPATH"
+        "ontoFormOfWay" : "FOOT_CYCLEPATH"
       }, {
         "type" : "BasicRoadInstruction",
         "position" : {

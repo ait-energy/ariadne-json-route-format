@@ -130,7 +130,7 @@ public class Constants {
         CYCLEPATH,
 
         /** dedicated mixed foot and cyclepath */
-        FOOT_AND_CYCLEPATH,
+        FOOT_CYCLEPATH,
 
         /** dedicated footpath (no vehicles allowed) */
         FOOTPATH,
