@@ -8,15 +8,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Preconditions;
 
 import at.ac.ait.ariadne.routeformat.Constants.CompassDirection;
-import at.ac.ait.ariadne.routeformat.Constants.RoadCrossing;
 import at.ac.ait.ariadne.routeformat.Constants.FormOfWay;
 import at.ac.ait.ariadne.routeformat.Constants.GeneralizedModeOfTransportType;
+import at.ac.ait.ariadne.routeformat.Constants.RoadCrossing;
 import at.ac.ait.ariadne.routeformat.Constants.Tunnel;
 import at.ac.ait.ariadne.routeformat.Constants.TurnDirection;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
 
 /**
- * A {@link BasicRoadInstruction} contains episodes with classic-style turn
+ * A {@link RoadInstruction} contains episodes with classic-style turn
  * navigations for street-based modes of transport such as walking, cycling and
  * driving (keep straight, turn left/right, make a u-turn).
  * <p>
@@ -27,33 +27,33 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
  * text and what's mandatory / optional. Elements ending with STRING are
  * terminal (not defined any further).
  * <p>
- * CONTINUE_LANDMARK_STRING must be retrieved from the next {@link Instruction},
- * it can be a classic landmark or also the type of the next instruction, e.g.
+ * UNTIL_LANDMARK_STRING must be retrieved from the next {@link Instruction}, it
+ * can be a classic landmark or also the type of the next instruction, e.g.
  * roundabout.
  * 
  * <pre>
  * {@code
- * BASIC_INSTRUCTION = ROUTE_START | ROUTE_END | STRAIGHT | TURN | U_TURN;
+ * ROAD_INSTRUCTION = ROUTE_START | ROUTE_END | STRAIGHT | TURN | U_TURN | SWITCH_SIDE_OF_ROAD;
  * 
- * ROUTE_START = "Start", [LANDMARK_PART], "on", NAME_TYPE, [INITIAL_DIRECTION], [CONFIRMATION_LANDMARK_PART], [CONTINUE];
+ * ROUTE_START = "Start", [LANDMARK_PART], "on", NAME_TYPE, [HEADING], [CONTINUE];
+ * STRAIGHT = [LANDMARK_PART], "Go straight", [CROSSING_PART], "on", NAME_TYPE, [HEADING], [CONTINUE];
+ * TURN = [LANDMARK_PART], "Turn", ["slight"], DIRECTION, [CROSSING_PART], "on", NAME_TYPE, [HEADING], [CONTINUE];
+ * U_TURN = [LANDMARK_PART], "Make a u-turn", [CROSSING_PART], "on", NAME_TYPE, [HEADING], [CONTINUE];
+ * SWITCH_SIDE_OF_ROAD = [LANDMARK_PART], "Switch to the", DIRECTION, "side of", NAME_TYPE, [CROSSING_PART], [HEADING], [CONTINUE];
  * ROUTE_END = "You reached your destination", [LANDMARK_PART], "on", NAME_TYPE;
- * STRAIGHT = "Go straight", [LANDMARK_PART], [CROSSING_PART], "on", NAME_TYPE, [CONFIRMATION_LANDMARK_PART], [CONTINUE];
- * TURN = "Turn", ["slight"], DIRECTION, [LANDMARK_PART], [CROSSING_PART], "on", NAME_TYPE, [CONFIRMATION_LANDMARK_PART], [CONTINUE];
- * U_TURN = "Make a u-turn", [LANDMARK_PART], [CROSSING_PART], "on", NAME_TYPE, [CONFIRMATION_LANDMARK_PART], [CONTINUE];
  * 
  * NAME_TYPE = [STREET_NAME_STRING], [FORM_OF_WAY_STRING], [onto the bridge], [into the TUNNEL_STRING];
  * CROSSING_PART = "over the intersection" | "at the traffic light" | ...
- * 
- * INITIAL_DIRECTION = "heading", COMPASS_STRING, ["into the direction of", CONTINUE_LANDMARK_STRING];
+ * HEADING = "heading", COMPASS_STRING;
  *
- * CONTINUE = "and continue", [ROAD_SIDE], ["for", UNIT], [UNTIL]; (* at least one of the two *)
+ * CONTINUE = "and continue", [ROAD_SIDE], ["for", UNIT], [CONFIRMATION_LANDMARK_PART], [UNTIL]; (* at least one of the options *)
  * ROAD_SIDE = "on the", "left" | "right", "side of the road;
  * UNIT = [DISTANCE_STRING], [TIME_STRING]; (* at least one of the two *)
- * UNTIL = "until", [INTERSECTING_ROAD_STRING], [CONTINUE_LANDMARK_PART]; 
+ * UNTIL = "until", [INTERSECTING_ROAD_STRING], [UNTIL_LANDMARK_PART]; 
  * 
  * LANDMARK_PART = PREPOSITION, LANDMARK_STRING;
  * CONFIRMATION_LANDMARK_PART = CONFIRMATION_PREPOSITION, CONFIRMATION_LANDMARK_STRING;
- * CONTINUE_LANDMARK_PART = PREPOSITION, CONTINUE_LANDMARK_STRING;
+ * UNTIL_LANDMARK_PART = PREPOSITION, UNTIL_LANDMARK_STRING;
  * 
  * PREPOSITION = "before" | "at" | "after";
  * CONFIRMATION_PREPOSITION = "towards" | "through" | "along" | "past";
@@ -65,10 +65,43 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
  * @author AIT Austrian Institute of Technology GmbH
  */
 @JsonInclude(Include.NON_EMPTY)
-public class BasicRoadInstruction extends Instruction<BasicRoadInstruction> {
+public class RoadInstruction extends Instruction<RoadInstruction> {
 
     public enum SubType {
-        ROUTE_START, ROUTE_END, STRAIGHT, TURN, U_TURN
+        ROUTE_START, ROUTE_END, STRAIGHT, TURN, U_TURN,
+        // minimal open: At the POI change to the left side of the road. minimal
+        // junc:
+        // At the POI change to the left side of the road over the junction
+        // [...].
+        //
+        // verbose open: At the POI change to the left side of the road over the
+        // zebra
+        // crossing [and continue in the opposite direction]. verbose junc: At
+        // the POI
+        // change to the left side of the road over the zebra crossing [and
+        // continue in
+        // the opposite direction].
+        // * <pre>
+        // * {@code
+        // * SWITCH_SIDE_OF_ROAD_INSTRUCTION = [LANDMARK_PART], "change to the",
+        // [SIDE], "side of the road", [CROSSING_TYPE], [CONTINUE];
+        // * LANDMARK_PART = PREPOSITION, "the", LANDMARK_STRING;
+        // * PREPOSITION = "before" | "at" | "after";
+        // * SIDE = "left", "right";
+        // * CROSSING_TYPE = "over the", ROAD_CROSSING;
+        // * ROAD_CROSSING = "junction" | "zebra crossing" | "traffic light";
+        // * CONTINUE = "and continue in the", "same" | "opposite", "direction";
+        // * }
+        // * </pre>
+        /**
+         * Instruction for switching the side of a road - typically one and the
+         * same - and continuing in the <b>same</b> direction. The change can
+         * happen at a junction or on the open road. Typically relevant for foot
+         * and bicycle traffic using zebra crossings or bicycle crossings, but
+         * it is also possible that this is just a recommended place to cross
+         * the road (without any marked crossing).
+         */
+        SWITCH_SIDE_OF_ROAD
     }
 
     private SubType subType;
@@ -157,8 +190,8 @@ public class BasicRoadInstruction extends Instruction<BasicRoadInstruction> {
     }
 
     /**
-     * @return a {@link RoadCrossing} in case the instruction starts
-     *         with a road crossing
+     * @return a {@link RoadCrossing} in case the instruction starts with a road
+     *         crossing
      */
     public Optional<RoadCrossing> getCrossing() {
         return crossing;
@@ -202,72 +235,72 @@ public class BasicRoadInstruction extends Instruction<BasicRoadInstruction> {
 
     // -- setters
 
-    public BasicRoadInstruction setSubType(SubType subType) {
+    public RoadInstruction setSubType(SubType subType) {
         this.subType = subType;
         return this;
     }
 
-    public BasicRoadInstruction setModeOfTransport(GeneralizedModeOfTransportType modeOfTransport) {
+    public RoadInstruction setModeOfTransport(GeneralizedModeOfTransportType modeOfTransport) {
         this.modeOfTransport = Optional.ofNullable(modeOfTransport);
         return this;
     }
 
-    public BasicRoadInstruction setTurnDirection(TurnDirection turnDirection) {
+    public RoadInstruction setTurnDirection(TurnDirection turnDirection) {
         this.turnDirection = Optional.ofNullable(turnDirection);
         return this;
     }
 
-    public BasicRoadInstruction setCompassDirection(CompassDirection compassDirection) {
+    public RoadInstruction setCompassDirection(CompassDirection compassDirection) {
         this.compassDirection = Optional.ofNullable(compassDirection);
         return this;
     }
 
-    public BasicRoadInstruction setRoadChange(Boolean roadChange) {
+    public RoadInstruction setRoadChange(Boolean roadChange) {
         this.roadChange = Optional.ofNullable(roadChange);
         return this;
     }
 
-    public BasicRoadInstruction setOntoStreetName(String ontoStreetName) {
+    public RoadInstruction setOntoStreetName(String ontoStreetName) {
         this.ontoStreetName = Optional.ofNullable(ontoStreetName);
         return this;
     }
 
-    public BasicRoadInstruction setOntoFormOfWay(FormOfWay ontoFormOfWay) {
+    public RoadInstruction setOntoFormOfWay(FormOfWay ontoFormOfWay) {
         this.ontoFormOfWay = Optional.ofNullable(ontoFormOfWay);
         return this;
     }
 
-    public BasicRoadInstruction setEnterBridge(Boolean enterBridge) {
+    public RoadInstruction setEnterBridge(Boolean enterBridge) {
         this.enterBridge = Optional.ofNullable(enterBridge);
         return this;
     }
 
-    public BasicRoadInstruction setEnterTunnel(Tunnel enterTunnel) {
+    public RoadInstruction setEnterTunnel(Tunnel enterTunnel) {
         this.enterTunnel = Optional.ofNullable(enterTunnel);
         return this;
     }
 
-    public BasicRoadInstruction setOntoRightSideOfRoad(Boolean ontoRightSideOfRoad) {
+    public RoadInstruction setOntoRightSideOfRoad(Boolean ontoRightSideOfRoad) {
         this.ontoRightSideOfRoad = Optional.ofNullable(ontoRightSideOfRoad);
         return this;
     }
 
-    public BasicRoadInstruction setCrossing(RoadCrossing crossing) {
+    public RoadInstruction setCrossing(RoadCrossing crossing) {
         this.crossing = Optional.ofNullable(crossing);
         return this;
     }
 
-    public BasicRoadInstruction setContinueMeters(Integer continueMeters) {
+    public RoadInstruction setContinueMeters(Integer continueMeters) {
         this.continueMeters = Optional.ofNullable(continueMeters);
         return this;
     }
 
-    public BasicRoadInstruction setContinueSeconds(Integer continueSeconds) {
+    public RoadInstruction setContinueSeconds(Integer continueSeconds) {
         this.continueSeconds = Optional.ofNullable(continueSeconds);
         return this;
     }
 
-    public BasicRoadInstruction setContinueUntilIntersectingStreetName(String continueUntilIntersectingStreetName) {
+    public RoadInstruction setContinueUntilIntersectingStreetName(String continueUntilIntersectingStreetName) {
         this.continueUntilIntersectingStreetName = Optional.ofNullable(continueUntilIntersectingStreetName);
         return this;
     }
@@ -276,12 +309,12 @@ public class BasicRoadInstruction extends Instruction<BasicRoadInstruction> {
      * @param landmark
      *            the landmark at the start point, end point, or decision point
      */
-    public BasicRoadInstruction setLandmark(Landmark landmark) {
+    public RoadInstruction setLandmark(Landmark landmark) {
         this.landmark = Optional.ofNullable(landmark);
         return this;
     }
 
-    public BasicRoadInstruction setConfirmationLandmark(Landmark confirmationLandmark) {
+    public RoadInstruction setConfirmationLandmark(Landmark confirmationLandmark) {
         this.confirmationLandmark = Optional.ofNullable(confirmationLandmark);
         return this;
     }
@@ -291,18 +324,18 @@ public class BasicRoadInstruction extends Instruction<BasicRoadInstruction> {
     /**
      * either street name or form of way must be present
      */
-    public static BasicRoadInstruction createMinimalRouteStart(GeoJSONCoordinate position,
-            Optional<String> ontoStreetName, Optional<FormOfWay> ontoFormOfWay) {
-        return new BasicRoadInstruction().setPosition(position).setSubType(SubType.ROUTE_START)
+    public static RoadInstruction createMinimalRouteStart(GeoJSONCoordinate position, Optional<String> ontoStreetName,
+            Optional<FormOfWay> ontoFormOfWay) {
+        return new RoadInstruction().setPosition(position).setSubType(SubType.ROUTE_START)
                 .setOntoStreetName(ontoStreetName.orElse(null)).setOntoFormOfWay(ontoFormOfWay.orElse(null));
     }
 
     /**
      * either street name or form of way must be present
      */
-    public static BasicRoadInstruction createMinimalOnRoute(GeoJSONCoordinate position, TurnDirection turnDirection,
+    public static RoadInstruction createMinimalOnRoute(GeoJSONCoordinate position, TurnDirection turnDirection,
             Optional<String> ontoStreetName, Optional<FormOfWay> ontoFormOfWay) {
-        return new BasicRoadInstruction().setPosition(position).setSubType(getSubType(turnDirection))
+        return new RoadInstruction().setPosition(position).setSubType(getSubType(turnDirection))
                 .setTurnDirection(turnDirection).setOntoStreetName(ontoStreetName.orElse(null))
                 .setOntoFormOfWay(ontoFormOfWay.orElse(null));
     }
@@ -310,9 +343,9 @@ public class BasicRoadInstruction extends Instruction<BasicRoadInstruction> {
     /**
      * either street name or form of way (of the destination) must be present
      */
-    public static BasicRoadInstruction createMinimalRouteEnd(GeoJSONCoordinate position,
-            Optional<String> ontoStreetName, Optional<FormOfWay> ontoFormOfWay) {
-        return new BasicRoadInstruction().setPosition(position).setSubType(SubType.ROUTE_END)
+    public static RoadInstruction createMinimalRouteEnd(GeoJSONCoordinate position, Optional<String> ontoStreetName,
+            Optional<FormOfWay> ontoFormOfWay) {
+        return new RoadInstruction().setPosition(position).setSubType(SubType.ROUTE_END)
                 .setOntoStreetName(ontoStreetName.orElse(null)).setOntoFormOfWay(ontoFormOfWay.orElse(null));
     }
 
@@ -335,14 +368,13 @@ public class BasicRoadInstruction extends Instruction<BasicRoadInstruction> {
 
     @Override
     public String toString() {
-        return super.toString() + " -> BasicRoadInstruction [subType=" + subType + ", modeOfTransport="
-                + modeOfTransport + ", turnDirection=" + turnDirection + ", compassDirection=" + compassDirection
-                + ", roadChange=" + roadChange + ", ontoStreetName=" + ontoStreetName + ", ontoFormOfWay="
-                + ontoFormOfWay + ", enterBridge=" + enterBridge + ", enterTunnel=" + enterTunnel
-                + ", ontoRightSideOfRoad=" + ontoRightSideOfRoad + ", continueMeters=" + continueMeters
-                + ", continueSeconds=" + continueSeconds + ", continueUntilIntersectingStreetName="
-                + continueUntilIntersectingStreetName + ", landmark=" + landmark + ", confirmationLandmark="
-                + confirmationLandmark + "]";
+        return super.toString() + " -> RoadInstruction [subType=" + subType + ", modeOfTransport=" + modeOfTransport
+                + ", turnDirection=" + turnDirection + ", compassDirection=" + compassDirection + ", roadChange="
+                + roadChange + ", ontoStreetName=" + ontoStreetName + ", ontoFormOfWay=" + ontoFormOfWay
+                + ", enterBridge=" + enterBridge + ", enterTunnel=" + enterTunnel + ", ontoRightSideOfRoad="
+                + ontoRightSideOfRoad + ", continueMeters=" + continueMeters + ", continueSeconds=" + continueSeconds
+                + ", continueUntilIntersectingStreetName=" + continueUntilIntersectingStreetName + ", landmark="
+                + landmark + ", confirmationLandmark=" + confirmationLandmark + "]";
     }
 
 }

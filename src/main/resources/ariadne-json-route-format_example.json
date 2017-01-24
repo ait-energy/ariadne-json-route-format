@@ -1014,7 +1014,7 @@
         "properties" : { }
       },
       "navigationInstructions" : [ {
-        "type" : "BasicRoadInstruction",
+        "type" : "RoadInstruction",
         "position" : {
           "type" : "Feature",
           "geometry" : {
@@ -1027,7 +1027,7 @@
         "ontoStreetName" : "Adalbert-Stifter-Straße",
         "ontoFormOfWay" : "ROAD"
       }, {
-        "type" : "BasicRoadInstruction",
+        "type" : "RoadInstruction",
         "position" : {
           "type" : "Feature",
           "geometry" : {
@@ -1086,7 +1086,7 @@
         "ontoStreetName" : "Leipziger Straße",
         "ontoFormOfWay" : "FOOT_CYCLEPATH"
       }, {
-        "type" : "BasicRoadInstruction",
+        "type" : "RoadInstruction",
         "position" : {
           "type" : "Feature",
           "geometry" : {
@@ -1101,7 +1101,7 @@
         "ontoFormOfWay" : "ROAD",
         "continueMeters" : 110
       }, {
-        "type" : "BasicRoadInstruction",
+        "type" : "RoadInstruction",
         "position" : {
           "type" : "Feature",
           "geometry" : {

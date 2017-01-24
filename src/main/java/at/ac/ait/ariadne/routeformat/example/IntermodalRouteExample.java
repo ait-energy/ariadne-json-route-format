@@ -49,7 +49,7 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeatureCollection;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONLineString;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONMultiPolygon;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPolygon;
-import at.ac.ait.ariadne.routeformat.instruction.BasicRoadInstruction;
+import at.ac.ait.ariadne.routeformat.instruction.RoadInstruction;
 import at.ac.ait.ariadne.routeformat.instruction.Instruction;
 import at.ac.ait.ariadne.routeformat.instruction.Landmark;
 import at.ac.ait.ariadne.routeformat.instruction.RoundaboutInstruction;
@@ -422,9 +422,9 @@ public class IntermodalRouteExample {
         // add navigation instructions
         List<Instruction<?>> navigationInstructions = new ArrayList<>();
         navigationInstructions
-                .add(BasicRoadInstruction.createMinimalRouteStart(adalbertStifterStrasse15.getSimpleCoordinate(),
+                .add(RoadInstruction.createMinimalRouteStart(adalbertStifterStrasse15.getSimpleCoordinate(),
                         Optional.of("Adalbert-Stifter-Straße"), Optional.of(FormOfWay.ROAD)));
-        navigationInstructions.add(BasicRoadInstruction
+        navigationInstructions.add(RoadInstruction
                 .createMinimalOnRoute(GeoJSONCoordinate.create("16.3651564", "48.2372703"), TurnDirection.SLIGHT_LEFT,
                         Optional.of("Klosterneuburger Straße"), Optional.of(FormOfWay.ROAD))
                 .setLandmark(Landmark.createMinimal(Preposition.AFTER,
@@ -437,11 +437,11 @@ public class IntermodalRouteExample {
         navigationInstructions
                 .add(RoundaboutInstruction.createMinimalExit(GeoJSONCoordinate.create("16.36560", "48.23511"))
                         .setOntoStreetName("Leipziger Straße").setOntoFormOfWay(FormOfWay.FOOT_CYCLEPATH));
-        navigationInstructions.add(BasicRoadInstruction
+        navigationInstructions.add(RoadInstruction
                 .createMinimalOnRoute(GeoJSONCoordinate.create("16.36292", "48.23504"), TurnDirection.LEFT,
                         Optional.of("Treustraße"), Optional.of(FormOfWay.ROAD))
                 .setContinueMeters(110));
-        navigationInstructions.add(BasicRoadInstruction.createMinimalRouteEnd(treustrasse92.getSimpleCoordinate(),
+        navigationInstructions.add(RoadInstruction.createMinimalRouteEnd(treustrasse92.getSimpleCoordinate(),
                 Optional.of("Treustraße"), Optional.of(FormOfWay.ROAD)));
 
         bicycleFromAdalbertStifterStrasseToTreugasse = new RouteSegment().setNr(++segmentNr)

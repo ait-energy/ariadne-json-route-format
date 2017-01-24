@@ -14,11 +14,11 @@ public class InstructionTest {
 
     @Test
     public void testProperDeSerialization() throws IOException {
-        BasicRoadInstruction instruction = BasicRoadInstruction.createMinimalRouteStart(
+        RoadInstruction instruction = RoadInstruction.createMinimalRouteStart(
                 GeoJSONCoordinate.create("48.123", "16"), Optional.of("Testweg"), Optional.of(FormOfWay.ROAD));
         instruction.validate();
 
-        String expected = "{\"type\":\"BasicRoadInstruction\",\"position\":{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[48.123,16]},\"properties\":{}},\"subType\":\"ROUTE_START\",\"ontoStreetName\":\"Testweg\",\"ontoFormOfWay\":\"ROAD\"}";
+        String expected = "{\"type\":\"RoadInstruction\",\"position\":{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[48.123,16]},\"properties\":{}},\"subType\":\"ROUTE_START\",\"ontoStreetName\":\"Testweg\",\"ontoFormOfWay\":\"ROAD\"}";
         Assert.assertEquals("serialization failed", expected, TestUtil.MAPPER.writeValueAsString(instruction));
 
         Instruction<?> deserializedInstruction = TestUtil.MAPPER.readValue(expected, Instruction.class);
