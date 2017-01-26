@@ -343,10 +343,10 @@ public class RoadInstruction extends Instruction<RoadInstruction> {
     /**
      * either street name or form of way (of the destination) must be present
      */
-    public static RoadInstruction createMinimalRouteEnd(GeoJSONCoordinate position, Optional<String> ontoStreetName,
-            Optional<FormOfWay> ontoFormOfWay) {
+    public static RoadInstruction createMinimalRouteEnd(GeoJSONCoordinate position, Optional<String> onStreetName,
+            Optional<FormOfWay> onFormOfWay) {
         return new RoadInstruction().setPosition(position).setSubType(SubType.ROUTE_END)
-                .setOntoStreetName(ontoStreetName.orElse(null)).setOntoFormOfWay(ontoFormOfWay.orElse(null));
+                .setOntoStreetName(onStreetName.orElse(null)).setOntoFormOfWay(onFormOfWay.orElse(null));
     }
 
     private static SubType getSubType(TurnDirection turnDirection) {
