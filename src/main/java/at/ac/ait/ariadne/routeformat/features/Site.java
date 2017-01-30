@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Preconditions;
 
+import at.ac.ait.ariadne.routeformat.Constants.SiteFeature;
 import at.ac.ait.ariadne.routeformat.ModeOfTransport;
 import at.ac.ait.ariadne.routeformat.RoutingRequest;
 import at.ac.ait.ariadne.routeformat.Validatable;
@@ -33,6 +34,7 @@ public class Site implements Validatable {
     private Optional<GeoJSONFeature<GeoJSONPoint>> focusPoint = Optional.empty();
     private Optional<Integer> zoomLevel = Optional.empty();
     private Optional<GeoJSONFeature<GeoJSONPolygon>> boundingPolygon = Optional.empty();
+    private List<SiteFeature> features = new ArrayList<>();
     private Map<String, Object> additionalInfo = new TreeMap<>();
 
     // -- getters
@@ -92,6 +94,10 @@ public class Site implements Validatable {
         return boundingPolygon;
     }
 
+    public List<SiteFeature> getFeatures() {
+        return features;
+    }
+
     public Map<String, Object> getAdditionalInfo() {
         return additionalInfo;
     }
@@ -133,6 +139,11 @@ public class Site implements Validatable {
         return this;
     }
 
+    public Site setFeatures(List<SiteFeature> features) {
+        this.features = new ArrayList<>(features);
+        return this;
+    }
+
     public Site setAdditionalInfo(Map<String, Object> additionalInfo) {
         this.additionalInfo = new TreeMap<>(additionalInfo);
         return this;
@@ -163,7 +174,7 @@ public class Site implements Validatable {
     public String toString() {
         return "Site [id=" + id + ", name=" + name + ", optimizedFor=" + optimizedFor + ", modesOfTransport="
                 + modesOfTransport + ", focusPoint=" + focusPoint + ", zoomLevel=" + zoomLevel + ", boundingPolygon="
-                + boundingPolygon + ", additionalInfo=" + additionalInfo + "]";
+                + boundingPolygon + ", siteFeatures=" + features + ", additionalInfo=" + additionalInfo + "]";
     }
 
 }

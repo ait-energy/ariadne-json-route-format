@@ -2,6 +2,7 @@ package at.ac.ait.ariadne.routeformat;
 
 import static at.ac.ait.ariadne.routeformat.Constants.GeneralizedModeOfTransportType.PUBLIC_TRANSPORT;
 
+import at.ac.ait.ariadne.routeformat.features.Site;
 import at.ac.ait.ariadne.routeformat.instruction.AreaInstruction;
 
 /**
@@ -230,6 +231,26 @@ public class Constants {
          * Error while routing (or general error). No routes are available.
          */
         ERROR;
+    }
+
+    /**
+     * Features a routing service supports for a {@link Site}. A
+     * {@link RoutingRequest} should be built accordingly.
+     */
+    public enum SiteFeature {
+        /**
+         * more finegrained control over modes of transport, see
+         * {@link RequestModeOfTransport#getUserAffinity()}
+         */
+        MOT_USER_AFFINITY,
+        /**
+         * route calculation can respect departure times
+         */
+        DEPARTURE_TIME,
+        /**
+         * route calculation can respect arrival times
+         */
+        ARRIVAL_TIME
     }
 
     /**
