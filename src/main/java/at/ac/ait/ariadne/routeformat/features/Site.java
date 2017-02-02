@@ -29,7 +29,7 @@ public class Site implements Validatable {
 
     private String id;
     private Optional<String> name = Optional.empty();
-    private Map<String, String> optimizedFor = new TreeMap<>();
+    private List<OptimizedFor> optimizedFor = new ArrayList<>();
     private List<ModeOfTransport> modesOfTransport = new ArrayList<>();
     private Optional<GeoJSONFeature<GeoJSONPoint>> focusPoint = Optional.empty();
     private Optional<Integer> zoomLevel = Optional.empty();
@@ -55,11 +55,10 @@ public class Site implements Validatable {
     }
 
     /**
-     * @return a map of the the supported values for
-     *         {@link RoutingRequest#getOptimizedFor()} as keys and a human
-     *         readable description as values
+     * @return a list of the the supported criteria for
+     *         {@link RoutingRequest#getOptimizedFor()}
      */
-    public Map<String, String> getOptimizedFor() {
+    public List<OptimizedFor> getOptimizedFor() {
         return optimizedFor;
     }
 
@@ -114,8 +113,8 @@ public class Site implements Validatable {
         return this;
     }
 
-    public Site setOptimizedFor(Map<String, String> optimizedFor) {
-        this.optimizedFor = new TreeMap<>(optimizedFor);
+    public Site setOptimizedFor(List<OptimizedFor> optimizedFor) {
+        this.optimizedFor = new ArrayList<>(optimizedFor);
         return this;
     }
 

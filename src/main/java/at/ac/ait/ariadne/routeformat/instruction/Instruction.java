@@ -63,7 +63,7 @@ public abstract class Instruction<T extends Instruction<T>> implements Validatab
 
     /**
      * @return text versions of the instruction, the key of the map is the
-     *         language (RFC 1766), e.g. 'en' or 'de'.
+     *         language (RFC 1766), e.g. 'en' or 'de-AT'.
      */
     public Map<String, String> getText() {
         return text;

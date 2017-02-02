@@ -41,6 +41,7 @@ import at.ac.ait.ariadne.routeformat.RouteFormatRoot;
 import at.ac.ait.ariadne.routeformat.RouteSegment;
 import at.ac.ait.ariadne.routeformat.RoutingRequest;
 import at.ac.ait.ariadne.routeformat.Service;
+import at.ac.ait.ariadne.routeformat.features.OptimizedFor;
 import at.ac.ait.ariadne.routeformat.features.RoutingFeatures;
 import at.ac.ait.ariadne.routeformat.features.Site;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
@@ -213,9 +214,11 @@ public class IntermodalRouteExample {
 
     private RoutingFeatures createRoutingFeatures() {
         List<Site> sites = new ArrayList<>();
-        sites.add(Site.createMinimal("test_vienna").setName("Wien")
-                .setOptimizedFor(ImmutableMap.of("DISTANCE", "shortest distance", "TRAVELTIME", "shortest travel time",
-                        "ENERGY", "minimum energy"))
+        OptimizedFor distance = OptimizedFor.createMinimal("DISTANCE")
+                .setText(ImmutableMap.of("en", "shortest distance", "de-AT", "kürzeste Distanz"));
+        OptimizedFor travelTime = OptimizedFor.createMinimal("TRAVELTIME")
+                .setText(ImmutableMap.of("en", "minimum travel time", "de-AT", "kürzeste Reisezeit"));
+        sites.add(Site.createMinimal("test_vienna").setName("Wien").setOptimizedFor(Arrays.asList(distance, travelTime))
                 .setModesOfTransport(Arrays.asList(ModeOfTransport.STANDARD_FOOT, ModeOfTransport.STANDARD_BICYCLE,
                         ModeOfTransport.STANDARD_CAR, wienerLinienMot, citybikeMot, car2goMot, flincMot)));
         RoutingFeatures routingFeatures = RoutingFeatures.createMinimal("Example", sites).setUrl("http://www.ait.ac.at")
