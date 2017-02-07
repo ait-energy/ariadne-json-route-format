@@ -2,13 +2,14 @@ package at.ac.ait.ariadne.routeformat.features;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.TreeMap;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Preconditions;
 
 import at.ac.ait.ariadne.routeformat.Validatable;
@@ -25,6 +26,7 @@ public class RoutingFeatures implements Validatable {
     private Optional<String> url = Optional.empty();
     private Optional<String> logoUrl = Optional.empty();
     private Optional<String> credits = Optional.empty();
+    private List<String> languages = new ArrayList<>();
     private List<Site> sites = new ArrayList<>();
     private Map<String, Object> additionalInfo = new TreeMap<>();
 
@@ -64,6 +66,15 @@ public class RoutingFeatures implements Validatable {
     }
 
     /**
+     * @return the supported languages, e.g. for navigation instructions, in the
+     *         form of IETF BCP 47 language tag strings (see
+     *         {@link Locale#forLanguageTag(String)}). (optional)
+     */
+    public List<String> getLanguages() {
+        return languages;
+    }
+
+    /**
      * @return all {@link Site}s supported by this service
      */
     @JsonProperty(required = true)
@@ -97,6 +108,11 @@ public class RoutingFeatures implements Validatable {
         return this;
     }
 
+    public RoutingFeatures setLanguages(List<String> languages) {
+        this.languages = new ArrayList<>(languages);
+        return this;
+    }
+
     public RoutingFeatures setSites(List<Site> sites) {
         this.sites = new ArrayList<>(sites);
         return this;
@@ -121,7 +137,7 @@ public class RoutingFeatures implements Validatable {
     @Override
     public String toString() {
         return "RoutingFeatures [name=" + name + ", url=" + url + ", logoUrl=" + logoUrl + ", credits=" + credits
-                + ", sites=" + sites + ", additionalInfo=" + additionalInfo + "]";
+                + ", languages=" + languages + ", sites=" + sites + ", additionalInfo=" + additionalInfo + "]";
     }
 
 }
