@@ -22,15 +22,35 @@ import at.ac.ait.ariadne.routeformat.Validatable;
 @JsonInclude(Include.NON_EMPTY)
 public class RoutingFeatures implements Validatable {
 
+    private String currentLanguage;
+    private List<String> supportedLanguages = new ArrayList<>();
     private String name;
     private Optional<String> url = Optional.empty();
     private Optional<String> logoUrl = Optional.empty();
     private Optional<String> credits = Optional.empty();
-    private List<String> languages = new ArrayList<>();
     private List<Site> sites = new ArrayList<>();
     private Map<String, Object> additionalInfo = new TreeMap<>();
 
     // -- getters
+
+    /**
+     * @return the language used to describe the {@link RoutingFeatures} in the
+     *         form of an IETF BCP 47 language tag string (see
+     *         {@link Locale#forLanguageTag(String)})
+     */
+    @JsonProperty(required = true)
+    public String getCurrentLanguage() {
+        return currentLanguage;
+    }
+
+    /**
+     * @return the supported languages, e.g. for navigation instructions, in the
+     *         form of IETF BCP 47 language tag strings (see
+     *         {@link Locale#forLanguageTag(String)}). (optional)
+     */
+    public List<String> getSupportedLanguages() {
+        return supportedLanguages;
+    }
 
     /**
      * @return a human-readable (potentially internationalized) name of the
@@ -66,15 +86,6 @@ public class RoutingFeatures implements Validatable {
     }
 
     /**
-     * @return the supported languages, e.g. for navigation instructions, in the
-     *         form of IETF BCP 47 language tag strings (see
-     *         {@link Locale#forLanguageTag(String)}). (optional)
-     */
-    public List<String> getLanguages() {
-        return languages;
-    }
-
-    /**
      * @return all {@link Site}s supported by this service
      */
     @JsonProperty(required = true)
@@ -87,6 +98,16 @@ public class RoutingFeatures implements Validatable {
     }
 
     // -- setters
+
+    public RoutingFeatures setCurrentLanguage(String currentLanguage) {
+        this.currentLanguage = currentLanguage;
+        return this;
+    }
+
+    public RoutingFeatures setSupportedLanguages(List<String> supportedLanguages) {
+        this.supportedLanguages = new ArrayList<>(supportedLanguages);
+        return this;
+    }
 
     public RoutingFeatures setName(String name) {
         this.name = name;
@@ -108,11 +129,6 @@ public class RoutingFeatures implements Validatable {
         return this;
     }
 
-    public RoutingFeatures setLanguages(List<String> languages) {
-        this.languages = new ArrayList<>(languages);
-        return this;
-    }
-
     public RoutingFeatures setSites(List<Site> sites) {
         this.sites = new ArrayList<>(sites);
         return this;
@@ -125,19 +141,21 @@ public class RoutingFeatures implements Validatable {
 
     // --
 
-    public static RoutingFeatures createMinimal(String name, List<Site> sites) {
-        return new RoutingFeatures().setName(name).setSites(sites);
+    public static RoutingFeatures createMinimal(String currentLanguage, String name, List<Site> sites) {
+        return new RoutingFeatures().setCurrentLanguage(currentLanguage).setName(name).setSites(sites);
     }
 
     @Override
     public void validate() {
+        Preconditions.checkArgument(currentLanguage != null, "currentLanguage is mandatory but missing");
         Preconditions.checkArgument(name != null, "name is mandatory but missing");
     }
 
     @Override
     public String toString() {
-        return "RoutingFeatures [name=" + name + ", url=" + url + ", logoUrl=" + logoUrl + ", credits=" + credits
-                + ", languages=" + languages + ", sites=" + sites + ", additionalInfo=" + additionalInfo + "]";
+        return "RoutingFeatures [currentLanguage=" + currentLanguage + ", supportedLanguages=" + supportedLanguages
+                + ", name=" + name + ", url=" + url + ", logoUrl=" + logoUrl + ", credits=" + credits + ", sites="
+                + sites + ", additionalInfo=" + additionalInfo + "]";
     }
 
 }

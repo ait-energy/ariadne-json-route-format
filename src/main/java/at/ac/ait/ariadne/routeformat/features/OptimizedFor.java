@@ -1,6 +1,7 @@
 package at.ac.ait.ariadne.routeformat.features;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.TreeMap;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -19,7 +20,7 @@ import at.ac.ait.ariadne.routeformat.Validatable;
 public class OptimizedFor implements Validatable {
 
     private String id;
-    private Map<String, String> text = new TreeMap<>();
+    private Optional<String> description = Optional.empty();
     private Map<String, Object> additionalInfo = new TreeMap<>();
 
     // -- getters
@@ -33,11 +34,10 @@ public class OptimizedFor implements Validatable {
     }
 
     /**
-     * @return human readable description text, the key of the map is the
-     *         language (RFC 1766), e.g. 'en' or 'de-AT'.
+     * @return human readable description text
      */
-    public Map<String, String> getText() {
-        return text;
+    public Optional<String> getDescription() {
+        return description;
     }
 
     public Map<String, Object> getAdditionalInfo() {
@@ -51,8 +51,8 @@ public class OptimizedFor implements Validatable {
         return this;
     }
 
-    public OptimizedFor setText(Map<String, String> text) {
-        this.text = new TreeMap<>(text);
+    public OptimizedFor setDescription(String description) {
+        this.description = Optional.ofNullable(description);
         return this;
     }
 
@@ -74,7 +74,7 @@ public class OptimizedFor implements Validatable {
 
     @Override
     public String toString() {
-        return "OptimizedFor [id=" + id + ", text=" + text + ", additionalInfo=" + additionalInfo + "]";
+        return "OptimizedFor [id=" + id + ", description=" + description + ", additionalInfo=" + additionalInfo + "]";
     }
 
 }

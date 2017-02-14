@@ -214,15 +214,13 @@ public class IntermodalRouteExample {
 
     private RoutingFeatures createRoutingFeatures() {
         List<Site> sites = new ArrayList<>();
-        OptimizedFor distance = OptimizedFor.createMinimal("DISTANCE")
-                .setText(ImmutableMap.of("en", "shortest distance", "de-AT", "kürzeste Distanz"));
-        OptimizedFor travelTime = OptimizedFor.createMinimal("TRAVELTIME")
-                .setText(ImmutableMap.of("en", "minimum travel time", "de-AT", "kürzeste Reisezeit"));
+        OptimizedFor distance = OptimizedFor.createMinimal("DISTANCE").setDescription("shortest distance");
+        OptimizedFor travelTime = OptimizedFor.createMinimal("TRAVELTIME").setDescription("minimum travel time");
         sites.add(Site.createMinimal("test_vienna").setName("Wien").setOptimizedFor(Arrays.asList(distance, travelTime))
                 .setModesOfTransport(Arrays.asList(ModeOfTransport.STANDARD_FOOT, ModeOfTransport.STANDARD_BICYCLE,
                         ModeOfTransport.STANDARD_CAR, wienerLinienMot, citybikeMot, car2goMot, flincMot)));
-        RoutingFeatures routingFeatures = RoutingFeatures.createMinimal("Example", sites).setUrl("http://www.ait.ac.at")
-                .setCredits("(c) by Austrian Institute of Technology GmbH");
+        RoutingFeatures routingFeatures = RoutingFeatures.createMinimal("en", "Example", sites)
+                .setUrl("http://www.ait.ac.at").setCredits("(c) by Austrian Institute of Technology GmbH");
         routingFeatures.validate();
         return routingFeatures;
     }
