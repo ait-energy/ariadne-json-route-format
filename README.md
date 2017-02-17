@@ -36,6 +36,14 @@ Initial development was done together with [Fluidtime](http://www.fluidtime.com)
 ## License
 Everything in this repository is licensed under CC0.
 
+## Maven
+
+Releases of this project are provided via Maven Central.
+
+We followed these instructions:
+- http://central.sonatype.org/pages/ossrh-guide.html
+- http://central.sonatype.org/pages/apache-maven.html
+
 ## Possible future features & improvements 
 - display forbidden areas in leaflet-example
 - public transport station details: differentiate between station entries & platforms, add travel time to transfer segments e.g. 5 min walk, 1 min escalators down, 2 min walk, 1 min elevator up;
