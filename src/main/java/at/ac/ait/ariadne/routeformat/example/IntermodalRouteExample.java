@@ -195,7 +195,7 @@ public class IntermodalRouteExample {
 
     private void initializePublicTransportServices() {
         service28A = Service.createMinimal("28A").setTowards("Floridsdorf");
-        serviceU6 = Service.createMinimal("U6").setTowards("Siebenhirten").setColor("#bf7700");
+        serviceU6 = Service.createMinimal("U6").setTowards("Siebenhirten");
     }
 
     /**
@@ -341,7 +341,7 @@ public class IntermodalRouteExample {
                 .setIntermediateStops(Arrays.asList(createIntermediateStopNeueDonau()))
                 .setModeOfTransport(ModeOfTransport.createMinimal(DetailedModeOfTransportType.SUBWAY)
                         .setAccessibility(Sets.newHashSet(VehicleAccessibility.LOW_FLOOR_VEHICLE)).setService(serviceU6)
-                        .setOperator(wienerLinienOperator))
+                        .setOperator(wienerLinienOperator).setColor("#bf7700"))
                 .setGeometryGeoJson(geometryGeoJson);
         segments.add(subwayFromFloridsdorfToHandelskai);
 

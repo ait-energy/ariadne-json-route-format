@@ -13,7 +13,8 @@ public class ModeOfTransportTest {
     public void equalsTest() {
         Assert.assertTrue(ModeOfTransport.STANDARD_FOOT.equals(ModeOfTransport.STANDARD_FOOT));
 
-        ModeOfTransport mot = ModeOfTransport.createMinimal(DetailedModeOfTransportType.FOOT).setId("foot");
+        ModeOfTransport mot = ModeOfTransport.createMinimal(DetailedModeOfTransportType.FOOT).setId("foot")
+                .setColor("#377eb8");
         Assert.assertTrue(ModeOfTransport.STANDARD_FOOT.equals(mot));
 
         mot.setAdditionalInfo(ImmutableMap.of("key", "value"));
@@ -36,6 +37,26 @@ public class ModeOfTransportTest {
 
     private Operator createOperator() {
         return Operator.createMinimal("Wiener Linien").setId("WL");
+    }
+
+    @Test
+    public void testColor() {
+        ModeOfTransport mot = ModeOfTransport.createMinimal(DetailedModeOfTransportType.FOOT).setColor("#112233");
+        mot.validate();
+
+        try {
+            mot.setColor("#112");
+            mot.validate();
+            Assert.fail("must throw IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+        }
+
+        try {
+            mot.setColor("#ABCDEG");
+            mot.validate();
+            Assert.fail("must throw IllegalArgumentException");
+        } catch (IllegalArgumentException e) {
+        }
     }
 
 }

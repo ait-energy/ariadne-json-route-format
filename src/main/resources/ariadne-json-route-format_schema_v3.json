@@ -165,9 +165,6 @@
                       "towards" : {
                         "type" : "string"
                       },
-                      "color" : {
-                        "type" : "string"
-                      },
                       "additionalInfo" : {
                         "type" : "object",
                         "additionalProperties" : {
@@ -244,6 +241,9 @@
                       "type" : "string",
                       "enum" : [ "LOW_FLOOR_VEHICLE", "HIGH_FLOOR_VEHICLE" ]
                     }
+                  },
+                  "color" : {
+                    "type" : "string"
                   },
                   "additionalInfo" : {
                     "type" : "object",

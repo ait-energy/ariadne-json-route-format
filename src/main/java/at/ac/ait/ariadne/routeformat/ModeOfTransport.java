@@ -34,16 +34,18 @@ import at.ac.ait.ariadne.routeformat.Constants.VehicleAccessibility;
 @JsonInclude(Include.NON_EMPTY)
 public class ModeOfTransport implements Validatable {
 
-    public static final ModeOfTransport STANDARD_FOOT = createMinimal(DetailedModeOfTransportType.FOOT).setId("foot");
+    public static final ModeOfTransport STANDARD_FOOT = createMinimal(DetailedModeOfTransportType.FOOT).setId("foot")
+            .setColor("#377eb8");
     public static final ModeOfTransport STANDARD_BICYCLE = createMinimal(DetailedModeOfTransportType.BICYCLE)
-            .setId("bicycle");
+            .setId("bicycle").setColor("#4daf4a");
     public static final ModeOfTransport STANDARD_MOTORCYCLE = createMinimal(DetailedModeOfTransportType.MOTORCYCLE)
-            .setId("motorcycle");
-    public static final ModeOfTransport STANDARD_CAR = createMinimal(DetailedModeOfTransportType.CAR).setId("car");
+            .setId("motorcycle").setColor("#ff7f00");
+    public static final ModeOfTransport STANDARD_CAR = createMinimal(DetailedModeOfTransportType.CAR).setId("car")
+            .setColor("#e41a1c");
     public static final ModeOfTransport STANDARD_TRANSFER = createMinimal(DetailedModeOfTransportType.TRANSFER)
-            .setId("transfer");
+            .setId("transfer").setColor("#a088a3");
     public static final ModeOfTransport STANDARD_PUBLIC_TRANSPORT = createMinimal(
-            GeneralizedModeOfTransportType.PUBLIC_TRANSPORT).setId("publictransport");
+            GeneralizedModeOfTransportType.PUBLIC_TRANSPORT).setId("publictransport").setColor("#984ea3");
 
     private GeneralizedModeOfTransportType generalizedType;
     private Optional<DetailedModeOfTransportType> detailedType = Optional.empty();
@@ -53,6 +55,7 @@ public class ModeOfTransport implements Validatable {
     private Optional<Boolean> electric = Optional.empty();
     private Optional<Sharing> sharingType = Optional.empty();
     private Set<VehicleAccessibility> accessibility = new TreeSet<>();
+    private Optional<String> color = Optional.empty();
     private Map<String, Object> additionalInfo = new TreeMap<>();
 
     // -- getters
@@ -97,6 +100,15 @@ public class ModeOfTransport implements Validatable {
 
     public Set<VehicleAccessibility> getAccessibility() {
         return accessibility;
+    }
+
+    /**
+     * @return the color of the mode of transport for visualization purposes
+     *         (e.g. red for U1 in Vienna) in hash-prepended six-digit
+     *         hexadacimal notation (e.g. #FF0000)
+     */
+    public Optional<String> getColor() {
+        return color;
     }
 
     public Map<String, Object> getAdditionalInfo() {
@@ -153,6 +165,11 @@ public class ModeOfTransport implements Validatable {
         return this;
     }
 
+    public ModeOfTransport setColor(String color) {
+        this.color = Optional.ofNullable(color);
+        return this;
+    }
+
     public ModeOfTransport setAdditionalInfo(Map<String, Object> additionalInfo) {
         this.additionalInfo = new TreeMap<>(additionalInfo);
         return this;
@@ -175,6 +192,17 @@ public class ModeOfTransport implements Validatable {
                 "mode of transpor types do not match"));
         service.ifPresent(s -> s.validate());
         operator.ifPresent(o -> o.validate());
+        if (color.isPresent()) {
+            String colorStr = color.get();
+            String error = "color must be represented as hash-prepended six-digit hexadecimal String but was %s";
+            Preconditions.checkArgument(colorStr.startsWith("#"), error, colorStr);
+            Preconditions.checkArgument(colorStr.length() == 7, error, colorStr);
+            try {
+                Long.parseLong(colorStr.substring(1, 7), 16);
+            } catch (NumberFormatException e) {
+                Preconditions.checkArgument(false, error, colorStr);
+            }
+        }
     }
 
     @Override
@@ -183,6 +211,7 @@ public class ModeOfTransport implements Validatable {
         int result = 1;
         result = prime * result + ((accessibility == null) ? 0 : accessibility.hashCode());
         result = prime * result + ((additionalInfo == null) ? 0 : additionalInfo.hashCode());
+        result = prime * result + ((color == null) ? 0 : color.hashCode());
         result = prime * result + ((detailedType == null) ? 0 : detailedType.hashCode());
         result = prime * result + ((electric == null) ? 0 : electric.hashCode());
         result = prime * result + ((generalizedType == null) ? 0 : generalizedType.hashCode());
@@ -193,6 +222,11 @@ public class ModeOfTransport implements Validatable {
         return result;
     }
 
+    /**
+     * @return <code>true</code> only if every aspect of the two
+     *         {@link ModeOfTransport} is the same, also e.g. the color or
+     *         properties {@link #getAdditionalInfo()}
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -211,6 +245,11 @@ public class ModeOfTransport implements Validatable {
             if (other.additionalInfo != null)
                 return false;
         } else if (!additionalInfo.equals(other.additionalInfo))
+            return false;
+        if (color == null) {
+            if (other.color != null)
+                return false;
+        } else if (!color.equals(other.color))
             return false;
         if (detailedType == null) {
             if (other.detailedType != null)

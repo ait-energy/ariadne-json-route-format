@@ -56,7 +56,8 @@
       "modeOfTransport" : {
         "generalizedType" : "FOOT",
         "detailedType" : "FOOT",
-        "id" : "foot"
+        "id" : "foot",
+        "color" : "#377eb8"
       },
       "maximumDistanceMeters" : 2000,
       "speed" : "FAST",
@@ -73,7 +74,8 @@
       "modeOfTransport" : {
         "generalizedType" : "BICYCLE",
         "detailedType" : "BICYCLE",
-        "id" : "bicycle"
+        "id" : "bicycle",
+        "color" : "#4daf4a"
       },
       "maximumTravelTimeSeconds" : 2700,
       "speed" : "SLOW",
@@ -112,14 +114,16 @@
       "modeOfTransport" : {
         "generalizedType" : "MOTORCYCLE",
         "detailedType" : "MOTORCYCLE",
-        "id" : "motorcycle"
+        "id" : "motorcycle",
+        "color" : "#ff7f00"
       }
     }, {
       "type" : "RequestModeOfTransport",
       "modeOfTransport" : {
         "generalizedType" : "CAR",
         "detailedType" : "CAR",
-        "id" : "car"
+        "id" : "car",
+        "color" : "#e41a1c"
       },
       "locations" : [ {
         "type" : "Location",
@@ -204,7 +208,8 @@
       "modeOfTransport" : {
         "generalizedType" : "CAR",
         "detailedType" : "CAR",
-        "id" : "car"
+        "id" : "car",
+        "color" : "#e41a1c"
       },
       "locations" : [ {
         "type" : "Location",
@@ -333,7 +338,8 @@
       "modeOfTransport" : {
         "generalizedType" : "FOOT",
         "detailedType" : "FOOT",
-        "id" : "foot"
+        "id" : "foot",
+        "color" : "#377eb8"
       },
       "startTime" : "2016-01-01T15:00+01:00",
       "endTime" : "2016-01-01T15:01+01:00",
@@ -413,7 +419,8 @@
       "modeOfTransport" : {
         "generalizedType" : "FOOT",
         "detailedType" : "TRANSFER",
-        "id" : "transfer"
+        "id" : "transfer",
+        "color" : "#a088a3"
       },
       "boardingSeconds" : 300,
       "startTime" : "2016-01-01T15:01+01:00",
@@ -515,7 +522,8 @@
       "modeOfTransport" : {
         "generalizedType" : "FOOT",
         "detailedType" : "TRANSFER",
-        "id" : "transfer"
+        "id" : "transfer",
+        "color" : "#a088a3"
       },
       "boardingSeconds" : 180,
       "startTime" : "2016-01-01T15:16:30+01:00",
@@ -564,8 +572,7 @@
         "detailedType" : "SUBWAY",
         "service" : {
           "name" : "U6",
-          "towards" : "Siebenhirten",
-          "color" : "#bf7700"
+          "towards" : "Siebenhirten"
         },
         "operator" : {
           "name" : "Wiener Linien",
@@ -575,7 +582,8 @@
             "email_ticketshop" : "ticketshop@wienerlinien.at"
           }
         },
-        "accessibility" : [ "LOW_FLOOR_VEHICLE" ]
+        "accessibility" : [ "LOW_FLOOR_VEHICLE" ],
+        "color" : "#bf7700"
       },
       "startTime" : "2016-01-01T15:20:30+01:00",
       "endTime" : "2016-01-01T15:24:30+01:00",
@@ -642,7 +650,8 @@
       "modeOfTransport" : {
         "generalizedType" : "FOOT",
         "detailedType" : "TRANSFER",
-        "id" : "transfer"
+        "id" : "transfer",
+        "color" : "#a088a3"
       },
       "startTime" : "2016-01-01T15:24:30+01:00",
       "endTime" : "2016-01-01T15:27:30+01:00",
@@ -705,7 +714,8 @@
       "modeOfTransport" : {
         "generalizedType" : "FOOT",
         "detailedType" : "FOOT",
-        "id" : "foot"
+        "id" : "foot",
+        "color" : "#377eb8"
       },
       "startTime" : "2016-01-01T15:27:30+01:00",
       "endTime" : "2016-01-01T15:28:10+01:00",
@@ -870,7 +880,8 @@
       "modeOfTransport" : {
         "generalizedType" : "FOOT",
         "detailedType" : "FOOT",
-        "id" : "foot"
+        "id" : "foot",
+        "color" : "#377eb8"
       },
       "startTime" : "2016-01-01T15:34:10+01:00",
       "endTime" : "2016-01-01T15:36:05+01:00",
@@ -984,7 +995,8 @@
       "modeOfTransport" : {
         "generalizedType" : "BICYCLE",
         "detailedType" : "BICYCLE",
-        "id" : "bicycle"
+        "id" : "bicycle",
+        "color" : "#4daf4a"
       },
       "boardingSeconds" : 60,
       "alightingSeconds" : 60,
@@ -1217,7 +1229,8 @@
       "modeOfTransport" : {
         "generalizedType" : "CAR",
         "detailedType" : "CAR",
-        "id" : "car"
+        "id" : "car",
+        "color" : "#e41a1c"
       },
       "boardingSeconds" : 60,
       "alightingSeconds" : 300,

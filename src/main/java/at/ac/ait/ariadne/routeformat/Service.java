@@ -22,7 +22,6 @@ import com.google.common.base.Preconditions;
 public class Service implements Validatable {
     private String name;
     private Optional<String> towards = Optional.empty();
-    private Optional<String> color = Optional.empty();
     private Map<String, Object> additionalInfo = new TreeMap<>();
 
     // -- getters
@@ -43,15 +42,6 @@ public class Service implements Validatable {
         return towards;
     }
 
-    /**
-     * @return the color of the line used by the public transport operator (e.g.
-     *         red for U1 in Vienna) in hash-prepended six-digit hexadacimal
-     *         notation (e.g. #FF0000)
-     */
-    public Optional<String> getColor() {
-        return color;
-    }
-
     public Map<String, Object> getAdditionalInfo() {
         return additionalInfo;
     }
@@ -65,11 +55,6 @@ public class Service implements Validatable {
 
     public Service setTowards(String towards) {
         this.towards = Optional.ofNullable(towards);
-        return this;
-    }
-
-    public Service setColor(String color) {
-        this.color = Optional.ofNullable(color);
         return this;
     }
 
@@ -87,17 +72,6 @@ public class Service implements Validatable {
     @Override
     public void validate() {
         Preconditions.checkArgument(name != null, "name is mandatory but missing");
-        if (color.isPresent()) {
-            String colorStr = color.get();
-            String error = "color must be represented as hash-prepended six-digit hexadecimal String but was %s";
-            Preconditions.checkArgument(colorStr.startsWith("#"), error, colorStr);
-            Preconditions.checkArgument(colorStr.length() == 7, error, colorStr);
-            try {
-                Long.parseLong(colorStr.substring(1, 7), 16);
-            } catch (NumberFormatException e) {
-                Preconditions.checkArgument(false, error, colorStr);
-            }
-        }
     }
 
     @Override
@@ -105,7 +79,6 @@ public class Service implements Validatable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((additionalInfo == null) ? 0 : additionalInfo.hashCode());
-        result = prime * result + ((color == null) ? 0 : color.hashCode());
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + ((towards == null) ? 0 : towards.hashCode());
         return result;
@@ -124,11 +97,6 @@ public class Service implements Validatable {
             if (other.additionalInfo != null)
                 return false;
         } else if (!additionalInfo.equals(other.additionalInfo))
-            return false;
-        if (color == null) {
-            if (other.color != null)
-                return false;
-        } else if (!color.equals(other.color))
             return false;
         if (name == null) {
             if (other.name != null)
