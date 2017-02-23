@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,6 +15,7 @@ import com.fasterxml.jackson.module.jsonSchema.factories.SchemaFactoryWrapper;
 import com.kjetland.jackson.jsonSchema.JsonSchemaGenerator;
 
 import at.ac.ait.ariadne.routeformat.Constants.Status;
+import at.ac.ait.ariadne.routeformat.Operator;
 import at.ac.ait.ariadne.routeformat.RouteFormatRoot;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
 import at.ac.ait.ariadne.routeformat.instruction.Instruction;
@@ -37,6 +39,7 @@ public class JacksonExample {
     public static final String schema3File = "src/main/resources/ariadne-json-route-format_schema_v3.json";
     public static final String schema4File = "src/main/resources/ariadne-json-route-format_schema_v4.json";
     public static final String exampleFile = "src/main/resources/ariadne-json-route-format_example.json";
+    public static final String exampleUnknownAttributesFile = "src/main/resources/operator-with-unknown-fields.json";
 
     private ObjectMapper mapper;
 
@@ -52,6 +55,7 @@ public class JacksonExample {
         main.readExampleJson();
         main.writeSchemav3();
         // main.writeSchemav4();
+        main.readFileWithUnkownAttributes();
     }
 
     public void writeExampleJson() throws JsonGenerationException, JsonMappingException, IOException {
@@ -79,6 +83,16 @@ public class JacksonExample {
         System.out.println(rootNode.get("routes").get(0).get("segments").get(0).get("geometryGeoJson").get("geometry")
                 .get("coordinates").get(1));
         System.out.println(rootNode.get("calculationTime"));
+        System.out.println("##########");
+    }
+
+    public void readFileWithUnkownAttributes() throws JsonParseException, JsonMappingException, IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.findAndRegisterModules();
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        Operator operator = mapper.readValue(new File(exampleUnknownAttributesFile), Operator.class);
+        System.out.println(operator);
         System.out.println("##########");
     }
 

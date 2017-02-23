@@ -19,6 +19,10 @@ Reading and writing of a route and exporting the JSON schema with Jackson is dem
 
 A simple example how to display a route in a browser with Leaflet is shown in `src/main/resources/ariadne-json-route-format_example_leaflet.html`.
 
+### Further Hints
+
+- Compatibility issues: when parsing a route .json with an older version of the route format it can happen that new and therefore unknown attributes are present in the .json file. In that case Jackson by default throws an `UnrecognizedPropertyException`. Configure your `ObjectMapper` with `mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)` to avoid the exception.
+
 ## Coding Style
 - member variables are private and mutable
     - initialization of complex types when they are defined and so that they are mutable (i.e. `new HashMap<>()` instead of `Collections.emptyMap()`)
