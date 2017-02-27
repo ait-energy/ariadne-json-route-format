@@ -5,13 +5,25 @@ It specifies the format of a routing request as well as the format of the return
 Geometries are represented in the [GeoJSON](http://geojson.org) format as specified in RFC 7946.
 
 ## Usage
-Get the current version with maven. We release to the [Maven Central Repository](https://search.maven.org):
+We release to the [Maven Central Repository](https://search.maven.org).
+To use the current release version just add this dependency to your `pom.xml`: 
 
 	<dependency>
 		<groupId>at.ac.ait</groupId>
 		<artifactId>ariadne-json-route-format</artifactId>
 		<version>0.18</version>
 	</dependency>
+
+To use SNAPSHOT versions you must also add the following repository in your `pom.xml` under `<project> <repositories>`:
+
+	<repository>
+	    <id>oss-sonatype</id>
+	    <name>oss-sonatype</name>
+	    <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+	    <snapshots>
+	        <enabled>true</enabled>
+	    </snapshots>
+	</repository> 
 
 The route format is defined through the Java classes in the package `at.ac.ait.ariadne.routeformat`, most noteworthy `RouteFormatRoot.java`.
 
