@@ -33,9 +33,10 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
  * 
  * <pre>
  * {@code
- * ROAD_INSTRUCTION = ROUTE_START | ROUTE_END | STRAIGHT | TURN | U_TURN | SWITCH_SIDE_OF_ROAD;
+ * ROAD_INSTRUCTION = ROUTE_START | ROUTE_START_UNMENTIONED | ROUTE_END | STRAIGHT | TURN | U_TURN | SWITCH_SIDE_OF_ROAD;
  * 
  * ROUTE_START = "Start", [LANDMARK_PART], "on", NAME_TYPE, [HEADING], [CONTINUE];
+ * ROUTE_START_UNMENTIONED = [LANDMARK_PART], "on", NAME_TYPE, [HEADING], [CONTINUE];
  * STRAIGHT = [LANDMARK_PART], "Go straight", [CROSSING_PART], "on", NAME_TYPE, [HEADING], [CONTINUE];
  * TURN = [LANDMARK_PART], "Turn", ["slight"], DIRECTION, [CROSSING_PART], "on", NAME_TYPE, [HEADING], [CONTINUE];
  * U_TURN = [LANDMARK_PART], "Make a u-turn", [CROSSING_PART], "on", NAME_TYPE, [HEADING], [CONTINUE];
@@ -68,31 +69,14 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
 public class RoadInstruction extends Instruction<RoadInstruction> {
 
     public enum SubType {
-        ROUTE_START, ROUTE_END, STRAIGHT, TURN, U_TURN,
-        // minimal open: At the POI change to the left side of the road. minimal
-        // junc:
-        // At the POI change to the left side of the road over the junction
-        // [...].
-        //
-        // verbose open: At the POI change to the left side of the road over the
-        // zebra
-        // crossing [and continue in the opposite direction]. verbose junc: At
-        // the POI
-        // change to the left side of the road over the zebra crossing [and
-        // continue in
-        // the opposite direction].
-        // * <pre>
-        // * {@code
-        // * SWITCH_SIDE_OF_ROAD_INSTRUCTION = [LANDMARK_PART], "change to the",
-        // [SIDE], "side of the road", [CROSSING_TYPE], [CONTINUE];
-        // * LANDMARK_PART = PREPOSITION, "the", LANDMARK_STRING;
-        // * PREPOSITION = "before" | "at" | "after";
-        // * SIDE = "left", "right";
-        // * CROSSING_TYPE = "over the", ROAD_CROSSING;
-        // * ROAD_CROSSING = "junction" | "zebra crossing" | "traffic light";
-        // * CONTINUE = "and continue in the", "same" | "opposite", "direction";
-        // * }
-        // * </pre>
+        ROUTE_START,
+        /**
+         * This instruction is the first in a route, but the instruction should
+         * not mention this explicitly. A use case for this type is e.g.
+         * rerouting: in the background a new route is calculated but from the
+         * perspective of the user this is not a route start
+         */
+        ROUTE_START_UNMENTIONED, ROUTE_END, STRAIGHT, TURN, U_TURN,
         /**
          * Instruction for switching the side of a road - typically one and the
          * same - and continuing in the <b>same</b> direction. The change can
