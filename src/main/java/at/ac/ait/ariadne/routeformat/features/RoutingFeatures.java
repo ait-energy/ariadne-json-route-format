@@ -152,6 +152,73 @@ public class RoutingFeatures implements Validatable {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((additionalInfo == null) ? 0 : additionalInfo.hashCode());
+        result = prime * result + ((credits == null) ? 0 : credits.hashCode());
+        result = prime * result + ((currentLanguage == null) ? 0 : currentLanguage.hashCode());
+        result = prime * result + ((logoUrl == null) ? 0 : logoUrl.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((sites == null) ? 0 : sites.hashCode());
+        result = prime * result + ((supportedLanguages == null) ? 0 : supportedLanguages.hashCode());
+        result = prime * result + ((url == null) ? 0 : url.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        RoutingFeatures other = (RoutingFeatures) obj;
+        if (additionalInfo == null) {
+            if (other.additionalInfo != null)
+                return false;
+        } else if (!additionalInfo.equals(other.additionalInfo))
+            return false;
+        if (credits == null) {
+            if (other.credits != null)
+                return false;
+        } else if (!credits.equals(other.credits))
+            return false;
+        if (currentLanguage == null) {
+            if (other.currentLanguage != null)
+                return false;
+        } else if (!currentLanguage.equals(other.currentLanguage))
+            return false;
+        if (logoUrl == null) {
+            if (other.logoUrl != null)
+                return false;
+        } else if (!logoUrl.equals(other.logoUrl))
+            return false;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
+        if (sites == null) {
+            if (other.sites != null)
+                return false;
+        } else if (!sites.equals(other.sites))
+            return false;
+        if (supportedLanguages == null) {
+            if (other.supportedLanguages != null)
+                return false;
+        } else if (!supportedLanguages.equals(other.supportedLanguages))
+            return false;
+        if (url == null) {
+            if (other.url != null)
+                return false;
+        } else if (!url.equals(other.url))
+            return false;
+        return true;
+    }
+
+    @Override
     public String toString() {
         return "RoutingFeatures [currentLanguage=" + currentLanguage + ", supportedLanguages=" + supportedLanguages
                 + ", name=" + name + ", url=" + url + ", logoUrl=" + logoUrl + ", credits=" + credits + ", sites="

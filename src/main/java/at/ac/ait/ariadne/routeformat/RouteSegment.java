@@ -471,6 +471,133 @@ public class RouteSegment implements Validatable {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((accessibility == null) ? 0 : accessibility.hashCode());
+        result = prime * result + ((additionalInfo == null) ? 0 : additionalInfo.hashCode());
+        result = prime * result + ((alightingSeconds == null) ? 0 : alightingSeconds.hashCode());
+        result = prime * result + ((boardingSeconds == null) ? 0 : boardingSeconds.hashCode());
+        result = prime * result + ((boundingBox == null) ? 0 : boundingBox.hashCode());
+        result = prime * result + ((distanceMeters == null) ? 0 : distanceMeters.hashCode());
+        result = prime * result + ((durationSeconds == null) ? 0 : durationSeconds.hashCode());
+        result = prime * result + ((endTime == null) ? 0 : endTime.hashCode());
+        result = prime * result + ((from == null) ? 0 : from.hashCode());
+        result = prime * result + ((geometryEncodedPolyLine == null) ? 0 : geometryEncodedPolyLine.hashCode());
+        result = prime * result + ((geometryGeoJson == null) ? 0 : geometryGeoJson.hashCode());
+        result = prime * result + ((geometryGeoJsonEdges == null) ? 0 : geometryGeoJsonEdges.hashCode());
+        result = prime * result + ((intermediateStops == null) ? 0 : intermediateStops.hashCode());
+        result = prime * result + ((modeOfTransport == null) ? 0 : modeOfTransport.hashCode());
+        result = prime * result + ((navigationInstructions == null) ? 0 : navigationInstructions.hashCode());
+        result = prime * result + ((nr == null) ? 0 : nr.hashCode());
+        result = prime * result + ((startTime == null) ? 0 : startTime.hashCode());
+        result = prime * result + ((to == null) ? 0 : to.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        RouteSegment other = (RouteSegment) obj;
+        if (accessibility == null) {
+            if (other.accessibility != null)
+                return false;
+        } else if (!accessibility.equals(other.accessibility))
+            return false;
+        if (additionalInfo == null) {
+            if (other.additionalInfo != null)
+                return false;
+        } else if (!additionalInfo.equals(other.additionalInfo))
+            return false;
+        if (alightingSeconds == null) {
+            if (other.alightingSeconds != null)
+                return false;
+        } else if (!alightingSeconds.equals(other.alightingSeconds))
+            return false;
+        if (boardingSeconds == null) {
+            if (other.boardingSeconds != null)
+                return false;
+        } else if (!boardingSeconds.equals(other.boardingSeconds))
+            return false;
+        if (boundingBox == null) {
+            if (other.boundingBox != null)
+                return false;
+        } else if (!boundingBox.equals(other.boundingBox))
+            return false;
+        if (distanceMeters == null) {
+            if (other.distanceMeters != null)
+                return false;
+        } else if (!distanceMeters.equals(other.distanceMeters))
+            return false;
+        if (durationSeconds == null) {
+            if (other.durationSeconds != null)
+                return false;
+        } else if (!durationSeconds.equals(other.durationSeconds))
+            return false;
+        if (endTime == null) {
+            if (other.endTime != null)
+                return false;
+        } else if (!endTime.equals(other.endTime))
+            return false;
+        if (from == null) {
+            if (other.from != null)
+                return false;
+        } else if (!from.equals(other.from))
+            return false;
+        if (geometryEncodedPolyLine == null) {
+            if (other.geometryEncodedPolyLine != null)
+                return false;
+        } else if (!geometryEncodedPolyLine.equals(other.geometryEncodedPolyLine))
+            return false;
+        if (geometryGeoJson == null) {
+            if (other.geometryGeoJson != null)
+                return false;
+        } else if (!geometryGeoJson.equals(other.geometryGeoJson))
+            return false;
+        if (geometryGeoJsonEdges == null) {
+            if (other.geometryGeoJsonEdges != null)
+                return false;
+        } else if (!geometryGeoJsonEdges.equals(other.geometryGeoJsonEdges))
+            return false;
+        if (intermediateStops == null) {
+            if (other.intermediateStops != null)
+                return false;
+        } else if (!intermediateStops.equals(other.intermediateStops))
+            return false;
+        if (modeOfTransport == null) {
+            if (other.modeOfTransport != null)
+                return false;
+        } else if (!modeOfTransport.equals(other.modeOfTransport))
+            return false;
+        if (navigationInstructions == null) {
+            if (other.navigationInstructions != null)
+                return false;
+        } else if (!navigationInstructions.equals(other.navigationInstructions))
+            return false;
+        if (nr == null) {
+            if (other.nr != null)
+                return false;
+        } else if (!nr.equals(other.nr))
+            return false;
+        if (startTime == null) {
+            if (other.startTime != null)
+                return false;
+        } else if (!startTime.equals(other.startTime))
+            return false;
+        if (to == null) {
+            if (other.to != null)
+                return false;
+        } else if (!to.equals(other.to))
+            return false;
+        return true;
+    }
+
+    @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append(String.format("%d: %s %dm %ds (%s ", nr, modeOfTransport.toString(), distanceMeters,

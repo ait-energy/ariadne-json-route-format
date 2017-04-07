@@ -306,6 +306,98 @@ public class Route implements Validatable {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((additionalInfo == null) ? 0 : additionalInfo.hashCode());
+        result = prime * result + ((boundingBox == null) ? 0 : boundingBox.hashCode());
+        result = prime * result + distanceMeters;
+        result = prime * result + durationSeconds;
+        result = prime * result + ((endTime == null) ? 0 : endTime.hashCode());
+        result = prime * result + ((from == null) ? 0 : from.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((optimizedFor == null) ? 0 : optimizedFor.hashCode());
+        result = prime * result + ((segments == null) ? 0 : segments.hashCode());
+        result = prime * result
+                + ((simplifiedGeometryEncodedPolyLine == null) ? 0 : simplifiedGeometryEncodedPolyLine.hashCode());
+        result = prime * result + ((simplifiedGeometryGeoJson == null) ? 0 : simplifiedGeometryGeoJson.hashCode());
+        result = prime * result + ((startTime == null) ? 0 : startTime.hashCode());
+        result = prime * result + ((to == null) ? 0 : to.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Route other = (Route) obj;
+        if (additionalInfo == null) {
+            if (other.additionalInfo != null)
+                return false;
+        } else if (!additionalInfo.equals(other.additionalInfo))
+            return false;
+        if (boundingBox == null) {
+            if (other.boundingBox != null)
+                return false;
+        } else if (!boundingBox.equals(other.boundingBox))
+            return false;
+        if (distanceMeters != other.distanceMeters)
+            return false;
+        if (durationSeconds != other.durationSeconds)
+            return false;
+        if (endTime == null) {
+            if (other.endTime != null)
+                return false;
+        } else if (!endTime.equals(other.endTime))
+            return false;
+        if (from == null) {
+            if (other.from != null)
+                return false;
+        } else if (!from.equals(other.from))
+            return false;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        if (optimizedFor == null) {
+            if (other.optimizedFor != null)
+                return false;
+        } else if (!optimizedFor.equals(other.optimizedFor))
+            return false;
+        if (segments == null) {
+            if (other.segments != null)
+                return false;
+        } else if (!segments.equals(other.segments))
+            return false;
+        if (simplifiedGeometryEncodedPolyLine == null) {
+            if (other.simplifiedGeometryEncodedPolyLine != null)
+                return false;
+        } else if (!simplifiedGeometryEncodedPolyLine.equals(other.simplifiedGeometryEncodedPolyLine))
+            return false;
+        if (simplifiedGeometryGeoJson == null) {
+            if (other.simplifiedGeometryGeoJson != null)
+                return false;
+        } else if (!simplifiedGeometryGeoJson.equals(other.simplifiedGeometryGeoJson))
+            return false;
+        if (startTime == null) {
+            if (other.startTime != null)
+                return false;
+        } else if (!startTime.equals(other.startTime))
+            return false;
+        if (to == null) {
+            if (other.to != null)
+                return false;
+        } else if (!to.equals(other.to))
+            return false;
+        return true;
+    }
+
+    @Override
     public String toString() {
         return "Route [from=" + from + ", to=" + to + ", distanceMeters=" + distanceMeters + ", durationSeconds="
                 + durationSeconds + ", id=" + id + ", startTime=" + startTime + ", endTime=" + endTime

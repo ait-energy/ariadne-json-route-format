@@ -180,6 +180,61 @@ public class IntermediateStop implements Validatable {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((additionalInfo == null) ? 0 : additionalInfo.hashCode());
+        result = prime * result + ((estimatedArrivalTime == null) ? 0 : estimatedArrivalTime.hashCode());
+        result = prime * result + ((estimatedDepartureTime == null) ? 0 : estimatedDepartureTime.hashCode());
+        result = prime * result + ((plannedArrivalTime == null) ? 0 : plannedArrivalTime.hashCode());
+        result = prime * result + ((plannedDepartureTime == null) ? 0 : plannedDepartureTime.hashCode());
+        result = prime * result + ((stop == null) ? 0 : stop.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        IntermediateStop other = (IntermediateStop) obj;
+        if (additionalInfo == null) {
+            if (other.additionalInfo != null)
+                return false;
+        } else if (!additionalInfo.equals(other.additionalInfo))
+            return false;
+        if (estimatedArrivalTime == null) {
+            if (other.estimatedArrivalTime != null)
+                return false;
+        } else if (!estimatedArrivalTime.equals(other.estimatedArrivalTime))
+            return false;
+        if (estimatedDepartureTime == null) {
+            if (other.estimatedDepartureTime != null)
+                return false;
+        } else if (!estimatedDepartureTime.equals(other.estimatedDepartureTime))
+            return false;
+        if (plannedArrivalTime == null) {
+            if (other.plannedArrivalTime != null)
+                return false;
+        } else if (!plannedArrivalTime.equals(other.plannedArrivalTime))
+            return false;
+        if (plannedDepartureTime == null) {
+            if (other.plannedDepartureTime != null)
+                return false;
+        } else if (!plannedDepartureTime.equals(other.plannedDepartureTime))
+            return false;
+        if (stop == null) {
+            if (other.stop != null)
+                return false;
+        } else if (!stop.equals(other.stop))
+            return false;
+        return true;
+    }
+
+    @Override
     public String toString() {
         return "IntermediateStop [stop=" + stop + ", plannedArrivalTime=" + plannedArrivalTime
                 + ", plannedDepartureTime=" + plannedDepartureTime + ", estimatedArrivalTime=" + estimatedArrivalTime

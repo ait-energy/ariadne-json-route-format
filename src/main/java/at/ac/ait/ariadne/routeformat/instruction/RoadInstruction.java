@@ -351,6 +351,119 @@ public class RoadInstruction extends Instruction<RoadInstruction> {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((compassDirection == null) ? 0 : compassDirection.hashCode());
+        result = prime * result + ((confirmationLandmark == null) ? 0 : confirmationLandmark.hashCode());
+        result = prime * result + ((continueMeters == null) ? 0 : continueMeters.hashCode());
+        result = prime * result + ((continueSeconds == null) ? 0 : continueSeconds.hashCode());
+        result = prime * result
+                + ((continueUntilIntersectingStreetName == null) ? 0 : continueUntilIntersectingStreetName.hashCode());
+        result = prime * result + ((crossing == null) ? 0 : crossing.hashCode());
+        result = prime * result + ((enterBridge == null) ? 0 : enterBridge.hashCode());
+        result = prime * result + ((enterTunnel == null) ? 0 : enterTunnel.hashCode());
+        result = prime * result + ((landmark == null) ? 0 : landmark.hashCode());
+        result = prime * result + ((modeOfTransport == null) ? 0 : modeOfTransport.hashCode());
+        result = prime * result + ((ontoFormOfWay == null) ? 0 : ontoFormOfWay.hashCode());
+        result = prime * result + ((ontoRightSideOfRoad == null) ? 0 : ontoRightSideOfRoad.hashCode());
+        result = prime * result + ((ontoStreetName == null) ? 0 : ontoStreetName.hashCode());
+        result = prime * result + ((roadChange == null) ? 0 : roadChange.hashCode());
+        result = prime * result + ((subType == null) ? 0 : subType.hashCode());
+        result = prime * result + ((turnDirection == null) ? 0 : turnDirection.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        RoadInstruction other = (RoadInstruction) obj;
+        if (compassDirection == null) {
+            if (other.compassDirection != null)
+                return false;
+        } else if (!compassDirection.equals(other.compassDirection))
+            return false;
+        if (confirmationLandmark == null) {
+            if (other.confirmationLandmark != null)
+                return false;
+        } else if (!confirmationLandmark.equals(other.confirmationLandmark))
+            return false;
+        if (continueMeters == null) {
+            if (other.continueMeters != null)
+                return false;
+        } else if (!continueMeters.equals(other.continueMeters))
+            return false;
+        if (continueSeconds == null) {
+            if (other.continueSeconds != null)
+                return false;
+        } else if (!continueSeconds.equals(other.continueSeconds))
+            return false;
+        if (continueUntilIntersectingStreetName == null) {
+            if (other.continueUntilIntersectingStreetName != null)
+                return false;
+        } else if (!continueUntilIntersectingStreetName.equals(other.continueUntilIntersectingStreetName))
+            return false;
+        if (crossing == null) {
+            if (other.crossing != null)
+                return false;
+        } else if (!crossing.equals(other.crossing))
+            return false;
+        if (enterBridge == null) {
+            if (other.enterBridge != null)
+                return false;
+        } else if (!enterBridge.equals(other.enterBridge))
+            return false;
+        if (enterTunnel == null) {
+            if (other.enterTunnel != null)
+                return false;
+        } else if (!enterTunnel.equals(other.enterTunnel))
+            return false;
+        if (landmark == null) {
+            if (other.landmark != null)
+                return false;
+        } else if (!landmark.equals(other.landmark))
+            return false;
+        if (modeOfTransport == null) {
+            if (other.modeOfTransport != null)
+                return false;
+        } else if (!modeOfTransport.equals(other.modeOfTransport))
+            return false;
+        if (ontoFormOfWay == null) {
+            if (other.ontoFormOfWay != null)
+                return false;
+        } else if (!ontoFormOfWay.equals(other.ontoFormOfWay))
+            return false;
+        if (ontoRightSideOfRoad == null) {
+            if (other.ontoRightSideOfRoad != null)
+                return false;
+        } else if (!ontoRightSideOfRoad.equals(other.ontoRightSideOfRoad))
+            return false;
+        if (ontoStreetName == null) {
+            if (other.ontoStreetName != null)
+                return false;
+        } else if (!ontoStreetName.equals(other.ontoStreetName))
+            return false;
+        if (roadChange == null) {
+            if (other.roadChange != null)
+                return false;
+        } else if (!roadChange.equals(other.roadChange))
+            return false;
+        if (subType != other.subType)
+            return false;
+        if (turnDirection == null) {
+            if (other.turnDirection != null)
+                return false;
+        } else if (!turnDirection.equals(other.turnDirection))
+            return false;
+        return true;
+    }
+
+    @Override
     public String toString() {
         return super.toString() + " -> RoadInstruction [subType=" + subType + ", modeOfTransport=" + modeOfTransport
                 + ", turnDirection=" + turnDirection + ", compassDirection=" + compassDirection + ", roadChange="

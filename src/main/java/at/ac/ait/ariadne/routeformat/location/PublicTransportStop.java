@@ -97,6 +97,49 @@ public class PublicTransportStop extends Location<PublicTransportStop> {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((accessibility == null) ? 0 : accessibility.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((platform == null) ? 0 : platform.hashCode());
+        result = prime * result + ((relatedLines == null) ? 0 : relatedLines.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        PublicTransportStop other = (PublicTransportStop) obj;
+        if (accessibility == null) {
+            if (other.accessibility != null)
+                return false;
+        } else if (!accessibility.equals(other.accessibility))
+            return false;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
+        if (platform == null) {
+            if (other.platform != null)
+                return false;
+        } else if (!platform.equals(other.platform))
+            return false;
+        if (relatedLines == null) {
+            if (other.relatedLines != null)
+                return false;
+        } else if (!relatedLines.equals(other.relatedLines))
+            return false;
+        return true;
+    }
+
+    @Override
     public String toString() {
         return super.toString() + " -> PublicTransportStop [name=" + name + ", platform=" + platform + ", relatedLines="
                 + relatedLines + ", accessibility=" + accessibility + "]";

@@ -87,6 +87,49 @@ public class SharingStation extends Location<SharingStation> {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((modesOfTransport == null) ? 0 : modesOfTransport.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((operator == null) ? 0 : operator.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        SharingStation other = (SharingStation) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        if (modesOfTransport == null) {
+            if (other.modesOfTransport != null)
+                return false;
+        } else if (!modesOfTransport.equals(other.modesOfTransport))
+            return false;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
+        if (operator == null) {
+            if (other.operator != null)
+                return false;
+        } else if (!operator.equals(other.operator))
+            return false;
+        return true;
+    }
+
+    @Override
     public String toString() {
         return super.toString() + " -> SharingStation [name=" + name + ", id=" + id + ", modesOfTransport="
                 + modesOfTransport + ", operator=" + operator + "]";

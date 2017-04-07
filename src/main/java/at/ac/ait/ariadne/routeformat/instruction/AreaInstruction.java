@@ -122,6 +122,52 @@ public class AreaInstruction extends Instruction<AreaInstruction> {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((areaName == null) ? 0 : areaName.hashCode());
+        result = prime * result + ((areaType == null) ? 0 : areaType.hashCode());
+        result = prime * result + ((exitLandmark == null) ? 0 : exitLandmark.hashCode());
+        result = prime * result + ((exitStreetName == null) ? 0 : exitStreetName.hashCode());
+        result = prime * result + ((subType == null) ? 0 : subType.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        AreaInstruction other = (AreaInstruction) obj;
+        if (areaName == null) {
+            if (other.areaName != null)
+                return false;
+        } else if (!areaName.equals(other.areaName))
+            return false;
+        if (areaType == null) {
+            if (other.areaType != null)
+                return false;
+        } else if (!areaType.equals(other.areaType))
+            return false;
+        if (exitLandmark == null) {
+            if (other.exitLandmark != null)
+                return false;
+        } else if (!exitLandmark.equals(other.exitLandmark))
+            return false;
+        if (exitStreetName == null) {
+            if (other.exitStreetName != null)
+                return false;
+        } else if (!exitStreetName.equals(other.exitStreetName))
+            return false;
+        if (subType != other.subType)
+            return false;
+        return true;
+    }
+
+    @Override
     public String toString() {
         return super.toString() + " -> AreaInstruction [subType=" + subType + ", areaName=" + areaName + ", areaType="
                 + areaType + ", exitStreetName=" + exitStreetName + ", exitLandmark=" + exitLandmark + "]";

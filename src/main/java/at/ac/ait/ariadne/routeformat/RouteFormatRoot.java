@@ -189,6 +189,76 @@ public class RouteFormatRoot implements Validatable {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((additionalInfo == null) ? 0 : additionalInfo.hashCode());
+        result = prime * result + ((coordinateReferenceSystem == null) ? 0 : coordinateReferenceSystem.hashCode());
+        result = prime * result + ((debugMessage == null) ? 0 : debugMessage.hashCode());
+        result = prime * result + ((processedTime == null) ? 0 : processedTime.hashCode());
+        result = prime * result + ((request == null) ? 0 : request.hashCode());
+        result = prime * result + ((requestId == null) ? 0 : requestId.hashCode());
+        result = prime * result + ((routeFormatVersion == null) ? 0 : routeFormatVersion.hashCode());
+        result = prime * result + ((routes == null) ? 0 : routes.hashCode());
+        result = prime * result + ((status == null) ? 0 : status.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        RouteFormatRoot other = (RouteFormatRoot) obj;
+        if (additionalInfo == null) {
+            if (other.additionalInfo != null)
+                return false;
+        } else if (!additionalInfo.equals(other.additionalInfo))
+            return false;
+        if (coordinateReferenceSystem == null) {
+            if (other.coordinateReferenceSystem != null)
+                return false;
+        } else if (!coordinateReferenceSystem.equals(other.coordinateReferenceSystem))
+            return false;
+        if (debugMessage == null) {
+            if (other.debugMessage != null)
+                return false;
+        } else if (!debugMessage.equals(other.debugMessage))
+            return false;
+        if (processedTime == null) {
+            if (other.processedTime != null)
+                return false;
+        } else if (!processedTime.equals(other.processedTime))
+            return false;
+        if (request == null) {
+            if (other.request != null)
+                return false;
+        } else if (!request.equals(other.request))
+            return false;
+        if (requestId == null) {
+            if (other.requestId != null)
+                return false;
+        } else if (!requestId.equals(other.requestId))
+            return false;
+        if (routeFormatVersion == null) {
+            if (other.routeFormatVersion != null)
+                return false;
+        } else if (!routeFormatVersion.equals(other.routeFormatVersion))
+            return false;
+        if (routes == null) {
+            if (other.routes != null)
+                return false;
+        } else if (!routes.equals(other.routes))
+            return false;
+        if (status != other.status)
+            return false;
+        return true;
+    }
+
+    @Override
     public String toString() {
         return "RouteFormatRoot [requestId=" + requestId + ", processedTime=" + processedTime + ", status=" + status
                 + ", routes=" + routes.size() + "]";

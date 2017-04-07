@@ -170,6 +170,79 @@ public class Site implements Validatable {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((additionalInfo == null) ? 0 : additionalInfo.hashCode());
+        result = prime * result + ((boundingPolygon == null) ? 0 : boundingPolygon.hashCode());
+        result = prime * result + ((features == null) ? 0 : features.hashCode());
+        result = prime * result + ((focusPoint == null) ? 0 : focusPoint.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((modesOfTransport == null) ? 0 : modesOfTransport.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((optimizedFor == null) ? 0 : optimizedFor.hashCode());
+        result = prime * result + ((zoomLevel == null) ? 0 : zoomLevel.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Site other = (Site) obj;
+        if (additionalInfo == null) {
+            if (other.additionalInfo != null)
+                return false;
+        } else if (!additionalInfo.equals(other.additionalInfo))
+            return false;
+        if (boundingPolygon == null) {
+            if (other.boundingPolygon != null)
+                return false;
+        } else if (!boundingPolygon.equals(other.boundingPolygon))
+            return false;
+        if (features == null) {
+            if (other.features != null)
+                return false;
+        } else if (!features.equals(other.features))
+            return false;
+        if (focusPoint == null) {
+            if (other.focusPoint != null)
+                return false;
+        } else if (!focusPoint.equals(other.focusPoint))
+            return false;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        if (modesOfTransport == null) {
+            if (other.modesOfTransport != null)
+                return false;
+        } else if (!modesOfTransport.equals(other.modesOfTransport))
+            return false;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
+        if (optimizedFor == null) {
+            if (other.optimizedFor != null)
+                return false;
+        } else if (!optimizedFor.equals(other.optimizedFor))
+            return false;
+        if (zoomLevel == null) {
+            if (other.zoomLevel != null)
+                return false;
+        } else if (!zoomLevel.equals(other.zoomLevel))
+            return false;
+        return true;
+    }
+
+    @Override
     public String toString() {
         return "Site [id=" + id + ", name=" + name + ", optimizedFor=" + optimizedFor + ", modesOfTransport="
                 + modesOfTransport + ", focusPoint=" + focusPoint + ", zoomLevel=" + zoomLevel + ", boundingPolygon="

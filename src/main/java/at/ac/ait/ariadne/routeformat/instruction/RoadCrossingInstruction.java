@@ -101,6 +101,40 @@ public class RoadCrossingInstruction extends Instruction<RoadCrossingInstruction
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((landmark == null) ? 0 : landmark.hashCode());
+        result = prime * result + ((roadCrossing == null) ? 0 : roadCrossing.hashCode());
+        result = prime * result + ((turnDirection == null) ? 0 : turnDirection.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        RoadCrossingInstruction other = (RoadCrossingInstruction) obj;
+        if (landmark == null) {
+            if (other.landmark != null)
+                return false;
+        } else if (!landmark.equals(other.landmark))
+            return false;
+        if (roadCrossing == null) {
+            if (other.roadCrossing != null)
+                return false;
+        } else if (!roadCrossing.equals(other.roadCrossing))
+            return false;
+        if (turnDirection != other.turnDirection)
+            return false;
+        return true;
+    }
+
+    @Override
     public String toString() {
         return super.toString() + " -> RoadCrossingInstruction [turnDirection=" + turnDirection + ", landmark="
                 + landmark + ", roadCrossing=" + roadCrossing + "]";

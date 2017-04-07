@@ -442,6 +442,109 @@ public class RoutingRequest implements Validatable {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((accessibilityRestrictions == null) ? 0 : accessibilityRestrictions.hashCode());
+        result = prime * result + ((additionalInfo == null) ? 0 : additionalInfo.hashCode());
+        result = prime * result + ((arrivalTime == null) ? 0 : arrivalTime.hashCode());
+        result = prime * result + ((departureTime == null) ? 0 : departureTime.hashCode());
+        result = prime * result + ((endModeOfTransport == null) ? 0 : endModeOfTransport.hashCode());
+        result = prime * result + ((from == null) ? 0 : from.hashCode());
+        result = prime * result + ((languages == null) ? 0 : languages.hashCode());
+        result = prime * result + ((maximumTransfers == null) ? 0 : maximumTransfers.hashCode());
+        result = prime * result + ((modesOfTransport == null) ? 0 : modesOfTransport.hashCode());
+        result = prime * result + ((optimizedFor == null) ? 0 : optimizedFor.hashCode());
+        result = prime * result + ((siteId == null) ? 0 : siteId.hashCode());
+        result = prime * result + ((startModeOfTransport == null) ? 0 : startModeOfTransport.hashCode());
+        result = prime * result + ((to == null) ? 0 : to.hashCode());
+        result = prime * result + ((via == null) ? 0 : via.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        RoutingRequest other = (RoutingRequest) obj;
+        if (accessibilityRestrictions == null) {
+            if (other.accessibilityRestrictions != null)
+                return false;
+        } else if (!accessibilityRestrictions.equals(other.accessibilityRestrictions))
+            return false;
+        if (additionalInfo == null) {
+            if (other.additionalInfo != null)
+                return false;
+        } else if (!additionalInfo.equals(other.additionalInfo))
+            return false;
+        if (arrivalTime == null) {
+            if (other.arrivalTime != null)
+                return false;
+        } else if (!arrivalTime.equals(other.arrivalTime))
+            return false;
+        if (departureTime == null) {
+            if (other.departureTime != null)
+                return false;
+        } else if (!departureTime.equals(other.departureTime))
+            return false;
+        if (endModeOfTransport == null) {
+            if (other.endModeOfTransport != null)
+                return false;
+        } else if (!endModeOfTransport.equals(other.endModeOfTransport))
+            return false;
+        if (from == null) {
+            if (other.from != null)
+                return false;
+        } else if (!from.equals(other.from))
+            return false;
+        if (languages == null) {
+            if (other.languages != null)
+                return false;
+        } else if (!languages.equals(other.languages))
+            return false;
+        if (maximumTransfers == null) {
+            if (other.maximumTransfers != null)
+                return false;
+        } else if (!maximumTransfers.equals(other.maximumTransfers))
+            return false;
+        if (modesOfTransport == null) {
+            if (other.modesOfTransport != null)
+                return false;
+        } else if (!modesOfTransport.equals(other.modesOfTransport))
+            return false;
+        if (optimizedFor == null) {
+            if (other.optimizedFor != null)
+                return false;
+        } else if (!optimizedFor.equals(other.optimizedFor))
+            return false;
+        if (siteId == null) {
+            if (other.siteId != null)
+                return false;
+        } else if (!siteId.equals(other.siteId))
+            return false;
+        if (startModeOfTransport == null) {
+            if (other.startModeOfTransport != null)
+                return false;
+        } else if (!startModeOfTransport.equals(other.startModeOfTransport))
+            return false;
+        if (to == null) {
+            if (other.to != null)
+                return false;
+        } else if (!to.equals(other.to))
+            return false;
+        if (via == null) {
+            if (other.via != null)
+                return false;
+        } else if (!via.equals(other.via))
+            return false;
+        return true;
+    }
+
+    @Override
     public String toString() {
         return "RoutingRequest [from=" + from + ", via=" + via + ", to=" + to + ", modesOfTransport=" + modesOfTransport
                 + ", startModeOfTransport=" + startModeOfTransport + ", endModeOfTransport=" + endModeOfTransport

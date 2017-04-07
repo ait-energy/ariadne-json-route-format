@@ -56,6 +56,37 @@ public class PointOfInterest extends Location<PointOfInterest> {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((poiType == null) ? 0 : poiType.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        PointOfInterest other = (PointOfInterest) obj;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
+        if (poiType == null) {
+            if (other.poiType != null)
+                return false;
+        } else if (!poiType.equals(other.poiType))
+            return false;
+        return true;
+    }
+
+    @Override
     public String toString() {
         return super.toString() + " -> PointOfInterest [poiType=" + poiType + ", name=" + name + ", address="
                 + getAddress() + "]";

@@ -51,7 +51,7 @@ A simple example how to display a route in a browser with Leaflet is shown in `s
     - `T` is used as argument for the setter: the value is set with `Optional.ofNullable(t)`, so that unsetting of a member is possible by passing `null`
 - `java.time.ZonedDateTime` is used to represent time stamps
 - meaningful implementation of `toString()`
-- `hashCode()` and `equals()` are overridden where necessary (for now this is the case for classes related to modes of transport because we needed to compare them for validation purposes)
+- `hashCode()` and `equals()` are implemented for all data classes
 - documentation for individual fields (if present) is always located at the public getters (not the setters)
 
 ## Funding

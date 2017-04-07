@@ -206,6 +206,89 @@ public class RoundaboutInstruction extends Instruction<RoundaboutInstruction> {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((compassDirection == null) ? 0 : compassDirection.hashCode());
+        result = prime * result + ((confirmationLandmark == null) ? 0 : confirmationLandmark.hashCode());
+        result = prime * result + ((continueMeters == null) ? 0 : continueMeters.hashCode());
+        result = prime * result + ((continueSeconds == null) ? 0 : continueSeconds.hashCode());
+        result = prime * result
+                + ((continueUntilIntersectingStreetName == null) ? 0 : continueUntilIntersectingStreetName.hashCode());
+        result = prime * result + ((exitNr == null) ? 0 : exitNr.hashCode());
+        result = prime * result + ((landmark == null) ? 0 : landmark.hashCode());
+        result = prime * result + ((ontoFormOfWay == null) ? 0 : ontoFormOfWay.hashCode());
+        result = prime * result + ((ontoStreetName == null) ? 0 : ontoStreetName.hashCode());
+        result = prime * result + ((roundaboutStreetName == null) ? 0 : roundaboutStreetName.hashCode());
+        result = prime * result + ((subType == null) ? 0 : subType.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        RoundaboutInstruction other = (RoundaboutInstruction) obj;
+        if (compassDirection == null) {
+            if (other.compassDirection != null)
+                return false;
+        } else if (!compassDirection.equals(other.compassDirection))
+            return false;
+        if (confirmationLandmark == null) {
+            if (other.confirmationLandmark != null)
+                return false;
+        } else if (!confirmationLandmark.equals(other.confirmationLandmark))
+            return false;
+        if (continueMeters == null) {
+            if (other.continueMeters != null)
+                return false;
+        } else if (!continueMeters.equals(other.continueMeters))
+            return false;
+        if (continueSeconds == null) {
+            if (other.continueSeconds != null)
+                return false;
+        } else if (!continueSeconds.equals(other.continueSeconds))
+            return false;
+        if (continueUntilIntersectingStreetName == null) {
+            if (other.continueUntilIntersectingStreetName != null)
+                return false;
+        } else if (!continueUntilIntersectingStreetName.equals(other.continueUntilIntersectingStreetName))
+            return false;
+        if (exitNr == null) {
+            if (other.exitNr != null)
+                return false;
+        } else if (!exitNr.equals(other.exitNr))
+            return false;
+        if (landmark == null) {
+            if (other.landmark != null)
+                return false;
+        } else if (!landmark.equals(other.landmark))
+            return false;
+        if (ontoFormOfWay == null) {
+            if (other.ontoFormOfWay != null)
+                return false;
+        } else if (!ontoFormOfWay.equals(other.ontoFormOfWay))
+            return false;
+        if (ontoStreetName == null) {
+            if (other.ontoStreetName != null)
+                return false;
+        } else if (!ontoStreetName.equals(other.ontoStreetName))
+            return false;
+        if (roundaboutStreetName == null) {
+            if (other.roundaboutStreetName != null)
+                return false;
+        } else if (!roundaboutStreetName.equals(other.roundaboutStreetName))
+            return false;
+        if (subType != other.subType)
+            return false;
+        return true;
+    }
+
+    @Override
     public String toString() {
         return "RoundaboutInstruction [subType=" + subType + ", compassDirection=" + compassDirection
                 + ", roundaboutStreetName=" + roundaboutStreetName + ", ontoStreetName=" + ontoStreetName

@@ -123,6 +123,43 @@ public class GeoJSONFeature<T extends GeoJSONGeometryObject> implements Validata
         geometry.validate();
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((geometry == null) ? 0 : geometry.hashCode());
+        result = prime * result + ((properties == null) ? 0 : properties.hashCode());
+        result = prime * result + ((type == null) ? 0 : type.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        GeoJSONFeature<?> other = (GeoJSONFeature<?>) obj;
+        if (geometry == null) {
+            if (other.geometry != null)
+                return false;
+        } else if (!geometry.equals(other.geometry))
+            return false;
+        if (properties == null) {
+            if (other.properties != null)
+                return false;
+        } else if (!properties.equals(other.properties))
+            return false;
+        if (type == null) {
+            if (other.type != null)
+                return false;
+        } else if (!type.equals(other.type))
+            return false;
+        return true;
+    }
+
     public String toWKT() {
         return geometry.toWKT();
     }

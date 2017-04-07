@@ -130,6 +130,49 @@ public class Location<T extends Location<T>> implements Validatable {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((additionalInfo == null) ? 0 : additionalInfo.hashCode());
+        result = prime * result + ((address == null) ? 0 : address.hashCode());
+        result = prime * result + ((complexGeometry == null) ? 0 : complexGeometry.hashCode());
+        result = prime * result + ((coordinate == null) ? 0 : coordinate.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Location<?> other = (Location<?>) obj;
+        if (additionalInfo == null) {
+            if (other.additionalInfo != null)
+                return false;
+        } else if (!additionalInfo.equals(other.additionalInfo))
+            return false;
+        if (address == null) {
+            if (other.address != null)
+                return false;
+        } else if (!address.equals(other.address))
+            return false;
+        if (complexGeometry == null) {
+            if (other.complexGeometry != null)
+                return false;
+        } else if (!complexGeometry.equals(other.complexGeometry))
+            return false;
+        if (coordinate == null) {
+            if (other.coordinate != null)
+                return false;
+        } else if (!coordinate.equals(other.coordinate))
+            return false;
+        return true;
+    }
+
+    @Override
     public String toString() {
         return "Location [coordinate=" + coordinate + ", address=" + address + ", additionalInfo=" + additionalInfo
                 + "]";

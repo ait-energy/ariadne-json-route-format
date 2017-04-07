@@ -138,6 +138,55 @@ public abstract class Instruction<T extends Instruction<T>> implements Validatab
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((additionalInfo == null) ? 0 : additionalInfo.hashCode());
+        result = prime * result + ((confirmationTriggerPosition == null) ? 0 : confirmationTriggerPosition.hashCode());
+        result = prime * result + ((position == null) ? 0 : position.hashCode());
+        result = prime * result + ((previewTriggerPosition == null) ? 0 : previewTriggerPosition.hashCode());
+        result = prime * result + ((text == null) ? 0 : text.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Instruction other = (Instruction) obj;
+        if (additionalInfo == null) {
+            if (other.additionalInfo != null)
+                return false;
+        } else if (!additionalInfo.equals(other.additionalInfo))
+            return false;
+        if (confirmationTriggerPosition == null) {
+            if (other.confirmationTriggerPosition != null)
+                return false;
+        } else if (!confirmationTriggerPosition.equals(other.confirmationTriggerPosition))
+            return false;
+        if (position == null) {
+            if (other.position != null)
+                return false;
+        } else if (!position.equals(other.position))
+            return false;
+        if (previewTriggerPosition == null) {
+            if (other.previewTriggerPosition != null)
+                return false;
+        } else if (!previewTriggerPosition.equals(other.previewTriggerPosition))
+            return false;
+        if (text == null) {
+            if (other.text != null)
+                return false;
+        } else if (!text.equals(other.text))
+            return false;
+        return true;
+    }
+
+    @Override
     public String toString() {
         return "Instruction [position=" + position + ", previewTriggerPosition=" + previewTriggerPosition
                 + ", confirmationTriggerPosition=" + confirmationTriggerPosition + ", text=" + text
