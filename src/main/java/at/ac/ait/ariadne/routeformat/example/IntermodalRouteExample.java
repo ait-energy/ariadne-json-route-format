@@ -75,16 +75,17 @@ import at.ac.ait.ariadne.routeformat.location.SharingStation;
 public class IntermodalRouteExample {
 
     private Operator wienerLinienOperator, citybikeOperator, car2goOperator, flincOperator;
-    private ModeOfTransport wienerLinienMot, citybikeMot, car2goMot, flincMot;
+    private ModeOfTransport wienerLinienMot, citybikeMot, car2goMot, flincMot, hgvMot;
     private Location<?> giefinggasseAit, heinrichVonBuolGasseBusStop, floridsdorfBusStop, floridsdorfSubwayStop,
             neueDonauSubwayStop, handelskaiSubwayStop, handelskaiSubwayEntry, handelskaiCitybike,
             friedrichEngelsPlatzCitybike, car2goPickup, adalbertStifterStrasse15, privateBicycleHopsagasse,
-            antonKummererPark, treustrasse92, gaussplatz, scholzgasse1Parking;
+            antonKummererPark, treustrasse92, gaussplatz, scholzgasse1Parking, brigittenauerLaende40;
     private Service service28A, serviceU6;
     private RouteSegment walkToBusStopHeinrichVonBuolGasse, transferToBusHeinrichVonBuolGasse,
             busFromHeinrichVonBuolGgasseToFloridsdorf, citybikeFromHandelskaiToFriedrichEngelsPlatz,
             car2goAlongAdalbertStifterStrasse, bicycleFromAdalbertStifterStrasseToTreugasse,
-            rideSharingFromTreugasseToGaussplatz, carFromGaussplatzToScholzgasse;
+            rideSharingFromTreugasseToGaussplatz, carFromGaussplatzToScholzgasse,
+            hgvFromScholzGasseToBrigittenauerLaende;
     private RouteFormatRoot root;
     private RoutingFeatures routingFeatures;
 
@@ -125,6 +126,8 @@ public class IntermodalRouteExample {
 
         flincMot = ModeOfTransport.createMinimal(DetailedModeOfTransportType.CAR).setId("flinc")
                 .setSharingType(Sharing.RIDE_SHARING).setOperator(flincOperator);
+        hgvMot = ModeOfTransport.createMinimal(DetailedModeOfTransportType.HGV).setWeightKg(7_000).setLengthMm(5_925)
+                .setHeightMm(2_750).setWidthMm(2_400);
     }
 
     private void initializeLocations() {
@@ -191,6 +194,8 @@ public class IntermodalRouteExample {
                 .setModesOfTransport(
                         ImmutableSet.of(GeneralizedModeOfTransportType.CAR, GeneralizedModeOfTransportType.BICYCLE))
                 .setParkingType(ParkingType.UNDERGROUND).setParkAndRide(false);
+        brigittenauerLaende40 = Location.createMinimal(GeoJSONCoordinate.create("16.36621", "48.2276"))
+                .setAddress(Address.create("Brigittenauer Lände", "40"));
     }
 
     private void initializePublicTransportServices() {
@@ -265,9 +270,10 @@ public class IntermodalRouteExample {
         requestModes.add(RequestModeOfTransport.createMinimal(citybikeMot));
         requestModes.add(RequestModeOfTransport.createMinimal(car2goMot));
         requestModes.add(RequestModeOfTransport.createMinimal(flincMot));
+        requestModes.add(RequestModeOfTransport.createMinimal(flincMot));
 
         Location<?> from = giefinggasseAit;
-        Location<?> to = scholzgasse1Parking;
+        Location<?> to = brigittenauerLaende40;
         return RoutingRequest.createMinimal(from, to, requestModes).setDepartureTime("2016-01-01T15:00:00+01:00")
                 .setLanguages(Arrays.asList("de"))
                 .setAccessibilityRestrictions(ImmutableSet.of(AccessibilityRestriction.NO_ELEVATOR))
@@ -489,6 +495,18 @@ public class IntermodalRouteExample {
                 .setStartTime("2016-01-01T15:51:43+01:00").setEndTime("2016-01-01T15:58:40+01:00")
                 .setModeOfTransport(ModeOfTransport.STANDARD_CAR).setGeometryGeoJson(geometryGeoJson);
         segments.add(carFromGaussplatzToScholzgasse);
+
+        // ### heavy goods vehicle ###
+        geometryGeoJson = GeoJSONFeature.createLineStringFeature(scholzgasse1Parking, brigittenauerLaende40,
+                GeoJSONCoordinate.create("16.3691", "48.2243"), GeoJSONCoordinate.create("16.3681", "48.2261"));
+        hgvFromScholzGasseToBrigittenauerLaende = new RouteSegment().setNr(++segmentNr).setFrom(scholzgasse1Parking)
+                .setTo(brigittenauerLaende40).setDistanceMeters(490)
+                // 59 seconds ride @ 30km/h
+                // 1 minute enter / exit time
+                .setDurationSeconds(59 + 2 * 60).setBoardingSeconds(60).setAlightingSeconds(60)
+                .setStartTime("2016-01-01T15:58:40+01:00").setEndTime("2016-01-01T16:01:39+01:00")
+                .setModeOfTransport(hgvMot).setGeometryGeoJson(geometryGeoJson);
+        segments.add(hgvFromScholzGasseToBrigittenauerLaende);
 
         return segments;
     }

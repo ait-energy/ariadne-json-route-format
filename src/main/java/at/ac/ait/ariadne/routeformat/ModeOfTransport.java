@@ -53,6 +53,10 @@ public class ModeOfTransport implements Validatable {
     private Optional<Service> service = Optional.empty();
     private Optional<Operator> operator = Optional.empty();
     private Optional<Boolean> electric = Optional.empty();
+    private Optional<Integer> weightKg = Optional.empty();
+    private Optional<Integer> widthMm = Optional.empty();
+    private Optional<Integer> heightMm = Optional.empty();
+    private Optional<Integer> lengthMm = Optional.empty();
     private Optional<Sharing> sharingType = Optional.empty();
     private Set<VehicleAccessibility> accessibility = new TreeSet<>();
     private Optional<String> color = Optional.empty();
@@ -89,6 +93,22 @@ public class ModeOfTransport implements Validatable {
 
     public Optional<Boolean> getElectric() {
         return electric;
+    }
+
+    public Optional<Integer> getWeightKg() {
+        return weightKg;
+    }
+
+    public Optional<Integer> getWidthMm() {
+        return widthMm;
+    }
+
+    public Optional<Integer> getHeightMm() {
+        return heightMm;
+    }
+
+    public Optional<Integer> getLengthMm() {
+        return lengthMm;
     }
 
     /**
@@ -155,6 +175,26 @@ public class ModeOfTransport implements Validatable {
         return this;
     }
 
+    public ModeOfTransport setWeightKg(Integer weightKg) {
+        this.weightKg = Optional.ofNullable(weightKg);
+        return this;
+    }
+
+    public ModeOfTransport setWidthMm(Integer widthMm) {
+        this.widthMm = Optional.ofNullable(widthMm);
+        return this;
+    }
+
+    public ModeOfTransport setHeightMm(Integer heightMm) {
+        this.heightMm = Optional.ofNullable(heightMm);
+        return this;
+    }
+
+    public ModeOfTransport setLengthMm(Integer lengthMm) {
+        this.lengthMm = Optional.ofNullable(lengthMm);
+        return this;
+    }
+
     public ModeOfTransport setSharingType(Sharing sharingType) {
         this.sharingType = Optional.ofNullable(sharingType);
         return this;
@@ -215,10 +255,14 @@ public class ModeOfTransport implements Validatable {
         result = prime * result + ((detailedType == null) ? 0 : detailedType.hashCode());
         result = prime * result + ((electric == null) ? 0 : electric.hashCode());
         result = prime * result + ((generalizedType == null) ? 0 : generalizedType.hashCode());
+        result = prime * result + ((heightMm == null) ? 0 : heightMm.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((lengthMm == null) ? 0 : lengthMm.hashCode());
         result = prime * result + ((operator == null) ? 0 : operator.hashCode());
         result = prime * result + ((service == null) ? 0 : service.hashCode());
         result = prime * result + ((sharingType == null) ? 0 : sharingType.hashCode());
+        result = prime * result + ((weightKg == null) ? 0 : weightKg.hashCode());
+        result = prime * result + ((widthMm == null) ? 0 : widthMm.hashCode());
         return result;
     }
 
@@ -263,10 +307,20 @@ public class ModeOfTransport implements Validatable {
             return false;
         if (generalizedType != other.generalizedType)
             return false;
+        if (heightMm == null) {
+            if (other.heightMm != null)
+                return false;
+        } else if (!heightMm.equals(other.heightMm))
+            return false;
         if (id == null) {
             if (other.id != null)
                 return false;
         } else if (!id.equals(other.id))
+            return false;
+        if (lengthMm == null) {
+            if (other.lengthMm != null)
+                return false;
+        } else if (!lengthMm.equals(other.lengthMm))
             return false;
         if (operator == null) {
             if (other.operator != null)
@@ -282,6 +336,16 @@ public class ModeOfTransport implements Validatable {
             if (other.sharingType != null)
                 return false;
         } else if (!sharingType.equals(other.sharingType))
+            return false;
+        if (weightKg == null) {
+            if (other.weightKg != null)
+                return false;
+        } else if (!weightKg.equals(other.weightKg))
+            return false;
+        if (widthMm == null) {
+            if (other.widthMm != null)
+                return false;
+        } else if (!widthMm.equals(other.widthMm))
             return false;
         return true;
     }

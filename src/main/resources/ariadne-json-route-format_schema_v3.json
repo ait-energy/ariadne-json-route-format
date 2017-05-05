@@ -150,7 +150,7 @@
                   },
                   "detailedType" : {
                     "type" : "string",
-                    "enum" : [ "RAILWAY", "LONG_DISTANCE_RAILWAY", "SUBURBAN_RAILWAY", "URBAN_RAILWAY", "SUBWAY", "TRAM", "CABLE_CAR", "FUNICULAR", "BUS", "TROLLEYBUS", "AERIALWAY", "SHIP", "AIRPLANE", "BICYCLE", "MOTORCYCLE", "CAR", "TAXI", "FOOT", "TRANSFER" ]
+                    "enum" : [ "RAILWAY", "LONG_DISTANCE_RAILWAY", "SUBURBAN_RAILWAY", "URBAN_RAILWAY", "SUBWAY", "TRAM", "CABLE_CAR", "FUNICULAR", "BUS", "TROLLEYBUS", "AERIALWAY", "SHIP", "AIRPLANE", "FOOT", "TRANSFER", "BICYCLE", "MOTORCYCLE", "CAR", "MOTORHOME", "HGV", "TAXI" ]
                   },
                   "id" : {
                     "type" : "string"
@@ -230,6 +230,18 @@
                   },
                   "electric" : {
                     "type" : "boolean"
+                  },
+                  "weightKg" : {
+                    "type" : "integer"
+                  },
+                  "widthMm" : {
+                    "type" : "integer"
+                  },
+                  "heightMm" : {
+                    "type" : "integer"
+                  },
+                  "lengthMm" : {
+                    "type" : "integer"
                   },
                   "sharingType" : {
                     "type" : "string",

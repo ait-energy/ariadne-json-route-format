@@ -25,7 +25,26 @@ public class Constants {
     }
 
     public enum GeneralizedModeOfTransportType {
-        FOOT, BICYCLE, MOTORCYCLE, CAR, PUBLIC_TRANSPORT
+        /** walking */
+        FOOT,
+        /**
+         * riding a bicycle, e-bike, or other vehicles classified as bicycles
+         * (e.g. segways)
+         */
+        BICYCLE,
+        /**
+         * single-tracked motorized transport, e.g. mofa, moped, motorcycle
+         */
+        MOTORCYCLE,
+        /**
+         * double-tracked motorized transport (that is not public transport),
+         * e.g. cars, trucks, motorhomes,..
+         */
+        CAR,
+        /**
+         * all forms of public transport such as busses, trams, trains,..
+         */
+        PUBLIC_TRANSPORT
     }
 
     public enum DetailedModeOfTransportType {
@@ -66,15 +85,33 @@ public class Constants {
         /** air-bound transport */
         AIRPLANE(PUBLIC_TRANSPORT),
         // individual transport
-        BICYCLE(GeneralizedModeOfTransportType.BICYCLE), MOTORCYCLE(GeneralizedModeOfTransportType.MOTORCYCLE), CAR(
-                GeneralizedModeOfTransportType.CAR),
-        // taxi
-        TAXI(GeneralizedModeOfTransportType.CAR), FOOT(GeneralizedModeOfTransportType.FOOT),
+        FOOT(GeneralizedModeOfTransportType.FOOT),
         /**
          * walking or taking elevators, escalators,.. within public transport
          * stations
          */
-        TRANSFER(GeneralizedModeOfTransportType.FOOT);
+        TRANSFER(GeneralizedModeOfTransportType.FOOT),
+        //
+        BICYCLE(GeneralizedModeOfTransportType.BICYCLE),
+        //
+        MOTORCYCLE(GeneralizedModeOfTransportType.MOTORCYCLE),
+        //
+        CAR(GeneralizedModeOfTransportType.CAR),
+        /**
+         * motor home / recreational vehicle (RV), see
+         * https://en.wikipedia.org/wiki/Motorhome
+         */
+        MOTORHOME(GeneralizedModeOfTransportType.CAR),
+        /**
+         * heavy goods vehicle / truck / lorry, see
+         * https://en.wikipedia.org/wiki/Large_goods_vehicle
+         */
+        HGV(GeneralizedModeOfTransportType.CAR),
+        /**
+         * 'classic' taxis / cabs (for modern ride-sharing such as Uber use
+         * {@link DetailedModeOfTransportType#CAR} and a proper {@link Sharing}.
+         */
+        TAXI(GeneralizedModeOfTransportType.CAR);
 
         private final GeneralizedModeOfTransportType mot;
 

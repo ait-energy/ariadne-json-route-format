@@ -55,14 +55,14 @@ public class RoutesTest {
 
     @Test
     public void testCountModesOfTransport() {
-        Assert.assertEquals(7, Routes.countUniqueModesOfTransport(intermodalRoute));
+        Assert.assertEquals(8, Routes.countUniqueModesOfTransport(intermodalRoute));
     }
 
     @Test
     public void testFeaturesOnlyDetailedMots() {
         List<DetailedModeOfTransportType> types = Lists.newArrayList(DetailedModeOfTransportType.FOOT,
                 DetailedModeOfTransportType.BICYCLE, DetailedModeOfTransportType.CAR, DetailedModeOfTransportType.BUS,
-                DetailedModeOfTransportType.SUBWAY);
+                DetailedModeOfTransportType.SUBWAY, DetailedModeOfTransportType.HGV);
         Assert.assertFalse("missing TRANSFER", Routes.featuresOnlyDetailedMots(intermodalRoute, types));
         types.add(DetailedModeOfTransportType.TRANSFER);
         Assert.assertTrue("exactly the same set", Routes.featuresOnlyDetailedMots(intermodalRoute, types));

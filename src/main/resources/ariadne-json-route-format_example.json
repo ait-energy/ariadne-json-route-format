@@ -31,25 +31,19 @@
       "name" : "AIT"
     },
     "to" : {
-      "type" : "Parking",
+      "type" : "Location",
       "coordinate" : {
         "type" : "Feature",
         "geometry" : {
           "type" : "Point",
-          "coordinates" : [ 16.3695, 48.2243 ]
+          "coordinates" : [ 16.36621, 48.2276 ]
         },
         "properties" : { }
       },
       "address" : {
-        "postCode" : "1020",
-        "streetName" : "Scholzgasse",
-        "houseNumber" : "1"
-      },
-      "parkingType" : "UNDERGROUND",
-      "modesOfTransport" : [ "CAR", "BICYCLE" ],
-      "name" : "Virtuelle Parkgarage Scholzgasse",
-      "fee" : true,
-      "parkAndRide" : false
+        "streetName" : "Brigittenauer Lände",
+        "houseNumber" : "40"
+      }
     },
     "modesOfTransport" : [ {
       "type" : "RequestModeOfTransport",
@@ -202,6 +196,18 @@
         },
         "sharingType" : "RIDE_SHARING"
       }
+    }, {
+      "type" : "RequestModeOfTransport",
+      "modeOfTransport" : {
+        "generalizedType" : "CAR",
+        "detailedType" : "CAR",
+        "id" : "flinc",
+        "operator" : {
+          "name" : "Flinc",
+          "website" : "https://flinc.org"
+        },
+        "sharingType" : "RIDE_SHARING"
+      }
     } ],
     "endModeOfTransport" : {
       "type" : "RequestModeOfTransport",
@@ -273,28 +279,22 @@
       "name" : "AIT"
     },
     "to" : {
-      "type" : "Parking",
+      "type" : "Location",
       "coordinate" : {
         "type" : "Feature",
         "geometry" : {
           "type" : "Point",
-          "coordinates" : [ 16.3695, 48.2243 ]
+          "coordinates" : [ 16.36621, 48.2276 ]
         },
         "properties" : { }
       },
       "address" : {
-        "postCode" : "1020",
-        "streetName" : "Scholzgasse",
-        "houseNumber" : "1"
-      },
-      "parkingType" : "UNDERGROUND",
-      "modesOfTransport" : [ "CAR", "BICYCLE" ],
-      "name" : "Virtuelle Parkgarage Scholzgasse",
-      "fee" : true,
-      "parkAndRide" : false
+        "streetName" : "Brigittenauer Lände",
+        "houseNumber" : "40"
+      }
     },
-    "distanceMeters" : 8208,
-    "durationSeconds" : 3520,
+    "distanceMeters" : 8698,
+    "durationSeconds" : 3699,
     "segments" : [ {
       "nr" : 1,
       "from" : {
@@ -1244,9 +1244,69 @@
         },
         "properties" : { }
       }
+    }, {
+      "nr" : 14,
+      "from" : {
+        "type" : "Parking",
+        "coordinate" : {
+          "type" : "Feature",
+          "geometry" : {
+            "type" : "Point",
+            "coordinates" : [ 16.3695, 48.2243 ]
+          },
+          "properties" : { }
+        },
+        "address" : {
+          "postCode" : "1020",
+          "streetName" : "Scholzgasse",
+          "houseNumber" : "1"
+        },
+        "parkingType" : "UNDERGROUND",
+        "modesOfTransport" : [ "CAR", "BICYCLE" ],
+        "name" : "Virtuelle Parkgarage Scholzgasse",
+        "fee" : true,
+        "parkAndRide" : false
+      },
+      "to" : {
+        "type" : "Location",
+        "coordinate" : {
+          "type" : "Feature",
+          "geometry" : {
+            "type" : "Point",
+            "coordinates" : [ 16.36621, 48.2276 ]
+          },
+          "properties" : { }
+        },
+        "address" : {
+          "streetName" : "Brigittenauer Lände",
+          "houseNumber" : "40"
+        }
+      },
+      "distanceMeters" : 490,
+      "durationSeconds" : 179,
+      "modeOfTransport" : {
+        "generalizedType" : "CAR",
+        "detailedType" : "HGV",
+        "weightKg" : 7000,
+        "widthMm" : 2400,
+        "heightMm" : 2750,
+        "lengthMm" : 5925
+      },
+      "boardingSeconds" : 60,
+      "alightingSeconds" : 60,
+      "startTime" : "2016-01-01T15:58:40+01:00",
+      "endTime" : "2016-01-01T16:01:39+01:00",
+      "geometryGeoJson" : {
+        "type" : "Feature",
+        "geometry" : {
+          "type" : "LineString",
+          "coordinates" : [ [ 16.3695, 48.2243 ], [ 16.3691, 48.2243 ], [ 16.3681, 48.2261 ], [ 16.36621, 48.2276 ] ]
+        },
+        "properties" : { }
+      }
     } ],
     "startTime" : "2016-01-01T15:00+01:00",
-    "endTime" : "2016-01-01T15:58:40+01:00",
+    "endTime" : "2016-01-01T16:01:39+01:00",
     "optimizedFor" : "travel time and low costs",
     "boundingBox" : {
       "type" : "Feature",
