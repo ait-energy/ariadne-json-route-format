@@ -44,7 +44,7 @@ A simple example how to display a route in a browser with Leaflet is shown in `s
     - return the object itself (so calls to setter methods can be chained similar to the builder pattern)
 - (mostly implicit) public constructor without arguments (used by jackson for deserialization)
 - static `createMinimal()` methods as shortcuts for building minimal (or typically used) instances where it makes sense, i.e. not for classes where nearly all attributes are mandatory.
-- for easy generic extension the map "additionalInfo" is provided for many classes
+- for easy generic extension the `Map<String, Object>` "additionalInfo" is provided for many classes
 - `validate()` method for checking if the state of the instance is legal, which throws an `IllegalArgumentException` including a description of what is invalid (in-depth-checking: classes should call validate on all instances they contain, e.g. a navigation instruction calls `validate()` of the landmarks it contains)
 - optional member variables
     - `java.util.Optional<T>` is the type of the member variable and the getter (not Java serializable, but this is not a requirement for now)

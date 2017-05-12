@@ -34,7 +34,7 @@ public class Location<T extends Location<T>> implements Validatable {
     private GeoJSONFeature<GeoJSONPoint> coordinate;
     private Optional<GeoJSONFeature<?>> complexGeometry = Optional.empty();
     private Optional<Address> address = Optional.empty();
-    private Map<String, String> additionalInfo = new TreeMap<>();
+    private Map<String, Object> additionalInfo = new TreeMap<>();
 
     // -- getters
 
@@ -77,7 +77,7 @@ public class Location<T extends Location<T>> implements Validatable {
         return address;
     }
 
-    public Map<String, String> getAdditionalInfo() {
+    public Map<String, Object> getAdditionalInfo() {
         return additionalInfo;
     }
 
@@ -110,7 +110,7 @@ public class Location<T extends Location<T>> implements Validatable {
     }
 
     @SuppressWarnings("unchecked")
-    public T setAdditionalInfo(Map<String, String> additionalInfo) {
+    public T setAdditionalInfo(Map<String, Object> additionalInfo) {
         this.additionalInfo = new TreeMap<>(additionalInfo);
         return (T) this;
     }

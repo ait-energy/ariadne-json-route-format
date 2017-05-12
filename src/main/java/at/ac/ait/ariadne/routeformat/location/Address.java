@@ -24,7 +24,7 @@ public class Address implements Validatable {
     private Optional<String> postCode = Optional.empty();
     private Optional<String> streetName = Optional.empty();
     private Optional<String> houseNumber = Optional.empty();
-    private Map<String, String> additionalInfo = new TreeMap<>();
+    private Map<String, Object> additionalInfo = new TreeMap<>();
 
     // -- getters
 
@@ -48,7 +48,7 @@ public class Address implements Validatable {
         return houseNumber;
     }
 
-    public Map<String, String> getAdditionalInfo() {
+    public Map<String, Object> getAdditionalInfo() {
         return additionalInfo;
     }
 
@@ -79,7 +79,7 @@ public class Address implements Validatable {
         return this;
     }
 
-    public Address setAdditionalInfo(Map<String, String> additionalInfo) {
+    public Address setAdditionalInfo(Map<String, Object> additionalInfo) {
         this.additionalInfo = new TreeMap<>(additionalInfo);
         return this;
     }
