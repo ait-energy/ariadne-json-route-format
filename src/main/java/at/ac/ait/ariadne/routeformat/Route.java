@@ -111,7 +111,7 @@ public class Route implements Validatable {
      * @return a description of the optimization criteria for calculating the
      *         route. This field is more specific than the one in
      *         {@link RoutingRequest} (and typically set when a
-     *         {@link RouteFormatRoot} contains several (alternative) routes for
+     *         {@link RoutingResponse} contains several (alternative) routes for
      *         one request.
      */
     public Optional<String> getOptimizedFor() {

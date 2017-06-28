@@ -25,5 +25,4 @@ The files are hosted at:
 - v4 schema generation
 
 # TODO until v1.0
-- rename RouteFormatRoot to RoutingResponse (goes nicely along with RoutingRequest)
 - properly implement ModeChangeInstruction 

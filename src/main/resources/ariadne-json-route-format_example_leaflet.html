@@ -80,7 +80,7 @@
         
         // control that shows route segment info on hover
         var info = L.control();
-        var routeFormatRootForInfo = null;
+        var routingResponseForInfo = null;
         var routeWithInfo = [];
         info.onAdd = function (map) {
             this._div = L.DomUtil.create('div', 'info');
@@ -97,8 +97,8 @@
             }
             if(visibleRoutes.length == 1) {
                 fallbackText = visibleRoutes[0]['infoText'];
-            } else if (typeof routeFormatRootForInfo !== 'undefined' && routeFormatRootForInfo != null) {
-                fallbackText = routeFormatRootForInfo;
+            } else if (typeof routingResponseForInfo !== 'undefined' && routingResponseForInfo != null) {
+                fallbackText = routingResponseForInfo;
             }
             this._div.innerHTML = html ? html : fallbackText;
         };
@@ -293,7 +293,7 @@
             clone.routes = '...(' + clone.routes.length + ')';
             clone.request.from = '...';
             clone.request.to = '...';
-            routeFormatRootForInfo = '<h4>RouteFormatRoot</h4><pre>' + JSON.stringify(clone,null,2) + '</pre>';
+            routingResponseForInfo = '<h4>RoutingResponse</h4><pre>' + JSON.stringify(clone,null,2) + '</pre>';
             
             var fromMarker = L.marker(json.request.from.coordinate.geometry.coordinates.reverse(), {title: 'A', alt: 'A', opacity: normalOpacity});
             fromMarker.on({

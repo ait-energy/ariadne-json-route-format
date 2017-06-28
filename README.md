@@ -1,5 +1,5 @@
 # Ariadne JSON Route Format
-This repository holds the JSON exchange format for intermodal routes developed by the business unit Dynamic Transportation Systems of the [AIT Austrian Institute of Technology](http://dts.ait.ac.at). It is the default format used by the AIT routing framework Ariadne.
+This repository holds the JSON exchange format for intermodal routes developed by the [AIT Austrian Institute of Technology](https://www.ait.ac.at/en/about-the-ait/center/center-for-mobility-systems). It is the default format used by the AIT routing framework Ariadne.
 
 It specifies the format of a routing request as well as the format of the returned route(s). A route does not only consist of the geometry but also optional information such as detailed specification of the used mode of transports or navigation instructions.
 Geometries are represented in the [GeoJSON](http://geojson.org) format as specified in RFC 7946.
@@ -11,7 +11,7 @@ To use the current release version just add this dependency to your `pom.xml`:
 	<dependency>
 		<groupId>at.ac.ait</groupId>
 		<artifactId>ariadne-json-route-format</artifactId>
-		<version>0.18</version>
+		<version>0.19</version>
 	</dependency>
 
 To use SNAPSHOT versions you must also add the following repository in your `pom.xml` under `<project> <repositories>`:
@@ -25,7 +25,7 @@ To use SNAPSHOT versions you must also add the following repository in your `pom
 	    </snapshots>
 	</repository> 
 
-The route format is defined through the Java classes in the package `at.ac.ait.ariadne.routeformat`, most noteworthy `RouteFormatRoot.java`.
+The route format is defined through the Java classes in the package `at.ac.ait.ariadne.routeformat`, most noteworthy `RoutingRequest.java` and `RoutingResponse.java`.
 
 Reading and writing of a route and exporting the JSON schema with Jackson is demonstrated in `JacksonExample.java`.
 

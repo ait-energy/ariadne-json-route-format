@@ -1,6 +1,6 @@
 {
   "type" : "object",
-  "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:RouteFormatRoot",
+  "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:RoutingResponse",
   "properties" : {
     "routeFormatVersion" : {
       "type" : "string",

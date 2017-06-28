@@ -37,7 +37,7 @@ import at.ac.ait.ariadne.routeformat.Operator;
 import at.ac.ait.ariadne.routeformat.RequestModeOfTransport;
 import at.ac.ait.ariadne.routeformat.RequestPTModeOfTransport;
 import at.ac.ait.ariadne.routeformat.Route;
-import at.ac.ait.ariadne.routeformat.RouteFormatRoot;
+import at.ac.ait.ariadne.routeformat.RoutingResponse;
 import at.ac.ait.ariadne.routeformat.RouteSegment;
 import at.ac.ait.ariadne.routeformat.RoutingRequest;
 import at.ac.ait.ariadne.routeformat.Service;
@@ -86,7 +86,7 @@ public class IntermodalRouteExample {
             car2goAlongAdalbertStifterStrasse, bicycleFromAdalbertStifterStrasseToTreugasse,
             rideSharingFromTreugasseToGaussplatz, carFromGaussplatzToScholzgasse,
             hgvFromScholzGasseToBrigittenauerLaende;
-    private RouteFormatRoot root;
+    private RoutingResponse root;
     private RoutingFeatures routingFeatures;
 
     public IntermodalRouteExample() throws JsonGenerationException, JsonMappingException, IOException {
@@ -95,7 +95,7 @@ public class IntermodalRouteExample {
         initializeComplexModesOfTransport();
         initializeLocations();
         initializePublicTransportServices();
-        this.root = createRouteFormatRoot();
+        this.root = createRoutingResponse();
     }
 
     private void initializeOperators() {
@@ -213,7 +213,7 @@ public class IntermodalRouteExample {
     /**
      * @return a cached instance of an intermodal showcase-route
      */
-    public RouteFormatRoot getRouteFormatRoot() {
+    public RoutingResponse getRoutingResponse() {
         return root;
     }
 
@@ -230,14 +230,14 @@ public class IntermodalRouteExample {
         return routingFeatures;
     }
 
-    private RouteFormatRoot createRouteFormatRoot() throws JsonGenerationException, JsonMappingException, IOException {
-        RouteFormatRoot root = new RouteFormatRoot().setRouteFormatVersion("X.Y-UNKNOWN").setRequestId("999")
+    private RoutingResponse createRoutingResponse() throws JsonGenerationException, JsonMappingException, IOException {
+        RoutingResponse response = new RoutingResponse().setRouteFormatVersion("X.Y-UNKNOWN").setRequestId("999")
                 .setProcessedTime("1970-01-01T00:00:00Z").setStatus(Status.OK)
                 .setDebugMessage("Route calculated in 0.002 seconds").setCoordinateReferenceSystem("EPSG:4326")
                 .setRequest(createRoutingRequest()).setRoutes(Arrays.asList(
                         Route.createFromSegments(createRouteSegments()).setOptimizedFor("travel time and low costs")));
-        root.validate();
-        return root;
+        response.validate();
+        return response;
     }
 
     private RoutingRequest createRoutingRequest() {

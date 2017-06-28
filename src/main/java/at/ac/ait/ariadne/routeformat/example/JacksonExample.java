@@ -16,7 +16,7 @@ import com.kjetland.jackson.jsonSchema.JsonSchemaGenerator;
 
 import at.ac.ait.ariadne.routeformat.Constants.Status;
 import at.ac.ait.ariadne.routeformat.Operator;
-import at.ac.ait.ariadne.routeformat.RouteFormatRoot;
+import at.ac.ait.ariadne.routeformat.RoutingResponse;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
 import at.ac.ait.ariadne.routeformat.instruction.Instruction;
 import scala.Option;
@@ -59,7 +59,7 @@ public class JacksonExample {
     }
 
     public void writeExampleJson() throws JsonGenerationException, JsonMappingException, IOException {
-        RouteFormatRoot root = new IntermodalRouteExample().getRouteFormatRoot();
+        RoutingResponse root = new IntermodalRouteExample().getRoutingResponse();
 
         System.out.println(mapper.writeValueAsString(root));
         System.out.println("##########");
@@ -68,7 +68,7 @@ public class JacksonExample {
 
     public void readExampleJson() throws JsonParseException, JsonMappingException, IOException {
         // variant 1 - data binding
-        RouteFormatRoot root = mapper.readValue(new File(exampleFile), RouteFormatRoot.class);
+        RoutingResponse root = mapper.readValue(new File(exampleFile), RoutingResponse.class);
         Status status = root.getStatus();
         GeoJSONCoordinate secondGeometryPointOfRoute = root.getRoutes().get(0).getSegments().get(0).getGeometryGeoJson()
                 .get().getGeometry().getCoordinates().get(1);
@@ -98,7 +98,7 @@ public class JacksonExample {
 
     public void writeSchemav3() throws JsonGenerationException, IOException {
         SchemaFactoryWrapper visitor = new SchemaFactoryWrapper();
-        mapper.acceptJsonFormatVisitor(mapper.constructType(RouteFormatRoot.class), visitor);
+        mapper.acceptJsonFormatVisitor(mapper.constructType(RoutingResponse.class), visitor);
         JsonSchema jsonSchema = visitor.finalSchema();
         // jsonSchema.set$schema("http://json-schema.org/draft-04/schema#");
 
@@ -128,7 +128,7 @@ public class JacksonExample {
         // JsonSchemaGenerator v4generator =
         // SchemaGeneratorBuilder.draftV4Schema().build();
         // JsonNode jsonSchema =
-        // v4generator.generateSchema(RouteFormatRoot.class);
+        // v4generator.generateSchema(RoutingResponse.class);
         // System.out.println(mapper.writeValueAsString(jsonSchema));
     }
 

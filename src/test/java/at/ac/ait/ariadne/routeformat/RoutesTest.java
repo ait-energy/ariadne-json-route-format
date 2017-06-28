@@ -24,7 +24,7 @@ public class RoutesTest {
     @BeforeClass
     public static void setup() throws JsonGenerationException, JsonMappingException, IOException {
         intermodalRouteExample = new IntermodalRouteExample();
-        intermodalRoute = intermodalRouteExample.getRouteFormatRoot().getRoutes().get(0);
+        intermodalRoute = intermodalRouteExample.getRoutingResponse().getRoutes().get(0);
         unimodalFootRoute = Route.createFromSegments(Arrays.asList(intermodalRouteExample.getFootSegment()));
         unimodalFootRoute.validate(true);
     }

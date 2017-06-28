@@ -59,7 +59,7 @@ public class QGISGeoJSONExporter {
 
     public static void main(String[] args) throws JsonGenerationException, JsonMappingException, IOException {
         QGISGeoJSONExporter qgisGeoJSONExporter = new QGISGeoJSONExporter(
-                new IntermodalRouteExample().getRouteFormatRoot().getRoutes().get(0));
+                new IntermodalRouteExample().getRoutingResponse().getRoutes().get(0));
         qgisGeoJSONExporter.writeLines(Paths.get("/tmp/oida.geojson"));
     }
 
