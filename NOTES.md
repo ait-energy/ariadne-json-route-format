@@ -21,8 +21,9 @@ The files are hosted at:
 # Possible future features & improvements
 - better differentiation between car/goods vehicle/hgv/.. required?
 - public transport station details: differentiate between station entries & platforms, add travel time to transfer segments e.g. 5 min walk, 1 min escalators down, 2 min walk, 1 min elevator up;
-- reevaluate handling of waiting times (in transfer segments? in pt segments?)
 - v4 schema generation
 
 # TODO until v1.0
 - properly implement ModeChangeInstruction 
+- reevaluate handling of waiting times (in transfer segments? in pt segments?)
+- evaluate PT station detail improvements

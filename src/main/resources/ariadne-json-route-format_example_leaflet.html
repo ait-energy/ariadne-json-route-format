@@ -7,8 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- hosted versions of Leaflet & jQuery -->
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
-    <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+  integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+  crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
+  integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
+  crossorigin=""></script>
     <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
     
     <link rel="stylesheet" href="js/leaflet-markercluster/MarkerCluster.css" />
@@ -328,7 +332,7 @@
                             segment.geometryGeoJson.properties.color = segment.modeOfTransport.service.color;
                         }
                         //console.log(segment.geometryGeoJson);
-                        L.geoJson(segment.geometryGeoJson, {
+                        L.geoJSON(segment.geometryGeoJson, {
                             style: function (feature) {
                                 return styleGeoJson(feature);
                             },
@@ -391,7 +395,7 @@
                     if (typeof json.routes[routeId].segments[segmentId].geometryGeoJsonEdges !== 'undefined') {
                         edges = json.routes[routeId].segments[segmentId].geometryGeoJsonEdges;
                         console.log(edges);
-                        L.geoJson(edges, {
+                        L.geoJSON(edges, {
                             style: function (feature) {
                                 return {weight: feature.properties.edgeWeight/5, opacity: 0.3, color:'#f00'};
                             }
