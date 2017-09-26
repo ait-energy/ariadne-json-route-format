@@ -74,7 +74,7 @@ public class RoutingRequest implements Validatable {
     private Optional<ZonedDateTime> arrivalTime = Optional.empty();
     private Set<AccessibilityRestriction> accessibilityRestrictions = new TreeSet<>();
     private List<String> languages = new ArrayList<>();
-    private List<OutputFormat> outputFormats;
+    private List<OutputFormat> outputFormats = new ArrayList<>();
     private Map<String, Object> additionalInfo = new TreeMap<>();
 
     public RoutingRequest() {

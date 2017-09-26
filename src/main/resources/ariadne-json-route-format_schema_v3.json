@@ -365,6 +365,13 @@
             "type" : "string"
           }
         },
+        "outputFormats" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string",
+            "enum" : [ "ENCODED_POLYLINE", "GEOJSON", "GEOJSON_EDGES", "SIMPLIFIED_ENCODED_POLYLINE", "SIMPLIFIED_GEOJSON" ]
+          }
+        },
         "additionalInfo" : {
           "type" : "object",
           "additionalProperties" : {

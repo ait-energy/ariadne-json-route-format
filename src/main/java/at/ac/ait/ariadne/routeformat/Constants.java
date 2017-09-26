@@ -292,22 +292,25 @@ public class Constants {
 
     public enum OutputFormat {
         /**
-         * provides {@link Route#getSimplifiedGeometryEncodedPolyLine()} and
-         * {@link RouteSegment#getGeometryEncodedPolyLine()}
+         * provides {@link RouteSegment#getGeometryEncodedPolyLine()}
          */
         ENCODED_POLYLINE,
         /**
-         * provides {@link Route#getSimplifiedGeometryGeoJson()} and
-         * {@link RouteSegment#getGeometryGeoJson()}
+         * provides {@link RouteSegment#getGeometryGeoJson()}
          */
         GEOJSON,
         /**
-         * provides {@link Route#getSimplifiedGeometryGeoJson()} (because for
-         * the {@link Route} there is only a simplified summary of the whole
-         * route - detailed edges can only be found in the {@link RouteSegment})
-         * and {@link RouteSegment#getGeometryGeoJsonEdges()}
+         * provides {@link RouteSegment#getGeometryGeoJsonEdges()}
          */
-        GEOJSON_EDGES
+        GEOJSON_EDGES,
+        /**
+         * provides {@link Route#getSimplifiedGeometryEncodedPolyLine()}
+         */
+        SIMPLIFIED_ENCODED_POLYLINE,
+        /**
+         * provides {@link Route#getSimplifiedGeometryGeoJson()}
+         */
+        SIMPLIFIED_GEOJSON
     }
 
 }
