@@ -20,6 +20,7 @@ import com.google.common.base.Preconditions;
 
 import at.ac.ait.ariadne.routeformat.Constants.AccessibilityRestriction;
 import at.ac.ait.ariadne.routeformat.Constants.GeneralizedModeOfTransportType;
+import at.ac.ait.ariadne.routeformat.Constants.OutputFormat;
 import at.ac.ait.ariadne.routeformat.features.Site;
 import at.ac.ait.ariadne.routeformat.location.Location;
 import at.ac.ait.ariadne.routeformat.util.Utils;
@@ -48,6 +49,10 @@ import at.ac.ait.ariadne.routeformat.util.Utils;
  * accepted_delay_minutes = 10
  * </pre>
  * 
+ * <p>
+ * For optional fields where no information is provided the routing service may
+ * fall back to its specific defaults.
+ * 
  * @author AIT Austrian Institute of Technology GmbH
  */
 @JsonInclude(Include.NON_EMPTY)
@@ -69,6 +74,7 @@ public class RoutingRequest implements Validatable {
     private Optional<ZonedDateTime> arrivalTime = Optional.empty();
     private Set<AccessibilityRestriction> accessibilityRestrictions = new TreeSet<>();
     private List<String> languages = new ArrayList<>();
+    private List<OutputFormat> outputFormats;
     private Map<String, Object> additionalInfo = new TreeMap<>();
 
     public RoutingRequest() {
@@ -221,8 +227,7 @@ public class RoutingRequest implements Validatable {
      * @return the requested languages of the user in the form of IETF BCP 47
      *         language tag strings (see {@link Locale#forLanguageTag(String)}).
      *         E.g. for navigation instructions or street or POI names. The
-     *         first language is regarded the primary language, if none is
-     *         defined the service can choose a fallback language itself.
+     *         first language is regarded the primary language.
      */
     public List<String> getLanguages() {
         return languages;
@@ -231,6 +236,14 @@ public class RoutingRequest implements Validatable {
     @JsonIgnore
     public List<Locale> getLanguagesAsLocales() {
         return languages.stream().map(l -> Locale.forLanguageTag(l)).collect(Collectors.toList());
+    }
+
+    /**
+     * @return the requested output formats
+     */
+    @JsonProperty
+    public List<OutputFormat> getOutputFormats() {
+        return outputFormats;
     }
 
     /**
@@ -389,6 +402,11 @@ public class RoutingRequest implements Validatable {
         return this;
     }
 
+    public RoutingRequest setOutputFormats(List<OutputFormat> outputFormats) {
+        this.outputFormats = new ArrayList<>(outputFormats);
+        return this;
+    }
+
     public RoutingRequest setAdditionalInfo(Map<String, Object> additionalInfo) {
         this.additionalInfo = new TreeMap<>(additionalInfo);
         return this;
@@ -455,6 +473,7 @@ public class RoutingRequest implements Validatable {
         result = prime * result + ((maximumTransfers == null) ? 0 : maximumTransfers.hashCode());
         result = prime * result + ((modesOfTransport == null) ? 0 : modesOfTransport.hashCode());
         result = prime * result + ((optimizedFor == null) ? 0 : optimizedFor.hashCode());
+        result = prime * result + ((outputFormats == null) ? 0 : outputFormats.hashCode());
         result = prime * result + ((siteId == null) ? 0 : siteId.hashCode());
         result = prime * result + ((startModeOfTransport == null) ? 0 : startModeOfTransport.hashCode());
         result = prime * result + ((to == null) ? 0 : to.hashCode());
@@ -521,6 +540,11 @@ public class RoutingRequest implements Validatable {
                 return false;
         } else if (!optimizedFor.equals(other.optimizedFor))
             return false;
+        if (outputFormats == null) {
+            if (other.outputFormats != null)
+                return false;
+        } else if (!outputFormats.equals(other.outputFormats))
+            return false;
         if (siteId == null) {
             if (other.siteId != null)
                 return false;
@@ -550,7 +574,8 @@ public class RoutingRequest implements Validatable {
                 + ", startModeOfTransport=" + startModeOfTransport + ", endModeOfTransport=" + endModeOfTransport
                 + ", optimizedFor=" + optimizedFor + ", siteId=" + siteId + ", maximumTransfers=" + maximumTransfers
                 + ", departureTime=" + departureTime + ", arrivalTime=" + arrivalTime + ", accessibilityRestrictions="
-                + accessibilityRestrictions + ", languages=" + languages + ", additionalInfo=" + additionalInfo + "]";
+                + accessibilityRestrictions + ", languages=" + languages + ", outputFormats=" + outputFormats
+                + ", additionalInfo=" + additionalInfo + "]";
     }
 
 }

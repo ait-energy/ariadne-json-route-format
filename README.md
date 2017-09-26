@@ -2,7 +2,7 @@
 This repository holds the JSON exchange format for intermodal routes developed by the [AIT Austrian Institute of Technology](https://www.ait.ac.at/en/about-the-ait/center/center-for-mobility-systems). It is the default format used by the AIT routing framework Ariadne.
 
 It specifies the format of a routing request as well as the format of the returned route(s). A route does not only consist of the geometry but also optional information such as detailed specification of the used mode of transports or navigation instructions.
-Geometries are represented in the [GeoJSON](http://geojson.org) format as specified in RFC 7946.
+Geometries can either be represented in the [GeoJSON](http://geojson.org) format as specified in RFC 7946 or as [encoded polyline](https://developers.google.com/maps/documentation/utilities/polylinealgorithm). See e.g. [com.google.maps:google-maps-services](https://googlemaps.github.io/google-maps-services-java/v0.2.3/javadoc/index.html?com/google/maps/model/EncodedPolyline.html) for an encoder/decoder in Java. 
 
 ## Usage
 We release to the [Maven Central Repository](https://search.maven.org).
