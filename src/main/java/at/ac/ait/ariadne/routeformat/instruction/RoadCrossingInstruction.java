@@ -10,12 +10,6 @@ import at.ac.ait.ariadne.routeformat.Constants.RoadCrossing;
 import at.ac.ait.ariadne.routeformat.Constants.TurnDirection;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
 
-// Gehen Sie [beim Landmark] (geradeaus | [leicht] rechts/links) über [die
-// Kreuzung | den Zebrastreifen | die Ampel].
-// 
-// At the POI go straight over the crosswalk. Before the church go slight left
-// over the traffic light. Before the church turn slight left over the traffic
-// light.
 /**
  * Instructions for crossing a road or several roads that are close together.
  * Typically relevant for foot and bicycle traffic using zebra crossings or
@@ -28,6 +22,12 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
  * or less complex crossing and should directly be followed by a
  * {@link RoadInstruction} which then explains where to turn / continue after
  * the crossing.
+ * <p>
+ * Examples:
+ * <ul>
+ * <li>At the POI go straight over the zebra crossing</li>
+ * <li>Before the church go slight left over the traffic light.</li>
+ * </ul>
  * <p>
  * In its minimal form it consists of a position and a turn direction.
  * <p>

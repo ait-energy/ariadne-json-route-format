@@ -331,10 +331,120 @@
           }
         },
         "startModeOfTransport" : {
-          "type" : "any"
+          "type" : "object",
+          "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:RequestModeOfTransport<java:lang:Object>",
+          "properties" : {
+            "modeOfTransport" : {
+              "type" : "object",
+              "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:ModeOfTransport",
+              "required" : true
+            },
+            "maximumDistanceMeters" : {
+              "type" : "integer"
+            },
+            "maximumTravelTimeSeconds" : {
+              "type" : "integer"
+            },
+            "userAffinity" : {
+              "type" : "integer"
+            },
+            "speed" : {
+              "type" : "string"
+            },
+            "locations" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:location:Location<java:lang:Object>"
+              }
+            },
+            "forbiddenAreas" : {
+              "type" : "object",
+              "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONFeature<at:ac:ait:ariadne:routeformat:geojson:GeoJSONMultiPolygon>",
+              "properties" : {
+                "type" : {
+                  "type" : "string",
+                  "required" : true
+                },
+                "geometry" : {
+                  "type" : "object",
+                  "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONMultiPolygon",
+                  "required" : true
+                },
+                "properties" : {
+                  "type" : "object",
+                  "required" : true,
+                  "additionalProperties" : {
+                    "type" : "any"
+                  }
+                }
+              }
+            },
+            "additionalInfo" : {
+              "type" : "object",
+              "additionalProperties" : {
+                "type" : "any"
+              }
+            }
+          }
         },
         "endModeOfTransport" : {
-          "type" : "any"
+          "type" : "object",
+          "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:RequestModeOfTransport<java:lang:Object>",
+          "properties" : {
+            "modeOfTransport" : {
+              "type" : "object",
+              "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:ModeOfTransport",
+              "required" : true
+            },
+            "maximumDistanceMeters" : {
+              "type" : "integer"
+            },
+            "maximumTravelTimeSeconds" : {
+              "type" : "integer"
+            },
+            "userAffinity" : {
+              "type" : "integer"
+            },
+            "speed" : {
+              "type" : "string"
+            },
+            "locations" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object",
+                "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:location:Location<java:lang:Object>"
+              }
+            },
+            "forbiddenAreas" : {
+              "type" : "object",
+              "id" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONFeature<at:ac:ait:ariadne:routeformat:geojson:GeoJSONMultiPolygon>",
+              "properties" : {
+                "type" : {
+                  "type" : "string",
+                  "required" : true
+                },
+                "geometry" : {
+                  "type" : "object",
+                  "$ref" : "urn:jsonschema:at:ac:ait:ariadne:routeformat:geojson:GeoJSONMultiPolygon",
+                  "required" : true
+                },
+                "properties" : {
+                  "type" : "object",
+                  "required" : true,
+                  "additionalProperties" : {
+                    "type" : "any"
+                  }
+                }
+              }
+            },
+            "additionalInfo" : {
+              "type" : "object",
+              "additionalProperties" : {
+                "type" : "any"
+              }
+            }
+          }
         },
         "optimizedFor" : {
           "type" : "string",
