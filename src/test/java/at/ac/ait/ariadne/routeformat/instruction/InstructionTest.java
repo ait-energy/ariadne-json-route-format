@@ -1,7 +1,7 @@
 package at.ac.ait.ariadne.routeformat.instruction;
 
 import java.io.IOException;
-import java.util.Optional;
+import com.google.common.base.Optional;
 
 import org.junit.Assert;
 import org.junit.Test;

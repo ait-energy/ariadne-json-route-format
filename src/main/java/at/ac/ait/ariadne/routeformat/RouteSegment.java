@@ -6,7 +6,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+import com.google.common.base.Optional;
 import java.util.TreeMap;
 
 import org.slf4j.Logger;
@@ -75,15 +75,15 @@ public class RouteSegment implements Validatable {
     private Integer distanceMeters;
     private Integer durationSeconds;
     private ModeOfTransport modeOfTransport;
-    private Optional<Integer> boardingSeconds = Optional.empty();
-    private Optional<Integer> alightingSeconds = Optional.empty();
+    private Optional<Integer> boardingSeconds = Optional.absent();
+    private Optional<Integer> alightingSeconds = Optional.absent();
     private ZonedDateTime startTime = null;
     private ZonedDateTime endTime = null;
     private List<IntermediateStop> intermediateStops = new ArrayList<>();
-    private Optional<GeoJSONFeature<GeoJSONPolygon>> boundingBox = Optional.empty();
-    private Optional<String> geometryEncodedPolyLine = Optional.empty();
-    private Optional<GeoJSONFeature<GeoJSONLineString>> geometryGeoJson = Optional.empty();
-    private Optional<GeoJSONFeatureCollection<GeoJSONLineString>> geometryGeoJsonEdges = Optional.empty();
+    private Optional<GeoJSONFeature<GeoJSONPolygon>> boundingBox = Optional.absent();
+    private Optional<String> geometryEncodedPolyLine = Optional.absent();
+    private Optional<GeoJSONFeature<GeoJSONLineString>> geometryGeoJson = Optional.absent();
+    private Optional<GeoJSONFeatureCollection<GeoJSONLineString>> geometryGeoJsonEdges = Optional.absent();
     private List<Instruction<?>> navigationInstructions = new ArrayList<>();
     private List<Accessibility> accessibility = new ArrayList<>();
     private Map<String, Object> additionalInfo = new TreeMap<>();
@@ -291,12 +291,12 @@ public class RouteSegment implements Validatable {
     }
 
     public RouteSegment setBoardingSeconds(Integer boardingSeconds) {
-        this.boardingSeconds = Optional.ofNullable(boardingSeconds);
+        this.boardingSeconds = Optional.fromNullable(boardingSeconds);
         return this;
     }
 
     public RouteSegment setAlightingSeconds(Integer alightingSeconds) {
-        this.alightingSeconds = Optional.ofNullable(alightingSeconds);
+        this.alightingSeconds = Optional.fromNullable(alightingSeconds);
         return this;
     }
 
@@ -330,22 +330,22 @@ public class RouteSegment implements Validatable {
     }
 
     public RouteSegment setBoundingBox(GeoJSONFeature<GeoJSONPolygon> boundingBox) {
-        this.boundingBox = Optional.ofNullable(boundingBox);
+        this.boundingBox = Optional.fromNullable(boundingBox);
         return this;
     }
 
     public RouteSegment setGeometryEncodedPolyLine(String geometryEncodedPolyLine) {
-        this.geometryEncodedPolyLine = Optional.ofNullable(geometryEncodedPolyLine);
+        this.geometryEncodedPolyLine = Optional.fromNullable(geometryEncodedPolyLine);
         return this;
     }
 
     public RouteSegment setGeometryGeoJson(GeoJSONFeature<GeoJSONLineString> geometryGeoJson) {
-        this.geometryGeoJson = Optional.ofNullable(geometryGeoJson);
+        this.geometryGeoJson = Optional.fromNullable(geometryGeoJson);
         return this;
     }
 
     public RouteSegment setGeometryGeoJsonEdges(GeoJSONFeatureCollection<GeoJSONLineString> geometryGeoJsonEdges) {
-        this.geometryGeoJsonEdges = Optional.ofNullable(geometryGeoJsonEdges);
+        this.geometryGeoJsonEdges = Optional.fromNullable(geometryGeoJsonEdges);
         return this;
     }
 

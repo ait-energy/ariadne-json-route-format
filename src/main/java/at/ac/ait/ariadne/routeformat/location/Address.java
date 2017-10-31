@@ -3,7 +3,7 @@ package at.ac.ait.ariadne.routeformat.location;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+import com.google.common.base.Optional;
 import java.util.TreeMap;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -19,11 +19,11 @@ import at.ac.ait.ariadne.routeformat.Validatable;
 @JsonInclude(Include.NON_EMPTY)
 public class Address implements Validatable {
 
-    private Optional<String> country = Optional.empty();
-    private Optional<String> city = Optional.empty();
-    private Optional<String> postCode = Optional.empty();
-    private Optional<String> streetName = Optional.empty();
-    private Optional<String> houseNumber = Optional.empty();
+    private Optional<String> country = Optional.absent();
+    private Optional<String> city = Optional.absent();
+    private Optional<String> postCode = Optional.absent();
+    private Optional<String> streetName = Optional.absent();
+    private Optional<String> houseNumber = Optional.absent();
     private Map<String, Object> additionalInfo = new TreeMap<>();
 
     // -- getters
@@ -55,27 +55,27 @@ public class Address implements Validatable {
     // -- setters
 
     public Address setCountry(String country) {
-        this.country = Optional.ofNullable(country);
+        this.country = Optional.fromNullable(country);
         return this;
     }
 
     public Address setCity(String city) {
-        this.city = Optional.ofNullable(city);
+        this.city = Optional.fromNullable(city);
         return this;
     }
 
     public Address setPostCode(String postCode) {
-        this.postCode = Optional.ofNullable(postCode);
+        this.postCode = Optional.fromNullable(postCode);
         return this;
     }
 
     public Address setStreetName(String streetName) {
-        this.streetName = Optional.ofNullable(streetName);
+        this.streetName = Optional.fromNullable(streetName);
         return this;
     }
 
     public Address setHouseNumber(String houseNumber) {
-        this.houseNumber = Optional.ofNullable(houseNumber);
+        this.houseNumber = Optional.fromNullable(houseNumber);
         return this;
     }
 

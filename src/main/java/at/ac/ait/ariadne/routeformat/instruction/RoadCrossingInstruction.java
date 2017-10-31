@@ -1,6 +1,6 @@
 package at.ac.ait.ariadne.routeformat.instruction;
 
-import java.util.Optional;
+import com.google.common.base.Optional;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -54,8 +54,8 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
 public class RoadCrossingInstruction extends Instruction<RoadCrossingInstruction> {
 
     private TurnDirection turnDirection;
-    private Optional<Landmark> landmark = Optional.empty();
-    private Optional<RoadCrossing> roadCrossing = Optional.empty();
+    private Optional<Landmark> landmark = Optional.absent();
+    private Optional<RoadCrossing> roadCrossing = Optional.absent();
 
     // -- getters
 
@@ -79,12 +79,12 @@ public class RoadCrossingInstruction extends Instruction<RoadCrossingInstruction
     }
 
     public RoadCrossingInstruction setLandmark(Landmark landmark) {
-        this.landmark = Optional.ofNullable(landmark);
+        this.landmark = Optional.fromNullable(landmark);
         return this;
     }
 
     public RoadCrossingInstruction setRoadCrossing(RoadCrossing roadCrossing) {
-        this.roadCrossing = Optional.ofNullable(roadCrossing);
+        this.roadCrossing = Optional.fromNullable(roadCrossing);
         return this;
     }
 

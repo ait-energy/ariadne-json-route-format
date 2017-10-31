@@ -1,7 +1,7 @@
 package at.ac.ait.ariadne.routeformat;
 
 import java.util.Map;
-import java.util.Optional;
+import com.google.common.base.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -48,18 +48,18 @@ public class ModeOfTransport implements Validatable {
             GeneralizedModeOfTransportType.PUBLIC_TRANSPORT).setId("publictransport").setColor("#984ea3");
 
     private GeneralizedModeOfTransportType generalizedType;
-    private Optional<DetailedModeOfTransportType> detailedType = Optional.empty();
-    private Optional<String> id = Optional.empty();
-    private Optional<Service> service = Optional.empty();
-    private Optional<Operator> operator = Optional.empty();
-    private Optional<Boolean> electric = Optional.empty();
-    private Optional<Integer> weightKg = Optional.empty();
-    private Optional<Integer> widthMm = Optional.empty();
-    private Optional<Integer> heightMm = Optional.empty();
-    private Optional<Integer> lengthMm = Optional.empty();
-    private Optional<Sharing> sharingType = Optional.empty();
+    private Optional<DetailedModeOfTransportType> detailedType = Optional.absent();
+    private Optional<String> id = Optional.absent();
+    private Optional<Service> service = Optional.absent();
+    private Optional<Operator> operator = Optional.absent();
+    private Optional<Boolean> electric = Optional.absent();
+    private Optional<Integer> weightKg = Optional.absent();
+    private Optional<Integer> widthMm = Optional.absent();
+    private Optional<Integer> heightMm = Optional.absent();
+    private Optional<Integer> lengthMm = Optional.absent();
+    private Optional<Sharing> sharingType = Optional.absent();
     private Set<VehicleAccessibility> accessibility = new TreeSet<>();
-    private Optional<String> color = Optional.empty();
+    private Optional<String> color = Optional.absent();
     private Map<String, Object> additionalInfo = new TreeMap<>();
 
     // -- getters
@@ -146,57 +146,57 @@ public class ModeOfTransport implements Validatable {
      * Set detailed <b>and</b> generalized type in one step
      */
     public ModeOfTransport setDetailedType(DetailedModeOfTransportType detailedType) {
-        this.detailedType = Optional.ofNullable(detailedType);
+        this.detailedType = Optional.fromNullable(detailedType);
         if (detailedType == null)
             generalizedType = null;
         else
             generalizedType = detailedType.getGeneralizedType();
-        this.detailedType = Optional.ofNullable(detailedType);
+        this.detailedType = Optional.fromNullable(detailedType);
         return this;
     }
 
     public ModeOfTransport setId(String id) {
-        this.id = Optional.ofNullable(id);
+        this.id = Optional.fromNullable(id);
         return this;
     }
 
     public ModeOfTransport setService(Service service) {
-        this.service = Optional.ofNullable(service);
+        this.service = Optional.fromNullable(service);
         return this;
     }
 
     public ModeOfTransport setOperator(Operator operator) {
-        this.operator = Optional.ofNullable(operator);
+        this.operator = Optional.fromNullable(operator);
         return this;
     }
 
     public ModeOfTransport setElectric(boolean electric) {
-        this.electric = Optional.ofNullable(electric);
+        this.electric = Optional.fromNullable(electric);
         return this;
     }
 
     public ModeOfTransport setWeightKg(Integer weightKg) {
-        this.weightKg = Optional.ofNullable(weightKg);
+        this.weightKg = Optional.fromNullable(weightKg);
         return this;
     }
 
     public ModeOfTransport setWidthMm(Integer widthMm) {
-        this.widthMm = Optional.ofNullable(widthMm);
+        this.widthMm = Optional.fromNullable(widthMm);
         return this;
     }
 
     public ModeOfTransport setHeightMm(Integer heightMm) {
-        this.heightMm = Optional.ofNullable(heightMm);
+        this.heightMm = Optional.fromNullable(heightMm);
         return this;
     }
 
     public ModeOfTransport setLengthMm(Integer lengthMm) {
-        this.lengthMm = Optional.ofNullable(lengthMm);
+        this.lengthMm = Optional.fromNullable(lengthMm);
         return this;
     }
 
     public ModeOfTransport setSharingType(Sharing sharingType) {
-        this.sharingType = Optional.ofNullable(sharingType);
+        this.sharingType = Optional.fromNullable(sharingType);
         return this;
     }
 
@@ -206,7 +206,7 @@ public class ModeOfTransport implements Validatable {
     }
 
     public ModeOfTransport setColor(String color) {
-        this.color = Optional.ofNullable(color);
+        this.color = Optional.fromNullable(color);
         return this;
     }
 

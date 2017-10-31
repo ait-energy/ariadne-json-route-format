@@ -3,7 +3,7 @@ package at.ac.ait.ariadne.routeformat.geojson;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
+import com.google.common.base.Optional;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonInclude(Include.ALWAYS)
 public class GeoJSONPoint implements GeoJSONGeometryObject {
 
-    private Optional<GeoJSONCoordinate> coordinates = Optional.empty();
+    private Optional<GeoJSONCoordinate> coordinates = Optional.absent();
 
     // -- getters
 
@@ -29,7 +29,7 @@ public class GeoJSONPoint implements GeoJSONGeometryObject {
     // -- setters
 
     public GeoJSONPoint setCoordinates(GeoJSONCoordinate coordinates) {
-        this.coordinates = Optional.ofNullable(coordinates);
+        this.coordinates = Optional.fromNullable(coordinates);
         return this;
     }
 

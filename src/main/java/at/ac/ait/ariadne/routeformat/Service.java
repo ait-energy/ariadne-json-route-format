@@ -1,7 +1,7 @@
 package at.ac.ait.ariadne.routeformat;
 
 import java.util.Map;
-import java.util.Optional;
+import com.google.common.base.Optional;
 import java.util.TreeMap;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -21,7 +21,7 @@ import com.google.common.base.Preconditions;
 @JsonInclude(Include.NON_EMPTY)
 public class Service implements Validatable {
     private String name;
-    private Optional<String> towards = Optional.empty();
+    private Optional<String> towards = Optional.absent();
     private Map<String, Object> additionalInfo = new TreeMap<>();
 
     // -- getters
@@ -54,7 +54,7 @@ public class Service implements Validatable {
     }
 
     public Service setTowards(String towards) {
-        this.towards = Optional.ofNullable(towards);
+        this.towards = Optional.fromNullable(towards);
         return this;
     }
 

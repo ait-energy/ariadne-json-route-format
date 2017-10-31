@@ -1,7 +1,7 @@
 package at.ac.ait.ariadne.routeformat.location;
 
 import java.util.Map;
-import java.util.Optional;
+import com.google.common.base.Optional;
 import java.util.TreeMap;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -32,8 +32,8 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPoint;
 @JsonInclude(Include.NON_EMPTY)
 public class Location<T extends Location<T>> implements Validatable {
     private GeoJSONFeature<GeoJSONPoint> coordinate;
-    private Optional<GeoJSONFeature<?>> complexGeometry = Optional.empty();
-    private Optional<Address> address = Optional.empty();
+    private Optional<GeoJSONFeature<?>> complexGeometry = Optional.absent();
+    private Optional<Address> address = Optional.absent();
     private Map<String, Object> additionalInfo = new TreeMap<>();
 
     // -- getters
@@ -99,13 +99,13 @@ public class Location<T extends Location<T>> implements Validatable {
 
     @SuppressWarnings("unchecked")
     public T setComplexGeometry(GeoJSONFeature<?> complexGeometry) {
-        this.complexGeometry = Optional.ofNullable(complexGeometry);
+        this.complexGeometry = Optional.fromNullable(complexGeometry);
         return (T) this;
     }
 
     @SuppressWarnings("unchecked")
     public T setAddress(Address address) {
-        this.address = Optional.ofNullable(address);
+        this.address = Optional.fromNullable(address);
         return (T) this;
     }
 

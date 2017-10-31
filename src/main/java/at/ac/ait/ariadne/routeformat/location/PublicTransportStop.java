@@ -3,7 +3,7 @@ package at.ac.ait.ariadne.routeformat.location;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+import com.google.common.base.Optional;
 import java.util.TreeMap;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -31,8 +31,8 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
 @JsonInclude(Include.NON_EMPTY)
 public class PublicTransportStop extends Location<PublicTransportStop> {
 
-    private Optional<String> name = Optional.empty();
-    private Optional<String> platform = Optional.empty();
+    private Optional<String> name = Optional.absent();
+    private Optional<String> platform = Optional.absent();
     private Map<String, DetailedModeOfTransportType> relatedLines = new TreeMap<>();
     private List<Constants.Accessibility> accessibility = new ArrayList<>();
 
@@ -65,12 +65,12 @@ public class PublicTransportStop extends Location<PublicTransportStop> {
     // -- setters
 
     public PublicTransportStop setName(String name) {
-        this.name = Optional.ofNullable(name);
+        this.name = Optional.fromNullable(name);
         return this;
     }
 
     public PublicTransportStop setPlatform(String platform) {
-        this.platform = Optional.ofNullable(platform);
+        this.platform = Optional.fromNullable(platform);
         return this;
     }
 

@@ -2,7 +2,7 @@ package at.ac.ait.ariadne.routeformat;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Optional;
+import com.google.common.base.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 

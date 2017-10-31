@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
+import com.google.common.base.Optional;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -31,7 +31,7 @@ import at.ac.ait.ariadne.routeformat.Validatable;
 public class GeoJSONCoordinate implements Validatable {
 
     private BigDecimal x, y;
-    private Optional<BigDecimal> z = Optional.empty();
+    private Optional<BigDecimal> z = Optional.absent();
 
     // -- getters
 
@@ -60,7 +60,7 @@ public class GeoJSONCoordinate implements Validatable {
     }
 
     public GeoJSONCoordinate setZ(BigDecimal z) {
-        this.z = Optional.ofNullable(z);
+        this.z = Optional.fromNullable(z);
         return this;
     }
 

@@ -43,7 +43,7 @@ public class QGISGeoJSONExporter {
                 if (segment.getModeOfTransport().getService().isPresent()) {
                     Service service = segment.getModeOfTransport().getService().get();
                     feature.getProperties().put("line", service.getName());
-                    feature.getProperties().put("towards", service.getTowards().orElse(""));
+                    feature.getProperties().put("towards", service.getTowards().or(""));
                 }
                 collection.getFeatures().add(feature);
             }

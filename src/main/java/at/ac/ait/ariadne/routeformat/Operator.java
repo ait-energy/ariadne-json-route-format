@@ -1,7 +1,7 @@
 package at.ac.ait.ariadne.routeformat;
 
 import java.util.Map;
-import java.util.Optional;
+import com.google.common.base.Optional;
 import java.util.TreeMap;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -26,11 +26,11 @@ import at.ac.ait.ariadne.routeformat.location.Address;
 public class Operator implements Validatable {
 
     private String name;
-    private Optional<String> id = Optional.empty();
-    private Optional<Address> address = Optional.empty();
-    private Optional<String> website = Optional.empty();
-    private Optional<String> customerServiceEmail = Optional.empty();
-    private Optional<String> customerServicePhone = Optional.empty();
+    private Optional<String> id = Optional.absent();
+    private Optional<Address> address = Optional.absent();
+    private Optional<String> website = Optional.absent();
+    private Optional<String> customerServiceEmail = Optional.absent();
+    private Optional<String> customerServicePhone = Optional.absent();
     private Map<String, Object> additionalInfo = new TreeMap<>();
 
     // -- getters
@@ -72,27 +72,27 @@ public class Operator implements Validatable {
     }
 
     public Operator setId(String id) {
-        this.id = Optional.ofNullable(id);
+        this.id = Optional.fromNullable(id);
         return this;
     }
 
     public Operator setAddress(Address address) {
-        this.address = Optional.ofNullable(address);
+        this.address = Optional.fromNullable(address);
         return this;
     }
 
     public Operator setWebsite(String website) {
-        this.website = Optional.ofNullable(website);
+        this.website = Optional.fromNullable(website);
         return this;
     }
 
     public Operator setCustomerServiceEmail(String customerServiceEmail) {
-        this.customerServiceEmail = Optional.ofNullable(customerServiceEmail);
+        this.customerServiceEmail = Optional.fromNullable(customerServiceEmail);
         return this;
     }
 
     public Operator setCustomerServicePhone(String customerServicePhone) {
-        this.customerServicePhone = Optional.ofNullable(customerServicePhone);
+        this.customerServicePhone = Optional.fromNullable(customerServicePhone);
         return this;
     }
 

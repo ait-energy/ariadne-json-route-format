@@ -1,7 +1,7 @@
 package at.ac.ait.ariadne.routeformat.instruction;
 
 import java.util.Map;
-import java.util.Optional;
+import com.google.common.base.Optional;
 import java.util.TreeMap;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -24,7 +24,7 @@ import at.ac.ait.ariadne.routeformat.location.Location;
 public class Landmark implements Validatable {
     private Preposition preposition;
     private Location<?> location;
-    private Optional<RelativeDirection> direction = Optional.empty();
+    private Optional<RelativeDirection> direction = Optional.absent();
     private Map<String, Object> additionalInfo = new TreeMap<>();
 
     // -- getters
@@ -70,7 +70,7 @@ public class Landmark implements Validatable {
     }
 
     public Landmark setDirection(RelativeDirection direction) {
-        this.direction = Optional.ofNullable(direction);
+        this.direction = Optional.fromNullable(direction);
         return this;
     }
 

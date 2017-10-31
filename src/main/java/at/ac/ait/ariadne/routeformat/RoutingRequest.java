@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Optional;
+import com.google.common.base.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -65,13 +65,13 @@ public class RoutingRequest implements Validatable {
     private List<Location<?>> via = new ArrayList<>();
     private Location<?> to;
     private List<RequestModeOfTransport<?>> modesOfTransport = new ArrayList<>();
-    private Optional<RequestModeOfTransport<?>> startModeOfTransport = Optional.empty();
-    private Optional<RequestModeOfTransport<?>> endModeOfTransport = Optional.empty();
+    private Optional<RequestModeOfTransport<?>> startModeOfTransport = Optional.absent();
+    private Optional<RequestModeOfTransport<?>> endModeOfTransport = Optional.absent();
     private String optimizedFor;
-    private Optional<String> siteId = Optional.empty();
-    private Optional<Integer> maximumTransfers = Optional.empty();
-    private Optional<ZonedDateTime> departureTime = Optional.empty();
-    private Optional<ZonedDateTime> arrivalTime = Optional.empty();
+    private Optional<String> siteId = Optional.absent();
+    private Optional<Integer> maximumTransfers = Optional.absent();
+    private Optional<ZonedDateTime> departureTime = Optional.absent();
+    private Optional<ZonedDateTime> arrivalTime = Optional.absent();
     private Set<AccessibilityRestriction> accessibilityRestrictions = new TreeSet<>();
     private List<String> languages = new ArrayList<>();
     private List<OutputFormat> outputFormats = new ArrayList<>();
@@ -296,12 +296,12 @@ public class RoutingRequest implements Validatable {
     }
 
     public RoutingRequest setStartModeOfTransport(RequestModeOfTransport<?> startModeOfTransport) {
-        this.startModeOfTransport = Optional.ofNullable(startModeOfTransport);
+        this.startModeOfTransport = Optional.fromNullable(startModeOfTransport);
         return this;
     }
 
     public RoutingRequest setEndModeOfTransport(RequestModeOfTransport<?> endModeOfTransport) {
-        this.endModeOfTransport = Optional.ofNullable(endModeOfTransport);
+        this.endModeOfTransport = Optional.fromNullable(endModeOfTransport);
         return this;
     }
 
@@ -311,12 +311,12 @@ public class RoutingRequest implements Validatable {
     }
 
     public RoutingRequest setSiteId(String siteId) {
-        this.siteId = Optional.ofNullable(siteId);
+        this.siteId = Optional.fromNullable(siteId);
         return this;
     }
 
     public RoutingRequest setMaximumTransfers(Integer maximumTransfers) {
-        this.maximumTransfers = Optional.ofNullable(maximumTransfers);
+        this.maximumTransfers = Optional.fromNullable(maximumTransfers);
         return this;
     }
 
@@ -327,10 +327,10 @@ public class RoutingRequest implements Validatable {
     @JsonIgnore
     public RoutingRequest setDepartureTime(ZonedDateTime departureTime) {
         if (departureTime == null) {
-            this.departureTime = Optional.empty();
+            this.departureTime = Optional.absent();
         } else {
-            this.departureTime = Optional.ofNullable(departureTime.truncatedTo(ChronoUnit.SECONDS));
-            this.arrivalTime = Optional.empty();
+            this.departureTime = Optional.fromNullable(departureTime.truncatedTo(ChronoUnit.SECONDS));
+            this.arrivalTime = Optional.absent();
         }
         return this;
     }
@@ -345,13 +345,13 @@ public class RoutingRequest implements Validatable {
     @JsonProperty
     public RoutingRequest setDepartureTime(String departureTime) {
         if (departureTime == null) {
-            this.departureTime = Optional.empty();
+            this.departureTime = Optional.absent();
         } else if (departureTime.equalsIgnoreCase(NOW)) {
             this.departureTime = Optional.of(ZonedDateTime.now().truncatedTo(ChronoUnit.SECONDS));
-            this.arrivalTime = Optional.empty();
+            this.arrivalTime = Optional.absent();
         } else {
             this.departureTime = Optional.of(Utils.parseZonedDateTime(departureTime, "departureTime"));
-            this.arrivalTime = Optional.empty();
+            this.arrivalTime = Optional.absent();
         }
         return this;
     }
@@ -363,10 +363,10 @@ public class RoutingRequest implements Validatable {
     @JsonIgnore
     public RoutingRequest setArrivalTime(ZonedDateTime arrivalTime) {
         if (arrivalTime == null) {
-            this.arrivalTime = Optional.empty();
+            this.arrivalTime = Optional.absent();
         } else {
-            this.arrivalTime = Optional.ofNullable(arrivalTime.truncatedTo(ChronoUnit.SECONDS));
-            this.departureTime = Optional.empty();
+            this.arrivalTime = Optional.fromNullable(arrivalTime.truncatedTo(ChronoUnit.SECONDS));
+            this.departureTime = Optional.absent();
         }
         return this;
     }
@@ -381,13 +381,13 @@ public class RoutingRequest implements Validatable {
     @JsonProperty
     public RoutingRequest setArrivalTime(String arrivalTime) {
         if (arrivalTime == null) {
-            this.arrivalTime = Optional.empty();
+            this.arrivalTime = Optional.absent();
         } else if (arrivalTime.equalsIgnoreCase(NOW)) {
             this.arrivalTime = Optional.of(ZonedDateTime.now().truncatedTo(ChronoUnit.SECONDS));
-            this.departureTime = Optional.empty();
+            this.departureTime = Optional.absent();
         } else {
             this.arrivalTime = Optional.of(Utils.parseZonedDateTime(arrivalTime, "arrivalTime"));
-            this.departureTime = Optional.empty();
+            this.departureTime = Optional.absent();
         }
         return this;
     }

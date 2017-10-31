@@ -1,6 +1,6 @@
 package at.ac.ait.ariadne.routeformat.instruction;
 
-import java.util.Optional;
+import com.google.common.base.Optional;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -41,10 +41,10 @@ public class AreaInstruction extends Instruction<AreaInstruction> {
     }
 
     private SubType subType;
-    private Optional<String> areaName = Optional.empty();
-    private Optional<Area> areaType = Optional.empty();
-    private Optional<String> exitStreetName = Optional.empty();
-    private Optional<Landmark> exitLandmark = Optional.empty();
+    private Optional<String> areaName = Optional.absent();
+    private Optional<Area> areaType = Optional.absent();
+    private Optional<String> exitStreetName = Optional.absent();
+    private Optional<Landmark> exitLandmark = Optional.absent();
 
     // -- getters
 
@@ -76,22 +76,22 @@ public class AreaInstruction extends Instruction<AreaInstruction> {
     }
 
     public AreaInstruction setAreaName(String areaName) {
-        this.areaName = Optional.ofNullable(areaName);
+        this.areaName = Optional.fromNullable(areaName);
         return this;
     }
 
     public AreaInstruction setAreaType(Area areaType) {
-        this.areaType = Optional.ofNullable(areaType);
+        this.areaType = Optional.fromNullable(areaType);
         return this;
     }
 
     public AreaInstruction setExitStreetName(String exitStreetName) {
-        this.exitStreetName = Optional.ofNullable(exitStreetName);
+        this.exitStreetName = Optional.fromNullable(exitStreetName);
         return this;
     }
 
     public AreaInstruction setExitLandmark(Landmark exitLandmark) {
-        this.exitLandmark = Optional.ofNullable(exitLandmark);
+        this.exitLandmark = Optional.fromNullable(exitLandmark);
         return this;
     }
 

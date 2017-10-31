@@ -1,6 +1,6 @@
 package at.ac.ait.ariadne.routeformat.instruction;
 
-import java.util.Optional;
+import com.google.common.base.Optional;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -46,7 +46,7 @@ import at.ac.ait.ariadne.routeformat.ModeOfTransport;
 public class ModeChangeInstruction extends Instruction<ModeChangeInstruction> {
 
     private Optional<ModeOfTransport> previousModeOfTransport, nextModeOfTransport;
-    private Optional<Landmark> landmark = Optional.empty();
+    private Optional<Landmark> landmark = Optional.absent();
 
     // -- getters
 
@@ -65,17 +65,17 @@ public class ModeChangeInstruction extends Instruction<ModeChangeInstruction> {
     // -- setters
 
     public ModeChangeInstruction setPreviousModeOfTransport(ModeOfTransport previousModeOfTransport) {
-        this.previousModeOfTransport = Optional.ofNullable(previousModeOfTransport);
+        this.previousModeOfTransport = Optional.fromNullable(previousModeOfTransport);
         return this;
     }
 
     public ModeChangeInstruction setNextModeOfTransport(ModeOfTransport nextModeOfTransport) {
-        this.nextModeOfTransport = Optional.ofNullable(nextModeOfTransport);
+        this.nextModeOfTransport = Optional.fromNullable(nextModeOfTransport);
         return this;
     }
 
     public ModeChangeInstruction setLandmark(Landmark landmark) {
-        this.landmark = Optional.ofNullable(landmark);
+        this.landmark = Optional.fromNullable(landmark);
         return this;
     }
 

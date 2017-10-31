@@ -1,6 +1,6 @@
 package at.ac.ait.ariadne.routeformat.instruction;
 
-import java.util.Optional;
+import com.google.common.base.Optional;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -89,19 +89,19 @@ public class RoadInstruction extends Instruction<RoadInstruction> {
     }
 
     private SubType subType;
-    private Optional<GeneralizedModeOfTransportType> modeOfTransport = Optional.empty();
-    private Optional<TurnDirection> turnDirection = Optional.empty();
-    private Optional<CompassDirection> compassDirection = Optional.empty();
-    private Optional<Boolean> roadChange = Optional.empty();
-    private Optional<String> ontoStreetName = Optional.empty();
-    private Optional<FormOfWay> ontoFormOfWay = Optional.empty();
-    private Optional<Boolean> enterBridge = Optional.empty();
-    private Optional<Tunnel> enterTunnel = Optional.empty();
-    private Optional<Boolean> ontoRightSideOfRoad = Optional.empty();
-    private Optional<RoadCrossing> crossing = Optional.empty();
-    private Optional<Integer> continueMeters = Optional.empty(), continueSeconds = Optional.empty();
-    private Optional<String> continueUntilIntersectingStreetName = Optional.empty();
-    private Optional<Landmark> landmark = Optional.empty(), confirmationLandmark = Optional.empty();
+    private Optional<GeneralizedModeOfTransportType> modeOfTransport = Optional.absent();
+    private Optional<TurnDirection> turnDirection = Optional.absent();
+    private Optional<CompassDirection> compassDirection = Optional.absent();
+    private Optional<Boolean> roadChange = Optional.absent();
+    private Optional<String> ontoStreetName = Optional.absent();
+    private Optional<FormOfWay> ontoFormOfWay = Optional.absent();
+    private Optional<Boolean> enterBridge = Optional.absent();
+    private Optional<Tunnel> enterTunnel = Optional.absent();
+    private Optional<Boolean> ontoRightSideOfRoad = Optional.absent();
+    private Optional<RoadCrossing> crossing = Optional.absent();
+    private Optional<Integer> continueMeters = Optional.absent(), continueSeconds = Optional.absent();
+    private Optional<String> continueUntilIntersectingStreetName = Optional.absent();
+    private Optional<Landmark> landmark = Optional.absent(), confirmationLandmark = Optional.absent();
 
     // -- getters
 
@@ -225,67 +225,67 @@ public class RoadInstruction extends Instruction<RoadInstruction> {
     }
 
     public RoadInstruction setModeOfTransport(GeneralizedModeOfTransportType modeOfTransport) {
-        this.modeOfTransport = Optional.ofNullable(modeOfTransport);
+        this.modeOfTransport = Optional.fromNullable(modeOfTransport);
         return this;
     }
 
     public RoadInstruction setTurnDirection(TurnDirection turnDirection) {
-        this.turnDirection = Optional.ofNullable(turnDirection);
+        this.turnDirection = Optional.fromNullable(turnDirection);
         return this;
     }
 
     public RoadInstruction setCompassDirection(CompassDirection compassDirection) {
-        this.compassDirection = Optional.ofNullable(compassDirection);
+        this.compassDirection = Optional.fromNullable(compassDirection);
         return this;
     }
 
     public RoadInstruction setRoadChange(Boolean roadChange) {
-        this.roadChange = Optional.ofNullable(roadChange);
+        this.roadChange = Optional.fromNullable(roadChange);
         return this;
     }
 
     public RoadInstruction setOntoStreetName(String ontoStreetName) {
-        this.ontoStreetName = Optional.ofNullable(ontoStreetName);
+        this.ontoStreetName = Optional.fromNullable(ontoStreetName);
         return this;
     }
 
     public RoadInstruction setOntoFormOfWay(FormOfWay ontoFormOfWay) {
-        this.ontoFormOfWay = Optional.ofNullable(ontoFormOfWay);
+        this.ontoFormOfWay = Optional.fromNullable(ontoFormOfWay);
         return this;
     }
 
     public RoadInstruction setEnterBridge(Boolean enterBridge) {
-        this.enterBridge = Optional.ofNullable(enterBridge);
+        this.enterBridge = Optional.fromNullable(enterBridge);
         return this;
     }
 
     public RoadInstruction setEnterTunnel(Tunnel enterTunnel) {
-        this.enterTunnel = Optional.ofNullable(enterTunnel);
+        this.enterTunnel = Optional.fromNullable(enterTunnel);
         return this;
     }
 
     public RoadInstruction setOntoRightSideOfRoad(Boolean ontoRightSideOfRoad) {
-        this.ontoRightSideOfRoad = Optional.ofNullable(ontoRightSideOfRoad);
+        this.ontoRightSideOfRoad = Optional.fromNullable(ontoRightSideOfRoad);
         return this;
     }
 
     public RoadInstruction setCrossing(RoadCrossing crossing) {
-        this.crossing = Optional.ofNullable(crossing);
+        this.crossing = Optional.fromNullable(crossing);
         return this;
     }
 
     public RoadInstruction setContinueMeters(Integer continueMeters) {
-        this.continueMeters = Optional.ofNullable(continueMeters);
+        this.continueMeters = Optional.fromNullable(continueMeters);
         return this;
     }
 
     public RoadInstruction setContinueSeconds(Integer continueSeconds) {
-        this.continueSeconds = Optional.ofNullable(continueSeconds);
+        this.continueSeconds = Optional.fromNullable(continueSeconds);
         return this;
     }
 
     public RoadInstruction setContinueUntilIntersectingStreetName(String continueUntilIntersectingStreetName) {
-        this.continueUntilIntersectingStreetName = Optional.ofNullable(continueUntilIntersectingStreetName);
+        this.continueUntilIntersectingStreetName = Optional.fromNullable(continueUntilIntersectingStreetName);
         return this;
     }
 
@@ -294,12 +294,12 @@ public class RoadInstruction extends Instruction<RoadInstruction> {
      *            the landmark at the start point, end point, or decision point
      */
     public RoadInstruction setLandmark(Landmark landmark) {
-        this.landmark = Optional.ofNullable(landmark);
+        this.landmark = Optional.fromNullable(landmark);
         return this;
     }
 
     public RoadInstruction setConfirmationLandmark(Landmark confirmationLandmark) {
-        this.confirmationLandmark = Optional.ofNullable(confirmationLandmark);
+        this.confirmationLandmark = Optional.fromNullable(confirmationLandmark);
         return this;
     }
 

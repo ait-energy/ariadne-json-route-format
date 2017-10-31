@@ -5,7 +5,7 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+import com.google.common.base.Optional;
 import java.util.TreeMap;
 
 import org.slf4j.Logger;
@@ -49,13 +49,13 @@ public class Route implements Validatable {
     private int distanceMeters;
     private int durationSeconds;
     private List<RouteSegment> segments = new ArrayList<>();
-    private Optional<String> id = Optional.empty();
+    private Optional<String> id = Optional.absent();
     private ZonedDateTime startTime = null;
     private ZonedDateTime endTime = null;
-    private Optional<String> optimizedFor = Optional.empty();
-    private Optional<GeoJSONFeature<GeoJSONPolygon>> boundingBox = Optional.empty();
-    private Optional<String> simplifiedGeometryEncodedPolyLine = Optional.empty();
-    private Optional<GeoJSONFeature<GeoJSONLineString>> simplifiedGeometryGeoJson = Optional.empty();
+    private Optional<String> optimizedFor = Optional.absent();
+    private Optional<GeoJSONFeature<GeoJSONPolygon>> boundingBox = Optional.absent();
+    private Optional<String> simplifiedGeometryEncodedPolyLine = Optional.absent();
+    private Optional<GeoJSONFeature<GeoJSONLineString>> simplifiedGeometryGeoJson = Optional.absent();
     private Map<String, Object> additionalInfo = new TreeMap<>();
 
     // -- getters
@@ -171,7 +171,7 @@ public class Route implements Validatable {
     }
 
     public Route setId(String id) {
-        this.id = Optional.ofNullable(id);
+        this.id = Optional.fromNullable(id);
         return this;
     }
 
@@ -200,22 +200,22 @@ public class Route implements Validatable {
     }
 
     public Route setOptimizedFor(String optimizedFor) {
-        this.optimizedFor = Optional.ofNullable(optimizedFor);
+        this.optimizedFor = Optional.fromNullable(optimizedFor);
         return this;
     }
 
     public Route setBoundingBox(GeoJSONFeature<GeoJSONPolygon> boundingBox) {
-        this.boundingBox = Optional.ofNullable(boundingBox);
+        this.boundingBox = Optional.fromNullable(boundingBox);
         return this;
     }
 
     public Route setSimplifiedGeometryEncodedPolyLine(String simplifiedGeometryEncodedPolyLine) {
-        this.simplifiedGeometryEncodedPolyLine = Optional.ofNullable(simplifiedGeometryEncodedPolyLine);
+        this.simplifiedGeometryEncodedPolyLine = Optional.fromNullable(simplifiedGeometryEncodedPolyLine);
         return this;
     }
 
     public Route setSimplifiedGeometryGeoJson(GeoJSONFeature<GeoJSONLineString> simplifiedGeometryGeoJson) {
-        this.simplifiedGeometryGeoJson = Optional.ofNullable(simplifiedGeometryGeoJson);
+        this.simplifiedGeometryGeoJson = Optional.fromNullable(simplifiedGeometryGeoJson);
         return this;
     }
 

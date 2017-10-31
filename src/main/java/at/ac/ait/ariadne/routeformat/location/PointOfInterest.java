@@ -1,6 +1,6 @@
 package at.ac.ait.ariadne.routeformat.location;
 
-import java.util.Optional;
+import com.google.common.base.Optional;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -18,8 +18,8 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
 @JsonInclude(Include.NON_EMPTY)
 public class PointOfInterest extends Location<PointOfInterest> {
 
-    private Optional<String> poiType = Optional.empty();
-    private Optional<String> name = Optional.empty();
+    private Optional<String> poiType = Optional.absent();
+    private Optional<String> name = Optional.absent();
 
     // -- getters
 
@@ -34,12 +34,12 @@ public class PointOfInterest extends Location<PointOfInterest> {
     // -- setters
 
     public PointOfInterest setPoiType(String poiType) {
-        this.poiType = Optional.ofNullable(poiType);
+        this.poiType = Optional.fromNullable(poiType);
         return this;
     }
 
     public PointOfInterest setName(String name) {
-        this.name = Optional.ofNullable(name);
+        this.name = Optional.fromNullable(name);
         return this;
     }
 

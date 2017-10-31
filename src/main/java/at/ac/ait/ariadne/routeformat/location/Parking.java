@@ -1,6 +1,6 @@
 package at.ac.ait.ariadne.routeformat.location;
 
-import java.util.Optional;
+import com.google.common.base.Optional;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -21,12 +21,12 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
  */
 @JsonInclude(Include.NON_EMPTY)
 public class Parking extends Location<Parking> {
-    private Optional<ParkingType> parkingType = Optional.empty();
+    private Optional<ParkingType> parkingType = Optional.absent();
     private Set<GeneralizedModeOfTransportType> modesOfTransport = new TreeSet<>();
-    private Optional<String> name = Optional.empty();
-    private Optional<Boolean> fee = Optional.empty();
-    private Optional<Boolean> parkAndRide = Optional.empty();
-    private Optional<String> openingHours = Optional.empty();
+    private Optional<String> name = Optional.absent();
+    private Optional<Boolean> fee = Optional.absent();
+    private Optional<Boolean> parkAndRide = Optional.absent();
+    private Optional<String> openingHours = Optional.absent();
 
     // -- getters
 
@@ -65,7 +65,7 @@ public class Parking extends Location<Parking> {
     // -- setters
 
     public Parking setParkingType(ParkingType parkingType) {
-        this.parkingType = Optional.ofNullable(parkingType);
+        this.parkingType = Optional.fromNullable(parkingType);
         return this;
     }
 
@@ -75,22 +75,22 @@ public class Parking extends Location<Parking> {
     }
 
     public Parking setName(String name) {
-        this.name = Optional.ofNullable(name);
+        this.name = Optional.fromNullable(name);
         return this;
     }
 
     public Parking setFee(Boolean fee) {
-        this.fee = Optional.ofNullable(fee);
+        this.fee = Optional.fromNullable(fee);
         return this;
     }
 
     public Parking setParkAndRide(Boolean parkAndRide) {
-        this.parkAndRide = Optional.ofNullable(parkAndRide);
+        this.parkAndRide = Optional.fromNullable(parkAndRide);
         return this;
     }
 
     public Parking setOpeningHours(String openingHours) {
-        this.openingHours = Optional.ofNullable(openingHours);
+        this.openingHours = Optional.fromNullable(openingHours);
         return this;
     }
 

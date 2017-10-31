@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
+import com.google.common.base.Optional;
 import java.util.Set;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -118,7 +118,7 @@ public class Utils {
         }
 
         if (minX == null || maxX == null || minY == null || maxY == null)
-            return Optional.empty();
+            return Optional.absent();
 
         List<GeoJSONCoordinate> outerRing = new ArrayList<>();
         outerRing.add(GeoJSONCoordinate.create(minX, minY));

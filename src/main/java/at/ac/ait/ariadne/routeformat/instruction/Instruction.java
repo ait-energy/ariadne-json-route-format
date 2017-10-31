@@ -1,7 +1,7 @@
 package at.ac.ait.ariadne.routeformat.instruction;
 
 import java.util.Map;
-import java.util.Optional;
+import com.google.common.base.Optional;
 import java.util.TreeMap;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -31,8 +31,8 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPoint;
 public abstract class Instruction<T extends Instruction<T>> implements Validatable {
 
     private GeoJSONFeature<GeoJSONPoint> position;
-    private Optional<GeoJSONFeature<GeoJSONPoint>> previewTriggerPosition = Optional.empty();
-    private Optional<GeoJSONFeature<GeoJSONPoint>> confirmationTriggerPosition = Optional.empty();
+    private Optional<GeoJSONFeature<GeoJSONPoint>> previewTriggerPosition = Optional.absent();
+    private Optional<GeoJSONFeature<GeoJSONPoint>> confirmationTriggerPosition = Optional.absent();
     private Map<String, String> text = new TreeMap<>();
     private Map<String, Object> additionalInfo = new TreeMap<>();
 
@@ -93,21 +93,21 @@ public abstract class Instruction<T extends Instruction<T>> implements Validatab
     @JsonProperty
     @SuppressWarnings("unchecked")
     public T setPreviewTriggerPosition(GeoJSONFeature<GeoJSONPoint> previewTriggerPosition) {
-        this.previewTriggerPosition = Optional.ofNullable(previewTriggerPosition);
+        this.previewTriggerPosition = Optional.fromNullable(previewTriggerPosition);
         return (T) this;
     }
 
     @JsonIgnore
     @SuppressWarnings("unchecked")
     public T setPreviewTriggerPosition(GeoJSONCoordinate previewTriggerPosition) {
-        this.previewTriggerPosition = Optional.ofNullable(GeoJSONFeature.createPointFeature(previewTriggerPosition));
+        this.previewTriggerPosition = Optional.fromNullable(GeoJSONFeature.createPointFeature(previewTriggerPosition));
         return (T) this;
     }
 
     @JsonProperty
     @SuppressWarnings("unchecked")
     public T setConfirmationTriggerPosition(GeoJSONFeature<GeoJSONPoint> confirmationTriggerPosition) {
-        this.confirmationTriggerPosition = Optional.ofNullable(confirmationTriggerPosition);
+        this.confirmationTriggerPosition = Optional.fromNullable(confirmationTriggerPosition);
         return (T) this;
     }
 
@@ -115,7 +115,7 @@ public abstract class Instruction<T extends Instruction<T>> implements Validatab
     @SuppressWarnings("unchecked")
     public T setConfirmationTriggerPosition(GeoJSONCoordinate confirmationTriggerPosition) {
         this.confirmationTriggerPosition = Optional
-                .ofNullable(GeoJSONFeature.createPointFeature(confirmationTriggerPosition));
+                .fromNullable(GeoJSONFeature.createPointFeature(confirmationTriggerPosition));
         return (T) this;
     }
 

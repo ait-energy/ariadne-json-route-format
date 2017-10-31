@@ -4,7 +4,7 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+import com.google.common.base.Optional;
 import java.util.TreeMap;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -38,9 +38,9 @@ public class RoutingResponse implements Validatable {
     private String requestId;
     private ZonedDateTime processedTime;
     private Status status;
-    private Optional<String> debugMessage = Optional.empty();
+    private Optional<String> debugMessage = Optional.absent();
     private String coordinateReferenceSystem;
-    private Optional<RoutingRequest> request = Optional.empty();
+    private Optional<RoutingRequest> request = Optional.absent();
     private List<Route> routes = new ArrayList<>();
     private Map<String, Object> additionalInfo = new TreeMap<>();
 
@@ -140,7 +140,7 @@ public class RoutingResponse implements Validatable {
     }
 
     public RoutingResponse setDebugMessage(String debugMessage) {
-        this.debugMessage = Optional.ofNullable(debugMessage);
+        this.debugMessage = Optional.fromNullable(debugMessage);
         return this;
     }
 
@@ -155,7 +155,7 @@ public class RoutingResponse implements Validatable {
     }
 
     public RoutingResponse setRequest(RoutingRequest request) {
-        this.request = Optional.ofNullable(request);
+        this.request = Optional.fromNullable(request);
         return this;
     }
 

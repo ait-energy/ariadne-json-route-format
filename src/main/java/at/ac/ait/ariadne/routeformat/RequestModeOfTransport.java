@@ -3,7 +3,7 @@ package at.ac.ait.ariadne.routeformat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+import com.google.common.base.Optional;
 import java.util.TreeMap;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -40,12 +40,12 @@ import at.ac.ait.ariadne.routeformat.util.Utils;
 public class RequestModeOfTransport<T extends RequestModeOfTransport<T>> implements Validatable {
 
     ModeOfTransport modeOfTransport;
-    private Optional<Integer> maximumDistanceMeters = Optional.empty();
-    private Optional<Integer> maximumTravelTimeSeconds = Optional.empty();
-    private Optional<Integer> userAffinity = Optional.empty();
-    private Optional<String> speed = Optional.empty();
+    private Optional<Integer> maximumDistanceMeters = Optional.absent();
+    private Optional<Integer> maximumTravelTimeSeconds = Optional.absent();
+    private Optional<Integer> userAffinity = Optional.absent();
+    private Optional<String> speed = Optional.absent();
     private List<Location<?>> locations = new ArrayList<>();
-    private Optional<GeoJSONFeature<GeoJSONMultiPolygon>> forbiddenAreas = Optional.empty();
+    private Optional<GeoJSONFeature<GeoJSONMultiPolygon>> forbiddenAreas = Optional.absent();
     private Map<String, Object> additionalInfo = new TreeMap<>();
 
     // -- getters
@@ -129,25 +129,25 @@ public class RequestModeOfTransport<T extends RequestModeOfTransport<T>> impleme
 
     @SuppressWarnings("unchecked")
     public T setMaximumDistanceMeters(Integer maximumDistanceMeters) {
-        this.maximumDistanceMeters = Optional.ofNullable(maximumDistanceMeters);
+        this.maximumDistanceMeters = Optional.fromNullable(maximumDistanceMeters);
         return (T) this;
     }
 
     @SuppressWarnings("unchecked")
     public T setMaximumTravelTimeSeconds(Integer maximumTravelTimeSeconds) {
-        this.maximumTravelTimeSeconds = Optional.ofNullable(maximumTravelTimeSeconds);
+        this.maximumTravelTimeSeconds = Optional.fromNullable(maximumTravelTimeSeconds);
         return (T) this;
     }
 
     @SuppressWarnings("unchecked")
     public T setUserAffinity(Integer userAffinity) {
-        this.userAffinity = Optional.ofNullable(userAffinity);
+        this.userAffinity = Optional.fromNullable(userAffinity);
         return (T) this;
     }
 
     @SuppressWarnings("unchecked")
     public T setSpeed(String speed) {
-        this.speed = Optional.ofNullable(speed);
+        this.speed = Optional.fromNullable(speed);
         return (T) this;
     }
 
@@ -159,7 +159,7 @@ public class RequestModeOfTransport<T extends RequestModeOfTransport<T>> impleme
 
     @SuppressWarnings("unchecked")
     public T setForbiddenAreas(GeoJSONFeature<GeoJSONMultiPolygon> forbiddenAreas) {
-        this.forbiddenAreas = Optional.ofNullable(forbiddenAreas);
+        this.forbiddenAreas = Optional.fromNullable(forbiddenAreas);
         return (T) this;
     }
 

@@ -2,7 +2,7 @@ package at.ac.ait.ariadne.routeformat.location;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import com.google.common.base.Optional;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -23,10 +23,10 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
 @JsonInclude(Include.NON_EMPTY)
 public class SharingStation extends Location<SharingStation> {
 
-    private Optional<String> name = Optional.empty();
-    private Optional<String> id = Optional.empty();
+    private Optional<String> name = Optional.absent();
+    private Optional<String> id = Optional.absent();
     private List<GeneralizedModeOfTransportType> modesOfTransport = new ArrayList<>();
-    private Optional<Operator> operator = Optional.empty();
+    private Optional<Operator> operator = Optional.absent();
 
     // -- getters
 
@@ -55,12 +55,12 @@ public class SharingStation extends Location<SharingStation> {
     // -- setters
 
     public SharingStation setName(String name) {
-        this.name = Optional.ofNullable(name);
+        this.name = Optional.fromNullable(name);
         return this;
     }
 
     public SharingStation setId(String id) {
-        this.id = Optional.ofNullable(id);
+        this.id = Optional.fromNullable(id);
         return this;
     }
 
@@ -70,7 +70,7 @@ public class SharingStation extends Location<SharingStation> {
     }
 
     public SharingStation setOperator(Operator operator) {
-        this.operator = Optional.ofNullable(operator);
+        this.operator = Optional.fromNullable(operator);
         return this;
     }
 

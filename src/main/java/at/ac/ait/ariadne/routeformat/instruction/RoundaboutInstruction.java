@@ -1,6 +1,6 @@
 package at.ac.ait.ariadne.routeformat.instruction;
 
-import java.util.Optional;
+import com.google.common.base.Optional;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -57,14 +57,14 @@ public class RoundaboutInstruction extends Instruction<RoundaboutInstruction> {
     }
 
     private SubType subType;
-    private Optional<CompassDirection> compassDirection = Optional.empty();
-    private Optional<String> roundaboutStreetName = Optional.empty();
-    private Optional<String> ontoStreetName = Optional.empty();
-    private Optional<FormOfWay> ontoFormOfWay = Optional.empty();
-    private Optional<Integer> exitNr = Optional.empty();
-    private Optional<Integer> continueMeters = Optional.empty(), continueSeconds = Optional.empty();
-    private Optional<String> continueUntilIntersectingStreetName = Optional.empty();
-    private Optional<Landmark> landmark = Optional.empty(), confirmationLandmark = Optional.empty();
+    private Optional<CompassDirection> compassDirection = Optional.absent();
+    private Optional<String> roundaboutStreetName = Optional.absent();
+    private Optional<String> ontoStreetName = Optional.absent();
+    private Optional<FormOfWay> ontoFormOfWay = Optional.absent();
+    private Optional<Integer> exitNr = Optional.absent();
+    private Optional<Integer> continueMeters = Optional.absent(), continueSeconds = Optional.absent();
+    private Optional<String> continueUntilIntersectingStreetName = Optional.absent();
+    private Optional<Landmark> landmark = Optional.absent(), confirmationLandmark = Optional.absent();
 
     // -- getters
 
@@ -138,52 +138,52 @@ public class RoundaboutInstruction extends Instruction<RoundaboutInstruction> {
     }
 
     public RoundaboutInstruction setCompassDirection(CompassDirection compassDirection) {
-        this.compassDirection = Optional.ofNullable(compassDirection);
+        this.compassDirection = Optional.fromNullable(compassDirection);
         return this;
     }
 
     public RoundaboutInstruction setRoundaboutStreetName(String roundaboutStreetName) {
-        this.roundaboutStreetName = Optional.ofNullable(roundaboutStreetName);
+        this.roundaboutStreetName = Optional.fromNullable(roundaboutStreetName);
         return this;
     }
 
     public RoundaboutInstruction setOntoStreetName(String ontoStreetName) {
-        this.ontoStreetName = Optional.ofNullable(ontoStreetName);
+        this.ontoStreetName = Optional.fromNullable(ontoStreetName);
         return this;
     }
 
     public RoundaboutInstruction setOntoFormOfWay(FormOfWay ontoFormOfWay) {
-        this.ontoFormOfWay = Optional.ofNullable(ontoFormOfWay);
+        this.ontoFormOfWay = Optional.fromNullable(ontoFormOfWay);
         return this;
     }
 
     public RoundaboutInstruction setExitNr(Integer exitNr) {
-        this.exitNr = Optional.ofNullable(exitNr);
+        this.exitNr = Optional.fromNullable(exitNr);
         return this;
     }
 
     public RoundaboutInstruction setContinueMeters(Integer continueMeters) {
-        this.continueMeters = Optional.ofNullable(continueMeters);
+        this.continueMeters = Optional.fromNullable(continueMeters);
         return this;
     }
 
     public RoundaboutInstruction setContinueSeconds(Integer continueSeconds) {
-        this.continueSeconds = Optional.ofNullable(continueSeconds);
+        this.continueSeconds = Optional.fromNullable(continueSeconds);
         return this;
     }
 
     public RoundaboutInstruction setContinueUntilIntersectingStreetName(String continueUntilIntersectingStreetName) {
-        this.continueUntilIntersectingStreetName = Optional.ofNullable(continueUntilIntersectingStreetName);
+        this.continueUntilIntersectingStreetName = Optional.fromNullable(continueUntilIntersectingStreetName);
         return this;
     }
 
     public RoundaboutInstruction setLandmark(Landmark landmark) {
-        this.landmark = Optional.ofNullable(landmark);
+        this.landmark = Optional.fromNullable(landmark);
         return this;
     }
 
     public RoundaboutInstruction setConfirmationLandmark(Landmark confirmationLandmark) {
-        this.confirmationLandmark = Optional.ofNullable(confirmationLandmark);
+        this.confirmationLandmark = Optional.fromNullable(confirmationLandmark);
         return this;
     }
 

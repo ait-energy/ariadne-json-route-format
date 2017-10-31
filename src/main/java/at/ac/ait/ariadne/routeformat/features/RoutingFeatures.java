@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Optional;
+import com.google.common.base.Optional;
 import java.util.TreeMap;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -25,9 +25,9 @@ public class RoutingFeatures implements Validatable {
     private String currentLanguage;
     private List<String> supportedLanguages = new ArrayList<>();
     private String name;
-    private Optional<String> url = Optional.empty();
-    private Optional<String> logoUrl = Optional.empty();
-    private Optional<String> credits = Optional.empty();
+    private Optional<String> url = Optional.absent();
+    private Optional<String> logoUrl = Optional.absent();
+    private Optional<String> credits = Optional.absent();
     private List<Site> sites = new ArrayList<>();
     private Map<String, Object> additionalInfo = new TreeMap<>();
 
@@ -115,17 +115,17 @@ public class RoutingFeatures implements Validatable {
     }
 
     public RoutingFeatures setUrl(String url) {
-        this.url = Optional.ofNullable(url);
+        this.url = Optional.fromNullable(url);
         return this;
     }
 
     public RoutingFeatures setLogoUrl(String logoUrl) {
-        this.logoUrl = Optional.ofNullable(logoUrl);
+        this.logoUrl = Optional.fromNullable(logoUrl);
         return this;
     }
 
     public RoutingFeatures setCredits(String credits) {
-        this.credits = Optional.ofNullable(credits);
+        this.credits = Optional.fromNullable(credits);
         return this;
     }
 

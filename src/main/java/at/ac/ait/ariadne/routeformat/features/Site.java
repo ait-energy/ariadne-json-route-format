@@ -3,7 +3,7 @@ package at.ac.ait.ariadne.routeformat.features;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
+import com.google.common.base.Optional;
 import java.util.TreeMap;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -28,12 +28,12 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPolygon;
 public class Site implements Validatable {
 
     private String id;
-    private Optional<String> name = Optional.empty();
+    private Optional<String> name = Optional.absent();
     private List<OptimizedFor> optimizedFor = new ArrayList<>();
     private List<ModeOfTransport> modesOfTransport = new ArrayList<>();
-    private Optional<GeoJSONFeature<GeoJSONPoint>> focusPoint = Optional.empty();
-    private Optional<Integer> zoomLevel = Optional.empty();
-    private Optional<GeoJSONFeature<GeoJSONPolygon>> boundingPolygon = Optional.empty();
+    private Optional<GeoJSONFeature<GeoJSONPoint>> focusPoint = Optional.absent();
+    private Optional<Integer> zoomLevel = Optional.absent();
+    private Optional<GeoJSONFeature<GeoJSONPolygon>> boundingPolygon = Optional.absent();
     private List<SiteFeature> features = new ArrayList<>();
     private Map<String, Object> additionalInfo = new TreeMap<>();
 
@@ -109,7 +109,7 @@ public class Site implements Validatable {
     }
 
     public Site setName(String name) {
-        this.name = Optional.ofNullable(name);
+        this.name = Optional.fromNullable(name);
         return this;
     }
 
@@ -124,17 +124,17 @@ public class Site implements Validatable {
     }
 
     public Site setFocusPoint(GeoJSONFeature<GeoJSONPoint> focusPoint) {
-        this.focusPoint = Optional.ofNullable(focusPoint);
+        this.focusPoint = Optional.fromNullable(focusPoint);
         return this;
     }
 
     public Site setZoomLevel(Integer zoomLevel) {
-        this.zoomLevel = Optional.ofNullable(zoomLevel);
+        this.zoomLevel = Optional.fromNullable(zoomLevel);
         return this;
     }
 
     public Site setBoundingPolygon(GeoJSONFeature<GeoJSONPolygon> boundingPolygon) {
-        this.boundingPolygon = Optional.ofNullable(boundingPolygon);
+        this.boundingPolygon = Optional.fromNullable(boundingPolygon);
         return this;
     }
 
