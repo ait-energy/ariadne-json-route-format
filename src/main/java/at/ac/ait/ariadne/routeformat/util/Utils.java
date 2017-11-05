@@ -32,25 +32,30 @@ public class Utils {
     public static final String LOCAL_DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
     public static final String LOCAL_DATE_FORMAT = "yyyy-MM-dd";
     public static final String LOCAL_TIME_FORMAT = "HH:mm:ss";
-    public static final String PARSE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssXXX";
-    public static final String PARSE_FORMAT_FALLBACK = "yyyy-MM-dd'T'HH:mmXXX";
+    
+    public static final String DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ssXXX";
+    public static final String DATE_TIME_FORMAT_FALLBACK = "yyyy-MM-dd'T'HH:mmXXX";
 
     /**
      * @return a Date with seconds accuracy
      */
-    public static Date parseZonedDateTime(String zonedDateTimeString, String variableName) {
-        if (zonedDateTimeString == null)
+    public static Date parseDateTime(String dateTimeString, String variableName) {
+        if (dateTimeString == null)
             throw new IllegalArgumentException(variableName + " must not be null");
 
         try {
-            return truncateToSeconds(new SimpleDateFormat(PARSE_FORMAT).parse(zonedDateTimeString));
+            return truncateToSeconds(new SimpleDateFormat(DATE_TIME_FORMAT).parse(dateTimeString));
         } catch (ParseException e) {
             try {
-                return truncateToSeconds(new SimpleDateFormat(PARSE_FORMAT_FALLBACK).parse(zonedDateTimeString));
+                return truncateToSeconds(new SimpleDateFormat(DATE_TIME_FORMAT_FALLBACK).parse(dateTimeString));
             } catch (ParseException e1) {
                 throw new IllegalArgumentException(variableName + " could not be parsed: " + e.getMessage());
             }
         }
+    }
+    
+    public static String getDateTimeString(Date time) {
+        return new SimpleDateFormat(DATE_TIME_FORMAT).format(time);
     }
     
     public static Date addSeconds(Date date, int seconds) {
@@ -74,10 +79,6 @@ public class Utils {
         c.setTime(d);
         c.set(Calendar.MILLISECOND, 0);
         return c.getTime();
-    }
-    
-    public static String getAsZonedDateTimeString(Date time) {
-        return new SimpleDateFormat(PARSE_FORMAT).format(time);
     }
     
     public static String getShortStringDateTime(Date time) {

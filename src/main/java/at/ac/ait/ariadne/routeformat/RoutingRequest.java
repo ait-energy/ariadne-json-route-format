@@ -173,7 +173,7 @@ public class RoutingRequest implements Validatable {
     @JsonProperty
     public Optional<String> getDepartureTime() {
         if(departureTime.isPresent()) {
-            return Optional.of(Utils.getAsZonedDateTimeString(departureTime.get()));
+            return Optional.of(Utils.getDateTimeString(departureTime.get()));
         }
         return Optional.absent();
     }
@@ -194,7 +194,7 @@ public class RoutingRequest implements Validatable {
     @JsonProperty
     public Optional<String> getArrivalTime() {
         if(arrivalTime.isPresent()) {
-            return Optional.of(Utils.getAsZonedDateTimeString(arrivalTime.get()));
+            return Optional.of(Utils.getDateTimeString(arrivalTime.get()));
         }
         return Optional.absent();
     }
@@ -334,7 +334,7 @@ public class RoutingRequest implements Validatable {
             this.departureTime = Optional.of(Utils.truncateToSeconds(new Date()));
             this.arrivalTime = Optional.absent();
         } else {
-            this.departureTime = Optional.of(Utils.parseZonedDateTime(departureTime, "departureTime"));
+            this.departureTime = Optional.of(Utils.parseDateTime(departureTime, "departureTime"));
             this.arrivalTime = Optional.absent();
         }
         return this;
@@ -370,7 +370,7 @@ public class RoutingRequest implements Validatable {
             this.arrivalTime = Optional.of(Utils.truncateToSeconds(new Date()));
             this.departureTime = Optional.absent();
         } else {
-            this.arrivalTime = Optional.of(Utils.parseZonedDateTime(arrivalTime, "arrivalTime"));
+            this.arrivalTime = Optional.of(Utils.parseDateTime(arrivalTime, "arrivalTime"));
             this.departureTime = Optional.absent();
         }
         return this;

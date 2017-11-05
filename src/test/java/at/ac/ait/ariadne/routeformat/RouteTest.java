@@ -17,7 +17,7 @@ public class RouteTest {
 
     @Test
     public void minimalRoute() {
-        Route pointRoute = Route.createFromLocation(TestUtil.FROM, Utils.parseZonedDateTime(TestUtil.START_TIME, "start_time"));
+        Route pointRoute = Route.createFromLocation(TestUtil.FROM, Utils.parseDateTime(TestUtil.START_TIME, "start_time"));
         pointRoute.validate(true);
     }
 

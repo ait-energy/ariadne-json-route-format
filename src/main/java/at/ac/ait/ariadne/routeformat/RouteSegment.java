@@ -161,7 +161,7 @@ public class RouteSegment implements Validatable {
      * the start time of this {@link RouteSegment}, i.e. when boarding starts
      */
     public String getStartTime() {
-        return Utils.getAsZonedDateTimeString(startTime);
+        return Utils.getDateTimeString(startTime);
     }
 
     @JsonIgnore
@@ -195,7 +195,7 @@ public class RouteSegment implements Validatable {
      *         finished
      */
     public String getEndTime() {
-        return Utils.getAsZonedDateTimeString(endTime);
+        return Utils.getDateTimeString(endTime);
     }
 
     @JsonIgnore
@@ -306,7 +306,7 @@ public class RouteSegment implements Validatable {
 
     @JsonProperty
     public RouteSegment setStartTime(String startTime) {
-        this.startTime = Utils.parseZonedDateTime(startTime, "startTime");
+        this.startTime = Utils.parseDateTime(startTime, "startTime");
         return this;
     }
 
@@ -318,7 +318,7 @@ public class RouteSegment implements Validatable {
 
     @JsonProperty
     public RouteSegment setEndTime(String endTime) {
-        this.endTime = Utils.parseZonedDateTime(endTime, "endTime");
+        this.endTime = Utils.parseDateTime(endTime, "endTime");
         return this;
     }
 

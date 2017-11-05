@@ -544,7 +544,7 @@ public class IntermodalRouteExample {
 
     private IntermediateStop createIntermediateStopNeueDonau() {
         Date arrivalTime;
-        arrivalTime = Utils.parseZonedDateTime("2016-01-01T15:22:30+01:00", "arrivalTime");
+        arrivalTime = Utils.parseDateTime("2016-01-01T15:22:30+01:00", "arrivalTime");
         Date departureTime = Utils.addSeconds(arrivalTime, 60);
         return IntermediateStop.createMinimal(neueDonauSubwayStop).setPlannedArrivalTime(arrivalTime)
                 .setPlannedDepartureTime(departureTime).setEstimatedArrivalTime(arrivalTime)
