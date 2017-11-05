@@ -308,7 +308,7 @@ public class RouteSegment implements Validatable {
 
     @JsonProperty
     public RouteSegment setStartTime(String startTime) {
-        this.startTime = Utils.parseZonedDateTime(startTime, "startTime");
+        this.startTime = Utils.parseDateTime(startTime, "startTime");
         return this;
     }
 
@@ -320,7 +320,7 @@ public class RouteSegment implements Validatable {
 
     @JsonProperty
     public RouteSegment setEndTime(String endTime) {
-        this.endTime = Utils.parseZonedDateTime(endTime, "endTime");
+        this.endTime = Utils.parseDateTime(endTime, "endTime");
         return this;
     }
 

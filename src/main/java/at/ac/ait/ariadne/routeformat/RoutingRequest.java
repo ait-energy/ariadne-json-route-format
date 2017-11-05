@@ -325,7 +325,7 @@ public class RoutingRequest implements Validatable {
             this.departureTime = Optional.of(ZonedDateTime.now().truncatedTo(ChronoUnit.SECONDS));
             this.arrivalTime = Optional.empty();
         } else {
-            this.departureTime = Optional.of(Utils.parseZonedDateTime(departureTime, "departureTime"));
+            this.departureTime = Optional.of(Utils.parseDateTime(departureTime, "departureTime"));
             this.arrivalTime = Optional.empty();
         }
         return this;
@@ -361,7 +361,7 @@ public class RoutingRequest implements Validatable {
             this.arrivalTime = Optional.of(ZonedDateTime.now().truncatedTo(ChronoUnit.SECONDS));
             this.departureTime = Optional.empty();
         } else {
-            this.arrivalTime = Optional.of(Utils.parseZonedDateTime(arrivalTime, "arrivalTime"));
+            this.arrivalTime = Optional.of(Utils.parseDateTime(arrivalTime, "arrivalTime"));
             this.departureTime = Optional.empty();
         }
         return this;

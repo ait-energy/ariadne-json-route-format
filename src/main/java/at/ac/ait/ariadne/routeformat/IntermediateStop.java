@@ -119,7 +119,7 @@ public class IntermediateStop implements Validatable {
     @JsonProperty
     public IntermediateStop setPlannedArrivalTime(String plannedArrivalTime) {
         this.plannedArrivalTime = Optional
-                .ofNullable(Utils.parseZonedDateTime(plannedArrivalTime, "plannedArrivalTime"));
+                .ofNullable(Utils.parseDateTime(plannedArrivalTime, "plannedArrivalTime"));
         return this;
     }
 
@@ -132,7 +132,7 @@ public class IntermediateStop implements Validatable {
     @JsonProperty
     public IntermediateStop setPlannedDepartureTime(String plannedDepartureTime) {
         this.plannedDepartureTime = Optional
-                .ofNullable(Utils.parseZonedDateTime(plannedDepartureTime, "plannedDepartureTime"));
+                .ofNullable(Utils.parseDateTime(plannedDepartureTime, "plannedDepartureTime"));
         return this;
     }
 
@@ -145,7 +145,7 @@ public class IntermediateStop implements Validatable {
     @JsonProperty
     public IntermediateStop setEstimatedArrivalTime(String estimatedArrivalTime) {
         this.estimatedArrivalTime = Optional
-                .ofNullable(Utils.parseZonedDateTime(estimatedArrivalTime, "estimatedArrivalTime"));
+                .ofNullable(Utils.parseDateTime(estimatedArrivalTime, "estimatedArrivalTime"));
         return this;
     }
 
@@ -158,7 +158,7 @@ public class IntermediateStop implements Validatable {
     @JsonProperty
     public IntermediateStop setEstimatedDepartureTime(String estimatedDepartureTime) {
         this.estimatedDepartureTime = Optional
-                .ofNullable(Utils.parseZonedDateTime(estimatedDepartureTime, "estimatedDepartureTime"));
+                .ofNullable(Utils.parseDateTime(estimatedDepartureTime, "estimatedDepartureTime"));
         return this;
     }
 

@@ -35,12 +35,12 @@ public class Utils {
     /**
      * @return a ZonedDateTime with seconds accuracy
      */
-    public static ZonedDateTime parseZonedDateTime(String zonedDateTimeString, String variableName) {
-        if (zonedDateTimeString == null)
+    public static ZonedDateTime parseDateTime(String dateTimeString, String variableName) {
+        if (dateTimeString == null)
             throw new IllegalArgumentException(variableName + " must not be null");
 
         try {
-            return ZonedDateTime.parse(zonedDateTimeString).truncatedTo(ChronoUnit.SECONDS);
+            return ZonedDateTime.parse(dateTimeString).truncatedTo(ChronoUnit.SECONDS);
         } catch (DateTimeParseException e) {
             throw new IllegalArgumentException(variableName + " could not be parsed: " + e.getMessage());
         }

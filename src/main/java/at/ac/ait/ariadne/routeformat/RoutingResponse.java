@@ -130,7 +130,7 @@ public class RoutingResponse implements Validatable {
 
     @JsonProperty
     public RoutingResponse setProcessedTime(String processedTime) {
-        this.processedTime = Utils.parseZonedDateTime(processedTime, "processedTime");
+        this.processedTime = Utils.parseDateTime(processedTime, "processedTime");
         return this;
     }
 
