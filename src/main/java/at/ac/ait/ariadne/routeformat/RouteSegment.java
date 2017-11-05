@@ -368,11 +368,11 @@ public class RouteSegment implements Validatable {
      * Shifts the segment in time by adjusting start and end time (if they are
      * set)
      */
-    public RouteSegment shiftInTime(long amountToAdd, ChronoUnit unit) {
+    public RouteSegment shiftBySeconds(int amountToAdd) {
         if (startTime != null)
-            startTime = startTime.plus(amountToAdd, unit);
+            startTime = startTime.plus(amountToAdd, ChronoUnit.SECONDS);
         if (endTime != null)
-            endTime = endTime.plus(amountToAdd, unit);
+            endTime = endTime.plus(amountToAdd, ChronoUnit.SECONDS);
         return this;
     }
 

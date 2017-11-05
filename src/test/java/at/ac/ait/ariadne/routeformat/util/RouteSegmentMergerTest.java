@@ -1,6 +1,5 @@
 package at.ac.ait.ariadne.routeformat.util;
 
-import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.List;
 
@@ -95,7 +94,7 @@ public class RouteSegmentMergerTest {
     @Test
     public void testMergingWithOverlap() {
         RouteSegment secondSegment = getSecondSegment(ModeOfTransport.STANDARD_BICYCLE);
-        secondSegment = RouteSegment.createShallowCopy(secondSegment).shiftInTime(-5, ChronoUnit.MINUTES);
+        secondSegment = RouteSegment.createShallowCopy(secondSegment).shiftBySeconds(-5 * 60);
 
         List<List<RouteSegment>> listOfSegmentList = Arrays
                 .asList(Arrays.asList(getFirstSegment(ModeOfTransport.STANDARD_FOOT)), Arrays.asList(secondSegment));
