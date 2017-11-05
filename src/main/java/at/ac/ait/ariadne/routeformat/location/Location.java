@@ -99,7 +99,7 @@ public class Location<T extends Location<T>> implements Validatable {
 
     @SuppressWarnings("unchecked")
     public T setComplexGeometry(GeoJSONFeature<?> complexGeometry) {
-        this.complexGeometry = Optional.fromNullable(complexGeometry);
+        this.complexGeometry = Optional.<GeoJSONFeature<?>>fromNullable(complexGeometry);
         return (T) this;
     }
 

@@ -33,6 +33,7 @@ public class Utils {
     public static final String LOCAL_DATE_FORMAT = "yyyy-MM-dd";
     public static final String LOCAL_TIME_FORMAT = "HH:mm:ss";
     public static final String PARSE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssXXX";
+    public static final String PARSE_FORMAT_FALLBACK = "yyyy-MM-dd'T'HH:mmXXX";
 
     /**
      * @return a Date with seconds accuracy
@@ -44,7 +45,11 @@ public class Utils {
         try {
             return truncateToSeconds(new SimpleDateFormat(PARSE_FORMAT).parse(zonedDateTimeString));
         } catch (ParseException e) {
-            throw new IllegalArgumentException(variableName + " could not be parsed: " + e.getMessage());
+            try {
+                return truncateToSeconds(new SimpleDateFormat(PARSE_FORMAT_FALLBACK).parse(zonedDateTimeString));
+            } catch (ParseException e1) {
+                throw new IllegalArgumentException(variableName + " could not be parsed: " + e.getMessage());
+            }
         }
     }
     

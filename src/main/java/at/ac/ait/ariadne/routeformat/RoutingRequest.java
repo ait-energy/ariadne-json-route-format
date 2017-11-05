@@ -1,6 +1,5 @@
 package at.ac.ait.ariadne.routeformat;
 
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -10,7 +9,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -181,11 +179,11 @@ public class RoutingRequest implements Validatable {
      * If neither departure time nor arrival time were set in the builder a
      * departure time of 'now' is automatically added.
      * <p>
-     * The supported formats are defined in {@link ZonedDateTime} which uses ISO
+     * The supported formats are defined in Java 8 ZonedDateTime which uses ISO
      * 8601 with time zone. One example is "YYYY-MM-DDTHH:MMZ", where T is the
      * letter T, Z is the time zone (in either HH:MM, HHMM, HH format or the
      * letter Z for UTC). E.g. "2015-01-31T18:05+0100". As output the default
-     * toString() of {@link ZonedDateTime} is used.
+     * toString() of ZonedDateTime is used.
      */
     @JsonProperty
     public Optional<String> getDepartureTime() {
@@ -307,12 +305,12 @@ public class RoutingRequest implements Validatable {
     }
 
     public RoutingRequest setStartModeOfTransport(RequestModeOfTransport<?> startModeOfTransport) {
-        this.startModeOfTransport = Optional.fromNullable(startModeOfTransport);
+        this.startModeOfTransport = Optional.<RequestModeOfTransport<?>>fromNullable(startModeOfTransport);
         return this;
     }
 
     public RoutingRequest setEndModeOfTransport(RequestModeOfTransport<?> endModeOfTransport) {
-        this.endModeOfTransport = Optional.fromNullable(endModeOfTransport);
+        this.endModeOfTransport = Optional.<RequestModeOfTransport<?>>fromNullable(endModeOfTransport);
         return this;
     }
 
