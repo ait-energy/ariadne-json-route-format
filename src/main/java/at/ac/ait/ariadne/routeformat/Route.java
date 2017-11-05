@@ -1,11 +1,9 @@
 package at.ac.ait.ariadne.routeformat;
 
-import java.time.Duration;
-import java.util.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import com.google.common.base.Optional;
 import java.util.TreeMap;
 
 import org.slf4j.Logger;
@@ -15,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
@@ -29,7 +28,7 @@ import at.ac.ait.ariadne.routeformat.util.Utils;
  * length refer to the whole route, which is further split up into
  * {@link RouteSegment}s for each mode of transport. A route can also consist
  * only of a single {@link Location}, i.e. be a route from A to A, see
- * {@link #createFromLocation(Location, ZonedDateTime)}.
+ * {@link #createFromLocation(Location, Date)}.
  * <p>
  * In its minimal form nearly all attributes are set. The exceptions are
  * {@link #getId()}, {@link #getOptimizedFor()}, {@link #getAdditionalInfo()}
@@ -90,7 +89,7 @@ public class Route implements Validatable {
     }
 
     public String getStartTime() {
-        return startTime.toString();
+        return Utils.getAsZonedDateTimeString(startTime);
     }
 
     @JsonIgnore
@@ -99,7 +98,7 @@ public class Route implements Validatable {
     }
 
     public String getEndTime() {
-        return endTime.toString();
+        return Utils.getAsZonedDateTimeString(endTime);
     }
 
     @JsonIgnore
@@ -248,11 +247,12 @@ public class Route implements Validatable {
             route.setTo(last.getTo());
             route.setStartTime(first.getStartTime());
             route.setEndTime(last.getEndTime());
-            route.setDistanceMeters(segments.stream().mapToInt(s -> s.getDistanceMeters()).sum());
-            route.setDurationSeconds(
-                    (int) (Duration.between(route.getStartTimeAsZonedDateTime(), route.getEndTimeAsZonedDateTime())
-                            .toMillis() / 1000));
-            Utils.getBoundingBoxFromGeometryGeoJson(segments).ifPresent(b -> route.setBoundingBox(b));
+            int meters = 0;
+            for(RouteSegment s : segments)
+                meters += s.getDistanceMeters();
+            route.setDistanceMeters(meters);
+            route.setDurationSeconds(Utils.getSecondsBetween(route.getStartTimeAsZonedDateTime(), route.getEndTimeAsZonedDateTime()));
+            route.setBoundingBox(Utils.getBoundingBoxFromGeometryGeoJson(segments).orNull());
         }
         return route;
     }
@@ -287,17 +287,21 @@ public class Route implements Validatable {
             Preconditions.checkArgument(durationSeconds >= 0, "durationSeconds must be >= 0, but was %s",
                     durationSeconds);
 
-            Preconditions.checkArgument(!endTime.isBefore(startTime), "startTime must be <= endTime");
+            Preconditions.checkArgument(startTime.getTime() <= endTime.getTime(), "startTime must be <= endTime");
 
-            long durationBetweenTimestamps = Duration.between(startTime, endTime).getSeconds();
+            long durationBetweenTimestamps = Utils.getSecondsBetween(startTime, endTime);
             Preconditions.checkArgument(durationSeconds == durationBetweenTimestamps,
                     "durationSeconds does not match seconds between start & end time: %s!=%s", durationSeconds,
                     durationBetweenTimestamps);
-            int durationSecondsSum = segments.stream().mapToInt(s -> s.getDurationSeconds()).sum();
+            int durationSecondsSum = 0;
+            for(RouteSegment s : segments)
+                durationSecondsSum += s.getDurationSeconds();
             Preconditions.checkArgument(durationSeconds == durationSecondsSum,
                     "durationSeconds does not match the sum of durationSeconds of all route segments: %s!=%s",
                     durationSeconds, durationSecondsSum);
-            int distanceMetersSum = segments.stream().mapToInt(s -> s.getDistanceMeters()).sum();
+            int distanceMetersSum = 0;
+            for(RouteSegment s : segments)
+                distanceMetersSum += s.getDistanceMeters();
             Preconditions.checkArgument(distanceMeters == distanceMetersSum,
                     "distanceMeters does not match the sum of distanceMeters of all route segments: %s!=%s",
                     distanceMeters, distanceMetersSum);

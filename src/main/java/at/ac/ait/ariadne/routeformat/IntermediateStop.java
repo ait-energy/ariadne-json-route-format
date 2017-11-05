@@ -43,7 +43,10 @@ public class IntermediateStop implements Validatable {
      * @return static time according to a time table
      */
     public Optional<String> getPlannedArrivalTime() {
-        return plannedArrivalTime.map(time -> time.toString());
+        if(plannedArrivalTime.isPresent()) {
+            return Optional.of(Utils.getAsZonedDateTimeString(plannedArrivalTime.get()));
+        }
+        return Optional.absent();
     }
 
     /**
@@ -58,7 +61,10 @@ public class IntermediateStop implements Validatable {
      * @return static time according to a time table
      */
     public Optional<String> getPlannedDepartureTime() {
-        return plannedDepartureTime.map(time -> time.toString());
+        if(plannedDepartureTime.isPresent()) {
+            return Optional.of(Utils.getAsZonedDateTimeString(plannedDepartureTime.get()));
+        }
+        return Optional.absent();
     }
 
     /**
@@ -73,7 +79,10 @@ public class IntermediateStop implements Validatable {
      * @return time estimated via real-time data
      */
     public Optional<String> getEstimatedArrivalTime() {
-        return estimatedArrivalTime.map(time -> time.toString());
+        if(estimatedArrivalTime.isPresent()) {
+            return Optional.of(Utils.getAsZonedDateTimeString(estimatedArrivalTime.get()));
+        }
+        return Optional.absent();
     }
 
     /**
@@ -88,7 +97,10 @@ public class IntermediateStop implements Validatable {
      * @return time estimated via real-time data
      */
     public Optional<String> getEstimatedDepartureTime() {
-        return estimatedDepartureTime.map(time -> time.toString());
+        if(estimatedDepartureTime.isPresent()) {
+            return Optional.of(Utils.getAsZonedDateTimeString(estimatedDepartureTime.get()));
+        }
+        return Optional.absent();
     }
 
     /**

@@ -1,20 +1,19 @@
 package at.ac.ait.ariadne.routeformat.util;
 
 import java.math.BigDecimal;
-import java.util.Date;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.time.temporal.ChronoUnit;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
-import com.google.common.base.Optional;
 import java.util.Set;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 
 import at.ac.ait.ariadne.routeformat.Constants.GeneralizedModeOfTransportType;
@@ -29,40 +28,75 @@ import at.ac.ait.ariadne.routeformat.location.Location;
  * @author AIT Austrian Institute of Technology GmbH
  */
 public class Utils {
+    
+    public static final String LOCAL_DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
+    public static final String LOCAL_DATE_FORMAT = "yyyy-MM-dd";
+    public static final String LOCAL_TIME_FORMAT = "HH:mm:ss";
+    public static final String PARSE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssXXX";
 
     /**
-     * @return a ZonedDateTime with seconds accuracy
+     * @return a Date with seconds accuracy
      */
-    public static ZonedDateTime parseZonedDateTime(String zonedDateTimeString, String variableName) {
+    public static Date parseZonedDateTime(String zonedDateTimeString, String variableName) {
         if (zonedDateTimeString == null)
             throw new IllegalArgumentException(variableName + " must not be null");
 
         try {
-            return ZonedDateTime.parse(zonedDateTimeString).truncatedTo(ChronoUnit.SECONDS);
-        } catch (DateTimeParseException e) {
+            return truncateToSeconds(new SimpleDateFormat(PARSE_FORMAT).parse(zonedDateTimeString));
+        } catch (ParseException e) {
             throw new IllegalArgumentException(variableName + " could not be parsed: " + e.getMessage());
         }
     }
-
-    public static String getShortStringDateTime(ZonedDateTime time) {
-        return time.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+    
+    public static Date addSeconds(Date date, int seconds) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(Calendar.SECOND, seconds);
+        return c.getTime();
+    }
+    
+    public static Date subtractSeconds(Date date, int seconds) {
+        return addSeconds(date, seconds * -1);
+    }
+    
+    public static int getSecondsBetween(Date a, Date b) {
+        long millisBetween = b.getTime() - a.getTime();
+        return (int) (millisBetween / 1000);
+    }
+    
+    public static Date truncateToSeconds(Date d) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(d);
+        c.set(Calendar.MILLISECOND, 0);
+        return c.getTime();
+    }
+    
+    public static String getAsZonedDateTimeString(Date time) {
+        return new SimpleDateFormat(PARSE_FORMAT).format(time);
+    }
+    
+    public static String getShortStringDateTime(Date time) {
+        return new SimpleDateFormat(LOCAL_DATE_TIME_FORMAT).format(time);
     }
 
-    public static String getShortStringDate(ZonedDateTime time) {
-        return time.format(DateTimeFormatter.ISO_LOCAL_DATE);
+    public static String getShortStringDate(Date time) {
+        return new SimpleDateFormat(LOCAL_DATE_FORMAT).format(time);
     }
 
-    public static String getShortStringTime(ZonedDateTime time) {
-        return time.format(DateTimeFormatter.ISO_LOCAL_TIME);
+    public static String getShortStringTime(Date time) {
+        return new SimpleDateFormat(LOCAL_TIME_FORMAT).format(time);
     }
 
     /**
      * @return <code>true</code> if 'between' is really between (or equal) to
      *         start and end
      */
-    public static boolean isBetween(ZonedDateTime start, Optional<Date> between, ZonedDateTime end) {
+    public static boolean isBetween(Date start, Optional<Date> between, Date end) {
         if (between.isPresent()) {
-            if (start.isAfter(between.get()) || end.isBefore(between.get()))
+            long startTime = start.getTime();
+            long betweenTime = between.get().getTime();
+            long endTime = end.getTime();
+            if (startTime > betweenTime || endTime < betweenTime)
                 return false;
         }
         return true;
@@ -126,7 +160,8 @@ public class Utils {
         outerRing.add(GeoJSONCoordinate.create(maxX, maxY));
         outerRing.add(GeoJSONCoordinate.create(maxX, minY));
         outerRing.add(GeoJSONCoordinate.create(minX, minY));
-        return Optional.of(GeoJSONFeature.createPolygonFeatureFromRings(outerRing, Collections.emptyList()));
+        List<List<GeoJSONCoordinate>> emptyInnerRing = new ArrayList<>();
+        return Optional.of(GeoJSONFeature.createPolygonFeatureFromRings(outerRing, emptyInnerRing));
     }
 
     /**

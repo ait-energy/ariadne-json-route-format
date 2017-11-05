@@ -71,7 +71,9 @@ public class RouteSegmentMerger {
      *            empty.
      */
     public RouteSegmentMerger(List<List<RouteSegment>> routes) {
-        this.routes = routes.stream().map(l -> new LinkedList<>(l)).collect(Collectors.toList());
+        this.routes = new ArrayList<>();
+        for(List<RouteSegment> segments : routes)
+            this.routes.add(new LinkedList<>(segments));
         this.additionalAlightingSecondsBetweenRoutes = new ArrayList<>();
         for (int i = 0; i < routes.size() - 1; i++)
             additionalAlightingSecondsBetweenRoutes.add(0);

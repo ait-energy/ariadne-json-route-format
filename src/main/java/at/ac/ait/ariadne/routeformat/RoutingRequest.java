@@ -1,12 +1,12 @@
 package at.ac.ait.ariadne.routeformat;
 
-import java.util.Date;
-import java.time.temporal.ChronoUnit;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import com.google.common.base.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -16,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 
 import at.ac.ait.ariadne.routeformat.Constants.AccessibilityRestriction;
@@ -188,7 +189,10 @@ public class RoutingRequest implements Validatable {
      */
     @JsonProperty
     public Optional<String> getDepartureTime() {
-        return departureTime.map(time -> time.toString());
+        if(departureTime.isPresent()) {
+            return Optional.of(Utils.getAsZonedDateTimeString(departureTime.get()));
+        }
+        return Optional.absent();
     }
 
     /**
@@ -208,7 +212,10 @@ public class RoutingRequest implements Validatable {
      */
     @JsonProperty
     public Optional<String> getArrivalTime() {
-        return arrivalTime.map(time -> time.toString());
+        if(arrivalTime.isPresent()) {
+            return Optional.of(Utils.getAsZonedDateTimeString(arrivalTime.get()));
+        }
+        return Optional.absent();
     }
 
     /**
@@ -235,7 +242,10 @@ public class RoutingRequest implements Validatable {
 
     @JsonIgnore
     public List<Locale> getLanguagesAsLocales() {
-        return languages.stream().map(l -> Locale.forLanguageTag(l)).collect(Collectors.toList());
+        List<Locale> locales = new ArrayList<>();
+        for(String language : languages)
+            locales.add(Locale.forLanguageTag(language));
+        return locales;
     }
 
     /**
@@ -286,8 +296,9 @@ public class RoutingRequest implements Validatable {
     public RoutingRequest setModesOfTransport(List<RequestModeOfTransport<?>> modesOfTransport) {
         this.modesOfTransport = new ArrayList<>(modesOfTransport);
         if (this.modesOfTransport.size() > 1) {
-            Set<GeneralizedModeOfTransportType> types = this.modesOfTransport.stream()
-                    .map(m -> m.getModeOfTransport().getGeneralizedType()).collect(Collectors.toSet());
+            Set<GeneralizedModeOfTransportType> types = new HashSet<>();
+            for(RequestModeOfTransport<?> m : modesOfTransport)
+                types.add(m.getModeOfTransport().getGeneralizedType());
             if (!types.contains(GeneralizedModeOfTransportType.FOOT)) {
                 this.modesOfTransport.add(RequestModeOfTransport.createMinimal(ModeOfTransport.STANDARD_FOOT));
             }
@@ -329,7 +340,7 @@ public class RoutingRequest implements Validatable {
         if (departureTime == null) {
             this.departureTime = Optional.absent();
         } else {
-            this.departureTime = Optional.fromNullable(departureTime.truncatedTo(ChronoUnit.SECONDS));
+            this.departureTime = Optional.fromNullable(Utils.truncateToSeconds(departureTime));
             this.arrivalTime = Optional.absent();
         }
         return this;
@@ -347,7 +358,7 @@ public class RoutingRequest implements Validatable {
         if (departureTime == null) {
             this.departureTime = Optional.absent();
         } else if (departureTime.equalsIgnoreCase(NOW)) {
-            this.departureTime = Optional.of(ZonedDateTime.now().truncatedTo(ChronoUnit.SECONDS));
+            this.departureTime = Optional.of(Utils.truncateToSeconds(new Date()));
             this.arrivalTime = Optional.absent();
         } else {
             this.departureTime = Optional.of(Utils.parseZonedDateTime(departureTime, "departureTime"));
@@ -365,7 +376,7 @@ public class RoutingRequest implements Validatable {
         if (arrivalTime == null) {
             this.arrivalTime = Optional.absent();
         } else {
-            this.arrivalTime = Optional.fromNullable(arrivalTime.truncatedTo(ChronoUnit.SECONDS));
+            this.arrivalTime = Optional.fromNullable(Utils.truncateToSeconds(arrivalTime));
             this.departureTime = Optional.absent();
         }
         return this;
@@ -383,7 +394,7 @@ public class RoutingRequest implements Validatable {
         if (arrivalTime == null) {
             this.arrivalTime = Optional.absent();
         } else if (arrivalTime.equalsIgnoreCase(NOW)) {
-            this.arrivalTime = Optional.of(ZonedDateTime.now().truncatedTo(ChronoUnit.SECONDS));
+            this.arrivalTime = Optional.of(Utils.truncateToSeconds(new Date()));
             this.departureTime = Optional.absent();
         } else {
             this.arrivalTime = Optional.of(Utils.parseZonedDateTime(arrivalTime, "arrivalTime"));
@@ -434,8 +445,9 @@ public class RoutingRequest implements Validatable {
         Preconditions.checkArgument(modesOfTransport != null && !modesOfTransport.isEmpty(),
                 "modesOfTransport is mandatory but missing/empty");
         if (modesOfTransport.size() > 1) {
-            Set<GeneralizedModeOfTransportType> types = modesOfTransport.stream()
-                    .map(m -> m.getModeOfTransport().getGeneralizedType()).collect(Collectors.toSet());
+            Set<GeneralizedModeOfTransportType> types = new HashSet<>();
+            for(RequestModeOfTransport<?> m : modesOfTransport)
+                types.add(m.getModeOfTransport().getGeneralizedType());
             Preconditions.checkArgument(types.contains(GeneralizedModeOfTransportType.FOOT),
                     "intermodal routing without walking is not possible");
         }

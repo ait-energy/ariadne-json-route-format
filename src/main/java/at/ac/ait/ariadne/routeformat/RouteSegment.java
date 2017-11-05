@@ -1,12 +1,9 @@
 package at.ac.ait.ariadne.routeformat;
 
-import java.time.Duration;
-import java.util.Date;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import com.google.common.base.Optional;
 import java.util.TreeMap;
 
 import org.slf4j.Logger;
@@ -16,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 
 import at.ac.ait.ariadne.routeformat.Constants.Accessibility;
@@ -163,7 +161,7 @@ public class RouteSegment implements Validatable {
      * the start time of this {@link RouteSegment}, i.e. when boarding starts
      */
     public String getStartTime() {
-        return startTime.toString();
+        return Utils.getAsZonedDateTimeString(startTime);
     }
 
     @JsonIgnore
@@ -179,7 +177,7 @@ public class RouteSegment implements Validatable {
      */
     @JsonIgnore
     public Date getDepartureTimeAsZonedDateTime() {
-        return startTime.plusSeconds(boardingSeconds.or(0));
+        return Utils.addSeconds(startTime, boardingSeconds.or(0));
     }
 
     /**
@@ -189,7 +187,7 @@ public class RouteSegment implements Validatable {
      */
     @JsonIgnore
     public Date getArrivalTimeAsZonedDateTime() {
-        return endTime.minusSeconds(alightingSeconds.or(0));
+        return Utils.subtractSeconds(endTime, alightingSeconds.or(0));
     }
 
     /**
@@ -197,7 +195,7 @@ public class RouteSegment implements Validatable {
      *         finished
      */
     public String getEndTime() {
-        return endTime.toString();
+        return Utils.getAsZonedDateTimeString(endTime);
     }
 
     @JsonIgnore
@@ -364,17 +362,17 @@ public class RouteSegment implements Validatable {
         return this;
     }
 
-    /**
-     * Shifts the segment in time by adjusting start and end time (if they are
-     * set)
-     */
-    public RouteSegment shiftInTime(long amountToAdd, ChronoUnit unit) {
-        if (startTime != null)
-            startTime = startTime.plus(amountToAdd, unit);
-        if (endTime != null)
-            endTime = endTime.plus(amountToAdd, unit);
-        return this;
-    }
+//    /**
+//     * Shifts the segment in time by adjusting start and end time (if they are
+//     * set)
+//     */
+//    public RouteSegment shiftInTime(long amountToAdd, ChronoUnit unit) {
+//        if (startTime != null)
+//            startTime = startTime.plus(amountToAdd, unit);
+//        if (endTime != null)
+//            endTime = endTime.plus(amountToAdd, unit);
+//        return this;
+//    }
 
     // --
 
@@ -444,10 +442,10 @@ public class RouteSegment implements Validatable {
                     "boarding+alighting seconds must be equal to or smaller than the total duration for segment #%s",
                     nr);
 
-            Preconditions.checkArgument(!endTime.isBefore(startTime), "startTime must be <= endTime for segment #%s",
+            Preconditions.checkArgument(startTime.getTime() <= endTime.getTime(), "startTime must be <= endTime for segment #%s",
                     nr);
 
-            long durationBetweenTimestamps = Duration.between(startTime, endTime).getSeconds();
+            long durationBetweenTimestamps = Utils.getSecondsBetween(startTime, endTime);
             Preconditions.checkArgument(durationSeconds == durationBetweenTimestamps,
                     "durationSeconds does not match seconds between start & end time: %s!=%s for segment #%s",
                     durationSeconds, durationBetweenTimestamps, nr);
@@ -609,13 +607,13 @@ public class RouteSegment implements Validatable {
                 durationSeconds, Utils.getShortStringDate(startTime)));
         if (boardingSeconds.isPresent() && boardingSeconds.get() > 0) {
             builder.append(String.format("start: %s, departure: %s, ", Utils.getShortStringTime(startTime),
-                    Utils.getShortStringTime(startTime.plus(boardingSeconds.get(), ChronoUnit.SECONDS))));
+                    Utils.getShortStringTime(Utils.addSeconds(startTime, boardingSeconds.get()))));
         } else {
             builder.append(String.format("start: %s, ", Utils.getShortStringTime(startTime)));
         }
         if (alightingSeconds.isPresent() && alightingSeconds.get() > 0) {
             builder.append(String.format("alighting: %s, end: %s",
-                    Utils.getShortStringTime(endTime.minus(alightingSeconds.get(), ChronoUnit.SECONDS)),
+                    Utils.getShortStringTime(Utils.subtractSeconds(endTime, alightingSeconds.get())),
                     Utils.getShortStringTime(endTime)));
         } else {
             builder.append(String.format("end: %s", Utils.getShortStringTime(endTime)));

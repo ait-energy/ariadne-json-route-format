@@ -62,7 +62,7 @@ public class RoutingResponse implements Validatable {
      */
     @JsonProperty(required = true)
     public String getProcessedTime() {
-        return processedTime.toString();
+        return Utils.getAsZonedDateTimeString(processedTime);
     }
 
     @JsonIgnore

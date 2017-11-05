@@ -1,6 +1,5 @@
 package at.ac.ait.ariadne.routeformat;
 
-import java.util.Date;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,12 +11,13 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeature;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONLineString;
 import at.ac.ait.ariadne.routeformat.location.Location;
+import at.ac.ait.ariadne.routeformat.util.Utils;
 
 public class RouteTest {
 
     @Test
     public void minimalRoute() {
-        Route pointRoute = Route.createFromLocation(TestUtil.FROM, ZonedDateTime.parse(TestUtil.START_TIME));
+        Route pointRoute = Route.createFromLocation(TestUtil.FROM, Utils.parseZonedDateTime(TestUtil.START_TIME, "start_time"));
         pointRoute.validate(true);
     }
 
@@ -25,7 +25,8 @@ public class RouteTest {
     public void enforceStartEndOrder() {
         LinkedList<RouteSegment> segments = new LinkedList<>();
         segments.add(TestUtil.createTestRouteSegment(TestUtil.START_TIME, TestUtil.END_TIME));
-        segments.forEach(s -> s.validate(true));
+        for(RouteSegment s : segments)
+            s.validate(true);
 
         Route route = Route.createFromSegments(segments);
         route.validate();

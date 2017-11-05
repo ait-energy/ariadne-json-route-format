@@ -2,18 +2,20 @@ package at.ac.ait.ariadne.routeformat.example;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import com.google.common.base.Optional;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
@@ -37,9 +39,9 @@ import at.ac.ait.ariadne.routeformat.Operator;
 import at.ac.ait.ariadne.routeformat.RequestModeOfTransport;
 import at.ac.ait.ariadne.routeformat.RequestPTModeOfTransport;
 import at.ac.ait.ariadne.routeformat.Route;
-import at.ac.ait.ariadne.routeformat.RoutingResponse;
 import at.ac.ait.ariadne.routeformat.RouteSegment;
 import at.ac.ait.ariadne.routeformat.RoutingRequest;
+import at.ac.ait.ariadne.routeformat.RoutingResponse;
 import at.ac.ait.ariadne.routeformat.Service;
 import at.ac.ait.ariadne.routeformat.features.OptimizedFor;
 import at.ac.ait.ariadne.routeformat.features.RoutingFeatures;
@@ -50,9 +52,9 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONFeatureCollection;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONLineString;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONMultiPolygon;
 import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPolygon;
-import at.ac.ait.ariadne.routeformat.instruction.RoadInstruction;
 import at.ac.ait.ariadne.routeformat.instruction.Instruction;
 import at.ac.ait.ariadne.routeformat.instruction.Landmark;
+import at.ac.ait.ariadne.routeformat.instruction.RoadInstruction;
 import at.ac.ait.ariadne.routeformat.instruction.RoundaboutInstruction;
 import at.ac.ait.ariadne.routeformat.location.Address;
 import at.ac.ait.ariadne.routeformat.location.Location;
@@ -60,6 +62,7 @@ import at.ac.ait.ariadne.routeformat.location.Parking;
 import at.ac.ait.ariadne.routeformat.location.PointOfInterest;
 import at.ac.ait.ariadne.routeformat.location.PublicTransportStop;
 import at.ac.ait.ariadne.routeformat.location.SharingStation;
+import at.ac.ait.ariadne.routeformat.util.Utils;
 
 /**
  * This class is an example playground where we manually created an intermodal
@@ -101,7 +104,7 @@ public class IntermodalRouteExample {
     private void initializeOperators() {
         wienerLinienOperator = Operator.createMinimal("Wiener Linien").setWebsite("http://www.wienerlinien.at")
                 .setCustomerServiceEmail("post@wienerlinien.at")
-                .setAdditionalInfo(ImmutableMap.of("email_ticketshop", "ticketshop@wienerlinien.at"));
+                .setAdditionalInfo(ImmutableMap.of("email_ticketshop", (Object) "ticketshop@wienerlinien.at"));
 
         citybikeOperator = Operator.createMinimal("Citybike Wien").setWebsite("http://citybikewien.at")
                 .setCustomerServiceEmail("kontakt@citybikewien.at").setCustomerServicePhone("0810 500 500")
@@ -133,7 +136,7 @@ public class IntermodalRouteExample {
     private void initializeLocations() {
         Address giefinggasse = new Address().setCountry("Austria").setCity("Wien").setPostCode("1210")
                 .setStreetName("Giefinggasse").setHouseNumber("2b")
-                .setAdditionalInfo(ImmutableMap.of("floor", "3", "room", "S313"));
+                .setAdditionalInfo(ImmutableMap.of("floor", (Object) "3", "room", (Object) "S313"));
 
         giefinggasseAit = PointOfInterest.createMinimal(GeoJSONCoordinate.create("16.4265263", "48.2686617"))
                 .setAddress(giefinggasse).setName("AIT").setPoiType("company");
@@ -162,13 +165,13 @@ public class IntermodalRouteExample {
                 .setName("Millennium Tower").setId("2005")
                 .setModesOfTransport(Arrays.asList(GeneralizedModeOfTransportType.BICYCLE))
                 .setOperator(citybikeOperator)
-                .setAdditionalInfo(ImmutableMap.of("capacity", "35", "bikes_available", "10", "boxes_available", "25"));
+                .setAdditionalInfo(ImmutableMap.of("capacity", (Object) "35", "bikes_available", (Object) "10", "boxes_available", (Object) "25"));
 
         friedrichEngelsPlatzCitybike = SharingStation
                 .createMinimal(GeoJSONCoordinate.create("16.3792033", "48.2441354")).setName("Friedrich Engels Platz")
                 .setId("2006").setModesOfTransport(Arrays.asList(GeneralizedModeOfTransportType.BICYCLE))
                 .setOperator(citybikeOperator)
-                .setAdditionalInfo(ImmutableMap.of("capacity", "27", "bikes_available", "27", "boxes_available", "0"));
+                .setAdditionalInfo(ImmutableMap.of("capacity", (Object) "27", "bikes_available", (Object) "27", "boxes_available", (Object) "0"));
 
         car2goPickup = Location.createMinimal(GeoJSONCoordinate.create("16.377454", "48.24386"))
                 .setAddress(new Address().setStreetName("Adalbert-Stifter-Straße").setHouseNumber("71"));
@@ -415,8 +418,8 @@ public class IntermodalRouteExample {
                         .setSharingType(Sharing.FREE_FLOATING_VEHICLE_SHARING).setElectric(true)
                         .setOperator(car2goOperator)
                         // for now specific information goes as additional info
-                        .setAdditionalInfo(ImmutableMap.of("licensePlate", "W-123456", "fuelPercentage", "80",
-                                "interiorState", "good", "exteriorState", "unacceptable")))
+                        .setAdditionalInfo(ImmutableMap.of("licensePlate", (Object)  "W-123456", "fuelPercentage", (Object) "80",
+                                "interiorState", (Object) "good", "exteriorState", (Object) "unacceptable")))
                 .setGeometryGeoJson(geometryGeoJson);
         segments.add(car2goAlongAdalbertStifterStrasse);
 
@@ -460,7 +463,7 @@ public class IntermodalRouteExample {
                 .setIntermediateStops(Arrays.asList(IntermediateStop.createMinimal(antonKummererPark)))
                 // additional info about vehicles provided in the request can be
                 // added here (such as in project SMILE)
-                .setAdditionalInfo(ImmutableMap.of("name", "Univega Mountainbike"))
+                .setAdditionalInfo(ImmutableMap.of("name", (Object) "Univega Mountainbike"))
                 .setModeOfTransport(ModeOfTransport.STANDARD_BICYCLE).setGeometryGeoJson(geometryGeoJson)
                 .setNavigationInstructions(navigationInstructions);
         segments.add(bicycleFromAdalbertStifterStrasseToTreugasse);
@@ -478,7 +481,7 @@ public class IntermodalRouteExample {
                         .setSharingType(Sharing.RIDE_SHARING).setOperator(flincOperator)
                         // for now specific information goes as additional info
                         .setAdditionalInfo(
-                                ImmutableMap.of("userName", "herbertWien78", "phoneNumber", "+43 650 7734343")))
+                                ImmutableMap.of("userName", (Object) "herbertWien78", "phoneNumber", (Object) "+43 650 7734343")))
                 .setGeometryGeoJson(geometryGeoJson);
         segments.add(rideSharingFromTreugasseToGaussplatz);
 
@@ -538,8 +541,9 @@ public class IntermodalRouteExample {
     }
 
     private IntermediateStop createIntermediateStopNeueDonau() {
-        ZonedDateTime arrivalTime = ZonedDateTime.parse("2016-01-01T15:22:30+01:00");
-        ZonedDateTime departureTime = arrivalTime.plus(60, ChronoUnit.SECONDS);
+        Date arrivalTime;
+        arrivalTime = Utils.parseZonedDateTime("2016-01-01T15:22:30+01:00", "arrivalTime");
+        Date departureTime = Utils.addSeconds(arrivalTime, 60);
         return IntermediateStop.createMinimal(neueDonauSubwayStop).setPlannedArrivalTime(arrivalTime)
                 .setPlannedDepartureTime(departureTime).setEstimatedArrivalTime(arrivalTime)
                 .setEstimatedDepartureTime(departureTime);
