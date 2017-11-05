@@ -66,10 +66,10 @@ public class Routes {
         int seconds = route.getSegments().stream()
                 .filter(s -> s.getModeOfTransport().getGeneralizedType()
                         .equals(GeneralizedModeOfTransportType.PUBLIC_TRANSPORT))
-                .mapToInt(s -> s.getBoardingSeconds().orElse(0)).sum();
+                .mapToInt(s -> s.getBoardingSeconds().or(0)).sum();
         seconds += route.getSegments().stream().filter(
                 s -> s.getModeOfTransport().getDetailedType().equals(Optional.of(DetailedModeOfTransportType.TRANSFER)))
-                .mapToInt(s -> s.getAlightingSeconds().orElse(0)).sum();
+                .mapToInt(s -> s.getAlightingSeconds().or(0)).sum();
         return seconds;
     }
 

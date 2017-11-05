@@ -1,6 +1,6 @@
 package at.ac.ait.ariadne.routeformat;
 
-import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +36,7 @@ public class RoutingResponse implements Validatable {
 
     private String routeFormatVersion;
     private String requestId;
-    private ZonedDateTime processedTime;
+    private Date processedTime;
     private Status status;
     private Optional<String> debugMessage = Optional.absent();
     private String coordinateReferenceSystem;
@@ -66,7 +66,7 @@ public class RoutingResponse implements Validatable {
     }
 
     @JsonIgnore
-    public ZonedDateTime getProcessedTimeAsZonedDateTime() {
+    public Date getProcessedTimeAsZonedDateTime() {
         return processedTime;
     }
 
@@ -118,12 +118,12 @@ public class RoutingResponse implements Validatable {
     }
 
     public RoutingResponse setProcessedTimeNow() {
-        this.processedTime = ZonedDateTime.now();
+        this.processedTime = new Date();
         return this;
     }
 
     @JsonIgnore
-    public RoutingResponse setProcessedTime(ZonedDateTime processedTime) {
+    public RoutingResponse setProcessedTime(Date processedTime) {
         this.processedTime = processedTime;
         return this;
     }
@@ -183,8 +183,10 @@ public class RoutingResponse implements Validatable {
                 "coordinateReferenceSystem is mandatory but missing");
         Preconditions.checkArgument(coordinateReferenceSystem.startsWith("EPSG:"),
                 "coordinateReferenceSystem must start with EPSG:");
-        request.ifPresent(r -> r.validate());
-        routes.forEach(r -> r.validate());
+        if(request.isPresent())
+            request.get().validate();
+        for(Route r : routes)
+            r.validate();
     }
 
     @Override

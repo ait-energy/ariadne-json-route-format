@@ -18,9 +18,7 @@ import at.ac.ait.ariadne.routeformat.Validatable;
 public interface GeoJSONGeometryObject extends Validatable {
 
     @JsonIgnore
-    default String getTypeName() {
-        return GeoJSONUtil.getTypeName(this.getClass());
-    }
+    String getTypeName();
 
     /**
      * @return the <a href="https://en.wikipedia.org/wiki/Well-known_text">well

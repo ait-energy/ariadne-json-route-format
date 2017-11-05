@@ -52,6 +52,11 @@ public class GeoJSONMultiPolygon implements GeoJSONGeometryObject {
     public static GeoJSONMultiPolygon create(List<List<List<GeoJSONCoordinate>>> points) {
         return new GeoJSONMultiPolygon().setCoordinates(points);
     }
+    
+    @Override
+    public String getTypeName() {
+        return GeoJSONUtil.getTypeName(this.getClass());
+    }
 
     @Override
     public boolean isEmpty() {

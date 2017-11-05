@@ -1,7 +1,7 @@
 package at.ac.ait.ariadne.routeformat;
 
 import java.time.Duration;
-import java.time.ZonedDateTime;
+import java.util.Date;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
@@ -77,8 +77,8 @@ public class RouteSegment implements Validatable {
     private ModeOfTransport modeOfTransport;
     private Optional<Integer> boardingSeconds = Optional.absent();
     private Optional<Integer> alightingSeconds = Optional.absent();
-    private ZonedDateTime startTime = null;
-    private ZonedDateTime endTime = null;
+    private Date startTime = null;
+    private Date endTime = null;
     private List<IntermediateStop> intermediateStops = new ArrayList<>();
     private Optional<GeoJSONFeature<GeoJSONPolygon>> boundingBox = Optional.absent();
     private Optional<String> geometryEncodedPolyLine = Optional.absent();
@@ -128,7 +128,7 @@ public class RouteSegment implements Validatable {
      */
     @JsonIgnore
     public int getTravelTimeSeconds() {
-        return durationSeconds - boardingSeconds.orElse(0) - alightingSeconds.orElse(0);
+        return durationSeconds - boardingSeconds.or(0) - alightingSeconds.or(0);
     }
 
     @JsonProperty(required = true)
@@ -167,7 +167,7 @@ public class RouteSegment implements Validatable {
     }
 
     @JsonIgnore
-    public ZonedDateTime getStartTimeAsZonedDateTime() {
+    public Date getStartTimeAsZonedDateTime() {
         return startTime;
     }
 
@@ -178,8 +178,8 @@ public class RouteSegment implements Validatable {
      * Note: not exported to JSON since it can be inferred
      */
     @JsonIgnore
-    public ZonedDateTime getDepartureTimeAsZonedDateTime() {
-        return startTime.plusSeconds(boardingSeconds.orElse(0));
+    public Date getDepartureTimeAsZonedDateTime() {
+        return startTime.plusSeconds(boardingSeconds.or(0));
     }
 
     /**
@@ -188,8 +188,8 @@ public class RouteSegment implements Validatable {
      * Note: not exported to JSON since it can be inferred
      */
     @JsonIgnore
-    public ZonedDateTime getArrivalTimeAsZonedDateTime() {
-        return endTime.minusSeconds(alightingSeconds.orElse(0));
+    public Date getArrivalTimeAsZonedDateTime() {
+        return endTime.minusSeconds(alightingSeconds.or(0));
     }
 
     /**
@@ -201,7 +201,7 @@ public class RouteSegment implements Validatable {
     }
 
     @JsonIgnore
-    public ZonedDateTime getEndTimeAsZonedDateTime() {
+    public Date getEndTimeAsZonedDateTime() {
         return endTime;
     }
 
@@ -301,7 +301,7 @@ public class RouteSegment implements Validatable {
     }
 
     @JsonIgnore
-    public RouteSegment setStartTime(ZonedDateTime startTime) {
+    public RouteSegment setStartTime(Date startTime) {
         this.startTime = startTime;
         return this;
     }
@@ -313,7 +313,7 @@ public class RouteSegment implements Validatable {
     }
 
     @JsonIgnore
-    public RouteSegment setEndTime(ZonedDateTime endTime) {
+    public RouteSegment setEndTime(Date endTime) {
         this.endTime = endTime;
         return this;
     }
@@ -384,14 +384,14 @@ public class RouteSegment implements Validatable {
         RouteSegment copy = new RouteSegment().setNr(s.getNr()).setFrom(s.getFrom()).setTo(s.getTo())
                 .setDistanceMeters(s.getDistanceMeters()).setDurationSeconds(s.getDurationSeconds())
                 .setModeOfTransport(s.getModeOfTransport());
-        s.getBoardingSeconds().ifPresent(b -> copy.setBoardingSeconds(b));
-        s.getAlightingSeconds().ifPresent(a -> copy.setAlightingSeconds(a));
+        copy.setBoardingSeconds(s.getBoardingSeconds().orNull());
+        copy.setAlightingSeconds(s.getAlightingSeconds().orNull());
         copy.setStartTime(s.getStartTimeAsZonedDateTime()).setEndTime(s.getEndTimeAsZonedDateTime())
                 .setIntermediateStops(s.getIntermediateStops());
-        s.getBoundingBox().ifPresent(b -> copy.setBoundingBox(b));
-        s.getGeometryEncodedPolyLine().ifPresent(g -> copy.setGeometryEncodedPolyLine(g));
-        s.getGeometryGeoJson().ifPresent(g -> copy.setGeometryGeoJson(g));
-        s.getGeometryGeoJsonEdges().ifPresent(g -> copy.setGeometryGeoJsonEdges(g));
+        copy.setBoundingBox(s.getBoundingBox().orNull());
+        copy.setGeometryEncodedPolyLine(s.getGeometryEncodedPolyLine().orNull());
+        copy.setGeometryGeoJson(s.getGeometryGeoJson().orNull());
+        copy.setGeometryGeoJsonEdges(s.getGeometryGeoJsonEdges().orNull());
         copy.setNavigationInstructions(s.getNavigationInstructions()).setAccessibility(s.getAccessibility())
                 .setAdditionalInfo(s.getAdditionalInfo());
         return copy;
@@ -422,11 +422,16 @@ public class RouteSegment implements Validatable {
                 "modeOfTransport is mandatory but missing for segment #" + nr);
         Preconditions.checkArgument(startTime != null, "startTime is mandatory but missing for segment #" + nr);
         Preconditions.checkArgument(endTime != null, "endTime is mandatory but missing for segment #" + nr);
-        intermediateStops.forEach(s -> s.validate());
-        boundingBox.ifPresent(b -> b.validate());
-        geometryGeoJson.ifPresent(g -> g.validate());
-        geometryGeoJsonEdges.ifPresent(g -> g.validate());
-        navigationInstructions.forEach(i -> i.validate());
+        for(IntermediateStop s : intermediateStops)
+            s.validate();
+        if(boundingBox.isPresent())
+            boundingBox.get().validate();
+        if(geometryGeoJson.isPresent())
+            geometryGeoJson.get().validate();
+        if(geometryGeoJsonEdges.isPresent())
+            geometryGeoJsonEdges.get().validate();
+        for(Instruction<?> i : navigationInstructions)
+            i.validate();
 
         try {
             Preconditions.checkArgument(nr > 0, "nr must be > 0, but was %s", nr);
@@ -435,7 +440,7 @@ public class RouteSegment implements Validatable {
             Preconditions.checkArgument(durationSeconds >= 0,
                     "durationSeconds must be >= 0, but was %s for segment #%s", durationSeconds, nr);
 
-            Preconditions.checkArgument(alightingSeconds.orElse(0) + boardingSeconds.orElse(0) <= durationSeconds,
+            Preconditions.checkArgument(alightingSeconds.or(0) + boardingSeconds.or(0) <= durationSeconds,
                     "boarding+alighting seconds must be equal to or smaller than the total duration for segment #%s",
                     nr);
 

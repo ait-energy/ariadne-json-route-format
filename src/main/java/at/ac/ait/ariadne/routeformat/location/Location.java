@@ -125,8 +125,10 @@ public class Location<T extends Location<T>> implements Validatable {
     public void validate() {
         Preconditions.checkArgument(coordinate != null, "coordinate is mandatory but missing");
         coordinate.validate();
-        complexGeometry.ifPresent(c -> c.validate());
-        address.ifPresent(a -> a.validate());
+        if(complexGeometry.isPresent())
+            complexGeometry.get().validate();
+        if(address.isPresent())
+            address.get().validate();
     }
 
     @Override

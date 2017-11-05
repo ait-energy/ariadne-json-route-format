@@ -1,7 +1,7 @@
 package at.ac.ait.ariadne.routeformat.util;
 
 import java.time.Duration;
-import java.time.ZonedDateTime;
+import java.util.Date;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -124,7 +124,7 @@ public class RouteSegmentMerger {
             if (alightingSeconds > 0) {
                 RouteSegment segmentToProlong = routes.get(i).removeLast();
                 RouteSegment prolongedSegment = RouteSegment.createShallowCopy(segmentToProlong)
-                        .setAlightingSeconds(segmentToProlong.getAlightingSeconds().orElse(0) + alightingSeconds)
+                        .setAlightingSeconds(segmentToProlong.getAlightingSeconds().or(0) + alightingSeconds)
                         .setDurationSeconds(segmentToProlong.getDurationSeconds() + alightingSeconds)
                         .setEndTime(segmentToProlong.getEndTimeAsZonedDateTime().plus(alightingSeconds,
                                 ChronoUnit.SECONDS));
@@ -191,9 +191,9 @@ public class RouteSegmentMerger {
         RouteSegment modifiedCopy = RouteSegment.createShallowCopy(old);
         if (old.getModeOfTransport().getDetailedType().isPresent()
                 && old.getModeOfTransport().getDetailedType().get().equals(DetailedModeOfTransportType.TRANSFER)) {
-            modifiedCopy.setAlightingSeconds(old.getAlightingSeconds().orElse(0) + waitingSeconds);
+            modifiedCopy.setAlightingSeconds(old.getAlightingSeconds().or(0) + waitingSeconds);
         } else {
-            modifiedCopy.setBoardingSeconds(old.getBoardingSeconds().orElse(0) + waitingSeconds);
+            modifiedCopy.setBoardingSeconds(old.getBoardingSeconds().or(0) + waitingSeconds);
         }
         modifiedCopy.setDurationSeconds(old.getDurationSeconds() + waitingSeconds);
         modifiedCopy.setStartTime(old.getStartTimeAsZonedDateTime().minus(waitingSeconds, ChronoUnit.SECONDS));
@@ -268,8 +268,8 @@ public class RouteSegmentMerger {
 
         // adapt time
         int totalSeconds = a.getDurationSeconds() + b.getDurationSeconds();
-        merged.setBoardingSeconds(a.getBoardingSeconds().orElse(0) + b.getBoardingSeconds().orElse(0));
-        merged.setAlightingSeconds(a.getAlightingSeconds().orElse(0) + b.getAlightingSeconds().orElse(0));
+        merged.setBoardingSeconds(a.getBoardingSeconds().or(0) + b.getBoardingSeconds().or(0));
+        merged.setAlightingSeconds(a.getAlightingSeconds().or(0) + b.getAlightingSeconds().or(0));
         merged.setDurationSeconds(totalSeconds);
         merged.setEndTime(a.getStartTimeAsZonedDateTime().plus(totalSeconds, ChronoUnit.SECONDS));
 

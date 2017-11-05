@@ -18,7 +18,7 @@ public class RequestModeOfTransportTest {
 
     @Test
     public void testRequestBuilding() {
-        Map<String, Object> additionalInfo = ImmutableMap.of("preferParks", true);
+        Map<String, Object> additionalInfo = ImmutableMap.of("preferParks", (Object)true);
 
         RequestModeOfTransport<?> foot = RequestModeOfTransport.createMinimal(ModeOfTransport.STANDARD_FOOT)
                 .setAdditionalInfo(additionalInfo);

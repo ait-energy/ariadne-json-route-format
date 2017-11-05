@@ -2,7 +2,7 @@ package at.ac.ait.ariadne.routeformat.example;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.time.ZonedDateTime;
+import java.util.Date;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;

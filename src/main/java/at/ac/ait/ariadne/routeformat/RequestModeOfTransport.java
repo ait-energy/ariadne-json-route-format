@@ -179,7 +179,8 @@ public class RequestModeOfTransport<T extends RequestModeOfTransport<T>> impleme
     public void validate() {
         Preconditions.checkArgument(modeOfTransport != null, "modeOfTransport is mandatory but missing");
         modeOfTransport.validate();
-        locations.forEach(l -> l.validate());
+        for(Location<?> l : locations)
+            l.validate();
         Utils.checkPositiveIntegerOrEmpty(maximumDistanceMeters, "maximumDistanceMeters");
         Utils.checkPositiveIntegerOrEmpty(maximumTravelTimeSeconds, "maximumTravelTimeSeconds");
     }

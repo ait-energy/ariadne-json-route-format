@@ -1,6 +1,6 @@
 package at.ac.ait.ariadne.routeformat;
 
-import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.Map;
 import com.google.common.base.Optional;
 import java.util.TreeMap;
@@ -27,10 +27,10 @@ import at.ac.ait.ariadne.routeformat.util.Utils;
 @JsonInclude(Include.NON_EMPTY)
 public class IntermediateStop implements Validatable {
     private Location<?> stop;
-    private Optional<ZonedDateTime> plannedArrivalTime = Optional.absent();
-    private Optional<ZonedDateTime> plannedDepartureTime = Optional.absent();
-    private Optional<ZonedDateTime> estimatedArrivalTime = Optional.absent();
-    private Optional<ZonedDateTime> estimatedDepartureTime = Optional.absent();
+    private Optional<Date> plannedArrivalTime = Optional.absent();
+    private Optional<Date> plannedDepartureTime = Optional.absent();
+    private Optional<Date> estimatedArrivalTime = Optional.absent();
+    private Optional<Date> estimatedDepartureTime = Optional.absent();
     private Map<String, Object> additionalInfo = new TreeMap<>();
 
     // -- getters
@@ -50,7 +50,7 @@ public class IntermediateStop implements Validatable {
      * @return static time according to a time table
      */
     @JsonIgnore
-    public Optional<ZonedDateTime> getPlannedArrivalTimeAsZonedDateTime() {
+    public Optional<Date> getPlannedArrivalTimeAsZonedDateTime() {
         return plannedArrivalTime;
     }
 
@@ -65,7 +65,7 @@ public class IntermediateStop implements Validatable {
      * @return static time according to a time table
      */
     @JsonIgnore
-    public Optional<ZonedDateTime> getPlannedDepartureTimeAsZonedDateTime() {
+    public Optional<Date> getPlannedDepartureTimeAsZonedDateTime() {
         return plannedDepartureTime;
     }
 
@@ -80,7 +80,7 @@ public class IntermediateStop implements Validatable {
      * @return time estimated via real-time data
      */
     @JsonIgnore
-    public Optional<ZonedDateTime> getEstimatedArrivalTimeAsZonedDateTime() {
+    public Optional<Date> getEstimatedArrivalTimeAsZonedDateTime() {
         return estimatedArrivalTime;
     }
 
@@ -95,7 +95,7 @@ public class IntermediateStop implements Validatable {
      * @return time estimated via real-time data
      */
     @JsonIgnore
-    public Optional<ZonedDateTime> getEstimatedDepartureTimeAsZonedDateTime() {
+    public Optional<Date> getEstimatedDepartureTimeAsZonedDateTime() {
         return estimatedDepartureTime;
     }
 
@@ -111,7 +111,7 @@ public class IntermediateStop implements Validatable {
     }
 
     @JsonIgnore
-    public IntermediateStop setPlannedArrivalTime(ZonedDateTime plannedArrivalTime) {
+    public IntermediateStop setPlannedArrivalTime(Date plannedArrivalTime) {
         this.plannedArrivalTime = Optional.fromNullable(plannedArrivalTime);
         return this;
     }
@@ -124,7 +124,7 @@ public class IntermediateStop implements Validatable {
     }
 
     @JsonIgnore
-    public IntermediateStop setPlannedDepartureTime(ZonedDateTime plannedDepartureTime) {
+    public IntermediateStop setPlannedDepartureTime(Date plannedDepartureTime) {
         this.plannedDepartureTime = Optional.fromNullable(plannedDepartureTime);
         return this;
     }
@@ -137,7 +137,7 @@ public class IntermediateStop implements Validatable {
     }
 
     @JsonIgnore
-    public IntermediateStop setEstimatedArrivalTime(ZonedDateTime estimatedArrivalTime) {
+    public IntermediateStop setEstimatedArrivalTime(Date estimatedArrivalTime) {
         this.estimatedArrivalTime = Optional.fromNullable(estimatedArrivalTime);
         return this;
     }
@@ -150,7 +150,7 @@ public class IntermediateStop implements Validatable {
     }
 
     @JsonIgnore
-    public IntermediateStop setEstimatedDepartureTime(ZonedDateTime estimatedDepartureTime) {
+    public IntermediateStop setEstimatedDepartureTime(Date estimatedDepartureTime) {
         this.estimatedDepartureTime = Optional.fromNullable(estimatedDepartureTime);
         return this;
     }

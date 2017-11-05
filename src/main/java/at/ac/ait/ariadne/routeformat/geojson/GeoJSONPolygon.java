@@ -47,6 +47,11 @@ public class GeoJSONPolygon implements GeoJSONGeometryObject {
     public static GeoJSONPolygon create(List<List<GeoJSONCoordinate>> points) {
         return new GeoJSONPolygon().setCoordinates(points);
     }
+    
+    @Override
+    public String getTypeName() {
+        return GeoJSONUtil.getTypeName(this.getClass());
+    }
 
     @Override
     public boolean isEmpty() {

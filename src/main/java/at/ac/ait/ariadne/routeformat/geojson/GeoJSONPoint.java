@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import com.google.common.base.Optional;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class GeoJSONPoint implements GeoJSONGeometryObject {
 
     private Optional<GeoJSONCoordinate> coordinates = Optional.absent();
-
+    
     // -- getters
 
     @JsonProperty(required = true)
@@ -37,6 +37,11 @@ public class GeoJSONPoint implements GeoJSONGeometryObject {
 
     public static GeoJSONPoint create(GeoJSONCoordinate point) {
         return new GeoJSONPoint().setCoordinates(point);
+    }
+    
+    @Override
+    public String getTypeName() {
+        return GeoJSONUtil.getTypeName(this.getClass());
     }
 
     @Override
@@ -75,8 +80,8 @@ public class GeoJSONPoint implements GeoJSONGeometryObject {
 
     @Override
     public String toWKT() {
-        List<GeoJSONCoordinate> list = coordinates.isPresent() ? Arrays.asList(coordinates.get())
-                : Collections.emptyList();
+        List<GeoJSONCoordinate> list = (List<GeoJSONCoordinate>) (coordinates.isPresent() ? Arrays.asList(coordinates.get())
+                : Collections.emptyList());
         return getTypeName() + " " + WKTUtil.getCoordinateStringPointOrLineString(list);
     }
 

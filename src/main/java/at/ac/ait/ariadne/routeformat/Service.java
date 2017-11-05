@@ -114,7 +114,8 @@ public class Service implements Validatable {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder(name);
-        towards.ifPresent(t -> builder.append(" -> " + t));
+        if(towards.isPresent())
+            builder.append(" -> " + towards.get());
         return builder.toString();
     }
 

@@ -1,6 +1,6 @@
 package at.ac.ait.ariadne.routeformat;
 
-import java.time.ZonedDateTime;
+import java.util.Date;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
@@ -70,8 +70,8 @@ public class RoutingRequest implements Validatable {
     private String optimizedFor;
     private Optional<String> siteId = Optional.absent();
     private Optional<Integer> maximumTransfers = Optional.absent();
-    private Optional<ZonedDateTime> departureTime = Optional.absent();
-    private Optional<ZonedDateTime> arrivalTime = Optional.absent();
+    private Optional<Date> departureTime = Optional.absent();
+    private Optional<Date> arrivalTime = Optional.absent();
     private Set<AccessibilityRestriction> accessibilityRestrictions = new TreeSet<>();
     private List<String> languages = new ArrayList<>();
     private List<OutputFormat> outputFormats = new ArrayList<>();
@@ -90,7 +90,7 @@ public class RoutingRequest implements Validatable {
     @Deprecated
     @JsonProperty(required = false)
     public String getServiceId() {
-        return getSiteId().orElse("");
+        return getSiteId().or("");
     }
 
     @JsonProperty(required = true)
@@ -195,7 +195,7 @@ public class RoutingRequest implements Validatable {
      * @see #getDepartureTime()
      */
     @JsonIgnore
-    public Optional<ZonedDateTime> getDepartureTimeAsZonedDateTime() {
+    public Optional<Date> getDepartureTimeAsZonedDateTime() {
         return departureTime;
     }
 
@@ -215,7 +215,7 @@ public class RoutingRequest implements Validatable {
      * @see #getArrivalTime()
      */
     @JsonIgnore
-    public Optional<ZonedDateTime> getArrivalTimeAsZonedDateTime() {
+    public Optional<Date> getArrivalTimeAsZonedDateTime() {
         return arrivalTime;
     }
 
@@ -325,7 +325,7 @@ public class RoutingRequest implements Validatable {
      * <code>null</code>)
      */
     @JsonIgnore
-    public RoutingRequest setDepartureTime(ZonedDateTime departureTime) {
+    public RoutingRequest setDepartureTime(Date departureTime) {
         if (departureTime == null) {
             this.departureTime = Optional.absent();
         } else {
@@ -361,7 +361,7 @@ public class RoutingRequest implements Validatable {
      * <code>null</code>)
      */
     @JsonIgnore
-    public RoutingRequest setArrivalTime(ZonedDateTime arrivalTime) {
+    public RoutingRequest setArrivalTime(Date arrivalTime) {
         if (arrivalTime == null) {
             this.arrivalTime = Optional.absent();
         } else {
@@ -427,7 +427,8 @@ public class RoutingRequest implements Validatable {
     public void validate() {
         Preconditions.checkArgument(from != null, "from is mandatory but missing");
         from.validate();
-        via.forEach(v -> v.validate());
+        for(Location<?> v : via)
+            v.validate();
         Preconditions.checkArgument(to != null, "to is mandatory but missing");
         to.validate();
         Preconditions.checkArgument(modesOfTransport != null && !modesOfTransport.isEmpty(),
@@ -438,17 +439,20 @@ public class RoutingRequest implements Validatable {
             Preconditions.checkArgument(types.contains(GeneralizedModeOfTransportType.FOOT),
                     "intermodal routing without walking is not possible");
         }
-        modesOfTransport.forEach(m -> m.validate());
-        startModeOfTransport.ifPresent(s -> {
+        for(RequestModeOfTransport<?> m : modesOfTransport)
+            m.validate();
+        if(startModeOfTransport.isPresent()) {
+            RequestModeOfTransport<?> s = startModeOfTransport.get();
             Preconditions.checkArgument(modesOfTransport.contains(s),
                     "startModeOfTransport is not contained in the available modes of transport");
             s.validate();
-        });
-        endModeOfTransport.ifPresent(e -> {
+        }
+        if(endModeOfTransport.isPresent()) {
+            RequestModeOfTransport<?> e = endModeOfTransport.get();
             Preconditions.checkArgument(modesOfTransport.contains(e),
                     "endModeOfTransport is not contained in the available modes of transport");
             e.validate();
-        });
+        }
         Preconditions.checkArgument(optimizedFor != null, "optimizedFor is mandatory but missing");
         Utils.checkPositiveIntegerOrEmpty(maximumTransfers, "maximumTransfers");
         Preconditions.checkArgument(

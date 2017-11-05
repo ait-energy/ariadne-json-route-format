@@ -51,6 +51,11 @@ public class GeoJSONLineString implements GeoJSONGeometryObject {
     public GeoJSONLineString subLineString(int fromIndex, int toIndex) {
         return GeoJSONLineString.create(coordinates.subList(fromIndex, toIndex));
     }
+    
+    @Override
+    public String getTypeName() {
+        return GeoJSONUtil.getTypeName(this.getClass());
+    }
 
     @Override
     public boolean isEmpty() {

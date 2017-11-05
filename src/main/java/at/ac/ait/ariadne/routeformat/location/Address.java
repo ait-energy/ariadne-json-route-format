@@ -153,11 +153,16 @@ public class Address implements Validatable {
     @Override
     public String toString() {
         List<String> fields = new ArrayList<>();
-        country.ifPresent(f -> fields.add(f));
-        city.ifPresent(f -> fields.add(f));
-        postCode.ifPresent(f -> fields.add(f));
-        streetName.ifPresent(f -> fields.add(f));
-        houseNumber.ifPresent(f -> fields.add(f));
+        if(country.isPresent())
+            fields.add(country.get());
+        if(city.isPresent())
+            fields.add(city.get());
+        if(postCode.isPresent())
+            fields.add(postCode.get());
+        if(streetName.isPresent())
+            fields.add(streetName.get());
+        if(houseNumber.isPresent())
+            fields.add(houseNumber.get());
         return Joiner.on("|").join(fields);
     }
 

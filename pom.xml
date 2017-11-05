@@ -7,7 +7,7 @@
         <!-- property to avoid the warning "File encoding has not been set, 
             using platform encoding UTF-8" with the maven-failsafe-plugin -->
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <jackson-version>2.9.2</jackson-version>
+        <jackson-version>2.9.0</jackson-version>
     </properties>
 
     <groupId>at.ac.ait</groupId>
@@ -57,7 +57,7 @@
             <artifactId>guava</artifactId>
             <version>23.0</version>
         </dependency>
-        
+
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
@@ -76,6 +76,11 @@
         <dependency>
             <groupId>com.fasterxml.jackson.module</groupId>
             <artifactId>jackson-module-jsonSchema</artifactId>
+            <version>${jackson-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-guava</artifactId>
             <version>${jackson-version}</version>
         </dependency>
 

@@ -1,7 +1,7 @@
 package at.ac.ait.ariadne.routeformat;
 
 import java.time.Duration;
-import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -50,8 +50,8 @@ public class Route implements Validatable {
     private int durationSeconds;
     private List<RouteSegment> segments = new ArrayList<>();
     private Optional<String> id = Optional.absent();
-    private ZonedDateTime startTime = null;
-    private ZonedDateTime endTime = null;
+    private Date startTime = null;
+    private Date endTime = null;
     private Optional<String> optimizedFor = Optional.absent();
     private Optional<GeoJSONFeature<GeoJSONPolygon>> boundingBox = Optional.absent();
     private Optional<String> simplifiedGeometryEncodedPolyLine = Optional.absent();
@@ -94,7 +94,7 @@ public class Route implements Validatable {
     }
 
     @JsonIgnore
-    public ZonedDateTime getStartTimeAsZonedDateTime() {
+    public Date getStartTimeAsZonedDateTime() {
         return startTime;
     }
 
@@ -103,7 +103,7 @@ public class Route implements Validatable {
     }
 
     @JsonIgnore
-    public ZonedDateTime getEndTimeAsZonedDateTime() {
+    public Date getEndTimeAsZonedDateTime() {
         return endTime;
     }
 
@@ -176,7 +176,7 @@ public class Route implements Validatable {
     }
 
     @JsonIgnore
-    public Route setStartTime(ZonedDateTime startTime) {
+    public Route setStartTime(Date startTime) {
         this.startTime = startTime;
         return this;
     }
@@ -188,7 +188,7 @@ public class Route implements Validatable {
     }
 
     @JsonIgnore
-    public Route setEndTime(ZonedDateTime endTime) {
+    public Route setEndTime(Date endTime) {
         this.endTime = endTime;
         return this;
     }
@@ -230,7 +230,7 @@ public class Route implements Validatable {
      * Create a route only consisting of a single location, i.e. start and end
      * point of the route are the same
      */
-    public static Route createFromLocation(Location<?> location, ZonedDateTime time) {
+    public static Route createFromLocation(Location<?> location, Date time) {
         return new Route().setFrom(location).setTo(location).setDistanceMeters(0).setDurationSeconds(0)
                 .setStartTime(time).setEndTime(time);
     }
@@ -275,9 +275,12 @@ public class Route implements Validatable {
         to.validate();
         Preconditions.checkArgument(startTime != null, "startTime is mandatory but missing");
         Preconditions.checkArgument(endTime != null, "endTime is mandatory but missing");
-        segments.forEach(s -> s.validate());
-        boundingBox.ifPresent(b -> b.validate());
-        simplifiedGeometryGeoJson.ifPresent(g -> g.validate());
+        for(RouteSegment s : segments)
+            s.validate();
+        if(boundingBox.isPresent())
+            boundingBox.get().validate();
+        if(simplifiedGeometryGeoJson.isPresent())
+            simplifiedGeometryGeoJson.get().validate();
 
         try {
             Preconditions.checkArgument(distanceMeters >= 0, "distanceMeters must be >= 0, but was %s", distanceMeters);

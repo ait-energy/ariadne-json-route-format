@@ -311,7 +311,7 @@ public class RoadInstruction extends Instruction<RoadInstruction> {
     public static RoadInstruction createMinimalRouteStart(GeoJSONCoordinate position, Optional<String> ontoStreetName,
             Optional<FormOfWay> ontoFormOfWay) {
         return new RoadInstruction().setPosition(position).setSubType(SubType.ROUTE_START)
-                .setOntoStreetName(ontoStreetName.orElse(null)).setOntoFormOfWay(ontoFormOfWay.orElse(null));
+                .setOntoStreetName(ontoStreetName.orNull()).setOntoFormOfWay(ontoFormOfWay.orNull());
     }
 
     /**
@@ -320,8 +320,8 @@ public class RoadInstruction extends Instruction<RoadInstruction> {
     public static RoadInstruction createMinimalOnRoute(GeoJSONCoordinate position, TurnDirection turnDirection,
             Optional<String> ontoStreetName, Optional<FormOfWay> ontoFormOfWay) {
         return new RoadInstruction().setPosition(position).setSubType(getSubType(turnDirection))
-                .setTurnDirection(turnDirection).setOntoStreetName(ontoStreetName.orElse(null))
-                .setOntoFormOfWay(ontoFormOfWay.orElse(null));
+                .setTurnDirection(turnDirection).setOntoStreetName(ontoStreetName.orNull())
+                .setOntoFormOfWay(ontoFormOfWay.orNull());
     }
 
     /**
@@ -330,7 +330,7 @@ public class RoadInstruction extends Instruction<RoadInstruction> {
     public static RoadInstruction createMinimalRouteEnd(GeoJSONCoordinate position, Optional<String> onStreetName,
             Optional<FormOfWay> onFormOfWay) {
         return new RoadInstruction().setPosition(position).setSubType(SubType.ROUTE_END)
-                .setOntoStreetName(onStreetName.orElse(null)).setOntoFormOfWay(onFormOfWay.orElse(null));
+                .setOntoStreetName(onStreetName.orNull()).setOntoFormOfWay(onFormOfWay.orNull());
     }
 
     private static SubType getSubType(TurnDirection turnDirection) {

@@ -86,7 +86,7 @@ public class Landmark implements Validatable {
     }
 
     public Landmark shallowCopy() {
-        return new Landmark().setPreposition(preposition).setLocation(location).setDirection(direction.orElse(null))
+        return new Landmark().setPreposition(preposition).setLocation(location).setDirection(direction.orNull())
                 .setAdditionalInfo(additionalInfo);
     }
 

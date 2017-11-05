@@ -228,10 +228,13 @@ public class ModeOfTransport implements Validatable {
     @Override
     public void validate() {
         Preconditions.checkArgument(generalizedType != null, "generalizedType is mandatory but missing");
-        detailedType.ifPresent(d -> Preconditions.checkArgument(d.getGeneralizedType() == generalizedType,
-                "mode of transpor types do not match"));
-        service.ifPresent(s -> s.validate());
-        operator.ifPresent(o -> o.validate());
+        if(detailedType.isPresent())
+            Preconditions.checkArgument(detailedType.get().getGeneralizedType() == generalizedType,
+                    "mode of transpor types do not match");
+        if(service.isPresent())
+            service.get().validate();
+        if(operator.isPresent())
+            operator.get().validate();
         if (color.isPresent()) {
             String colorStr = color.get();
             String error = "color must be represented as hash-prepended six-digit hexadecimal String but was %s";
@@ -353,8 +356,10 @@ public class ModeOfTransport implements Validatable {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder(generalizedType.name());
-        detailedType.ifPresent(d -> builder.append("-" + d));
-        service.ifPresent(s -> builder.append(" " + s.toString()));
+        if(detailedType.isPresent())
+            builder.append("-" + detailedType.get());
+        if(service.isPresent())
+            builder.append(" " + service.get());
         return builder.toString();
     }
 }

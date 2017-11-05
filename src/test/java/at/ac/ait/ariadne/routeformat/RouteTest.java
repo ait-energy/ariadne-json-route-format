@@ -1,6 +1,6 @@
 package at.ac.ait.ariadne.routeformat;
 
-import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;

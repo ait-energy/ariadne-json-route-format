@@ -1,7 +1,7 @@
 package at.ac.ait.ariadne.routeformat.util;
 
 import java.math.BigDecimal;
-import java.time.ZonedDateTime;
+import java.util.Date;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
@@ -60,7 +60,7 @@ public class Utils {
      * @return <code>true</code> if 'between' is really between (or equal) to
      *         start and end
      */
-    public static boolean isBetween(ZonedDateTime start, Optional<ZonedDateTime> between, ZonedDateTime end) {
+    public static boolean isBetween(ZonedDateTime start, Optional<Date> between, ZonedDateTime end) {
         if (between.isPresent()) {
             if (start.isAfter(between.get()) || end.isBefore(between.get()))
                 return false;

@@ -17,7 +17,7 @@ public class ModeOfTransportTest {
                 .setColor("#377eb8");
         Assert.assertTrue(ModeOfTransport.STANDARD_FOOT.equals(mot));
 
-        mot.setAdditionalInfo(ImmutableMap.of("key", "value"));
+        mot.setAdditionalInfo(ImmutableMap.of("key", (Object)"value"));
         Assert.assertFalse(ModeOfTransport.STANDARD_FOOT.equals(mot));
         Assert.assertEquals("value", mot.getAdditionalInfo().get("key"));
     }
