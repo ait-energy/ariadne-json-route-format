@@ -43,7 +43,7 @@ public class IntermediateStop implements Validatable {
      * @return static time according to a time table
      */
     public Optional<String> getPlannedArrivalTime() {
-        return plannedArrivalTime.map(time -> time.toString());
+        return plannedArrivalTime.map(time -> Utils.getDateTimeString(time));
     }
 
     /**
@@ -58,7 +58,7 @@ public class IntermediateStop implements Validatable {
      * @return static time according to a time table
      */
     public Optional<String> getPlannedDepartureTime() {
-        return plannedDepartureTime.map(time -> time.toString());
+        return plannedDepartureTime.map(time -> Utils.getDateTimeString(time));
     }
 
     /**
@@ -73,7 +73,7 @@ public class IntermediateStop implements Validatable {
      * @return time estimated via real-time data
      */
     public Optional<String> getEstimatedArrivalTime() {
-        return estimatedArrivalTime.map(time -> time.toString());
+        return estimatedArrivalTime.map(time -> Utils.getDateTimeString(time));
     }
 
     /**
@@ -88,7 +88,7 @@ public class IntermediateStop implements Validatable {
      * @return time estimated via real-time data
      */
     public Optional<String> getEstimatedDepartureTime() {
-        return estimatedDepartureTime.map(time -> time.toString());
+        return estimatedDepartureTime.map(time -> Utils.getDateTimeString(time));
     }
 
     /**

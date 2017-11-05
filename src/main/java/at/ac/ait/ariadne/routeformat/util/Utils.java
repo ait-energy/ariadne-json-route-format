@@ -29,6 +29,8 @@ import at.ac.ait.ariadne.routeformat.location.Location;
  * @author AIT Austrian Institute of Technology GmbH
  */
 public class Utils {
+    
+    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX");
 
     /**
      * @return a ZonedDateTime with seconds accuracy
@@ -42,6 +44,10 @@ public class Utils {
         } catch (DateTimeParseException e) {
             throw new IllegalArgumentException(variableName + " could not be parsed: " + e.getMessage());
         }
+    }
+    
+    public static String getDateTimeString(ZonedDateTime time) {
+        return FORMATTER.format(time);
     }
 
     public static String getShortStringDateTime(ZonedDateTime time) {

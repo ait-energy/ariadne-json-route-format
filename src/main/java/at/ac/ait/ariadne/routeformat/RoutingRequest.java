@@ -173,7 +173,7 @@ public class RoutingRequest implements Validatable {
      */
     @JsonProperty
     public Optional<String> getDepartureTime() {
-        return departureTime.map(time -> time.toString());
+        return departureTime.map(time -> Utils.getDateTimeString(time));
     }
 
     /**
@@ -191,7 +191,7 @@ public class RoutingRequest implements Validatable {
      */
     @JsonProperty
     public Optional<String> getArrivalTime() {
-        return arrivalTime.map(time -> time.toString());
+        return arrivalTime.map(time -> Utils.getDateTimeString(time));
     }
 
     /**
