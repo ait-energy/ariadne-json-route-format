@@ -2,7 +2,8 @@ package at.ac.ait.ariadne.routeformat.geojson;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -25,7 +26,8 @@ public class GeoJSONPointTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void illegalPointTest() {
-        GeoJSONCoordinate.create(Collections.emptyList());
+        List<BigDecimal> coordinate = new ArrayList<>();
+        GeoJSONCoordinate.create(coordinate);
     }
 
     @Test

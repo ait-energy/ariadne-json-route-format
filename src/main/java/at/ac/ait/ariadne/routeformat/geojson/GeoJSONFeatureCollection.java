@@ -2,7 +2,6 @@ package at.ac.ait.ariadne.routeformat.geojson;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -47,7 +46,8 @@ public class GeoJSONFeatureCollection<T extends GeoJSONGeometryObject> implement
 
     @Override
     public void validate() {
-        features.forEach(f -> f.validate());
+        for(GeoJSONFeature<?> f : features)
+            f.validate();
     }
 
     @Override
@@ -82,7 +82,11 @@ public class GeoJSONFeatureCollection<T extends GeoJSONGeometryObject> implement
     }
 
     public List<String> toWKT() {
-        return features.stream().map(f -> f.toWKT()).collect(Collectors.toList());
+        List<String> wkts = new ArrayList<>();
+        for(GeoJSONFeature<?> f : features) {
+            wkts.add(f.toWKT());
+        }
+        return wkts;
     }
 
     @Override

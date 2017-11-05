@@ -1,8 +1,8 @@
 package at.ac.ait.ariadne.routeformat.geojson;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.junit.Assert;
@@ -29,7 +29,8 @@ public class GeoJSONMultiPolygonTest {
 
     @Test
     public void emptyWktTest() {
-        GeoJSONMultiPolygon empty = GeoJSONMultiPolygon.create(Collections.emptyList());
+        List<List<List<GeoJSONCoordinate>>> coordinates = new ArrayList<>();
+        GeoJSONMultiPolygon empty = GeoJSONMultiPolygon.create(coordinates);
         empty.validate();
         Assert.assertTrue(empty.isEmpty());
         Assert.assertEquals("MultiPolygon EMPTY", empty.toWKT());

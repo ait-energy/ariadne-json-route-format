@@ -3,11 +3,11 @@ package at.ac.ait.ariadne.routeformat.geojson;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import com.google.common.base.Optional;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.Optional;
 
 /**
  * A point that may be empty, i.e. not contain a coordinate.

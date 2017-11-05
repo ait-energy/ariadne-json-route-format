@@ -4,7 +4,6 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.google.common.base.Joiner;
 
@@ -25,8 +24,10 @@ class WKTUtil {
             sb.append("EMPTY");
         else {
             sb.append("(");
-            List<String> xyzTuples = coordinates.stream().map(xyz -> getCoordinateString(xyz))
-                    .collect(Collectors.toList());
+            List<String> xyzTuples = new ArrayList<>();
+            for(GeoJSONCoordinate c : coordinates) {
+                xyzTuples.add(getCoordinateString(c));
+            }
             sb.append(Joiner.on(", ").join(xyzTuples));
             sb.append(")");
         }
@@ -44,9 +45,13 @@ class WKTUtil {
         if (coordinates.isEmpty())
             return "EMPTY";
 
+        List<String> tokens = new ArrayList<>();
+        for(List<GeoJSONCoordinate> c : coordinates) {
+            tokens.add(getCoordinateStringPointOrLineString(c));
+        }
+        
         StringBuilder sb = new StringBuilder("(");
-        sb.append(Joiner.on(", ").join(
-                coordinates.stream().map(c -> getCoordinateStringPointOrLineString(c)).collect(Collectors.toList())));
+        sb.append(Joiner.on(", ").join(tokens));
         sb.append(")");
         return sb.toString();
     }
@@ -62,9 +67,13 @@ class WKTUtil {
         if (coordinates.isEmpty())
             return "EMPTY";
 
+        List<String> tokens = new ArrayList<>();
+        for(List<List<GeoJSONCoordinate>> c : coordinates) {
+            tokens.add(getCoordinateStringPolygon(c));
+        }
+        
         StringBuilder sb = new StringBuilder("(");
-        sb.append(Joiner.on(", ")
-                .join(coordinates.stream().map(c -> getCoordinateStringPolygon(c)).collect(Collectors.toList())));
+        sb.append(Joiner.on(", ").join(tokens));
         sb.append(")");
         return sb.toString();
     }
