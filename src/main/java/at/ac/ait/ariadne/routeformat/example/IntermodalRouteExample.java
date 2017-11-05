@@ -265,7 +265,7 @@ public class IntermodalRouteExample {
                 .setLocations(bicycleLocations));
         requestModes.add(RequestModeOfTransport.createMinimal(ModeOfTransport.STANDARD_MOTORCYCLE));
         List<Location<?>> carLocations = new ArrayList<>();
-        bicycleLocations.add(treustrasse92);
+        carLocations.add(treustrasse92);
         RequestModeOfTransport<?> carMot = RequestModeOfTransport.createMinimal(ModeOfTransport.STANDARD_CAR)
                 .setLocations(carLocations);
         requestModes.add(carMot);
