@@ -1,15 +1,13 @@
 package at.ac.ait.ariadne.routeformat;
 
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.google.common.collect.ImmutableList;
 
 import at.ac.ait.ariadne.routeformat.Constants.GeneralizedModeOfTransportType;
 
@@ -19,8 +17,8 @@ public class RoutingRequestTest {
 
     @Before
     public void createMinimalRequest() {
-        List<RequestModeOfTransport<?>> modesOfTransport = ImmutableList
-                .of(RequestModeOfTransport.createMinimal(ModeOfTransport.STANDARD_BICYCLE));
+        List<RequestModeOfTransport<?>> modesOfTransport = new ArrayList<>();
+        modesOfTransport.add(RequestModeOfTransport.createMinimal(ModeOfTransport.STANDARD_BICYCLE));
         request = RoutingRequest.createMinimal(TestUtil.FROM, TestUtil.TO, modesOfTransport);
     }
 
@@ -58,17 +56,20 @@ public class RoutingRequestTest {
         Assert.assertEquals("set MOT must be present", GeneralizedModeOfTransportType.BICYCLE,
                 request.getModesOfTransport().iterator().next().getModeOfTransport().getGeneralizedType());
 
-        request.setModesOfTransport(
-                Arrays.asList(RequestModeOfTransport.createMinimal(ModeOfTransport.STANDARD_BICYCLE),
-                        RequestModeOfTransport.createMinimal(ModeOfTransport.STANDARD_CAR)));
+        List<RequestModeOfTransport<?>> requestMots = new ArrayList<>();
+        requestMots.add(RequestModeOfTransport.createMinimal(ModeOfTransport.STANDARD_BICYCLE));
+        requestMots.add(RequestModeOfTransport.createMinimal(ModeOfTransport.STANDARD_CAR));
+        request.setModesOfTransport(requestMots);
         request.validate();
         Assert.assertEquals("FOOT must be added for two or more mots", 3, request.getModesOfTransport().size());
-        Assert.assertTrue("FOOT must be added for two or more mots",
-                request.getModesOfTransport().stream().map(s -> s.getModeOfTransport().getGeneralizedType())
-                        .collect(Collectors.toSet()).contains(GeneralizedModeOfTransportType.FOOT));
+        
+        Set<GeneralizedModeOfTransportType> generalizedTypes = new HashSet<>();
+        for(RequestModeOfTransport<?> rMot : request.getModesOfTransport())
+            generalizedTypes.add(rMot.getModeOfTransport().getGeneralizedType());
+        Assert.assertTrue("FOOT must be added for two or more mots", generalizedTypes.contains(GeneralizedModeOfTransportType.FOOT));
 
         try {
-            request.setModesOfTransport(Collections.emptyList());
+            request.setModesOfTransport(new ArrayList<RequestModeOfTransport<?>>());
             request.validate();
             Assert.fail("at least one mot must be set");
         } catch (IllegalArgumentException e) {
@@ -80,7 +81,11 @@ public class RoutingRequestTest {
         RequestModeOfTransport<?> bicycle = RequestModeOfTransport.createMinimal(ModeOfTransport.STANDARD_BICYCLE);
         RequestModeOfTransport<?> car = RequestModeOfTransport.createMinimal(ModeOfTransport.STANDARD_CAR);
         RequestModeOfTransport<?> pt = RequestModeOfTransport.createMinimal(ModeOfTransport.STANDARD_PUBLIC_TRANSPORT);
-        request.setModesOfTransport(Arrays.asList(bicycle, car));
+        
+        List<RequestModeOfTransport<?>> requestMots = new ArrayList<>();
+        requestMots.add(bicycle);
+        requestMots.add(car);
+        request.setModesOfTransport(requestMots);
         request.validate();
 
         try {

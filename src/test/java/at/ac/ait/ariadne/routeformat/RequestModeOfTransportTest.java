@@ -1,6 +1,7 @@
 package at.ac.ait.ariadne.routeformat;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
@@ -26,8 +27,10 @@ public class RequestModeOfTransportTest {
 
         ModeOfTransport bicycleMot = ModeOfTransport.createMinimal(DetailedModeOfTransportType.BICYCLE)
                 .setElectric(true).setId("My fast Rotwild bicycle");
+        List<Location<?>> locations = new ArrayList<>();
+        locations.add(location);
         RequestModeOfTransport<?> bicycle = RequestModeOfTransport.createMinimal(bicycleMot)
-                .setLocations(Arrays.asList(location)).setAdditionalInfo(additionalInfo);
+                .setLocations(locations).setAdditionalInfo(additionalInfo);
         bicycle.validate();
 
         RequestPTModeOfTransport pt = RequestPTModeOfTransport.createMinimal(ModeOfTransport.STANDARD_PUBLIC_TRANSPORT)

@@ -2,9 +2,6 @@ package at.ac.ait.ariadne.routeformat.example;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -260,12 +257,17 @@ public class IntermodalRouteExample {
         List<RequestModeOfTransport<?>> requestModes = new ArrayList<>();
         requestModes.add(RequestModeOfTransport.createMinimal(ModeOfTransport.STANDARD_FOOT)
                 .setMaximumDistanceMeters(2000).setSpeed(Speed.FAST.name()).setForbiddenAreas(forbiddenAreas));
+        List<Location<?>> bicycleLocations = new ArrayList<>();
+        bicycleLocations.add(adalbertStifterStrasse15);
+        bicycleLocations.add(privateBicycleHopsagasse);
         requestModes.add(RequestModeOfTransport.createMinimal(ModeOfTransport.STANDARD_BICYCLE)
                 .setMaximumTravelTimeSeconds(45 * 60).setSpeed(Speed.SLOW.name())
-                .setLocations(Arrays.asList(adalbertStifterStrasse15, privateBicycleHopsagasse)));
+                .setLocations(bicycleLocations));
         requestModes.add(RequestModeOfTransport.createMinimal(ModeOfTransport.STANDARD_MOTORCYCLE));
+        List<Location<?>> carLocations = new ArrayList<>();
+        bicycleLocations.add(treustrasse92);
         RequestModeOfTransport<?> carMot = RequestModeOfTransport.createMinimal(ModeOfTransport.STANDARD_CAR)
-                .setLocations(Arrays.asList(treustrasse92));
+                .setLocations(carLocations);
         requestModes.add(carMot);
         requestModes.add(RequestPTModeOfTransport.createMinimal(wienerLinienMot)
                 .setExcludedPublicTransportModes(ImmutableSet.of(DetailedModeOfTransportType.AERIALWAY,

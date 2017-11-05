@@ -362,17 +362,17 @@ public class RouteSegment implements Validatable {
         return this;
     }
 
-//    /**
-//     * Shifts the segment in time by adjusting start and end time (if they are
-//     * set)
-//     */
-//    public RouteSegment shiftInTime(long amountToAdd, ChronoUnit unit) {
-//        if (startTime != null)
-//            startTime = startTime.plus(amountToAdd, unit);
-//        if (endTime != null)
-//            endTime = endTime.plus(amountToAdd, unit);
-//        return this;
-//    }
+    /**
+     * Shifts the segment in time by adjusting start and end time (if they are
+     * set)
+     */
+    public RouteSegment shiftBySeconds(int amountToAdd) {
+        if (startTime != null)
+            startTime = Utils.addSeconds(startTime, amountToAdd);
+        if (endTime != null)
+            endTime = Utils.addSeconds(endTime, amountToAdd);
+        return this;
+    }
 
     // --
 
