@@ -33,8 +33,9 @@ public class Utils {
     public static final String LOCAL_DATE_FORMAT = "yyyy-MM-dd";
     public static final String LOCAL_TIME_FORMAT = "HH:mm:ss";
     
-    public static final String DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ssXXX";
-    public static final String DATE_TIME_FORMAT_FALLBACK = "yyyy-MM-dd'T'HH:mmXXX";
+    // we don't use "yyyy-MM-dd'T'HH:mm:ssXXX" because X is only supported since Java 7
+    // and Android API level 24.
+    public static final String DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
 
     /**
      * @return a Date with seconds accuracy
@@ -42,20 +43,21 @@ public class Utils {
     public static Date parseDateTime(String dateTimeString, String variableName) {
         if (dateTimeString == null)
             throw new IllegalArgumentException(variableName + " must not be null");
-
         try {
-            return truncateToSeconds(new SimpleDateFormat(DATE_TIME_FORMAT).parse(dateTimeString));
-        } catch (ParseException e) {
-            try {
-                return truncateToSeconds(new SimpleDateFormat(DATE_TIME_FORMAT_FALLBACK).parse(dateTimeString));
-            } catch (ParseException e1) {
-                throw new IllegalArgumentException(variableName + " could not be parsed: " + e.getMessage());
-            }
+            String s = dateTimeString.replace("Z", "+00:00");
+            if(s.length() < 25)
+                throw new IllegalArgumentException(variableName + " not at least 25 characters long: " + s);
+            s = s.substring(0, 22) + s.substring(23);
+            return new SimpleDateFormat(DATE_TIME_FORMAT).parse(s);
+        } catch (IndexOutOfBoundsException | ParseException e) {
+            throw new IllegalArgumentException(variableName + " could not be parsed: " + e.getMessage());
         }
     }
     
     public static String getDateTimeString(Date time) {
-        return new SimpleDateFormat(DATE_TIME_FORMAT).format(time);
+        String formatted = new SimpleDateFormat(DATE_TIME_FORMAT)
+                .format(time);
+        return formatted.substring(0, 22) + ":" + formatted.substring(22);
     }
     
     public static Date addSeconds(Date date, int seconds) {

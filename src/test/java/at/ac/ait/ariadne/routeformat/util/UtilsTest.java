@@ -1,6 +1,5 @@
 package at.ac.ait.ariadne.routeformat.util;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -31,8 +30,8 @@ public class UtilsTest {
         Date withoutCity = Utils.parseDateTime(stringWithoutCity, "y");
         
         Assert.assertEquals(withCity.getTime(), withoutCity.getTime());
-        Assert.assertEquals(stringWithoutCity, new SimpleDateFormat(Utils.DATE_TIME_FORMAT).format(withoutCity));
-        Assert.assertEquals("city is not kept", stringWithoutCity, new SimpleDateFormat(Utils.DATE_TIME_FORMAT).format(withCity));
+        Assert.assertEquals(stringWithoutCity, Utils.getDateTimeString(withoutCity));
+        Assert.assertEquals("city is not kept", stringWithoutCity, Utils.getDateTimeString(withCity));
     }
 
 }
