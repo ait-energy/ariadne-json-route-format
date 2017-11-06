@@ -29,7 +29,7 @@ import at.ac.ait.ariadne.routeformat.util.Utils;
  * A {@link RoutingRequest} encapsulates typically required request parameters
  * for an intermodal routing service.
  * <p>
- * In its minimal form it consists of a service id, from and to locations, at
+ * In its minimal form it consists of from and to locations, at
  * least one mode of transport, {@link #getOptimizedFor()}, and either a
  * departure or arrival time. The default constructor already sets
  * {@link RoutingRequest#DEFAULT_DEPARTURE_TIME} and
@@ -83,15 +83,6 @@ public class RoutingRequest implements Validatable {
     }
 
     // -- getters
-
-    /**
-     * replaced by {@link #getSiteId()}
-     */
-    @Deprecated
-    @JsonProperty(required = false)
-    public String getServiceId() {
-        return getSiteId().orElse("");
-    }
 
     @JsonProperty(required = true)
     public Location<?> getFrom() {
@@ -179,16 +170,10 @@ public class RoutingRequest implements Validatable {
      * <p>
      * If neither departure time nor arrival time were set in the builder a
      * departure time of 'now' is automatically added.
-     * <p>
-     * The supported formats are defined in {@link ZonedDateTime} which uses ISO
-     * 8601 with time zone. One example is "YYYY-MM-DDTHH:MMZ", where T is the
-     * letter T, Z is the time zone (in either HH:MM, HHMM, HH format or the
-     * letter Z for UTC). E.g. "2015-01-31T18:05+0100". As output the default
-     * toString() of {@link ZonedDateTime} is used.
      */
     @JsonProperty
     public Optional<String> getDepartureTime() {
-        return departureTime.map(time -> time.toString());
+        return departureTime.map(time -> Utils.getDateTimeString(time));
     }
 
     /**
@@ -203,12 +188,10 @@ public class RoutingRequest implements Validatable {
      * Requested arrival time for the route. Mutual exclusive with
      * {@link #getDepartureTime()}, it is guaranteed that exactly one of the two
      * times is set.
-     * <p>
-     * The format is the same as for {@link #getDepartureTime()}.
      */
     @JsonProperty
     public Optional<String> getArrivalTime() {
-        return arrivalTime.map(time -> time.toString());
+        return arrivalTime.map(time -> Utils.getDateTimeString(time));
     }
 
     /**
@@ -254,14 +237,6 @@ public class RoutingRequest implements Validatable {
     }
 
     // -- setters
-
-    /**
-     * superseded by {@link #setSiteId(String)}
-     */
-    @Deprecated
-    public RoutingRequest setServiceId(String serviceId) {
-        return setSiteId(serviceId);
-    }
 
     public RoutingRequest setFrom(Location<?> from) {
         this.from = from;
@@ -350,7 +325,7 @@ public class RoutingRequest implements Validatable {
             this.departureTime = Optional.of(ZonedDateTime.now().truncatedTo(ChronoUnit.SECONDS));
             this.arrivalTime = Optional.empty();
         } else {
-            this.departureTime = Optional.of(Utils.parseZonedDateTime(departureTime, "departureTime"));
+            this.departureTime = Optional.of(Utils.parseDateTime(departureTime, "departureTime"));
             this.arrivalTime = Optional.empty();
         }
         return this;
@@ -386,7 +361,7 @@ public class RoutingRequest implements Validatable {
             this.arrivalTime = Optional.of(ZonedDateTime.now().truncatedTo(ChronoUnit.SECONDS));
             this.departureTime = Optional.empty();
         } else {
-            this.arrivalTime = Optional.of(Utils.parseZonedDateTime(arrivalTime, "arrivalTime"));
+            this.arrivalTime = Optional.of(Utils.parseDateTime(arrivalTime, "arrivalTime"));
             this.departureTime = Optional.empty();
         }
         return this;

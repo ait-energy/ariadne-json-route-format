@@ -487,9 +487,6 @@
           "additionalProperties" : {
             "type" : "any"
           }
-        },
-        "serviceId" : {
-          "type" : "string"
         }
       }
     },

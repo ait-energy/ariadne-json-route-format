@@ -90,7 +90,7 @@ public class Route implements Validatable {
     }
 
     public String getStartTime() {
-        return startTime.toString();
+        return Utils.getDateTimeString(startTime);
     }
 
     @JsonIgnore
@@ -99,7 +99,7 @@ public class Route implements Validatable {
     }
 
     public String getEndTime() {
-        return endTime.toString();
+        return Utils.getDateTimeString(endTime);
     }
 
     @JsonIgnore
@@ -183,7 +183,7 @@ public class Route implements Validatable {
 
     @JsonProperty
     public Route setStartTime(String startTime) {
-        this.startTime = Utils.parseZonedDateTime(startTime, "startTime");
+        this.startTime = Utils.parseDateTime(startTime, "startTime");
         return this;
     }
 
@@ -195,7 +195,7 @@ public class Route implements Validatable {
 
     @JsonProperty
     public Route setEndTime(String endTime) {
-        this.endTime = Utils.parseZonedDateTime(endTime, "endTime");
+        this.endTime = Utils.parseDateTime(endTime, "endTime");
         return this;
     }
 
