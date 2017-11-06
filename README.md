@@ -34,13 +34,13 @@ To use SNAPSHOT versions you must also add the following repository in your `pom
 	    </snapshots>
 	</repository> 
 
-The route format is defined through the Java classes in the package (at.ac.ait.ariadne.routeformat)[src/main/java/at/ac/ait/ariadne/routeformat], most noteworthy (RoutingRequest.java)[src/main/java/at/ac/ait/ariadne/routeformat/RoutingRequest.java] and (RoutingResponse.java)[src/main/java/at/ac/ait/ariadne/routeformat/RoutingResponse.java].
+The route format is defined through the Java classes in the package [at.ac.ait.ariadne.routeformat](src/main/java/at/ac/ait/ariadne/routeformat), most noteworthy [RoutingRequest.java](src/main/java/at/ac/ait/ariadne/routeformat/RoutingRequest.java) and [RoutingResponse.java](src/main/java/at/ac/ait/ariadne/routeformat/RoutingResponse.java).
 
-A fictional request and an intermodal route demonstrate the features of this format in (IntermodalRouteExample.java)[src/main/java/at/ac/ait/ariadne/routeformat/example/IntermodalRouteExample.java]
+A fictional request and an intermodal route demonstrate the features of this format in [IntermodalRouteExample.java](src/main/java/at/ac/ait/ariadne/routeformat/example/IntermodalRouteExample.java)
 
-Reading and writing of a route and exporting the JSON schema with Jackson is demonstrated in (JacksonExample.java)[src/main/java/at/ac/ait/ariadne/routeformat/example/JacksonExample.java].
+Reading and writing of a route and exporting the JSON schema with Jackson is demonstrated in [JacksonExample.java](src/main/java/at/ac/ait/ariadne/routeformat/example/JacksonExample.java).
 
-A simple example how to display a route in a browser using (Leaflet)[http://leafletjs.com] is shown in (ariadne-json-route-format_example_leaflet.html)[src/main/resources/ariadne-json-route-format_example_leaflet.html).
+A simple example how to display a route in a browser using [Leaflet](http://leafletjs.com) is shown in [ariadne-json-route-format_example_leaflet.html](src/main/resources/ariadne-json-route-format_example_leaflet.html).
 
 
 ### Further Hints
