@@ -86,7 +86,7 @@ public class IntermodalRouteExample {
             car2goAlongAdalbertStifterStrasse, bicycleFromAdalbertStifterStrasseToTreugasse,
             rideSharingFromTreugasseToGaussplatz, carFromGaussplatzToScholzgasse,
             hgvFromScholzGasseToBrigittenauerLaende;
-    private RoutingResponse root;
+    private RoutingResponse routingResponse;
     private RoutingFeatures routingFeatures;
 
     public IntermodalRouteExample() throws JsonGenerationException, JsonMappingException, IOException {
@@ -95,7 +95,7 @@ public class IntermodalRouteExample {
         initializeComplexModesOfTransport();
         initializeLocations();
         initializePublicTransportServices();
-        this.root = createRoutingResponse();
+        this.routingResponse = createRoutingResponse();
     }
 
     private void initializeOperators() {
@@ -214,7 +214,7 @@ public class IntermodalRouteExample {
      * @return a cached instance of an intermodal showcase-route
      */
     public RoutingResponse getRoutingResponse() {
-        return root;
+        return routingResponse;
     }
 
     private RoutingFeatures createRoutingFeatures() {
@@ -232,7 +232,7 @@ public class IntermodalRouteExample {
 
     private RoutingResponse createRoutingResponse() throws JsonGenerationException, JsonMappingException, IOException {
         RoutingResponse response = new RoutingResponse().setRouteFormatVersion("X.Y-UNKNOWN").setRequestId("999")
-                .setProcessedTime("1970-01-01T00:00:00Z").setStatus(Status.OK)
+                .setProcessedTime("2016-01-01T14:58:30+01:00").setStatus(Status.OK)
                 .setDebugMessage("Route calculated in 0.002 seconds").setCoordinateReferenceSystem("EPSG:4326")
                 .setRequest(createRoutingRequest()).setRoutes(Arrays.asList(
                         Route.createFromSegments(createRouteSegments()).setOptimizedFor("travel time and low costs")));
