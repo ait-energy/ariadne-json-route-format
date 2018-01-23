@@ -93,7 +93,7 @@ public class Route implements Validatable {
     }
 
     @JsonIgnore
-    public Date getStartTimeAsZonedDateTime() {
+    public Date getStartTimeAsDate() {
         return startTime;
     }
 
@@ -102,7 +102,7 @@ public class Route implements Validatable {
     }
 
     @JsonIgnore
-    public Date getEndTimeAsZonedDateTime() {
+    public Date getEndTimeAsDate() {
         return endTime;
     }
 
@@ -251,7 +251,7 @@ public class Route implements Validatable {
             for(RouteSegment s : segments)
                 meters += s.getDistanceMeters();
             route.setDistanceMeters(meters);
-            route.setDurationSeconds(Utils.getSecondsBetween(route.getStartTimeAsZonedDateTime(), route.getEndTimeAsZonedDateTime()));
+            route.setDurationSeconds(Utils.getSecondsBetween(route.getStartTimeAsDate(), route.getEndTimeAsDate()));
             route.setBoundingBox(Utils.getBoundingBoxFromGeometryGeoJson(segments).orNull());
         }
         return route;

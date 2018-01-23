@@ -182,7 +182,7 @@ public class RoutingRequest implements Validatable {
      * @see #getDepartureTime()
      */
     @JsonIgnore
-    public Optional<Date> getDepartureTimeAsZonedDateTime() {
+    public Optional<Date> getDepartureTimeAsDate() {
         return departureTime;
     }
 
@@ -203,7 +203,7 @@ public class RoutingRequest implements Validatable {
      * @see #getArrivalTime()
      */
     @JsonIgnore
-    public Optional<Date> getArrivalTimeAsZonedDateTime() {
+    public Optional<Date> getArrivalTimeAsDate() {
         return arrivalTime;
     }
 

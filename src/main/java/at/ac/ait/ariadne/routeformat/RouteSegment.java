@@ -165,7 +165,7 @@ public class RouteSegment implements Validatable {
     }
 
     @JsonIgnore
-    public Date getStartTimeAsZonedDateTime() {
+    public Date getStartTimeAsDate() {
         return startTime;
     }
 
@@ -176,7 +176,7 @@ public class RouteSegment implements Validatable {
      * Note: not exported to JSON since it can be inferred
      */
     @JsonIgnore
-    public Date getDepartureTimeAsZonedDateTime() {
+    public Date getDepartureTimeAsDate() {
         return Utils.addSeconds(startTime, boardingSeconds.or(0));
     }
 
@@ -186,7 +186,7 @@ public class RouteSegment implements Validatable {
      * Note: not exported to JSON since it can be inferred
      */
     @JsonIgnore
-    public Date getArrivalTimeAsZonedDateTime() {
+    public Date getArrivalTimeAsDate() {
         return Utils.subtractSeconds(endTime, alightingSeconds.or(0));
     }
 
@@ -199,7 +199,7 @@ public class RouteSegment implements Validatable {
     }
 
     @JsonIgnore
-    public Date getEndTimeAsZonedDateTime() {
+    public Date getEndTimeAsDate() {
         return endTime;
     }
 
@@ -384,7 +384,7 @@ public class RouteSegment implements Validatable {
                 .setModeOfTransport(s.getModeOfTransport());
         copy.setBoardingSeconds(s.getBoardingSeconds().orNull());
         copy.setAlightingSeconds(s.getAlightingSeconds().orNull());
-        copy.setStartTime(s.getStartTimeAsZonedDateTime()).setEndTime(s.getEndTimeAsZonedDateTime())
+        copy.setStartTime(s.getStartTimeAsDate()).setEndTime(s.getEndTimeAsDate())
                 .setIntermediateStops(s.getIntermediateStops());
         copy.setBoundingBox(s.getBoundingBox().orNull());
         copy.setGeometryEncodedPolyLine(s.getGeometryEncodedPolyLine().orNull());
@@ -454,13 +454,13 @@ public class RouteSegment implements Validatable {
                     + nr;
             for (IntermediateStop stop : intermediateStops) {
                 Preconditions.checkArgument(
-                        Utils.isBetween(startTime, stop.getPlannedArrivalTimeAsZonedDateTime(), endTime), error);
+                        Utils.isBetween(startTime, stop.getPlannedArrivalTimeAsDate(), endTime), error);
                 Preconditions.checkArgument(
-                        Utils.isBetween(startTime, stop.getPlannedDepartureTimeAsZonedDateTime(), endTime), error);
+                        Utils.isBetween(startTime, stop.getPlannedDepartureTimeAsDate(), endTime), error);
                 Preconditions.checkArgument(
-                        Utils.isBetween(startTime, stop.getEstimatedArrivalTimeAsZonedDateTime(), endTime), error);
+                        Utils.isBetween(startTime, stop.getEstimatedArrivalTimeAsDate(), endTime), error);
                 Preconditions.checkArgument(
-                        Utils.isBetween(startTime, stop.getEstimatedDepartureTimeAsZonedDateTime(), endTime), error);
+                        Utils.isBetween(startTime, stop.getEstimatedDepartureTimeAsDate(), endTime), error);
             }
 
             boolean geometryPresent = geometryEncodedPolyLine.isPresent() || geometryGeoJson.isPresent()

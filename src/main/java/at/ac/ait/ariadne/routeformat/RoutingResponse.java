@@ -66,7 +66,7 @@ public class RoutingResponse implements Validatable {
     }
 
     @JsonIgnore
-    public Date getProcessedTimeAsZonedDateTime() {
+    public Date getProcessedTimeAsDate() {
         return processedTime;
     }
 

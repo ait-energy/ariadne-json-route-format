@@ -55,19 +55,19 @@ public class TestUtil {
     /**
      * @param expected
      *            a String in the same format as from
-     *            {@link Utils#getShortStringDateTime(java.time.ZonedDateTime)}
+     *            {@link Utils#getShortStringDateTime(java.util.Date)}
      */
     public static void checkStart(RouteSegment segment, String expected) {
-        Assert.assertEquals(expected, Utils.getShortStringDateTime(segment.getStartTimeAsZonedDateTime()));
+        Assert.assertEquals(expected, Utils.getShortStringDateTime(segment.getStartTimeAsDate()));
     }
 
     /**
      * @param expected
      *            a String in the same format as from
-     *            {@link Utils#getShortStringDateTime(java.time.ZonedDateTime)}
+     *            {@link Utils#getShortStringDateTime(java.util.Date)}
      */
     public static void checkEnd(RouteSegment segment, String expected) {
-        Assert.assertEquals(expected, Utils.getShortStringDateTime(segment.getEndTimeAsZonedDateTime()));
+        Assert.assertEquals(expected, Utils.getShortStringDateTime(segment.getEndTimeAsDate()));
     }
 
     public static void checkDurationSeconds(RouteSegment segment, int expected) {

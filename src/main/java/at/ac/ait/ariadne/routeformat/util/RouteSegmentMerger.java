@@ -126,16 +126,16 @@ public class RouteSegmentMerger {
                 RouteSegment prolongedSegment = RouteSegment.createShallowCopy(segmentToProlong)
                         .setAlightingSeconds(segmentToProlong.getAlightingSeconds().or(0) + alightingSeconds)
                         .setDurationSeconds(segmentToProlong.getDurationSeconds() + alightingSeconds)
-                        .setEndTime(Utils.addSeconds(segmentToProlong.getEndTimeAsZonedDateTime(), alightingSeconds));
+                        .setEndTime(Utils.addSeconds(segmentToProlong.getEndTimeAsDate(), alightingSeconds));
                 routes.get(i).addLast(prolongedSegment);
             }
         }
 
         Map<Integer, Integer> index2waitingSeconds = new HashMap<>();
         index2waitingSeconds.put(0, 0);
-        Date endOfLastRoute = routes.get(0).getLast().getEndTimeAsZonedDateTime();
+        Date endOfLastRoute = routes.get(0).getLast().getEndTimeAsDate();
         for (int i = 1; i < routes.size(); i++) {
-            int waitingSeconds = Utils.getSecondsBetween(endOfLastRoute, routes.get(i).getFirst().getStartTimeAsZonedDateTime());
+            int waitingSeconds = Utils.getSecondsBetween(endOfLastRoute, routes.get(i).getFirst().getStartTimeAsDate());
             index2waitingSeconds.put(i, waitingSeconds);
             int routeSeconds = 0;
             for(RouteSegment s : routes.get(i))
@@ -195,7 +195,7 @@ public class RouteSegmentMerger {
             modifiedCopy.setBoardingSeconds(old.getBoardingSeconds().or(0) + waitingSeconds);
         }
         modifiedCopy.setDurationSeconds(old.getDurationSeconds() + waitingSeconds);
-        modifiedCopy.setStartTime(Utils.subtractSeconds(old.getStartTimeAsZonedDateTime(), waitingSeconds));
+        modifiedCopy.setStartTime(Utils.subtractSeconds(old.getStartTimeAsDate(), waitingSeconds));
         modifiedSegments.set(firstMatchingSegmentIndex, modifiedCopy);
 
         // shift start/end times for segments
@@ -203,8 +203,8 @@ public class RouteSegmentMerger {
         for (int i = 0; i < firstMatchingSegmentIndex; i++) {
             old = modifiedSegments.get(i);
             modifiedCopy = RouteSegment.createShallowCopy(old);
-            modifiedCopy.setStartTime(Utils.subtractSeconds(old.getStartTimeAsZonedDateTime(), waitingSeconds));
-            modifiedCopy.setEndTime(Utils.subtractSeconds(old.getEndTimeAsZonedDateTime(), waitingSeconds));
+            modifiedCopy.setStartTime(Utils.subtractSeconds(old.getStartTimeAsDate(), waitingSeconds));
+            modifiedCopy.setEndTime(Utils.subtractSeconds(old.getEndTimeAsDate(), waitingSeconds));
             modifiedSegments.set(i, modifiedCopy);
         }
 
@@ -219,8 +219,8 @@ public class RouteSegmentMerger {
         List<RouteSegment> modifiedSegments = new ArrayList<>();
         for (RouteSegment segment : segments) {
             RouteSegment modifiedCopy = RouteSegment.createShallowCopy(segment);
-            modifiedCopy.setStartTime(Utils.addSeconds(segment.getStartTimeAsZonedDateTime(), shiftSeconds));
-            modifiedCopy.setEndTime(Utils.addSeconds(segment.getEndTimeAsZonedDateTime(), shiftSeconds));
+            modifiedCopy.setStartTime(Utils.addSeconds(segment.getStartTimeAsDate(), shiftSeconds));
+            modifiedCopy.setEndTime(Utils.addSeconds(segment.getEndTimeAsDate(), shiftSeconds));
             modifiedSegments.add(modifiedCopy);
             if (!segment.getModeOfTransport().equals(ModeOfTransport.STANDARD_FOOT))
                 LOGGER.warn(shiftSeconds + "s shift for mot " + segment.getModeOfTransport());
@@ -270,7 +270,7 @@ public class RouteSegmentMerger {
         merged.setBoardingSeconds(a.getBoardingSeconds().or(0) + b.getBoardingSeconds().or(0));
         merged.setAlightingSeconds(a.getAlightingSeconds().or(0) + b.getAlightingSeconds().or(0));
         merged.setDurationSeconds(totalSeconds);
-        merged.setEndTime(Utils.addSeconds(a.getStartTimeAsZonedDateTime(), totalSeconds));
+        merged.setEndTime(Utils.addSeconds(a.getStartTimeAsDate(), totalSeconds));
 
         // adapt geometry & length
         merged.setTo(b.getTo());

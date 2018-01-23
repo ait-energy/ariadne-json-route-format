@@ -49,8 +49,8 @@ public class RouteSegmentMergerTest {
         Assert.assertEquals(1, mergedSegments.size());
         RouteSegment merged = mergedSegments.get(0);
         Assert.assertEquals(1, merged.getNr());
-        Assert.assertEquals("2016-01-01T15:34:10", Utils.getShortStringDateTime(merged.getStartTimeAsZonedDateTime()));
-        Assert.assertEquals("2016-01-01T15:45:00", Utils.getShortStringDateTime(merged.getEndTimeAsZonedDateTime()));
+        Assert.assertEquals("2016-01-01T15:34:10", Utils.getShortStringDateTime(merged.getStartTimeAsDate()));
+        Assert.assertEquals("2016-01-01T15:45:00", Utils.getShortStringDateTime(merged.getEndTimeAsDate()));
         Assert.assertEquals(10 * 60 + 50, merged.getDurationSeconds());
         Assert.assertEquals("sum of boarding of all segments + waiting inbetween", 120 + 124,
                 (int) merged.getBoardingSeconds().get());
@@ -73,9 +73,9 @@ public class RouteSegmentMergerTest {
         // first segment must be prolonged
         RouteSegment first = mergedSegments.get(0);
         Assert.assertEquals(1, first.getNr());
-        Assert.assertEquals("2016-01-01T15:34:10", Utils.getShortStringDateTime(first.getStartTimeAsZonedDateTime()));
+        Assert.assertEquals("2016-01-01T15:34:10", Utils.getShortStringDateTime(first.getStartTimeAsDate()));
         Assert.assertEquals("one additional minute added", "2016-01-01T15:38:56",
-                Utils.getShortStringDateTime(first.getEndTimeAsZonedDateTime()));
+                Utils.getShortStringDateTime(first.getEndTimeAsDate()));
         Assert.assertEquals(4 * 60 + 46, first.getDurationSeconds());
         Assert.assertEquals(60, (int) first.getBoardingSeconds().get());
         Assert.assertEquals("one additional minute added", 120, (int) first.getAlightingSeconds().get());
@@ -84,8 +84,8 @@ public class RouteSegmentMergerTest {
         // left after prolonging the first segment
         RouteSegment second = mergedSegments.get(1);
         Assert.assertEquals(2, second.getNr());
-        Assert.assertEquals("2016-01-01T15:38:56", Utils.getShortStringDateTime(second.getStartTimeAsZonedDateTime()));
-        Assert.assertEquals("2016-01-01T15:45:00", Utils.getShortStringDateTime(second.getEndTimeAsZonedDateTime()));
+        Assert.assertEquals("2016-01-01T15:38:56", Utils.getShortStringDateTime(second.getStartTimeAsDate()));
+        Assert.assertEquals("2016-01-01T15:45:00", Utils.getShortStringDateTime(second.getEndTimeAsDate()));
         Assert.assertEquals(64 + (180 + 60 * 2), second.getDurationSeconds());
         Assert.assertEquals(64 + 60, (int) second.getBoardingSeconds().get());
         Assert.assertEquals(60, (int) second.getAlightingSeconds().get());
@@ -102,12 +102,12 @@ public class RouteSegmentMergerTest {
         List<RouteSegment> mergedSegments = merger.createMergedSegments();
 
         RouteSegment first = mergedSegments.get(0);
-        Assert.assertEquals("2016-01-01T15:34:10", Utils.getShortStringDateTime(first.getStartTimeAsZonedDateTime()));
-        Assert.assertEquals("2016-01-01T15:37:56", Utils.getShortStringDateTime(first.getEndTimeAsZonedDateTime()));
+        Assert.assertEquals("2016-01-01T15:34:10", Utils.getShortStringDateTime(first.getStartTimeAsDate()));
+        Assert.assertEquals("2016-01-01T15:37:56", Utils.getShortStringDateTime(first.getEndTimeAsDate()));
         RouteSegment second = mergedSegments.get(1);
         Assert.assertEquals("there must be zero gap to the first segment", "2016-01-01T15:37:56",
-                Utils.getShortStringDateTime(second.getStartTimeAsZonedDateTime()));
-        Assert.assertEquals("2016-01-01T15:42:56", Utils.getShortStringDateTime(second.getEndTimeAsZonedDateTime()));
+                Utils.getShortStringDateTime(second.getStartTimeAsDate()));
+        Assert.assertEquals("2016-01-01T15:42:56", Utils.getShortStringDateTime(second.getEndTimeAsDate()));
     }
 
     private RouteSegment getFirstSegment(ModeOfTransport mot) {

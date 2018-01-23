@@ -22,7 +22,7 @@ public class UtilsTest {
     }
     
     @Test
-    public void parseZonedDateTimeTest() {
+    public void parseDateTest() {
         String stringWithCity = "2007-12-03T10:15:30+01:00[Europe/Paris]";
         String stringWithoutCity = "2007-12-03T10:15:30+01:00";
         

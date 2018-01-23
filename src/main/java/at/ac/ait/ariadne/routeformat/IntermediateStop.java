@@ -53,7 +53,7 @@ public class IntermediateStop implements Validatable {
      * @return static time according to a time table
      */
     @JsonIgnore
-    public Optional<Date> getPlannedArrivalTimeAsZonedDateTime() {
+    public Optional<Date> getPlannedArrivalTimeAsDate() {
         return plannedArrivalTime;
     }
 
@@ -71,7 +71,7 @@ public class IntermediateStop implements Validatable {
      * @return static time according to a time table
      */
     @JsonIgnore
-    public Optional<Date> getPlannedDepartureTimeAsZonedDateTime() {
+    public Optional<Date> getPlannedDepartureTimeAsDate() {
         return plannedDepartureTime;
     }
 
@@ -89,7 +89,7 @@ public class IntermediateStop implements Validatable {
      * @return time estimated via real-time data
      */
     @JsonIgnore
-    public Optional<Date> getEstimatedArrivalTimeAsZonedDateTime() {
+    public Optional<Date> getEstimatedArrivalTimeAsDate() {
         return estimatedArrivalTime;
     }
 
@@ -107,7 +107,7 @@ public class IntermediateStop implements Validatable {
      * @return time estimated via real-time data
      */
     @JsonIgnore
-    public Optional<Date> getEstimatedDepartureTimeAsZonedDateTime() {
+    public Optional<Date> getEstimatedDepartureTimeAsDate() {
         return estimatedDepartureTime;
     }
 
