@@ -11,7 +11,7 @@
 
     <groupId>at.ac.ait</groupId>
     <artifactId>ariadne-json-route-format</artifactId>
-    <version>1.0</version>
+    <version>1.1-SNAPSHOT</version>
     <name>Ariadne JSON Route Format</name>
     <description>JSON exchange format for intermodal / multimodal routes developed by the Austrian Institute of Technology</description>
     <url>https://github.com/dts-ait/ariadne-json-route-format</url>
@@ -36,7 +36,7 @@
         <url>https://github.com/dts-ait/ariadne-json-route-format</url>
         <connection>scm:git:https://github.com/dts-ait/ariadne-json-route-format.git</connection>
         <developerConnection>scm:git:https://github.com/dts-ait/ariadne-json-route-format.git</developerConnection>
-        <tag>ariadne-json-route-format-1.0</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <distributionManagement>
