@@ -15,12 +15,18 @@ The format for dates follows ISO 8601 with mandatory time zone offset and precis
 The format can easily be used via the Java reference implementation for either Java 8 (preferred) or 7 (for legacy environments or Android development).
 For other programming languages you have to roll your own implementation for reading and writing in the format.
 We release to the [Maven Central Repository](https://search.maven.org).
-To use the current release version just add this dependency to your `pom.xml`: 
+To use the current release version just add one of these dependencies to your `pom.xml`: 
 
 	<dependency>
 		<groupId>at.ac.ait</groupId>
 		<artifactId>ariadne-json-route-format</artifactId>
-		<version>0.19</version>
+		<version>1.0</version>
+	</dependency>
+	
+	<dependency>
+		<groupId>at.ac.ait</groupId>
+		<artifactId>ariadne-json-route-format</artifactId>
+		<version>1.0-java7</version>
 	</dependency>
 
 To use SNAPSHOT versions you must also add the following repository in your `pom.xml` under `<project> <repositories>`:
