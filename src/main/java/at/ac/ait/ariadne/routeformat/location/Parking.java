@@ -19,7 +19,7 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */
-@JsonInclude(Include.NON_EMPTY)
+@JsonInclude(Include.NON_ABSENT)
 public class Parking extends Location<Parking> {
     private Optional<ParkingType> parkingType = Optional.empty();
     private Set<GeneralizedModeOfTransportType> modesOfTransport = new TreeSet<>();

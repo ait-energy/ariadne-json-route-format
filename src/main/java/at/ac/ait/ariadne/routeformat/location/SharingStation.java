@@ -20,7 +20,7 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */
-@JsonInclude(Include.NON_EMPTY)
+@JsonInclude(Include.NON_ABSENT)
 public class SharingStation extends Location<SharingStation> {
 
     private Optional<String> name = Optional.empty();

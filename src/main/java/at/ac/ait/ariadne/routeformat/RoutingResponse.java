@@ -31,7 +31,7 @@ import at.ac.ait.ariadne.routeformat.util.Utils;
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */
-@JsonInclude(Include.NON_EMPTY)
+@JsonInclude(Include.NON_ABSENT)
 public class RoutingResponse implements Validatable {
 
     private String routeFormatVersion;

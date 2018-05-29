@@ -18,7 +18,7 @@ import com.google.common.base.Preconditions;
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */
-@JsonInclude(Include.NON_EMPTY)
+@JsonInclude(Include.NON_ABSENT)
 public class Service implements Validatable {
     private String name;
     private Optional<String> towards = Optional.empty();

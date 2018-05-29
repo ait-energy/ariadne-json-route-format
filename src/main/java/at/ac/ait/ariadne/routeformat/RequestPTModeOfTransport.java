@@ -18,7 +18,7 @@ import at.ac.ait.ariadne.routeformat.Constants.GeneralizedModeOfTransportType;
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */
-@JsonInclude(Include.NON_EMPTY)
+@JsonInclude(Include.NON_ABSENT)
 public class RequestPTModeOfTransport extends RequestModeOfTransport<RequestPTModeOfTransport> {
 
     private Set<DetailedModeOfTransportType> excludedPublicTransportModes = new TreeSet<>();

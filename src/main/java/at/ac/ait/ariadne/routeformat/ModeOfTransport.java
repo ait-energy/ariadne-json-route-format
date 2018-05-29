@@ -31,7 +31,7 @@ import at.ac.ait.ariadne.routeformat.Constants.VehicleAccessibility;
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */
-@JsonInclude(Include.NON_EMPTY)
+@JsonInclude(Include.NON_ABSENT)
 public class ModeOfTransport implements Validatable {
 
     public static final ModeOfTransport STANDARD_FOOT = createMinimal(DetailedModeOfTransportType.FOOT).setId("foot")

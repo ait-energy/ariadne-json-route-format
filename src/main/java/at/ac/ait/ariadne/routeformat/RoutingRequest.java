@@ -55,7 +55,7 @@ import at.ac.ait.ariadne.routeformat.util.Utils;
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */
-@JsonInclude(Include.NON_EMPTY)
+@JsonInclude(Include.NON_ABSENT)
 public class RoutingRequest implements Validatable {
     public static final String NOW = "NOW";
     public static final String DEFAULT_DEPARTURE_TIME = NOW;

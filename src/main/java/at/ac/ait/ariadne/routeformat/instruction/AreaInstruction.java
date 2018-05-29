@@ -33,7 +33,7 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONCoordinate;
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */
-@JsonInclude(Include.NON_EMPTY)
+@JsonInclude(Include.NON_ABSENT)
 public class AreaInstruction extends Instruction<AreaInstruction> {
 
     public enum SubType {

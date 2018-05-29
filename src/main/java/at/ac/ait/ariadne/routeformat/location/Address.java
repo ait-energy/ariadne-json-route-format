@@ -16,7 +16,7 @@ import at.ac.ait.ariadne.routeformat.Validatable;
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */
-@JsonInclude(Include.NON_EMPTY)
+@JsonInclude(Include.NON_ABSENT)
 public class Address implements Validatable {
 
     private Optional<String> country = Optional.empty();

@@ -17,7 +17,7 @@ import at.ac.ait.ariadne.routeformat.location.Location;
 /**
  * @author AIT Austrian Institute of Technology GmbH
  */
-@JsonInclude(Include.NON_EMPTY)
+@JsonInclude(Include.NON_ABSENT)
 public class GeoJSONFeature<T extends GeoJSONGeometryObject> implements Validatable {
 
     @JsonProperty(required = true)

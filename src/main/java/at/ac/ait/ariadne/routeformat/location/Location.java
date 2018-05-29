@@ -29,7 +29,7 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPoint;
 @JsonSubTypes({ @JsonSubTypes.Type(value = Location.class), @JsonSubTypes.Type(value = PointOfInterest.class),
         @JsonSubTypes.Type(value = PublicTransportStop.class), @JsonSubTypes.Type(value = SharingStation.class),
         @JsonSubTypes.Type(value = Parking.class) })
-@JsonInclude(Include.NON_EMPTY)
+@JsonInclude(Include.NON_ABSENT)
 public class Location<T extends Location<T>> implements Validatable {
     private GeoJSONFeature<GeoJSONPoint> coordinate;
     private Optional<GeoJSONFeature<?>> complexGeometry = Optional.empty();

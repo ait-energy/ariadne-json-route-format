@@ -42,7 +42,7 @@ import at.ac.ait.ariadne.routeformat.ModeOfTransport;
  *
  * @author AIT Austrian Institute of Technology GmbH
  */
-@JsonInclude(Include.NON_EMPTY)
+@JsonInclude(Include.NON_ABSENT)
 public class ModeChangeInstruction extends Instruction<ModeChangeInstruction> {
 
     private Optional<ModeOfTransport> previousModeOfTransport, nextModeOfTransport;

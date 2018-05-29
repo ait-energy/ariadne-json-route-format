@@ -24,7 +24,7 @@ import at.ac.ait.ariadne.routeformat.geojson.GeoJSONPolygon;
  * 
  * @author AIT Austrian Institute of Technology GmbH
  */
-@JsonInclude(Include.NON_EMPTY)
+@JsonInclude(Include.NON_ABSENT)
 public class Site implements Validatable {
 
     private String id;

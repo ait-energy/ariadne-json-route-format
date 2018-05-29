@@ -36,7 +36,7 @@ import at.ac.ait.ariadne.routeformat.util.Utils;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({ @JsonSubTypes.Type(value = RequestModeOfTransport.class, name = "RequestModeOfTransport"),
         @JsonSubTypes.Type(value = RequestPTModeOfTransport.class, name = "RequestPTModeOfTransport") })
-@JsonInclude(Include.NON_EMPTY)
+@JsonInclude(Include.NON_ABSENT)
 public class RequestModeOfTransport<T extends RequestModeOfTransport<T>> implements Validatable {
 
     ModeOfTransport modeOfTransport;
