@@ -113,7 +113,7 @@ public class Service implements Validatable {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder(name);
+        StringBuilder builder = new StringBuilder(name == null ? "null" : name);
         towards.ifPresent(t -> builder.append(" -> " + t));
         return builder.toString();
     }

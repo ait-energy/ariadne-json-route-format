@@ -352,7 +352,7 @@ public class ModeOfTransport implements Validatable {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder(generalizedType.name());
+        StringBuilder builder = new StringBuilder(generalizedType == null ? "null" : generalizedType.name());
         detailedType.ifPresent(d -> builder.append("-" + d));
         service.ifPresent(s -> builder.append(" " + s.toString()));
         return builder.toString();
