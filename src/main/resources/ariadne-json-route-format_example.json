@@ -27,9 +27,11 @@
           "room" : "S313"
         }
       },
+      "additionalInfo" : { },
       "poiType" : "company",
       "name" : "AIT"
     },
+    "via" : [ ],
     "to" : {
       "type" : "Location",
       "coordinate" : {
@@ -42,8 +44,10 @@
       },
       "address" : {
         "streetName" : "Brigittenauer Lände",
-        "houseNumber" : "40"
-      }
+        "houseNumber" : "40",
+        "additionalInfo" : { }
+      },
+      "additionalInfo" : { }
     },
     "modesOfTransport" : [ {
       "type" : "RequestModeOfTransport",
@@ -51,10 +55,13 @@
         "generalizedType" : "FOOT",
         "detailedType" : "FOOT",
         "id" : "foot",
-        "color" : "#377eb8"
+        "accessibility" : [ ],
+        "color" : "#377eb8",
+        "additionalInfo" : { }
       },
       "maximumDistanceMeters" : 2000,
       "speed" : "FAST",
+      "locations" : [ ],
       "forbiddenAreas" : {
         "type" : "Feature",
         "geometry" : {
@@ -62,14 +69,17 @@
           "coordinates" : [ [ [ [ 16, 48 ], [ 16.1, 48 ], [ 16.1, 48.1 ], [ 16.1, 48 ], [ 16, 48 ] ] ] ]
         },
         "properties" : { }
-      }
+      },
+      "additionalInfo" : { }
     }, {
       "type" : "RequestModeOfTransport",
       "modeOfTransport" : {
         "generalizedType" : "BICYCLE",
         "detailedType" : "BICYCLE",
         "id" : "bicycle",
-        "color" : "#4daf4a"
+        "accessibility" : [ ],
+        "color" : "#4daf4a",
+        "additionalInfo" : { }
       },
       "maximumTravelTimeSeconds" : 2700,
       "speed" : "SLOW",
@@ -85,8 +95,10 @@
         },
         "address" : {
           "streetName" : "Adalbert-Stifter-Straße",
-          "houseNumber" : "15"
-        }
+          "houseNumber" : "15",
+          "additionalInfo" : { }
+        },
+        "additionalInfo" : { }
       }, {
         "type" : "Location",
         "coordinate" : {
@@ -100,24 +112,33 @@
         "address" : {
           "postCode" : "1200",
           "streetName" : "Hopsagasse",
-          "houseNumber" : "5"
-        }
-      } ]
+          "houseNumber" : "5",
+          "additionalInfo" : { }
+        },
+        "additionalInfo" : { }
+      } ],
+      "additionalInfo" : { }
     }, {
       "type" : "RequestModeOfTransport",
       "modeOfTransport" : {
         "generalizedType" : "MOTORCYCLE",
         "detailedType" : "MOTORCYCLE",
         "id" : "motorcycle",
-        "color" : "#ff7f00"
-      }
+        "accessibility" : [ ],
+        "color" : "#ff7f00",
+        "additionalInfo" : { }
+      },
+      "locations" : [ ],
+      "additionalInfo" : { }
     }, {
       "type" : "RequestModeOfTransport",
       "modeOfTransport" : {
         "generalizedType" : "CAR",
         "detailedType" : "CAR",
         "id" : "car",
-        "color" : "#e41a1c"
+        "accessibility" : [ ],
+        "color" : "#e41a1c",
+        "additionalInfo" : { }
       },
       "locations" : [ {
         "type" : "Location",
@@ -132,9 +153,12 @@
         "address" : {
           "postCode" : "1200",
           "streetName" : "Treustraße",
-          "houseNumber" : "92"
-        }
-      } ]
+          "houseNumber" : "92",
+          "additionalInfo" : { }
+        },
+        "additionalInfo" : { }
+      } ],
+      "additionalInfo" : { }
     }, {
       "type" : "RequestPTModeOfTransport",
       "modeOfTransport" : {
@@ -147,8 +171,12 @@
           "additionalInfo" : {
             "email_ticketshop" : "ticketshop@wienerlinien.at"
           }
-        }
+        },
+        "accessibility" : [ ],
+        "additionalInfo" : { }
       },
+      "locations" : [ ],
+      "additionalInfo" : { },
       "excludedPublicTransportModes" : [ "AERIALWAY", "SHIP", "AIRPLANE" ]
     }, {
       "type" : "RequestModeOfTransport",
@@ -162,14 +190,20 @@
             "city" : "Wien",
             "postCode" : "1030",
             "streetName" : "Litfaßstraße",
-            "houseNumber" : "6"
+            "houseNumber" : "6",
+            "additionalInfo" : { }
           },
           "website" : "http://citybikewien.at",
           "customerServiceEmail" : "kontakt@citybikewien.at",
-          "customerServicePhone" : "0810 500 500"
+          "customerServicePhone" : "0810 500 500",
+          "additionalInfo" : { }
         },
-        "sharingType" : "STATION_BOUND_VEHICLE_SHARING"
-      }
+        "sharingType" : "STATION_BOUND_VEHICLE_SHARING",
+        "accessibility" : [ ],
+        "additionalInfo" : { }
+      },
+      "locations" : [ ],
+      "additionalInfo" : { }
     }, {
       "type" : "RequestModeOfTransport",
       "modeOfTransport" : {
@@ -179,11 +213,16 @@
         "operator" : {
           "name" : "Car2Go",
           "website" : "https://www.car2go.com/de/wien",
-          "customerServiceEmail" : "wien@car2go.com"
+          "customerServiceEmail" : "wien@car2go.com",
+          "additionalInfo" : { }
         },
         "electric" : true,
-        "sharingType" : "FREE_FLOATING_VEHICLE_SHARING"
-      }
+        "sharingType" : "FREE_FLOATING_VEHICLE_SHARING",
+        "accessibility" : [ ],
+        "additionalInfo" : { }
+      },
+      "locations" : [ ],
+      "additionalInfo" : { }
     }, {
       "type" : "RequestModeOfTransport",
       "modeOfTransport" : {
@@ -192,10 +231,15 @@
         "id" : "flinc",
         "operator" : {
           "name" : "Flinc",
-          "website" : "https://flinc.org"
+          "website" : "https://flinc.org",
+          "additionalInfo" : { }
         },
-        "sharingType" : "RIDE_SHARING"
-      }
+        "sharingType" : "RIDE_SHARING",
+        "accessibility" : [ ],
+        "additionalInfo" : { }
+      },
+      "locations" : [ ],
+      "additionalInfo" : { }
     }, {
       "type" : "RequestModeOfTransport",
       "modeOfTransport" : {
@@ -204,10 +248,15 @@
         "id" : "flinc",
         "operator" : {
           "name" : "Flinc",
-          "website" : "https://flinc.org"
+          "website" : "https://flinc.org",
+          "additionalInfo" : { }
         },
-        "sharingType" : "RIDE_SHARING"
-      }
+        "sharingType" : "RIDE_SHARING",
+        "accessibility" : [ ],
+        "additionalInfo" : { }
+      },
+      "locations" : [ ],
+      "additionalInfo" : { }
     } ],
     "endModeOfTransport" : {
       "type" : "RequestModeOfTransport",
@@ -215,7 +264,9 @@
         "generalizedType" : "CAR",
         "detailedType" : "CAR",
         "id" : "car",
-        "color" : "#e41a1c"
+        "accessibility" : [ ],
+        "color" : "#e41a1c",
+        "additionalInfo" : { }
       },
       "locations" : [ {
         "type" : "Location",
@@ -230,15 +281,19 @@
         "address" : {
           "postCode" : "1200",
           "streetName" : "Treustraße",
-          "houseNumber" : "92"
-        }
-      } ]
+          "houseNumber" : "92",
+          "additionalInfo" : { }
+        },
+        "additionalInfo" : { }
+      } ],
+      "additionalInfo" : { }
     },
     "optimizedFor" : "ENERGY",
     "maximumTransfers" : 10,
     "departureTime" : "2016-01-01T15:00:00+01:00",
     "accessibilityRestrictions" : [ "NO_ELEVATOR" ],
     "languages" : [ "de" ],
+    "outputFormats" : [ ],
     "additionalInfo" : {
       "ait:additionalTestBigDecimal" : 12.34567,
       "ait:additionalTestList" : [ 1, 2, 3, 4, 5, 6, 7 ],
@@ -275,6 +330,7 @@
           "room" : "S313"
         }
       },
+      "additionalInfo" : { },
       "poiType" : "company",
       "name" : "AIT"
     },
@@ -290,8 +346,10 @@
       },
       "address" : {
         "streetName" : "Brigittenauer Lände",
-        "houseNumber" : "40"
-      }
+        "houseNumber" : "40",
+        "additionalInfo" : { }
+      },
+      "additionalInfo" : { }
     },
     "distanceMeters" : 8698,
     "durationSeconds" : 3699,
@@ -318,6 +376,7 @@
             "room" : "S313"
           }
         },
+        "additionalInfo" : { },
         "poiType" : "company",
         "name" : "AIT"
       },
@@ -331,7 +390,10 @@
           },
           "properties" : { }
         },
-        "name" : "Heinrich-von-Buol-Gasse/Siemensstraße"
+        "additionalInfo" : { },
+        "name" : "Heinrich-von-Buol-Gasse/Siemensstraße",
+        "relatedLines" : { },
+        "accessibility" : [ ]
       },
       "distanceMeters" : 200,
       "durationSeconds" : 60,
@@ -339,10 +401,13 @@
         "generalizedType" : "FOOT",
         "detailedType" : "FOOT",
         "id" : "foot",
-        "color" : "#377eb8"
+        "accessibility" : [ ],
+        "color" : "#377eb8",
+        "additionalInfo" : { }
       },
       "startTime" : "2016-01-01T15:00:00+01:00",
       "endTime" : "2016-01-01T15:01:00+01:00",
+      "intermediateStops" : [ ],
       "geometryGeoJson" : {
         "type" : "Feature",
         "geometry" : {
@@ -387,7 +452,10 @@
             "name" : "Heinrich-von-Buol-Gasse"
           }
         } ]
-      }
+      },
+      "navigationInstructions" : [ ],
+      "accessibility" : [ ],
+      "additionalInfo" : { }
     }, {
       "nr" : 2,
       "from" : {
@@ -400,7 +468,10 @@
           },
           "properties" : { }
         },
-        "name" : "Heinrich-von-Buol-Gasse/Siemensstraße"
+        "additionalInfo" : { },
+        "name" : "Heinrich-von-Buol-Gasse/Siemensstraße",
+        "relatedLines" : { },
+        "accessibility" : [ ]
       },
       "to" : {
         "type" : "PublicTransportStop",
@@ -412,7 +483,10 @@
           },
           "properties" : { }
         },
-        "name" : "Heinrich-von-Buol-Gasse/Siemensstraße"
+        "additionalInfo" : { },
+        "name" : "Heinrich-von-Buol-Gasse/Siemensstraße",
+        "relatedLines" : { },
+        "accessibility" : [ ]
       },
       "distanceMeters" : 0,
       "durationSeconds" : 300,
@@ -420,11 +494,14 @@
         "generalizedType" : "FOOT",
         "detailedType" : "TRANSFER",
         "id" : "transfer",
-        "color" : "#a088a3"
+        "accessibility" : [ ],
+        "color" : "#a088a3",
+        "additionalInfo" : { }
       },
       "boardingSeconds" : 300,
       "startTime" : "2016-01-01T15:01:00+01:00",
       "endTime" : "2016-01-01T15:06:00+01:00",
+      "intermediateStops" : [ ],
       "geometryGeoJson" : {
         "type" : "Feature",
         "geometry" : {
@@ -432,7 +509,10 @@
           "coordinates" : [ [ 16.42791, 48.26680 ], [ 16.42791, 48.26680 ] ]
         },
         "properties" : { }
-      }
+      },
+      "navigationInstructions" : [ ],
+      "accessibility" : [ ],
+      "additionalInfo" : { }
     }, {
       "nr" : 3,
       "from" : {
@@ -445,7 +525,10 @@
           },
           "properties" : { }
         },
-        "name" : "Heinrich-von-Buol-Gasse/Siemensstraße"
+        "additionalInfo" : { },
+        "name" : "Heinrich-von-Buol-Gasse/Siemensstraße",
+        "relatedLines" : { },
+        "accessibility" : [ ]
       },
       "to" : {
         "type" : "PublicTransportStop",
@@ -457,8 +540,11 @@
           },
           "properties" : { }
         },
+        "additionalInfo" : { },
         "name" : "Floridsdorf",
-        "platform" : "C"
+        "platform" : "C",
+        "relatedLines" : { },
+        "accessibility" : [ ]
       },
       "distanceMeters" : 2500,
       "durationSeconds" : 630,
@@ -467,7 +553,8 @@
         "detailedType" : "BUS",
         "service" : {
           "name" : "28A",
-          "towards" : "Floridsdorf"
+          "towards" : "Floridsdorf",
+          "additionalInfo" : { }
         },
         "operator" : {
           "name" : "Wiener Linien",
@@ -477,10 +564,12 @@
             "email_ticketshop" : "ticketshop@wienerlinien.at"
           }
         },
-        "accessibility" : [ "HIGH_FLOOR_VEHICLE" ]
+        "accessibility" : [ "HIGH_FLOOR_VEHICLE" ],
+        "additionalInfo" : { }
       },
       "startTime" : "2016-01-01T15:06:00+01:00",
       "endTime" : "2016-01-01T15:16:30+01:00",
+      "intermediateStops" : [ ],
       "geometryGeoJson" : {
         "type" : "Feature",
         "geometry" : {
@@ -488,7 +577,10 @@
           "coordinates" : [ [ 16.42791, 48.26680 ], [ 16.42354, 48.26306 ], [ 16.4236, 48.2621 ], [ 16.4044, 48.2576 ], [ 16.40305, 48.25621 ], [ 16.40127, 48.25698 ], [ 16.40073, 48.25625 ] ]
         },
         "properties" : { }
-      }
+      },
+      "navigationInstructions" : [ ],
+      "accessibility" : [ ],
+      "additionalInfo" : { }
     }, {
       "nr" : 4,
       "from" : {
@@ -501,8 +593,11 @@
           },
           "properties" : { }
         },
+        "additionalInfo" : { },
         "name" : "Floridsdorf",
-        "platform" : "C"
+        "platform" : "C",
+        "relatedLines" : { },
+        "accessibility" : [ ]
       },
       "to" : {
         "type" : "PublicTransportStop",
@@ -514,8 +609,11 @@
           },
           "properties" : { }
         },
+        "additionalInfo" : { },
         "name" : "Floridsdorf",
-        "platform" : "2 (U-Bahn)"
+        "platform" : "2 (U-Bahn)",
+        "relatedLines" : { },
+        "accessibility" : [ ]
       },
       "distanceMeters" : 40,
       "durationSeconds" : 240,
@@ -523,11 +621,14 @@
         "generalizedType" : "FOOT",
         "detailedType" : "TRANSFER",
         "id" : "transfer",
-        "color" : "#a088a3"
+        "accessibility" : [ ],
+        "color" : "#a088a3",
+        "additionalInfo" : { }
       },
       "boardingSeconds" : 180,
       "startTime" : "2016-01-01T15:16:30+01:00",
       "endTime" : "2016-01-01T15:20:30+01:00",
+      "intermediateStops" : [ ],
       "geometryGeoJson" : {
         "type" : "Feature",
         "geometry" : {
@@ -536,7 +637,9 @@
         },
         "properties" : { }
       },
-      "accessibility" : [ "STAIRS_DOWN" ]
+      "navigationInstructions" : [ ],
+      "accessibility" : [ "STAIRS_DOWN" ],
+      "additionalInfo" : { }
     }, {
       "nr" : 5,
       "from" : {
@@ -549,8 +652,11 @@
           },
           "properties" : { }
         },
+        "additionalInfo" : { },
         "name" : "Floridsdorf",
-        "platform" : "2 (U-Bahn)"
+        "platform" : "2 (U-Bahn)",
+        "relatedLines" : { },
+        "accessibility" : [ ]
       },
       "to" : {
         "type" : "PublicTransportStop",
@@ -562,8 +668,11 @@
           },
           "properties" : { }
         },
+        "additionalInfo" : { },
         "name" : "Handelskai",
-        "platform" : "2"
+        "platform" : "2",
+        "relatedLines" : { },
+        "accessibility" : [ ]
       },
       "distanceMeters" : 2000,
       "durationSeconds" : 240,
@@ -572,7 +681,8 @@
         "detailedType" : "SUBWAY",
         "service" : {
           "name" : "U6",
-          "towards" : "Siebenhirten"
+          "towards" : "Siebenhirten",
+          "additionalInfo" : { }
         },
         "operator" : {
           "name" : "Wiener Linien",
@@ -583,7 +693,8 @@
           }
         },
         "accessibility" : [ "LOW_FLOOR_VEHICLE" ],
-        "color" : "#bf7700"
+        "color" : "#bf7700",
+        "additionalInfo" : { }
       },
       "startTime" : "2016-01-01T15:20:30+01:00",
       "endTime" : "2016-01-01T15:24:30+01:00",
@@ -598,17 +709,20 @@
             },
             "properties" : { }
           },
+          "additionalInfo" : { },
           "name" : "Neue Donau",
           "platform" : "2",
           "relatedLines" : {
             "20A" : "BUS",
             "20B" : "BUS"
-          }
+          },
+          "accessibility" : [ ]
         },
         "plannedArrivalTime" : "2016-01-01T15:22:30+01:00",
         "plannedDepartureTime" : "2016-01-01T15:23:30+01:00",
         "estimatedArrivalTime" : "2016-01-01T15:22:30+01:00",
-        "estimatedDepartureTime" : "2016-01-01T15:23:30+01:00"
+        "estimatedDepartureTime" : "2016-01-01T15:23:30+01:00",
+        "additionalInfo" : { }
       } ],
       "geometryGeoJson" : {
         "type" : "Feature",
@@ -617,7 +731,10 @@
           "coordinates" : [ [ 16.40050, 48.25618 ], [ 16.39468, 48.24630 ], [ 16.38541, 48.24173 ] ]
         },
         "properties" : { }
-      }
+      },
+      "navigationInstructions" : [ ],
+      "accessibility" : [ ],
+      "additionalInfo" : { }
     }, {
       "nr" : 6,
       "from" : {
@@ -630,8 +747,11 @@
           },
           "properties" : { }
         },
+        "additionalInfo" : { },
         "name" : "Handelskai",
-        "platform" : "2"
+        "platform" : "2",
+        "relatedLines" : { },
+        "accessibility" : [ ]
       },
       "to" : {
         "type" : "PublicTransportStop",
@@ -643,7 +763,10 @@
           },
           "properties" : { }
         },
-        "name" : "Handelskai (Stationseingang)"
+        "additionalInfo" : { },
+        "name" : "Handelskai (Stationseingang)",
+        "relatedLines" : { },
+        "accessibility" : [ ]
       },
       "distanceMeters" : 40,
       "durationSeconds" : 180,
@@ -651,10 +774,13 @@
         "generalizedType" : "FOOT",
         "detailedType" : "TRANSFER",
         "id" : "transfer",
-        "color" : "#a088a3"
+        "accessibility" : [ ],
+        "color" : "#a088a3",
+        "additionalInfo" : { }
       },
       "startTime" : "2016-01-01T15:24:30+01:00",
       "endTime" : "2016-01-01T15:27:30+01:00",
+      "intermediateStops" : [ ],
       "geometryGeoJson" : {
         "type" : "Feature",
         "geometry" : {
@@ -663,7 +789,9 @@
         },
         "properties" : { }
       },
-      "accessibility" : [ "ESCALATOR_DOWN", "STAIRS_DOWN" ]
+      "navigationInstructions" : [ ],
+      "accessibility" : [ "ESCALATOR_DOWN", "STAIRS_DOWN" ],
+      "additionalInfo" : { }
     }, {
       "nr" : 7,
       "from" : {
@@ -676,7 +804,10 @@
           },
           "properties" : { }
         },
-        "name" : "Handelskai (Stationseingang)"
+        "additionalInfo" : { },
+        "name" : "Handelskai (Stationseingang)",
+        "relatedLines" : { },
+        "accessibility" : [ ]
       },
       "to" : {
         "type" : "SharingStation",
@@ -702,11 +833,13 @@
             "city" : "Wien",
             "postCode" : "1030",
             "streetName" : "Litfaßstraße",
-            "houseNumber" : "6"
+            "houseNumber" : "6",
+            "additionalInfo" : { }
           },
           "website" : "http://citybikewien.at",
           "customerServiceEmail" : "kontakt@citybikewien.at",
-          "customerServicePhone" : "0810 500 500"
+          "customerServicePhone" : "0810 500 500",
+          "additionalInfo" : { }
         }
       },
       "distanceMeters" : 57,
@@ -715,10 +848,13 @@
         "generalizedType" : "FOOT",
         "detailedType" : "FOOT",
         "id" : "foot",
-        "color" : "#377eb8"
+        "accessibility" : [ ],
+        "color" : "#377eb8",
+        "additionalInfo" : { }
       },
       "startTime" : "2016-01-01T15:27:30+01:00",
       "endTime" : "2016-01-01T15:28:10+01:00",
+      "intermediateStops" : [ ],
       "geometryGeoJson" : {
         "type" : "Feature",
         "geometry" : {
@@ -726,7 +862,10 @@
           "coordinates" : [ [ 16.3848877, 48.2416471 ], [ 16.3845846, 48.2418792 ], [ 16.3847976, 48.2420356 ] ]
         },
         "properties" : { }
-      }
+      },
+      "navigationInstructions" : [ ],
+      "accessibility" : [ ],
+      "additionalInfo" : { }
     }, {
       "nr" : 8,
       "from" : {
@@ -753,11 +892,13 @@
             "city" : "Wien",
             "postCode" : "1030",
             "streetName" : "Litfaßstraße",
-            "houseNumber" : "6"
+            "houseNumber" : "6",
+            "additionalInfo" : { }
           },
           "website" : "http://citybikewien.at",
           "customerServiceEmail" : "kontakt@citybikewien.at",
-          "customerServicePhone" : "0810 500 500"
+          "customerServicePhone" : "0810 500 500",
+          "additionalInfo" : { }
         }
       },
       "to" : {
@@ -784,11 +925,13 @@
             "city" : "Wien",
             "postCode" : "1030",
             "streetName" : "Litfaßstraße",
-            "houseNumber" : "6"
+            "houseNumber" : "6",
+            "additionalInfo" : { }
           },
           "website" : "http://citybikewien.at",
           "customerServiceEmail" : "kontakt@citybikewien.at",
-          "customerServicePhone" : "0810 500 500"
+          "customerServicePhone" : "0810 500 500",
+          "additionalInfo" : { }
         }
       },
       "distanceMeters" : 692,
@@ -803,18 +946,23 @@
             "city" : "Wien",
             "postCode" : "1030",
             "streetName" : "Litfaßstraße",
-            "houseNumber" : "6"
+            "houseNumber" : "6",
+            "additionalInfo" : { }
           },
           "website" : "http://citybikewien.at",
           "customerServiceEmail" : "kontakt@citybikewien.at",
-          "customerServicePhone" : "0810 500 500"
+          "customerServicePhone" : "0810 500 500",
+          "additionalInfo" : { }
         },
-        "sharingType" : "STATION_BOUND_VEHICLE_SHARING"
+        "sharingType" : "STATION_BOUND_VEHICLE_SHARING",
+        "accessibility" : [ ],
+        "additionalInfo" : { }
       },
       "boardingSeconds" : 120,
       "alightingSeconds" : 60,
       "startTime" : "2016-01-01T15:28:10+01:00",
       "endTime" : "2016-01-01T15:34:10+01:00",
+      "intermediateStops" : [ ],
       "geometryGeoJson" : {
         "type" : "Feature",
         "geometry" : {
@@ -826,7 +974,10 @@
           "opacity" : "0.9",
           "weight" : "7"
         }
-      }
+      },
+      "navigationInstructions" : [ ],
+      "accessibility" : [ ],
+      "additionalInfo" : { }
     }, {
       "nr" : 9,
       "from" : {
@@ -853,11 +1004,13 @@
             "city" : "Wien",
             "postCode" : "1030",
             "streetName" : "Litfaßstraße",
-            "houseNumber" : "6"
+            "houseNumber" : "6",
+            "additionalInfo" : { }
           },
           "website" : "http://citybikewien.at",
           "customerServiceEmail" : "kontakt@citybikewien.at",
-          "customerServicePhone" : "0810 500 500"
+          "customerServicePhone" : "0810 500 500",
+          "additionalInfo" : { }
         }
       },
       "to" : {
@@ -872,8 +1025,10 @@
         },
         "address" : {
           "streetName" : "Adalbert-Stifter-Straße",
-          "houseNumber" : "71"
-        }
+          "houseNumber" : "71",
+          "additionalInfo" : { }
+        },
+        "additionalInfo" : { }
       },
       "distanceMeters" : 150,
       "durationSeconds" : 115,
@@ -881,10 +1036,13 @@
         "generalizedType" : "FOOT",
         "detailedType" : "FOOT",
         "id" : "foot",
-        "color" : "#377eb8"
+        "accessibility" : [ ],
+        "color" : "#377eb8",
+        "additionalInfo" : { }
       },
       "startTime" : "2016-01-01T15:34:10+01:00",
       "endTime" : "2016-01-01T15:36:05+01:00",
+      "intermediateStops" : [ ],
       "geometryGeoJson" : {
         "type" : "Feature",
         "geometry" : {
@@ -893,7 +1051,9 @@
         },
         "properties" : { }
       },
-      "accessibility" : [ "STAIRS_UP" ]
+      "navigationInstructions" : [ ],
+      "accessibility" : [ "STAIRS_UP" ],
+      "additionalInfo" : { }
     }, {
       "nr" : 10,
       "from" : {
@@ -908,8 +1068,10 @@
         },
         "address" : {
           "streetName" : "Adalbert-Stifter-Straße",
-          "houseNumber" : "71"
-        }
+          "houseNumber" : "71",
+          "additionalInfo" : { }
+        },
+        "additionalInfo" : { }
       },
       "to" : {
         "type" : "Location",
@@ -923,8 +1085,10 @@
         },
         "address" : {
           "streetName" : "Adalbert-Stifter-Straße",
-          "houseNumber" : "15"
-        }
+          "houseNumber" : "15",
+          "additionalInfo" : { }
+        },
+        "additionalInfo" : { }
       },
       "distanceMeters" : 692,
       "durationSeconds" : 420,
@@ -934,10 +1098,12 @@
         "operator" : {
           "name" : "Car2Go",
           "website" : "https://www.car2go.com/de/wien",
-          "customerServiceEmail" : "wien@car2go.com"
+          "customerServiceEmail" : "wien@car2go.com",
+          "additionalInfo" : { }
         },
         "electric" : true,
         "sharingType" : "FREE_FLOATING_VEHICLE_SHARING",
+        "accessibility" : [ ],
         "additionalInfo" : {
           "exteriorState" : "unacceptable",
           "fuelPercentage" : "80",
@@ -949,6 +1115,7 @@
       "alightingSeconds" : 60,
       "startTime" : "2016-01-01T15:36:05+01:00",
       "endTime" : "2016-01-01T15:43:05+01:00",
+      "intermediateStops" : [ ],
       "geometryGeoJson" : {
         "type" : "Feature",
         "geometry" : {
@@ -956,7 +1123,10 @@
           "coordinates" : [ [ 16.377454, 48.24386 ], [ 16.373601, 48.24218 ], [ 16.3655, 48.23752 ] ]
         },
         "properties" : { }
-      }
+      },
+      "navigationInstructions" : [ ],
+      "accessibility" : [ ],
+      "additionalInfo" : { }
     }, {
       "nr" : 11,
       "from" : {
@@ -971,8 +1141,10 @@
         },
         "address" : {
           "streetName" : "Adalbert-Stifter-Straße",
-          "houseNumber" : "15"
-        }
+          "houseNumber" : "15",
+          "additionalInfo" : { }
+        },
+        "additionalInfo" : { }
       },
       "to" : {
         "type" : "Location",
@@ -987,8 +1159,10 @@
         "address" : {
           "postCode" : "1200",
           "streetName" : "Treustraße",
-          "houseNumber" : "92"
-        }
+          "houseNumber" : "92",
+          "additionalInfo" : { }
+        },
+        "additionalInfo" : { }
       },
       "distanceMeters" : 597,
       "durationSeconds" : 226,
@@ -996,7 +1170,9 @@
         "generalizedType" : "BICYCLE",
         "detailedType" : "BICYCLE",
         "id" : "bicycle",
-        "color" : "#4daf4a"
+        "accessibility" : [ ],
+        "color" : "#4daf4a",
+        "additionalInfo" : { }
       },
       "boardingSeconds" : 60,
       "alightingSeconds" : 60,
@@ -1013,9 +1189,11 @@
             },
             "properties" : { }
           },
+          "additionalInfo" : { },
           "poiType" : "park",
           "name" : "Anton-Kummerer-Park"
-        }
+        },
+        "additionalInfo" : { }
       } ],
       "geometryGeoJson" : {
         "type" : "Feature",
@@ -1035,6 +1213,8 @@
           },
           "properties" : { }
         },
+        "text" : { },
+        "additionalInfo" : { },
         "subType" : "ROUTE_START",
         "ontoStreetName" : "Adalbert-Stifter-Straße",
         "ontoFormOfWay" : "ROAD"
@@ -1048,6 +1228,8 @@
           },
           "properties" : { }
         },
+        "text" : { },
+        "additionalInfo" : { },
         "subType" : "TURN",
         "turnDirection" : "SLIGHT_LEFT",
         "ontoStreetName" : "Klosterneuburger Straße",
@@ -1064,6 +1246,7 @@
               },
               "properties" : { }
             },
+            "additionalInfo" : { },
             "poiType" : "amenity=bakery",
             "name" : "Wiener Backstube"
           },
@@ -1080,6 +1263,8 @@
           },
           "properties" : { }
         },
+        "text" : { },
+        "additionalInfo" : { },
         "subType" : "ENTER",
         "roundaboutStreetName" : "Rondeauplatz",
         "ontoStreetName" : "Leiziger Straße",
@@ -1094,6 +1279,8 @@
           },
           "properties" : { }
         },
+        "text" : { },
+        "additionalInfo" : { },
         "subType" : "EXIT",
         "ontoStreetName" : "Leipziger Straße",
         "ontoFormOfWay" : "FOOT_CYCLEPATH"
@@ -1107,6 +1294,8 @@
           },
           "properties" : { }
         },
+        "text" : { },
+        "additionalInfo" : { },
         "subType" : "TURN",
         "turnDirection" : "LEFT",
         "ontoStreetName" : "Treustraße",
@@ -1122,10 +1311,13 @@
           },
           "properties" : { }
         },
+        "text" : { },
+        "additionalInfo" : { },
         "subType" : "ROUTE_END",
         "ontoStreetName" : "Treustraße",
         "ontoFormOfWay" : "ROAD"
       } ],
+      "accessibility" : [ ],
       "additionalInfo" : {
         "name" : "Univega Mountainbike"
       }
@@ -1144,8 +1336,10 @@
         "address" : {
           "postCode" : "1200",
           "streetName" : "Treustraße",
-          "houseNumber" : "92"
-        }
+          "houseNumber" : "92",
+          "additionalInfo" : { }
+        },
+        "additionalInfo" : { }
       },
       "to" : {
         "type" : "Location",
@@ -1158,8 +1352,10 @@
           "properties" : { }
         },
         "address" : {
-          "streetName" : "Gaußplatz"
-        }
+          "streetName" : "Gaußplatz",
+          "additionalInfo" : { }
+        },
+        "additionalInfo" : { }
       },
       "distanceMeters" : 941,
       "durationSeconds" : 292,
@@ -1168,9 +1364,11 @@
         "detailedType" : "CAR",
         "operator" : {
           "name" : "Flinc",
-          "website" : "https://flinc.org"
+          "website" : "https://flinc.org",
+          "additionalInfo" : { }
         },
         "sharingType" : "RIDE_SHARING",
+        "accessibility" : [ ],
         "additionalInfo" : {
           "phoneNumber" : "+43 650 7734343",
           "userName" : "herbertWien78"
@@ -1179,6 +1377,7 @@
       "boardingSeconds" : 180,
       "startTime" : "2016-01-01T15:46:51+01:00",
       "endTime" : "2016-01-01T15:51:43+01:00",
+      "intermediateStops" : [ ],
       "geometryGeoJson" : {
         "type" : "Feature",
         "geometry" : {
@@ -1186,7 +1385,10 @@
           "coordinates" : [ [ 16.36329, 48.234077 ], [ 16.3644, 48.2311 ], [ 16.36638, 48.22886 ], [ 16.369045, 48.2267 ] ]
         },
         "properties" : { }
-      }
+      },
+      "navigationInstructions" : [ ],
+      "accessibility" : [ ],
+      "additionalInfo" : { }
     }, {
       "nr" : 13,
       "from" : {
@@ -1200,8 +1402,10 @@
           "properties" : { }
         },
         "address" : {
-          "streetName" : "Gaußplatz"
-        }
+          "streetName" : "Gaußplatz",
+          "additionalInfo" : { }
+        },
+        "additionalInfo" : { }
       },
       "to" : {
         "type" : "Parking",
@@ -1216,8 +1420,10 @@
         "address" : {
           "postCode" : "1020",
           "streetName" : "Scholzgasse",
-          "houseNumber" : "1"
+          "houseNumber" : "1",
+          "additionalInfo" : { }
         },
+        "additionalInfo" : { },
         "parkingType" : "UNDERGROUND",
         "modesOfTransport" : [ "CAR", "BICYCLE" ],
         "name" : "Virtuelle Parkgarage Scholzgasse",
@@ -1230,12 +1436,15 @@
         "generalizedType" : "CAR",
         "detailedType" : "CAR",
         "id" : "car",
-        "color" : "#e41a1c"
+        "accessibility" : [ ],
+        "color" : "#e41a1c",
+        "additionalInfo" : { }
       },
       "boardingSeconds" : 60,
       "alightingSeconds" : 300,
       "startTime" : "2016-01-01T15:51:43+01:00",
       "endTime" : "2016-01-01T15:58:40+01:00",
+      "intermediateStops" : [ ],
       "geometryGeoJson" : {
         "type" : "Feature",
         "geometry" : {
@@ -1243,7 +1452,10 @@
           "coordinates" : [ [ 16.369045, 48.2267 ], [ 16.3688, 48.2263 ], [ 16.3693, 48.2257 ], [ 16.3697, 48.2256 ], [ 16.3695, 48.2243 ] ]
         },
         "properties" : { }
-      }
+      },
+      "navigationInstructions" : [ ],
+      "accessibility" : [ ],
+      "additionalInfo" : { }
     }, {
       "nr" : 14,
       "from" : {
@@ -1259,8 +1471,10 @@
         "address" : {
           "postCode" : "1020",
           "streetName" : "Scholzgasse",
-          "houseNumber" : "1"
+          "houseNumber" : "1",
+          "additionalInfo" : { }
         },
+        "additionalInfo" : { },
         "parkingType" : "UNDERGROUND",
         "modesOfTransport" : [ "CAR", "BICYCLE" ],
         "name" : "Virtuelle Parkgarage Scholzgasse",
@@ -1279,8 +1493,10 @@
         },
         "address" : {
           "streetName" : "Brigittenauer Lände",
-          "houseNumber" : "40"
-        }
+          "houseNumber" : "40",
+          "additionalInfo" : { }
+        },
+        "additionalInfo" : { }
       },
       "distanceMeters" : 490,
       "durationSeconds" : 179,
@@ -1290,12 +1506,15 @@
         "weightKg" : 7000,
         "widthMm" : 2400,
         "heightMm" : 2750,
-        "lengthMm" : 5925
+        "lengthMm" : 5925,
+        "accessibility" : [ ],
+        "additionalInfo" : { }
       },
       "boardingSeconds" : 60,
       "alightingSeconds" : 60,
       "startTime" : "2016-01-01T15:58:40+01:00",
       "endTime" : "2016-01-01T16:01:39+01:00",
+      "intermediateStops" : [ ],
       "geometryGeoJson" : {
         "type" : "Feature",
         "geometry" : {
@@ -1303,7 +1522,10 @@
           "coordinates" : [ [ 16.3695, 48.2243 ], [ 16.3691, 48.2243 ], [ 16.3681, 48.2261 ], [ 16.36621, 48.2276 ] ]
         },
         "properties" : { }
-      }
+      },
+      "navigationInstructions" : [ ],
+      "accessibility" : [ ],
+      "additionalInfo" : { }
     } ],
     "startTime" : "2016-01-01T15:00:00+01:00",
     "endTime" : "2016-01-01T16:01:39+01:00",
@@ -1315,6 +1537,8 @@
         "coordinates" : [ [ [ 16.36288, 48.2243 ], [ 16.36288, 48.2686617 ], [ 16.42824, 48.2686617 ], [ 16.42824, 48.2243 ], [ 16.36288, 48.2243 ] ] ]
       },
       "properties" : { }
-    }
-  } ]
+    },
+    "additionalInfo" : { }
+  } ],
+  "additionalInfo" : { }
 }

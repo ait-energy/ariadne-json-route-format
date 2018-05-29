@@ -15,15 +15,20 @@ public class InstructionTest {
     @Test
     public void testProperDeSerialization() throws IOException {
         RoadInstruction instruction = RoadInstruction.createMinimalRouteStart(
-                GeoJSONCoordinate.create("48.123", "16"), Optional.of("Testweg"), Optional.of(FormOfWay.ROAD));
+                GeoJSONCoordinate.create("48.123", "16"),
+                Optional.of("Testweg"),
+                Optional.of(FormOfWay.ROAD));
         instruction.validate();
 
-        String expected = "{\"type\":\"RoadInstruction\",\"position\":{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[48.123,16]},\"properties\":{}},\"subType\":\"ROUTE_START\",\"ontoStreetName\":\"Testweg\",\"ontoFormOfWay\":\"ROAD\"}";
+        String expected = "{\"type\":\"RoadInstruction\",\"position\":{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[48.123,16]},\"properties\":{}},\"text\":{},\"additionalInfo\":{},\"subType\":\"ROUTE_START\",\"ontoStreetName\":\"Testweg\",\"ontoFormOfWay\":\"ROAD\"}";
+        System.out.println(TestUtil.MAPPER.writeValueAsString(instruction));
         Assert.assertEquals("serialization failed", expected, TestUtil.MAPPER.writeValueAsString(instruction));
 
         Instruction<?> deserializedInstruction = TestUtil.MAPPER.readValue(expected, Instruction.class);
         System.out.println(deserializedInstruction);
-        Assert.assertEquals("deserialization failed", expected,
+        Assert.assertEquals(
+                "deserialization failed",
+                expected,
                 TestUtil.MAPPER.writeValueAsString(deserializedInstruction));
     }
 
