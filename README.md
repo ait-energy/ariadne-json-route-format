@@ -2,7 +2,7 @@
 
 The Ariadne JSON route format is a JSON exchange format of routes for routing services and their clients. The specification is provided in form of a reference implementation using Java 8 and [Jackson](https://github.com/FasterXML/jackson). It is developed by the [AIT Austrian Institute of Technology](https://www.ait.ac.at/en/about-the-ait/center/center-for-mobility-systems) and used as default format by the AIT routing framework Ariadne.
 
-The format both specifies routing requests to a server as well as server responses containing routes. Key feature is the support of intermodality, i.e. the use of mulitple modes of transport within a single request or route.
+The format both specifies routing requests to a server as well as server responses containing routes. Key feature is the support of intermodality, i.e. the use of multiple modes of transport within a single request or route.
 
 A route does not only consist of the geometry but also holds optional information such as detailed specification of the used mode of transports or navigation instructions.
 
@@ -20,7 +20,7 @@ To use the current release version just add one of these dependencies to your `p
 	<dependency>
 		<groupId>at.ac.ait</groupId>
 		<artifactId>ariadne-json-route-format</artifactId>
-		<version>1.0</version>
+		<version>1.1</version>
 	</dependency>
 	
 	<dependency>

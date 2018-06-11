@@ -1,6 +1,7 @@
 package at.ac.ait.ariadne.routeformat;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -46,11 +47,11 @@ public class RoutesTest {
     public void testFeaturesCarSharing() {
         Route carSharingRoute = Route.createFromSegments(Arrays.asList(intermodalRouteExample.getCarSharingSegment()));
         carSharingRoute.validate(true);
-        Assert.assertTrue(Routes.featuresGeneralizedMot(intermodalRoute, GeneralizedModeOfTransportType.CAR));
-        Assert.assertTrue(Routes.featuresGeneralizedMot(intermodalRoute, GeneralizedModeOfTransportType.BICYCLE));
-        Assert.assertTrue(Routes.featuresGeneralizedMot(carSharingRoute, GeneralizedModeOfTransportType.CAR));
-        Assert.assertFalse(Routes.featuresGeneralizedMot(carSharingRoute, GeneralizedModeOfTransportType.BICYCLE));
-        Assert.assertFalse(Routes.featuresGeneralizedMot(unimodalFootRoute, GeneralizedModeOfTransportType.CAR));
+        Assert.assertTrue(Routes.featuresMot(intermodalRoute, GeneralizedModeOfTransportType.CAR));
+        Assert.assertTrue(Routes.featuresMot(intermodalRoute, GeneralizedModeOfTransportType.BICYCLE));
+        Assert.assertTrue(Routes.featuresMot(carSharingRoute, GeneralizedModeOfTransportType.CAR));
+        Assert.assertFalse(Routes.featuresMot(carSharingRoute, GeneralizedModeOfTransportType.BICYCLE));
+        Assert.assertFalse(Routes.featuresMot(unimodalFootRoute, GeneralizedModeOfTransportType.CAR));
     }
 
     @Test
@@ -59,15 +60,62 @@ public class RoutesTest {
     }
 
     @Test
-    public void testFeaturesOnlyDetailedMots() {
-        List<DetailedModeOfTransportType> types = Lists.newArrayList(DetailedModeOfTransportType.FOOT,
-                DetailedModeOfTransportType.BICYCLE, DetailedModeOfTransportType.CAR, DetailedModeOfTransportType.BUS,
-                DetailedModeOfTransportType.SUBWAY, DetailedModeOfTransportType.HGV);
-        Assert.assertFalse("missing TRANSFER", Routes.featuresOnlyDetailedMots(intermodalRoute, types));
+    public void testGetSegmentsWithMot() {
+        List<RouteSegment> segmentsWithMot = Routes
+                .getSegmentsWithMot(intermodalRoute, GeneralizedModeOfTransportType.BICYCLE);
+        Assert.assertEquals(2, segmentsWithMot.size());
+        Assert.assertEquals(
+                LocalDateTime.parse("2016-01-01T15:28:10"),
+                segmentsWithMot.get(0).getStartTimeAsZonedDateTime().toLocalDateTime());
+        Assert.assertEquals(
+                LocalDateTime.parse("2016-01-01T15:43:05"),
+                segmentsWithMot.get(1).getStartTimeAsZonedDateTime().toLocalDateTime());
+
+        Assert.assertTrue(
+                Routes.getSegmentsWithMot(intermodalRoute, GeneralizedModeOfTransportType.MOTORCYCLE).isEmpty());
+    }
+
+    @Test
+    public void testGetFirstSegmentWithMot() {
+        List<RouteSegment> segmentsWithMot = Routes
+                .getSegmentsWithMot(intermodalRoute, GeneralizedModeOfTransportType.BICYCLE);
+
+        Assert.assertEquals(
+                segmentsWithMot.get(0),
+                Routes.getFirstSegmentWithMot(intermodalRoute, GeneralizedModeOfTransportType.BICYCLE).get());
+        Assert.assertFalse(
+                Routes.getFirstSegmentWithMot(intermodalRoute, GeneralizedModeOfTransportType.MOTORCYCLE).isPresent());
+    }
+
+    @Test
+    public void testFeaturesExactlyTheseGeneralizedMots() {
+        List<GeneralizedModeOfTransportType> types = Lists.newArrayList(
+                GeneralizedModeOfTransportType.FOOT,
+                GeneralizedModeOfTransportType.BICYCLE,
+                GeneralizedModeOfTransportType.CAR);
+        Assert.assertFalse("missing pt", Routes.featuresExactlyTheseGeneralizedMots(intermodalRoute, types));
+        types.add(GeneralizedModeOfTransportType.PUBLIC_TRANSPORT);
+        Assert.assertTrue("exactly the same set", Routes.featuresExactlyTheseGeneralizedMots(intermodalRoute, types));
+        types.add(GeneralizedModeOfTransportType.MOTORCYCLE);
+        Assert.assertFalse(
+                "more mots not OK as well",
+                Routes.featuresExactlyTheseGeneralizedMots(intermodalRoute, types));
+    }
+
+    @Test
+    public void testFeaturesExactlyTheseDetailedMots() {
+        List<DetailedModeOfTransportType> types = Lists.newArrayList(
+                DetailedModeOfTransportType.FOOT,
+                DetailedModeOfTransportType.BICYCLE,
+                DetailedModeOfTransportType.CAR,
+                DetailedModeOfTransportType.BUS,
+                DetailedModeOfTransportType.SUBWAY,
+                DetailedModeOfTransportType.HGV);
+        Assert.assertFalse("missing TRANSFER", Routes.featuresExactlyTheseDetailedMots(intermodalRoute, types));
         types.add(DetailedModeOfTransportType.TRANSFER);
-        Assert.assertTrue("exactly the same set", Routes.featuresOnlyDetailedMots(intermodalRoute, types));
+        Assert.assertTrue("exactly the same set", Routes.featuresExactlyTheseDetailedMots(intermodalRoute, types));
         types.add(DetailedModeOfTransportType.AIRPLANE);
-        Assert.assertTrue("more mots must be OK as well", Routes.featuresOnlyDetailedMots(intermodalRoute, types));
+        Assert.assertFalse("more mots not OK as well", Routes.featuresExactlyTheseDetailedMots(intermodalRoute, types));
     }
 
 }
