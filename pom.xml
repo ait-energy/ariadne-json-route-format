@@ -6,7 +6,7 @@
         <!-- property to avoid the warning "File encoding has not been set, 
             using platform encoding UTF-8" with the maven-failsafe-plugin -->
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <jackson-version>2.9.2</jackson-version>
+        <jackson-version>2.9.8</jackson-version>
     </properties>
 
     <groupId>at.ac.ait</groupId>
@@ -54,7 +54,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>23.0</version>
+            <version>27.1-jre</version>
         </dependency>
         
         <dependency>
@@ -90,20 +90,20 @@
 
         <dependency>
             <groupId>com.kjetland</groupId>
-            <artifactId>mbknor-jackson-jsonschema_2.11</artifactId>
-            <version>1.0.19</version>
+            <artifactId>mbknor-jackson-jsonschema_2.12</artifactId>
+            <version>1.0.34</version>
         </dependency>
 
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.9</version>
+            <version>1.7.26</version>
         </dependency>
 
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-jdk14</artifactId>
-            <version>1.7.19</version>
+            <version>1.7.26</version>
             <scope>test</scope>
         </dependency>
 

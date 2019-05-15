@@ -19,7 +19,7 @@ The files are hosted at:
 - snapshots: https://oss.sonatype.org/content/repositories/snapshots/at/ac/ait/ariadne-json-route-format/
 
 # Possible future features & improvements
-- meta / hierarchical instructions (e.g. You are not entering/leaving the park/district/..)
+- meta / hierarchical instructions (e.g. You are now entering/leaving the park/district/..)
 - better differentiation between car/goods vehicle/hgv/.. required?
 - public transport station details: differentiate between station entries & platforms, add travel time to transfer segments e.g. 5 min walk, 1 min escalators down, 2 min walk, 1 min elevator up;
 - v4 schema generation
