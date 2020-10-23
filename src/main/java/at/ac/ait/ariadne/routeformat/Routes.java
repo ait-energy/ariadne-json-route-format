@@ -146,6 +146,27 @@ public class Routes {
         return seconds;
     }
 
+    public static int getTotalDistanceMetersForMot(Route route, GeneralizedModeOfTransportType mot) {
+        return route
+                .getSegments()
+                .stream()
+                .filter(s -> s.getModeOfTransport().getGeneralizedType().equals(mot))
+                .map(s -> (int) s.getDistanceMeters())
+                .mapToInt(i -> i)
+                .sum();
+    }
+
+    public static int getTotalDistanceMetersForMot(Route route, DetailedModeOfTransportType mot) {
+        return route
+                .getSegments()
+                .stream()
+                .filter(s -> s.getModeOfTransport().getDetailedType().isPresent())
+                .filter(s -> s.getModeOfTransport().getDetailedType().get().equals(mot))
+                .map(s -> (int) s.getDistanceMeters())
+                .mapToInt(i -> i)
+                .sum();
+    }
+
     public static int getTotalDurationSecondsForMot(Route route, GeneralizedModeOfTransportType mot) {
         return route
                 .getSegments()
