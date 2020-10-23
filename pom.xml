@@ -6,7 +6,7 @@
         <!-- property to avoid the warning "File encoding has not been set, 
             using platform encoding UTF-8" with the maven-failsafe-plugin -->
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <jackson-version>2.9.8</jackson-version>
+        <jackson-version>2.11.3</jackson-version>
     </properties>
 
     <groupId>at.ac.ait</groupId>
@@ -54,7 +54,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>27.1-jre</version>
+            <version>30.0-jre</version>
         </dependency>
         
         <dependency>
@@ -91,26 +91,26 @@
         <dependency>
             <groupId>com.kjetland</groupId>
             <artifactId>mbknor-jackson-jsonschema_2.12</artifactId>
-            <version>1.0.34</version>
+            <version>1.0.39</version>
         </dependency>
 
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.26</version>
+            <version>1.7.30</version>
         </dependency>
 
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-jdk14</artifactId>
-            <version>1.7.26</version>
+            <version>1.7.30</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>4.13.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -154,6 +154,9 @@
             <plugin>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>2.10.4</version>
+                <configuration>
+                    <source>8</source>
+                </configuration>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
