@@ -37,10 +37,10 @@ public class InstructionTest {
     // mapper.enable(SerializationFeature.INDENT_OUTPUT);
     // JsonSchemaGenerator jsonSchemaGenerator = new
     // JsonSchemaGenerator(mapper);
-    // Option<String> emtpyOption = Option.empty();
+    // Option<String> emptyOption = Option.empty();
     // JsonNode jsonSchema =
-    // jsonSchemaGenerator.generateJsonSchema(Instruction.class, emtpyOption,
-    // emtpyOption);
+    // jsonSchemaGenerator.generateJsonSchema(Instruction.class, emptyOption,
+    // emptyOption);
     //
     // System.out.println(mapper.writeValueAsString(jsonSchema));
     // }

@@ -110,8 +110,8 @@ public class JacksonExample {
     public void writeSchemav4() throws JsonGenerationException, IOException {
         // FIXME not working yet, Wrong class error
         JsonSchemaGenerator jsonSchemaGenerator = new JsonSchemaGenerator(mapper);
-        Option<String> emtpyOption = Option.empty();
-        JsonNode jsonSchema = jsonSchemaGenerator.generateJsonSchema(Instruction.class, emtpyOption, emtpyOption);
+        Option<String> emptyOption = Option.empty();
+        JsonNode jsonSchema = jsonSchemaGenerator.generateJsonSchema(Instruction.class, emptyOption, emptyOption);
 
         System.out.println(mapper.writeValueAsString(jsonSchema));
         System.out.println("##########");
