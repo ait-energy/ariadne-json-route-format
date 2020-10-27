@@ -20,7 +20,7 @@ To use the current release version just add one of these dependencies to your `p
 	<dependency>
 		<groupId>at.ac.ait</groupId>
 		<artifactId>ariadne-json-route-format</artifactId>
-		<version>1.1</version>
+		<version>1.1.1</version>
 	</dependency>
 	
 	<dependency>

@@ -11,7 +11,7 @@
 
     <groupId>at.ac.ait</groupId>
     <artifactId>ariadne-json-route-format</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.1.1-SNAPSHOT</version>
     <name>Ariadne JSON Route Format</name>
     <description>JSON exchange format for intermodal / multimodal routes developed by the Austrian Institute of Technology</description>
     <url>https://github.com/dts-ait/ariadne-json-route-format</url>
@@ -56,7 +56,12 @@
             <artifactId>guava</artifactId>
             <version>30.0-jre</version>
         </dependency>
-        
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.30</version>
+        </dependency>
+
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
@@ -87,26 +92,21 @@
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>${jackson-version}</version>
         </dependency>
+        
+        <!-- test dependencies below -->
 
         <dependency>
             <groupId>com.kjetland</groupId>
             <artifactId>mbknor-jackson-jsonschema_2.12</artifactId>
             <version>1.0.39</version>
+            <scope>test</scope>
         </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.30</version>
-        </dependency>
-
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-jdk14</artifactId>
             <version>1.7.30</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

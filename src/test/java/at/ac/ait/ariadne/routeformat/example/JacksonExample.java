@@ -22,6 +22,7 @@ import at.ac.ait.ariadne.routeformat.instruction.Instruction;
 import scala.Option;
 
 /**
+ * Test reading, writing and exporting schemas.
  * We use the "Data Binding" method of Jackson (to map POJOs to JSON).
  * <p>
  * <b>Note:</b>
