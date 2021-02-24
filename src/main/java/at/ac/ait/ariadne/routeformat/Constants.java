@@ -85,7 +85,16 @@ public class Constants {
         /** air-bound transport */
         AIRPLANE(PUBLIC_TRANSPORT),
         // individual transport
+        /** walking */
         FOOT(GeneralizedModeOfTransportType.FOOT),
+        KICK_SCOOTER(GeneralizedModeOfTransportType.FOOT),
+        /**
+         * for more recent / obscure types not covered, see https://en.wikipedia.org/wiki/Personal_transporter
+         */
+        PERSONAL_TRANSPORTER(GeneralizedModeOfTransportType.FOOT),
+        WHEELCHAIR(GeneralizedModeOfTransportType.FOOT),
+        /** motorized wheelchair: https://en.wikipedia.org/wiki/Mobility_scooter */
+        MOBILITY_SCOOTER(GeneralizedModeOfTransportType.FOOT),
         /**
          * walking or taking elevators, escalators,.. within public transport
          * stations
@@ -93,8 +102,16 @@ public class Constants {
         TRANSFER(GeneralizedModeOfTransportType.FOOT),
         //
         BICYCLE(GeneralizedModeOfTransportType.BICYCLE),
+        TRICYCLE(GeneralizedModeOfTransportType.BICYCLE),
+        CARGO_BIKE(GeneralizedModeOfTransportType.BICYCLE),
+        CARGO_TRICYCLE(GeneralizedModeOfTransportType.BICYCLE),
+        /** e.g. e-scooters https://en.wikipedia.org/wiki/Motorized_scooter */
+        MOTORIZED_SCOOTER(GeneralizedModeOfTransportType.BICYCLE),
+        VELOMOBILE(GeneralizedModeOfTransportType.BICYCLE),
+        BICYCLE_RICKSHAW(GeneralizedModeOfTransportType.BICYCLE),
         //
         MOTORCYCLE(GeneralizedModeOfTransportType.MOTORCYCLE),
+        MOPED(GeneralizedModeOfTransportType.MOTORCYCLE),
         //
         CAR(GeneralizedModeOfTransportType.CAR),
         /**
