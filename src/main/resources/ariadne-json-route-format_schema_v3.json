@@ -150,7 +150,7 @@
                   },
                   "detailedType" : {
                     "type" : "string",
-                    "enum" : [ "RAILWAY", "LONG_DISTANCE_RAILWAY", "SUBURBAN_RAILWAY", "URBAN_RAILWAY", "SUBWAY", "TRAM", "CABLE_CAR", "FUNICULAR", "BUS", "TROLLEYBUS", "AERIALWAY", "SHIP", "AIRPLANE", "FOOT", "TRANSFER", "BICYCLE", "MOTORCYCLE", "CAR", "MOTORHOME", "HGV", "TAXI" ]
+                    "enum" : [ "RAILWAY", "LONG_DISTANCE_RAILWAY", "SUBURBAN_RAILWAY", "URBAN_RAILWAY", "SUBWAY", "TRAM", "CABLE_CAR", "FUNICULAR", "BUS", "TROLLEYBUS", "AERIALWAY", "SHIP", "AIRPLANE", "FOOT", "KICK_SCOOTER", "PERSONAL_TRANSPORTER", "WHEELCHAIR", "MOBILITY_SCOOTER", "TRANSFER", "BICYCLE", "TRICYCLE", "CARGO_BIKE", "CARGO_TRICYCLE", "MOTORIZED_SCOOTER", "VELOMOBILE", "BICYCLE_RICKSHAW", "MOTORCYCLE", "MOPED", "CAR", "MOTORHOME", "HGV", "TAXI" ]
                   },
                   "id" : {
                     "type" : "string"
