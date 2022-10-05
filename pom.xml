@@ -6,7 +6,7 @@
         <!-- property to avoid the warning "File encoding has not been set, 
             using platform encoding UTF-8" with the maven-failsafe-plugin -->
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <jackson-version>2.11.4</jackson-version>
+        <jackson-version>2.12.6.1</jackson-version>
     </properties>
 
     <groupId>at.ac.ait</groupId>
