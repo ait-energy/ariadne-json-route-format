@@ -5,8 +5,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
@@ -15,9 +15,9 @@ public class GeoJSONCoordinateDeserializer extends JsonDeserializer<GeoJSONCoord
 
     @Override
     public GeoJSONCoordinate deserialize(JsonParser p, DeserializationContext ctxt)
-            throws IOException, JsonProcessingException {
+            throws IOException, JsonParseException {
         if (!p.isExpectedStartArrayToken())
-            throw ctxt.mappingException("expected array start for coordinate");
+            throw new JsonParseException(p, "expected array start for coordinate");
 
         List<BigDecimal> coordinates = new ArrayList<>();
         for (JsonToken t = p.nextToken(); t != null; t = p.nextToken()) {

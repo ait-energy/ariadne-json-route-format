@@ -58,7 +58,8 @@
                   "type" : "object",
                   "required" : true,
                   "additionalProperties" : {
-                    "type" : "any"
+                    "type" : "object",
+                    "id" : "urn:jsonschema:java:lang:Object"
                   }
                 }
               }
@@ -72,14 +73,16 @@
                   "required" : true
                 },
                 "geometry" : {
-                  "type" : "any",
+                  "type" : "object",
+                  "$ref" : "urn:jsonschema:java:lang:Object",
                   "required" : true
                 },
                 "properties" : {
                   "type" : "object",
                   "required" : true,
                   "additionalProperties" : {
-                    "type" : "any"
+                    "type" : "object",
+                    "$ref" : "urn:jsonschema:java:lang:Object"
                   }
                 }
               }
@@ -106,7 +109,8 @@
                 "additionalInfo" : {
                   "type" : "object",
                   "additionalProperties" : {
-                    "type" : "any"
+                    "type" : "object",
+                    "$ref" : "urn:jsonschema:java:lang:Object"
                   }
                 }
               }
@@ -114,7 +118,8 @@
             "additionalInfo" : {
               "type" : "object",
               "additionalProperties" : {
-                "type" : "any"
+                "type" : "object",
+                "$ref" : "urn:jsonschema:java:lang:Object"
               }
             }
           }
@@ -168,7 +173,8 @@
                       "additionalInfo" : {
                         "type" : "object",
                         "additionalProperties" : {
-                          "type" : "any"
+                          "type" : "object",
+                          "$ref" : "urn:jsonschema:java:lang:Object"
                         }
                       }
                     }
@@ -206,7 +212,8 @@
                           "additionalInfo" : {
                             "type" : "object",
                             "additionalProperties" : {
-                              "type" : "any"
+                              "type" : "object",
+                              "$ref" : "urn:jsonschema:java:lang:Object"
                             }
                           }
                         }
@@ -223,7 +230,8 @@
                       "additionalInfo" : {
                         "type" : "object",
                         "additionalProperties" : {
-                          "type" : "any"
+                          "type" : "object",
+                          "$ref" : "urn:jsonschema:java:lang:Object"
                         }
                       }
                     }
@@ -260,7 +268,8 @@
                   "additionalInfo" : {
                     "type" : "object",
                     "additionalProperties" : {
-                      "type" : "any"
+                      "type" : "object",
+                      "$ref" : "urn:jsonschema:java:lang:Object"
                     }
                   }
                 }
@@ -316,7 +325,8 @@
                     "type" : "object",
                     "required" : true,
                     "additionalProperties" : {
-                      "type" : "any"
+                      "type" : "object",
+                      "$ref" : "urn:jsonschema:java:lang:Object"
                     }
                   }
                 }
@@ -324,7 +334,8 @@
               "additionalInfo" : {
                 "type" : "object",
                 "additionalProperties" : {
-                  "type" : "any"
+                  "type" : "object",
+                  "$ref" : "urn:jsonschema:java:lang:Object"
                 }
               }
             }
@@ -375,7 +386,8 @@
                   "type" : "object",
                   "required" : true,
                   "additionalProperties" : {
-                    "type" : "any"
+                    "type" : "object",
+                    "$ref" : "urn:jsonschema:java:lang:Object"
                   }
                 }
               }
@@ -383,7 +395,8 @@
             "additionalInfo" : {
               "type" : "object",
               "additionalProperties" : {
-                "type" : "any"
+                "type" : "object",
+                "$ref" : "urn:jsonschema:java:lang:Object"
               }
             }
           }
@@ -433,7 +446,8 @@
                   "type" : "object",
                   "required" : true,
                   "additionalProperties" : {
-                    "type" : "any"
+                    "type" : "object",
+                    "$ref" : "urn:jsonschema:java:lang:Object"
                   }
                 }
               }
@@ -441,7 +455,8 @@
             "additionalInfo" : {
               "type" : "object",
               "additionalProperties" : {
-                "type" : "any"
+                "type" : "object",
+                "$ref" : "urn:jsonschema:java:lang:Object"
               }
             }
           }
@@ -485,7 +500,8 @@
         "additionalInfo" : {
           "type" : "object",
           "additionalProperties" : {
-            "type" : "any"
+            "type" : "object",
+            "$ref" : "urn:jsonschema:java:lang:Object"
           }
         }
       }
@@ -586,7 +602,8 @@
                       "additionalInfo" : {
                         "type" : "object",
                         "additionalProperties" : {
-                          "type" : "any"
+                          "type" : "object",
+                          "$ref" : "urn:jsonschema:java:lang:Object"
                         }
                       }
                     }
@@ -621,7 +638,8 @@
                       "type" : "object",
                       "required" : true,
                       "additionalProperties" : {
-                        "type" : "any"
+                        "type" : "object",
+                        "$ref" : "urn:jsonschema:java:lang:Object"
                       }
                     }
                   }
@@ -655,7 +673,8 @@
                       "type" : "object",
                       "required" : true,
                       "additionalProperties" : {
-                        "type" : "any"
+                        "type" : "object",
+                        "$ref" : "urn:jsonschema:java:lang:Object"
                       }
                     }
                   }
@@ -706,7 +725,8 @@
                             "type" : "object",
                             "required" : true,
                             "additionalProperties" : {
-                              "type" : "any"
+                              "type" : "object",
+                              "$ref" : "urn:jsonschema:java:lang:Object"
                             }
                           }
                         }
@@ -728,7 +748,8 @@
                             "type" : "object",
                             "required" : true,
                             "additionalProperties" : {
-                              "type" : "any"
+                              "type" : "object",
+                              "$ref" : "urn:jsonschema:java:lang:Object"
                             }
                           }
                         }
@@ -742,7 +763,8 @@
                       "additionalInfo" : {
                         "type" : "object",
                         "additionalProperties" : {
-                          "type" : "any"
+                          "type" : "object",
+                          "$ref" : "urn:jsonschema:java:lang:Object"
                         }
                       }
                     }
@@ -758,7 +780,8 @@
                 "additionalInfo" : {
                   "type" : "object",
                   "additionalProperties" : {
-                    "type" : "any"
+                    "type" : "object",
+                    "$ref" : "urn:jsonschema:java:lang:Object"
                   }
                 }
               }
@@ -793,7 +816,8 @@
                 "type" : "object",
                 "required" : true,
                 "additionalProperties" : {
-                  "type" : "any"
+                  "type" : "object",
+                  "$ref" : "urn:jsonschema:java:lang:Object"
                 }
               }
             }
@@ -818,7 +842,8 @@
                 "type" : "object",
                 "required" : true,
                 "additionalProperties" : {
-                  "type" : "any"
+                  "type" : "object",
+                  "$ref" : "urn:jsonschema:java:lang:Object"
                 }
               }
             }
@@ -826,7 +851,8 @@
           "additionalInfo" : {
             "type" : "object",
             "additionalProperties" : {
-              "type" : "any"
+              "type" : "object",
+              "$ref" : "urn:jsonschema:java:lang:Object"
             }
           }
         }
@@ -835,7 +861,8 @@
     "additionalInfo" : {
       "type" : "object",
       "additionalProperties" : {
-        "type" : "any"
+        "type" : "object",
+        "$ref" : "urn:jsonschema:java:lang:Object"
       }
     }
   }
