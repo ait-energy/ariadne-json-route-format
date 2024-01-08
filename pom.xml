@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <properties>
@@ -12,7 +11,7 @@
 
     <groupId>at.ac.ait</groupId>
     <artifactId>ariadne-json-route-format</artifactId>
-    <version>1.1.4-SNAPSHOT</version>
+    <version>1.1.4</version>
     <name>Ariadne JSON Route Format</name>
     <description>JSON exchange format for intermodal / multimodal routes developed by the Austrian Institute of Technology</description>
     <url>https://github.com/dts-ait/ariadne-json-route-format</url>
@@ -37,7 +36,7 @@
         <url>https://github.com/dts-ait/ariadne-json-route-format</url>
         <connection>scm:git:https://github.com/dts-ait/ariadne-json-route-format.git</connection>
         <developerConnection>scm:git:https://github.com/dts-ait/ariadne-json-route-format.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>ariadne-json-route-format-1.1.4</tag>
     </scm>
 
     <distributionManagement>
